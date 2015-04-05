@@ -26,3 +26,17 @@
 *.exe
 *.out
 *.app
+Debug/vtStor.exp
+Notes.xlsx
+vtStor.opensdf
+vtStor.sdf
+vtStor/Common.props
+vtStor/Debug/vc120.idb
+vtStor/Debug/vtStor.tlog/CL.read.1.tlog
+vtStor/Debug/vtStor.tlog/CL.write.1.tlog
+vtStor/Debug/vtStor.tlog/cl.command.1.tlog
+vtStor/Debug/vtStor.tlog/link.command.1.tlog
+vtStor/Debug/vtStor.tlog/link.read.1.tlog
+vtStor/Debug/vtStor.tlog/link.write.1.tlog
+vtStor/Debug/vtStor.tlog/vtStor.lastbuildstate
+vtStor/Debug/vtStor.tlog/vtStor.write.1u.tlog
