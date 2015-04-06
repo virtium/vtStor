@@ -5,6 +5,12 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vtStor", "vtStor\vtStor.vcxproj", "{2595AE3D-FF40-47C4-B050-55D450843934}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DriveAta", "DriveAta\DriveAta.vcxproj", "{EEA27773-C14E-4081-A532-A2B71CAF306B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DriveEnumeratorAta", "DriveEnumeratorAta\DriveEnumeratorAta.vcxproj", "{81528CDF-976A-4F09-B1F8-1976A92FB19A}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TransporterAta", "TransporterAta\TransporterAta.vcxproj", "{F82EADAD-C13C-456D-A3DA-94BFBCC813E6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -21,6 +27,25 @@ Global
 		{2595AE3D-FF40-47C4-B050-55D450843934}.Release|Win32.Build.0 = Release|Win32
 		{2595AE3D-FF40-47C4-B050-55D450843934}.Release|x64.ActiveCfg = Release|x64
 		{2595AE3D-FF40-47C4-B050-55D450843934}.Release|x64.Build.0 = Release|x64
+		{EEA27773-C14E-4081-A532-A2B71CAF306B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{EEA27773-C14E-4081-A532-A2B71CAF306B}.Debug|Win32.Build.0 = Debug|Win32
+		{EEA27773-C14E-4081-A532-A2B71CAF306B}.Debug|x64.ActiveCfg = Debug|x64
+		{EEA27773-C14E-4081-A532-A2B71CAF306B}.Debug|x64.Build.0 = Debug|x64
+		{EEA27773-C14E-4081-A532-A2B71CAF306B}.Release|Win32.ActiveCfg = Release|Win32
+		{EEA27773-C14E-4081-A532-A2B71CAF306B}.Release|Win32.Build.0 = Release|Win32
+		{EEA27773-C14E-4081-A532-A2B71CAF306B}.Release|x64.ActiveCfg = Release|x64
+		{81528CDF-976A-4F09-B1F8-1976A92FB19A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{81528CDF-976A-4F09-B1F8-1976A92FB19A}.Debug|Win32.Build.0 = Debug|Win32
+		{81528CDF-976A-4F09-B1F8-1976A92FB19A}.Debug|x64.ActiveCfg = Debug|x64
+		{81528CDF-976A-4F09-B1F8-1976A92FB19A}.Release|Win32.ActiveCfg = Release|Win32
+		{81528CDF-976A-4F09-B1F8-1976A92FB19A}.Release|Win32.Build.0 = Release|Win32
+		{81528CDF-976A-4F09-B1F8-1976A92FB19A}.Release|x64.ActiveCfg = Release|x64
+		{F82EADAD-C13C-456D-A3DA-94BFBCC813E6}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F82EADAD-C13C-456D-A3DA-94BFBCC813E6}.Debug|Win32.Build.0 = Debug|Win32
+		{F82EADAD-C13C-456D-A3DA-94BFBCC813E6}.Debug|x64.ActiveCfg = Debug|x64
+		{F82EADAD-C13C-456D-A3DA-94BFBCC813E6}.Release|Win32.ActiveCfg = Release|Win32
+		{F82EADAD-C13C-456D-A3DA-94BFBCC813E6}.Release|Win32.Build.0 = Release|Win32
+		{F82EADAD-C13C-456D-A3DA-94BFBCC813E6}.Release|x64.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

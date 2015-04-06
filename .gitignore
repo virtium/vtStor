@@ -40,3 +40,12 @@ vtStor/Debug/vtStor.tlog/link.read.1.tlog
 vtStor/Debug/vtStor.tlog/link.write.1.tlog
 vtStor/Debug/vtStor.tlog/vtStor.lastbuildstate
 vtStor/Debug/vtStor.tlog/vtStor.write.1u.tlog
+DriveEnumeratorAta/Debug/DriveEnu.81528CDF.tlog/link.command.1.tlog
+DriveEnumeratorAta/Debug/DriveEnu.81528CDF.tlog/link.read.1.tlog
+DriveEnumeratorAta/Debug/DriveEnu.81528CDF.tlog/link.write.1.tlog
+DriveEnumeratorAta/Debug/vc120.idb
+DriveEnumeratorAta/Debug/DriveEnu.81528CDF.tlog/DriveEnumeratorAta.lastbuildstate
+DriveEnumeratorAta/Debug/DriveEnu.81528CDF.tlog/cl.command.1.tlog
+*.tlog
+*.idb
+x64/
