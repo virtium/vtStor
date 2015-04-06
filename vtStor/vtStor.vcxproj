@@ -157,7 +157,9 @@
     <ClInclude Include="vtStor.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DriveEnumeratorInterface.cpp" />
     <ClCompile Include="DriveManager.cpp" />
+    <ClCompile Include="DriveManagerInterface.cpp" />
     <ClCompile Include="vtStor.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

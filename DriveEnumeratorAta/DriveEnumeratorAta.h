@@ -11,10 +11,10 @@ namespace vtStor
     class cDriveEnumeratorAta : public cDriveEnumeratorInterface
     {
     public:
-        virtual ErrorCode EnumerateDrives( Vector_Drives& AddTo, U32& Count ) = 0;
+        virtual ErrorCode EnumerateDrives( Vector_Drives& AddToList, U32& Count ) override;
 
     public:
-        virtual ~cDriveEnumeratorInterface() {};
+        virtual ~cDriveEnumeratorAta();
     };
 }
 

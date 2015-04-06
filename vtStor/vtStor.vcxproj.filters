@@ -53,5 +53,11 @@
     <ClCompile Include="vtStor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DriveEnumeratorInterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DriveManagerInterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

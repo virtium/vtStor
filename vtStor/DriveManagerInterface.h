@@ -25,7 +25,7 @@ public:
     virtual ErrorCode EnumerateDrives( eScanForHardwareChanges ScanForHardwareChanges ) = 0;
 
 public:
-    virtual ~cDriveManagerInterface() {};
+    virtual ~cDriveManagerInterface();
 
 public:
     virtual const Vector_Drives& GetDrives() = 0;

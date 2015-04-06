@@ -12,12 +12,12 @@ namespace vtStor
 class cDriveManager : public cDriveManagerInterface
 {
 public:
-    virtual void RegisterDriveEnumerator( std::shared_ptr<cDriveEnumeratorInterface> DriveEnumerator );
+    virtual void RegisterDriveEnumerator( std::shared_ptr<cDriveEnumeratorInterface> DriveEnumerator ) override;
 
-    virtual ErrorCode EnumerateDrives( eScanForHardwareChanges ScanForHardwareChanges );
+    virtual ErrorCode EnumerateDrives( eScanForHardwareChanges ScanForHardwareChanges ) override;
 
 public:
-    virtual const Vector_Drives& GetDrives();
+    virtual const Vector_Drives& GetDrives() override;
 
 public:
     cDriveManager();
