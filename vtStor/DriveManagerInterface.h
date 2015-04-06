@@ -4,10 +4,8 @@
 #ifndef __DriveManagerInterface_h__
 #define __DriveManagerInterface_h__
 
-#include <memory>
-#include <vector>
-
 #include "DriveInterface.h"
+#include "DriveEnumeratorInterface.h"
 #include "ErrorCodes.h"
 
 namespace vtStor
@@ -22,14 +20,15 @@ public:
         Yes
     };
 
+    virtual void RegisterDriveEnumerator( std::shared_ptr<cDriveEnumeratorInterface> DriveEnumerator ) = 0;
+
     virtual ErrorCode EnumerateDrives( eScanForHardwareChanges ScanForHardwareChanges ) = 0;
 
 public:
     virtual ~cDriveManagerInterface() {};
 
 public:
-    using VECTOR_DRIVES = std::vector<std::unique_ptr<cDriveInterface>>;
-    virtual const VECTOR_DRIVES& GetDrives() = 0;
+    virtual const Vector_Drives& GetDrives() = 0;
 };
 
 }

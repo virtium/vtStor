@@ -12,7 +12,13 @@ cDriveManager::cDriveManager()
 
 cDriveManager::~cDriveManager()
 {
+    m_DriveEnumerators.clear();
+    m_Drives.clear();
+}
 
+void cDriveManager::RegisterDriveEnumerator( std::shared_ptr<cDriveEnumeratorInterface> DriveEnumerator )
+{
+    m_DriveEnumerators.push_back( DriveEnumerator );
 }
 
 ErrorCode cDriveManager::EnumerateDrives( eScanForHardwareChanges ScanForHardwareChanges )
@@ -20,7 +26,7 @@ ErrorCode cDriveManager::EnumerateDrives( eScanForHardwareChanges ScanForHardwar
     return( ErrorCode::None );
 }
 
-const cDriveManagerInterface::VECTOR_DRIVES& cDriveManager::GetDrives()
+const Vector_Drives& cDriveManager::GetDrives()
 {
     return( m_Drives );
 }

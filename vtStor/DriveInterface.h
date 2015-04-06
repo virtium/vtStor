@@ -4,6 +4,9 @@
 #ifndef __DriveInterface_h__
 #define __DriveInterface_h__
 
+#include <memory>
+#include <vector>
+
 namespace vtStor
 {
     class cDriveInterface
@@ -13,6 +16,8 @@ namespace vtStor
     public:
         virtual ~cDriveInterface() {};
     };
+
+    using Vector_Drives = std::vector<std::unique_ptr<cDriveInterface>>;
 }
 
 #endif
