@@ -7,13 +7,14 @@
 #include "BasicTypes.h"
 #include "ErrorCodes.h"
 #include "DriveInterface.h"
+#include "vtStorPlatformDefines.h"
 
 namespace vtStor
 {
-    class cDriveEnumeratorInterface
+    class VTSTOR_API cDriveEnumeratorInterface
     {
     public:
-        virtual ErrorCode EnumerateDrives( Vector_Drives& AddToList, U32& Count ) = 0;
+        virtual eErrorCode EnumerateDrives( Vector_Drives& AddToList, U32& Count ) = 0;
 
     public:
         virtual ~cDriveEnumeratorInterface();

@@ -21,15 +21,21 @@ void cDriveManager::RegisterDriveEnumerator( std::shared_ptr<cDriveEnumeratorInt
     m_DriveEnumerators.push_back( DriveEnumerator );
 }
 
-ErrorCode cDriveManager::EnumerateDrives( eScanForHardwareChanges ScanForHardwareChanges )
+eErrorCode cDriveManager::EnumerateDrives( eScanForHardwareChanges ScanForHardwareChanges )
 {
-    ErrorCode error = ErrorCode::None;
+    eErrorCode error = eErrorCode::None;
+
+    if ( eScanForHardwareChanges::Yes == ScanForHardwareChanges )
+    {
+        //TODO: scan for hardware changes
+    }
+
     U32 count = 0;
     Vector_DriveEnumerator::const_iterator enumerator = m_DriveEnumerators.begin();
     while ( m_DriveEnumerators.end() != enumerator )
     {
         error = (*enumerator)->EnumerateDrives( m_Drives, count );
-        if ( ErrorCode::None != error )
+        if ( eErrorCode::None != error )
         {
             //TODO: handle error
         }

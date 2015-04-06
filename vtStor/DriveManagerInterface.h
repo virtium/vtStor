@@ -22,7 +22,7 @@ public:
 
     virtual void RegisterDriveEnumerator( std::shared_ptr<cDriveEnumeratorInterface> DriveEnumerator ) = 0;
 
-    virtual ErrorCode EnumerateDrives( eScanForHardwareChanges ScanForHardwareChanges ) = 0;
+    virtual eErrorCode EnumerateDrives( eScanForHardwareChanges ScanForHardwareChanges ) = 0;
 
 public:
     virtual ~cDriveManagerInterface();

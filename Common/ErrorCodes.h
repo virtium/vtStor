@@ -7,9 +7,15 @@
 namespace vtStor
 {
 
-enum ErrorCode
+enum eErrorCode
 {
     None = 0,
+};
+
+enum eOnErrorBehavior
+{
+    Stop = 0,
+    Continue,
 };
 
 }

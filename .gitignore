@@ -49,3 +49,5 @@ DriveEnumeratorAta/Debug/DriveEnu.81528CDF.tlog/cl.command.1.tlog
 *.tlog
 *.idb
 x64/
+*.exp
+*.sdf

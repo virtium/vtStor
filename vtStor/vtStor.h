@@ -11,7 +11,7 @@
 
 extern "C"
 {
-    VTSTOR_API vtStor::ErrorCode vtStorInit( std::unique_ptr<vtStor::cDriveManagerInterface>& DriveManager );
+    VTSTOR_API vtStor::eErrorCode vtStorInit( std::unique_ptr<vtStor::cDriveManagerInterface>& DriveManager );
 }
 
 #endif
