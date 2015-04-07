@@ -6,10 +6,6 @@
     <OutDir>$(ProjectDir)$(Platform)$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)$(Platform)$(Configuration)\Intermediate\</IntDir>
   </PropertyGroup>
-  <ItemDefinitionGroup>
-    <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\vtStor</AdditionalIncludeDirectories>
-    </ClCompile>
-  </ItemDefinitionGroup>
+  <ItemDefinitionGroup />
   <ItemGroup />
 </Project>

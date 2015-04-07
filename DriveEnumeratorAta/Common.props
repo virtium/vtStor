@@ -2,10 +2,14 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup>
+    <OutDir>$(ProjectDir)$(Platform)$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)$(Platform)$(Configuration)\Intermediate\</IntDir>
+  </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\StorageUtility\Windows;$(SolutionDir)Common;$(SolutionDir)Common\Platform\x86x64;$(SolutionDir)vtStor;$(SolutionDir)vtStor\Platform\Windows</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Platform\Windows\;$(SolutionDir)\StorageUtility\Windows;$(SolutionDir)Common;$(SolutionDir)Common\Platform\x86x64;$(SolutionDir)vtStor;$(SolutionDir)vtStor\Platform\Windows</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>DRIVE_ENUMERATOR_ATA_DLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>vtStor.lib;StorageUtility.lib;%(AdditionalDependencies)</AdditionalDependencies>

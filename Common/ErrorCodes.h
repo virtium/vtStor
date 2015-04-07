@@ -10,6 +10,8 @@ namespace vtStor
 enum eErrorCode
 {
     None = 0,
+    Unknown,
+    Memory,
 };
 
 enum eOnErrorBehavior

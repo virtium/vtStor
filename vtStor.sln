@@ -17,6 +17,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TransporterAta", "Transport
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StorageUtility", "StorageUtility\StorageUtility.vcxproj", "{0DA52EB3-5F61-4919-8B1A-0DC1B50B619F}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vtStor.ATest", "vtStor.ATest\vtStor.ATest.vcxproj", "{38174204-111B-4572-8B9B-4349C7432C9A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{81528CDF-976A-4F09-B1F8-1976A92FB19A} = {81528CDF-976A-4F09-B1F8-1976A92FB19A}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -83,6 +88,17 @@ Global
 		{0DA52EB3-5F61-4919-8B1A-0DC1B50B619F}.Release|Win32.ActiveCfg = Release|Win32
 		{0DA52EB3-5F61-4919-8B1A-0DC1B50B619F}.Release|Win32.Build.0 = Release|Win32
 		{0DA52EB3-5F61-4919-8B1A-0DC1B50B619F}.Release|x64.ActiveCfg = Release|x64
+		{38174204-111B-4572-8B9B-4349C7432C9A}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{38174204-111B-4572-8B9B-4349C7432C9A}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{38174204-111B-4572-8B9B-4349C7432C9A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{38174204-111B-4572-8B9B-4349C7432C9A}.Debug|Win32.Build.0 = Debug|Win32
+		{38174204-111B-4572-8B9B-4349C7432C9A}.Debug|x64.ActiveCfg = Debug|x64
+		{38174204-111B-4572-8B9B-4349C7432C9A}.Debug|x64.Build.0 = Debug|x64
+		{38174204-111B-4572-8B9B-4349C7432C9A}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{38174204-111B-4572-8B9B-4349C7432C9A}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{38174204-111B-4572-8B9B-4349C7432C9A}.Release|Win32.ActiveCfg = Release|Win32
+		{38174204-111B-4572-8B9B-4349C7432C9A}.Release|Win32.Build.0 = Release|Win32
+		{38174204-111B-4572-8B9B-4349C7432C9A}.Release|x64.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
