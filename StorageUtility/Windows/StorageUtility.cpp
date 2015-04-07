@@ -19,7 +19,11 @@ eErrorCode GetDevicePaths( std::vector<String>& Paths, const GUID* InterfaceClas
 
     sEnumerateDevicesCallback callBack;
     callBack.Data = (void*)&Paths;
-    callBack.Function = GetDevicePathsCallback;
+    callBack.Function = []( void* Data, const HDEVINFO& DevInfoHandle, SP_DEVINFO_DATA& DevInfoData, const PSP_INTERFACE_DEVICE_DETAIL_DATA& DevDetailData, eErrorCode& ErrorCode )
+    {
+        std::vector<String>* paths = ( std::vector<String>* )Data;
+        paths->push_back( DevDetailData->DevicePath );
+    };
 
     error = EnumerateDevices( callBack, InterfaceClassGUID, OnErrorBehavior );
     return( error );
@@ -107,12 +111,6 @@ eErrorCode EnumerateDevices( sEnumerateDevicesCallback& Callback, const GUID* In
     SetupDiDestroyDeviceInfoList( devInfoHandle );
 
     return( eErrorCode::None );
-}
-
-void GetDevicePathsCallback( void* Data, const HDEVINFO& DevInfoHandle, SP_DEVINFO_DATA& DevInfoData, const PSP_INTERFACE_DEVICE_DETAIL_DATA& DevDetailData, eErrorCode& ErrorCode )
-{
-    std::vector<String>* paths = ( std::vector<String>* )Data;
-    paths->push_back( DevDetailData->DevicePath );
 }
 
 }
