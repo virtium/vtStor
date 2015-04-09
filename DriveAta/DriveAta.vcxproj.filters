@@ -23,5 +23,8 @@
     <ClInclude Include="DriveAta.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Platform\Windows\DriveAtaPlatformDefines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -7,17 +7,19 @@
 #include <memory>
 #include <vector>
 
+#include "vtStorPlatformDefines.h"
+
 namespace vtStor
 {
-    class cDriveInterface
+    class VTSTOR_API cDriveInterface
     {
     public:
 
     public:
-        virtual ~cDriveInterface() {};
+        virtual ~cDriveInterface();
     };
 
-    using Vector_Drives = std::vector<std::unique_ptr<cDriveInterface>>;
+    using Vector_Drives = std::vector<std::shared_ptr<cDriveInterface>>;
 }
 
 #endif

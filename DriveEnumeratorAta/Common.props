@@ -8,12 +8,12 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir)Platform\Windows\;$(SolutionDir)\StorageUtility\Windows;$(SolutionDir)Common;$(SolutionDir)Common\Platform\x86x64;$(SolutionDir)vtStor;$(SolutionDir)vtStor\Platform\Windows</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)DriveAta;$(SolutionDir)DriveAta\Platform\Windows;$(ProjectDir)Platform\Windows\;$(SolutionDir)\StorageUtility\Windows;$(SolutionDir)Common;$(SolutionDir)Common\Platform\x86x64;$(SolutionDir)vtStor;$(SolutionDir)vtStor\Platform\Windows</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>DRIVE_ENUMERATOR_ATA_DLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>vtStor.lib;StorageUtility.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)StorageUtility\$(Platform)$(Configuration);$(SolutionDir)vtStor\$(Platform)$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>vtStor.lib;StorageUtility.lib;DriveAta.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)StorageUtility\$(Platform)$(Configuration);$(SolutionDir)DriveAta\$(Platform)$(Configuration);$(SolutionDir)vtStor\$(Platform)$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>python $(SolutionDir)PostBuildLibExport.py $(ProjectName) $(Platform)$(Configuration) $(SolutionDir)</Command>

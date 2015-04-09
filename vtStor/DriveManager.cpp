@@ -31,11 +31,10 @@ eErrorCode cDriveManager::EnumerateDrives( eScanForHardwareChanges ScanForHardwa
     }
 
     U32 count = 0;
-    Vector_DriveEnumerator::const_iterator enumerator = m_DriveEnumerators.begin();
-    while ( m_DriveEnumerators.end() != enumerator )
+    for ( auto& enumerator : m_DriveEnumerators )
     {
-        error = (*enumerator)->EnumerateDrives( m_Drives, count );
-        if ( eErrorCode::None != error )
+        error = enumerator->EnumerateDrives(m_Drives, count);
+        if (eErrorCode::None != error)
         {
             //TODO: handle error
         }

@@ -162,6 +162,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DriveEnumeratorInterface.cpp" />
+    <ClCompile Include="DriveInterface.cpp" />
     <ClCompile Include="DriveManager.cpp" />
     <ClCompile Include="DriveManagerInterface.cpp" />
     <ClCompile Include="vtStor.cpp" />

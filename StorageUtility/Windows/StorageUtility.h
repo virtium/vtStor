@@ -12,6 +12,7 @@
 
 
 #include "ErrorCodes.h"
+#include "BasicTypes.h"
 #include "vtStorPlatformDefines.h"
 
 namespace vtStor
@@ -30,6 +31,19 @@ namespace vtStor
     //! the iCallback function will be called for each device
     //!
     eErrorCode EnumerateDevices( sEnumerateDevicesCallback& Callback, const GUID* InterfaceClassGUID, eOnErrorBehavior OnErrorBehavior );
+
+    eErrorCode GetStorageDeviceHandle( const String& DevicePath, HANDLE& Handle );
+
+    struct sStorageAdapterProperty
+    {
+        U8    BusType;
+        U8    SrbType;
+        U32     AlignmentMask;
+    };
+
+    eErrorCode GetStorageAdapterProperty( HANDLE Handle, sStorageAdapterProperty& AdapterProperty );
+
+    bool IsAtaDeviceBus( sStorageAdapterProperty StorageAdapterProperty );
 }
 
 #endif

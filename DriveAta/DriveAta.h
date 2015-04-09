@@ -4,11 +4,12 @@
 #ifndef __DriveAta_h__
 #define __DriveAta_h__
 
+#include "DriveAtaPlatformDefines.h"
 #include "DriveInterface.h"
 
 namespace vtStor
 {
-    class cDriveAta : public cDriveInterface
+    class DRIVE_ATA_API cDriveAta : public cDriveInterface
     {
     public:
 

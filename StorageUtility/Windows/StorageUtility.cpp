@@ -113,4 +113,103 @@ eErrorCode EnumerateDevices( sEnumerateDevicesCallback& Callback, const GUID* In
     return( eErrorCode::None );
 }
 
+eErrorCode GetStorageDeviceHandle( const String& DevicePath, HANDLE& Handle )
+{
+    Handle =
+        CreateFile(
+                    DevicePath.c_str(),
+                    GENERIC_READ | GENERIC_WRITE,
+                    FILE_SHARE_READ | FILE_SHARE_WRITE,
+                    NULL,
+                    OPEN_EXISTING,
+                    FILE_ATTRIBUTE_NORMAL,
+                    NULL
+                    );
+
+    if ( INVALID_HANDLE_VALUE == Handle )
+    {
+        return( eErrorCode::Io );
+    }
+
+    return( eErrorCode::None );
+}
+
+eErrorCode GetStorageAdapterProperty( HANDLE Handle, sStorageAdapterProperty& AdapterProperty )
+{
+    STORAGE_DESCRIPTOR_HEADER storageDescHeader;
+
+    STORAGE_PROPERTY_QUERY StorageProperty;
+    StorageProperty.PropertyId = StorageAdapterProperty;
+    StorageProperty.QueryType = PropertyStandardQuery;
+
+    DWORD bytesReturned;
+    DWORD ret =
+        DeviceIoControl(
+                        Handle,
+                        IOCTL_STORAGE_QUERY_PROPERTY,
+                        &StorageProperty,
+                        sizeof(STORAGE_PROPERTY_QUERY),
+                        &storageDescHeader,
+                        sizeof(STORAGE_DESCRIPTOR_HEADER),
+                        &bytesReturned,
+                        NULL
+                        );
+    if ( 0 == ret )
+    {
+        return( eErrorCode::Io );
+    }
+
+    if ( 0 == storageDescHeader.Size )
+    {
+        return( eErrorCode::Io );   //TODO: replace with more descriptive error
+    }
+
+    PSTORAGE_ADAPTER_DESCRIPTOR pstorageAdapterDesc = NULL;
+    pstorageAdapterDesc = (PSTORAGE_ADAPTER_DESCRIPTOR)LocalAlloc(LPTR, storageDescHeader.Size);
+
+    ret =
+        DeviceIoControl(
+                        Handle,
+                        IOCTL_STORAGE_QUERY_PROPERTY,
+                        &StorageProperty,
+                        sizeof(STORAGE_PROPERTY_QUERY),
+                        pstorageAdapterDesc,
+                        storageDescHeader.Size,
+                        &bytesReturned,
+                        NULL
+                        );
+    if (0 == ret)
+    {
+        LocalFree( pstorageAdapterDesc );
+        return( eErrorCode::Io );
+    }
+
+    AdapterProperty.BusType = pstorageAdapterDesc->BusType;
+    //iAdapterProperty.SrbType = pstorageAdapterDesc->SrbType;  TODO check this
+    AdapterProperty.AlignmentMask = pstorageAdapterDesc->AlignmentMask;
+
+    LocalFree( pstorageAdapterDesc );
+
+    return( eErrorCode::None );
+}
+
+bool IsAtaDeviceBus( sStorageAdapterProperty StorageDeviceProperty )
+{
+    bool successFlag = false;
+    switch ( StorageDeviceProperty.BusType )
+    {
+    case BusTypeAta:
+    case BusTypeSata:
+    {
+        successFlag = true;
+    } break;
+
+    default:
+    {
+    } break;
+    }
+
+    return successFlag;
+}
+
 }

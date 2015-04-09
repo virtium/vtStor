@@ -12,6 +12,7 @@ enum eErrorCode
     None = 0,
     Unknown,
     Memory,
+    Io,
 };
 
 enum eOnErrorBehavior

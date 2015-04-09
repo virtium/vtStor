@@ -8,8 +8,13 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\vtStor</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Platform\Windows;$(SolutionDir)\vtStor;$(SolutionDir)vtStor\Platform\Windows</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>DRIVE_ATA_DLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
+    <Link>
+      <AdditionalDependencies>vtStor.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)vtStor\$(Platform)$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
   </ItemDefinitionGroup>
   <ItemGroup />
 </Project>

@@ -7,9 +7,9 @@
 
 using namespace vtStor;
 
-vtStor::eErrorCode vtStorInit( std::unique_ptr<vtStor::cDriveManagerInterface>& DriveManager )
+vtStor::eErrorCode vtStorInit(std::unique_ptr<vtStor::cDriveManagerInterface>& DriveManager)
 {
     DriveManager = std::make_unique<cDriveManager>();
 
-    return( eErrorCode::None );
+    return(eErrorCode::None);
 }
