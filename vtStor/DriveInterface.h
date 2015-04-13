@@ -8,6 +8,8 @@
 #include <vector>
 
 #include "BasicTypes.h"
+#include "ErrorCodes.h"
+#include "BufferInterface.h"
 #include "CommandHandlerInterface.h"
 #include "vtStorPlatformDefines.h"
 
@@ -18,6 +20,9 @@ class VTSTOR_API cDriveInterface
 {
 public:
     virtual void RegisterComandHandler(U32 CommandType, std::shared_ptr<cCommandHandlerInterface> CommandHandler) = 0;
+
+public:
+    virtual eErrorCode IssueCommand(U32 CommandType, std::shared_ptr<const cBufferInterface> CommandDescriptor, std::shared_ptr<cBufferInterface> Data) = 0;
 
 public:
     virtual ~cDriveInterface();

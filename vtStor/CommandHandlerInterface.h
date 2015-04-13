@@ -5,6 +5,11 @@
 #define __vtStorCommandHandlerInterface_h__
 #pragma once
 
+#include <memory>
+
+#include "ErrorCodes.h"
+#include "BufferInterface.h"
+
 namespace vtStor
 {
 
@@ -13,6 +18,9 @@ class cCommandHandlerInterface
 public:
     cCommandHandlerInterface();
     virtual ~cCommandHandlerInterface();
+
+public:
+    virtual eErrorCode IssueCommand( std::shared_ptr<const cBufferInterface> CommandDescriptor, std::shared_ptr<cBufferInterface> Data ) = 0;
 
 };
 

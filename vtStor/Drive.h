@@ -25,6 +25,9 @@ public:
 public:
     virtual void RegisterComandHandler( U32 CommandType, std::shared_ptr<cCommandHandlerInterface> CommandHandler ) override;
 
+public:
+    virtual eErrorCode IssueCommand(U32 CommandType, std::shared_ptr<const cBufferInterface> CommandDescriptor, std::shared_ptr<cBufferInterface> Data) override;
+
 protected:
     std::map<U32, std::shared_ptr<cCommandHandlerInterface>> m_CommandHandlers;
 };
