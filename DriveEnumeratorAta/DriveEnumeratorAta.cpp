@@ -43,7 +43,7 @@ eErrorCode cDriveEnumeratorAta::EnumerateDrives( Vector_Drives& AddToList, U32& 
 
         if ( true == IsAtaDeviceBus( storageAdapterProperty ) )
         {
-            std::shared_ptr<cDriveInterface> drive = std::make_shared<cDriveAta>();
+            std::shared_ptr<cDriveInterface> drive = std::make_shared<cDriveAta>(devicePath);
             AddToList.push_back( drive );
             ++Count;
         }

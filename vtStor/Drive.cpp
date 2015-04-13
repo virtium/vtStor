@@ -1,20 +1,18 @@
 //Copyright( c ) 2015 Virtium Technology
 //See the file license.txt for copying permission.
 
-#include "DriveAta.h"
+#include "Drive.h"
 
 namespace vtStor
 {
 
-cDriveAta::cDriveAta(String DevicePath) :
-    m_DevicePath(DevicePath)
+cDrive::cDrive()
 {
-
 }
 
-cDriveAta::~cDriveAta()
-{
 
+cDrive::~cDrive()
+{
 }
 
 }

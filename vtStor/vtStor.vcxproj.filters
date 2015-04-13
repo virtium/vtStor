@@ -51,6 +51,12 @@
     <ClInclude Include="..\Common\Platform\x86x64\Windows\PlatformDefines.h">
       <Filter>Header Files\Common</Filter>
     </ClInclude>
+    <ClInclude Include="Drive.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandHandlerInterface.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DriveManager.cpp">
@@ -66,6 +72,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DriveInterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Drive.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandHandlerInterface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
