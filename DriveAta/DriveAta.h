@@ -6,11 +6,11 @@
 
 #include "BasicTypes.h"
 #include "DriveAtaPlatformDefines.h"
-#include "DriveInterface.h"
+#include "Drive.h"
 
 namespace vtStor
 {
-    class DRIVE_ATA_API cDriveAta : public cDriveInterface
+    class DRIVE_ATA_API cDriveAta : public cDrive
     {
     public:
         cDriveAta(String DevicePath);

@@ -11,14 +11,16 @@
 
 namespace vtStor
 {
-    class VTSTOR_API cDriveEnumeratorInterface
-    {
-    public:
-        virtual eErrorCode EnumerateDrives( Vector_Drives& AddToList, U32& Count ) = 0;
 
-    public:
-        virtual ~cDriveEnumeratorInterface();
-    };
+class VTSTOR_API cDriveEnumeratorInterface
+{
+public:
+    virtual eErrorCode EnumerateDrives( Vector_Drives& AddToList, U32& Count ) = 0;
+
+public:
+    virtual ~cDriveEnumeratorInterface();
+};
+
 }
 
 #endif

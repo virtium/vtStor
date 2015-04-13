@@ -13,6 +13,12 @@ cDrive::cDrive()
 
 cDrive::~cDrive()
 {
+    m_CommandHandlers.clear();
+}
+
+void cDrive::RegisterComandHandler(U32 CommandType, std::shared_ptr<cCommandHandlerInterface> CommandHandler)
+{
+    m_CommandHandlers.insert({ CommandType, CommandHandler });
 }
 
 }

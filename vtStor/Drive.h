@@ -11,17 +11,22 @@
 #include "DriveInterface.h"
 #include "CommandHandlerInterface.h"
 
+VTSTOR_API_EXPORT_IMPL template class VTSTOR_API std::map<vtStor::U32, std::shared_ptr<vtStor::cCommandHandlerInterface>>;
+
 namespace vtStor
 {
 
-class cDrive : public cDriveInterface
+class VTSTOR_API cDrive : public cDriveInterface
 {
 public:
     cDrive();
     virtual ~cDrive();
 
+public:
+    virtual void RegisterComandHandler( U32 CommandType, std::shared_ptr<cCommandHandlerInterface> CommandHandler ) override;
+
 protected:
-    std::map<U32, cCommandHandlerInterface> m_CommandHandlers;
+    std::map<U32, std::shared_ptr<cCommandHandlerInterface>> m_CommandHandlers;
 };
 
 }

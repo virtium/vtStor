@@ -8,8 +8,10 @@
 
 #ifdef VTSTOR_DLL_EXPORTS
 #define VTSTOR_API _declspec( dllexport )
+#define VTSTOR_API_EXPORT_IMPL
 #else
 #define VTSTOR_API _declspec( dllimport )
+#define VTSTOR_API_EXPORT_IMPL  extern
 #endif
 
 #endif
