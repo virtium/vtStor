@@ -48,6 +48,9 @@
     <ClInclude Include="DriveEnumeratorInterface.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
+    <ClInclude Include="..\Common\Platform\x86x64\Windows\PlatformDefines.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DriveManager.cpp">

@@ -5,6 +5,7 @@
 #define __BasicTypes_h__
 
 #include <cstdint>
+#include "PlatformDefines.h"
 
 namespace vtStor
 {
@@ -17,6 +18,8 @@ using U32 = uint32_t;
 using S32 = int32_t;
 using U64 = uint64_t;
 using S64 = int64_t;
+
+using String = tstring;
 
 }
 
