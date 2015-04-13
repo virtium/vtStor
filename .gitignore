@@ -36,3 +36,7 @@ vtStor/Debug/vtStor.tlog/vtStor.lastbuildstate
 x64/
 *.exp
 *.sdf
+*.ilk
+*.pdb
+*.log
+*.suo
