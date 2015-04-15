@@ -18,12 +18,18 @@
     <ClCompile Include="DriveAta.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CommandHandlerAta.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DriveAta.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Platform\Windows\DriveAtaPlatformDefines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandHandlerAta.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

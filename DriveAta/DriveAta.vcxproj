@@ -147,9 +147,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CommandHandlerAta.cpp" />
     <ClCompile Include="DriveAta.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CommandHandlerAta.h" />
     <ClInclude Include="DriveAta.h" />
     <ClInclude Include="Platform\Windows\DriveAtaPlatformDefines.h" />
   </ItemGroup>
