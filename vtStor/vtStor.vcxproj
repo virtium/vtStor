@@ -156,6 +156,8 @@
     <ClInclude Include="..\Common\Platform\x86x64\Windows\PlatformDefines.h" />
     <ClInclude Include="BufferInterface.h" />
     <ClInclude Include="CommandHandlerInterface.h" />
+    <ClInclude Include="CommandSequencer.h" />
+    <ClInclude Include="CommandSequencerInterface.h" />
     <ClInclude Include="Drive.h" />
     <ClInclude Include="DriveEnumeratorInterface.h" />
     <ClInclude Include="DriveInterface.h" />
@@ -167,6 +169,8 @@
   <ItemGroup>
     <ClCompile Include="BufferInterface.cpp" />
     <ClCompile Include="CommandHandlerInterface.cpp" />
+    <ClCompile Include="CommandSequencer.cpp" />
+    <ClCompile Include="CommandSequencerInterface.cpp" />
     <ClCompile Include="Drive.cpp" />
     <ClCompile Include="DriveEnumeratorInterface.cpp" />
     <ClCompile Include="DriveInterface.cpp" />

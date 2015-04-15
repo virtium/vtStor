@@ -9,11 +9,12 @@
 
 #include "ErrorCodes.h"
 #include "BufferInterface.h"
+#include "vtStorPlatformDefines.h"
 
 namespace vtStor
 {
 
-class cCommandHandlerInterface
+class VTSTOR_API cCommandHandlerInterface
 {
 public:
     cCommandHandlerInterface();
