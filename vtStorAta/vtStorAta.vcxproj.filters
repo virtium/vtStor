@@ -24,6 +24,9 @@
     <ClCompile Include="DriveAta.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="vtStorAta.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DriveEnumeratorAta.h">
@@ -36,6 +39,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Platform\Windows\vtStorAtaPlatformDefines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="vtStorAta.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

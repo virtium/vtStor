@@ -5,6 +5,7 @@
 
 #include "DriveEnumeratorAta.h"
 #include "vtStor.h"
+#include "vtStorAta.h"
 
 void main()
 {
@@ -18,6 +19,7 @@ void main()
     std::unique_ptr<vtStor::cDriveManagerInterface> driveManager;
     vtStorInit( driveManager );
 
+    vtStor::cAta::s_DefaultCommandHandlerCommandType = 1;
     std::shared_ptr<vtStor::cDriveEnumeratorInterface> driveEnumeratorAta = std::make_unique<vtStor::cDriveEnumeratorAta>();
     driveManager->RegisterDriveEnumerator(driveEnumeratorAta);
     driveManager->EnumerateDrives( vtStor::cDriveManagerInterface::eScanForHardwareChanges::No );
