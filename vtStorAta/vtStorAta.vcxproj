@@ -150,12 +150,14 @@
   <ItemGroup>
     <ClCompile Include="CommandHandlerAta.cpp" />
     <ClCompile Include="DriveAta.cpp" />
+    <ClCompile Include="DriveAtaCommandExtensions.cpp" />
     <ClCompile Include="DriveEnumeratorAta.cpp" />
     <ClCompile Include="vtStorAta.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommandHandlerAta.h" />
     <ClInclude Include="DriveAta.h" />
+    <ClInclude Include="DriveAtaCommandExtensions.h" />
     <ClInclude Include="DriveEnumeratorAta.h" />
     <ClInclude Include="Platform\Windows\vtStorAtaPlatformDefines.h" />
     <ClInclude Include="vtStorAta.h" />
