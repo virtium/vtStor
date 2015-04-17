@@ -4,12 +4,12 @@
 #ifndef __DriveEnumeratorAta_h__
 #define __DriveEnumeratorAta_h__
 
-#include "DriveEnumeratorAtaPlatformDefines.h"
+#include "vtStorAtaPlatformDefines.h"
 #include "DriveEnumeratorInterface.h"
 
 namespace vtStor
 {
-    class DRIVE_ENUMERATOR_ATA_API cDriveEnumeratorAta : public cDriveEnumeratorInterface
+    class VT_STOR_ATA_API cDriveEnumeratorAta : public cDriveEnumeratorInterface
     {
     public:
         virtual eErrorCode EnumerateDrives( Vector_Drives& AddToList, U32& Count ) override;

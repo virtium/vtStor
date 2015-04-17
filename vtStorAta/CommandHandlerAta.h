@@ -5,11 +5,12 @@
 
 #pragma once
 #include "CommandHandlerInterface.h"
+#include "vtStorAtaPlatformDefines.h"
 
 namespace vtStor
 {
 
-class cCommandHandlerAta : public cCommandHandlerInterface
+class VT_STOR_ATA_API cCommandHandlerAta : public cCommandHandlerInterface
 {
 public:
     cCommandHandlerAta();

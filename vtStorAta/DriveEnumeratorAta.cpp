@@ -1,6 +1,7 @@
 //Copyright( c ) 2015 Virtium Technology
 //See the file license.txt for copying permission.
 
+#include "CommandHandlerAta.h"
 #include "DriveAta.h"
 #include "StorageUtility.h"
 
@@ -44,6 +45,9 @@ eErrorCode cDriveEnumeratorAta::EnumerateDrives( Vector_Drives& AddToList, U32& 
         if ( true == IsAtaDeviceBus( storageAdapterProperty ) )
         {
             std::shared_ptr<cDriveInterface> drive = std::make_shared<cDriveAta>(devicePath);
+            std::shared_ptr<cCommandHandlerAta> commandHandler = std::make_shared<cCommandHandlerAta>();
+            drive->RegisterComandHandler( cDriveAta::GetCommandTypeForDefaultCommandHandler(), commandHandler );
+
             AddToList.push_back( drive );
             ++Count;
         }

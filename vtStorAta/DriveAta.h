@@ -5,18 +5,27 @@
 #define __DriveAta_h__
 
 #include "BasicTypes.h"
-#include "DriveAtaPlatformDefines.h"
+#include "vtStorAtaPlatformDefines.h"
 #include "Drive.h"
 
 namespace vtStor
 {
-    class DRIVE_ATA_API cDriveAta : public cDrive
+    class VT_STOR_ATA_API cDriveAta : public cDrive
     {
+    public:
+        static void SetCommandTypeForDefaultCommandHandler( U32 CommandType );
+        static U32  GetCommandTypeForDefaultCommandHandler();
+
     public:
         cDriveAta(String DevicePath);
 
     public:
         virtual ~cDriveAta();
+
+    
+
+    protected:
+        static U32 s_DefaultCommandHandlerCommandType;
 
     private:
         String m_DevicePath;
