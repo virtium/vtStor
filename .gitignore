@@ -40,3 +40,5 @@ x64/
 *.pdb
 *.log
 *.suo
+vtStorAta.UTest/x64Debug/
+vtStor.Test/vtStor.Test.vcxproj.user

@@ -162,6 +162,14 @@
     <ClInclude Include="Platform\Windows\vtStorAtaPlatformDefines.h" />
     <ClInclude Include="vtStorAta.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\StorageUtility\StorageUtility.vcxproj">
+      <Project>{0da52eb3-5f61-4919-8b1a-0dc1b50b619f}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\vtStor\vtStor.vcxproj">
+      <Project>{2595ae3d-ff40-47c4-b050-55d450843934}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

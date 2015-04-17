@@ -12,7 +12,7 @@
       <PreprocessorDefinitions>VT_STOR_ATA_DLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>vtStor.lib;StorageUtility.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)StorageUtility\$(Platform)$(Configuration);$(SolutionDir)DriveAta\$(Platform)$(Configuration);$(SolutionDir)vtStor\$(Platform)$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
