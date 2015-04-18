@@ -17,7 +17,6 @@ limitations under the License.
 */
 #include <memory>
 
-#include "stdafx.h"
 #include "CppUnitTest.h"
 
 #include "vtStor.h"
