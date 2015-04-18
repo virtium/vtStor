@@ -52,7 +52,7 @@ namespace vtStor
     {
         U8    BusType;
         U8    SrbType;
-        U32     AlignmentMask;
+        U32   AlignmentMask;
     };
 
     eErrorCode GetStorageAdapterProperty( HANDLE Handle, sStorageAdapterProperty& AdapterProperty );
