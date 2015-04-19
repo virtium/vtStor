@@ -152,6 +152,7 @@
     <ClCompile Include="DriveAta.cpp" />
     <ClCompile Include="DriveAtaCommandExtensions.cpp" />
     <ClCompile Include="DriveEnumeratorAta.cpp" />
+    <ClCompile Include="Platform\Windows\AtaPassThroughUtility.cpp" />
     <ClCompile Include="vtStorAta.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -159,6 +160,7 @@
     <ClInclude Include="DriveAta.h" />
     <ClInclude Include="DriveAtaCommandExtensions.h" />
     <ClInclude Include="DriveEnumeratorAta.h" />
+    <ClInclude Include="Platform\Windows\AtaPassThroughUtility.h" />
     <ClInclude Include="Platform\Windows\vtStorAtaPlatformDefines.h" />
     <ClInclude Include="vtStorAta.h" />
   </ItemGroup>

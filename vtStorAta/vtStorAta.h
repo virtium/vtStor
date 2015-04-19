@@ -28,6 +28,73 @@ namespace vtStor
 class VT_STOR_ATA_API cAta
 {
 public:
+    struct sCommandInputFields
+    {
+        U16  Feature;
+        U32  Count;
+        U64  LBA;
+        U8   Device;
+        U8   Command;
+        bool CHSMode;
+    };
+
+    struct sCommandOutputFields
+    {
+        U16 Error;
+        U32 Count;
+        U64 LBA;
+        U8  Device;
+        U8  Status;
+    };
+
+    union uCommandFields
+    {
+        sCommandInputFields  InputFields;
+        sCommandInputFields OutputFields;
+    };
+
+    enum eDeviceReadyFlag
+    {
+        DEVICE_READY_REQUIRED,
+        DEVICE_READY_NOT_REQUIRED
+    };
+
+    enum eDataAccess
+    {
+        NONE,
+        READ_FROM_DEVICE,
+        WRITE_TO_DEVICE
+    };
+
+    enum eFieldFormatting
+    {
+        COMMAND_28_BIT,
+        COMMAND_48_BIT
+    };
+
+    enum eTransferMode
+    {
+        DMA_PROTOCOL,
+        PIO_PROTOCOL
+    };
+
+    enum eMultipleCommandFlag
+    {
+        MULTIPLE_COMMAND,
+        NOT_MULTIPLE_COMMAND
+    };
+
+    struct sCommandCharacteristic
+    {
+        eDeviceReadyFlag     DeviceReadyFlag;
+        eDataAccess          DataAccess;
+        eFieldFormatting     FieldFormatting;
+        eTransferMode        TransferMode;
+        eMultipleCommandFlag MultipleCommandFlag;
+        U32                  DataTransferLengthInBytes;
+    };
+
+public:
     cAta() = delete;
 
 public:
