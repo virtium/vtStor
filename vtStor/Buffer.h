@@ -15,27 +15,26 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
-#ifndef __vtStorBufferInterface_h__
-#define __vtStorBufferInterface_h__
+#ifndef __vtStorBuffer_h__
+#define __vtStorBuffer_h__
 #pragma once
 
-#include <memory>
-
-#include "BasicTypes.h"
-#include "vtStorPlatformDefines.h"
+#include "BufferInterface.h"
 
 namespace vtStor
 {
 
-class VTSTOR_API cBufferInterface
+class VTSTOR_API cBuffer : public cBufferInterface
 {
 public:
-    cBufferInterface();
-    virtual ~cBufferInterface();
+    cBuffer( U32 SizeInBytes );
+    virtual ~cBuffer();
 
 public:
-    //! The use of normal pointer is intentional
-    virtual U8* ToDataBuffer() = 0;
+    virtual U8* ToDataBuffer();
+
+protected:
+    U8* m_Memory;
 };
 
 }

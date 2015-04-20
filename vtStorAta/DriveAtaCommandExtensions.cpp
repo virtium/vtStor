@@ -15,6 +15,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
+#include "vtStorAta.h"
+#include "Buffer.h"
+#include "CommandDescriptorUtility.h"
+
 #include "DriveAtaCommandExtensions.h"
 
 namespace vtStor
@@ -22,9 +26,19 @@ namespace vtStor
 namespace Ata
 {
 
-eErrorCode IssueCommand_IdentifyDevice( std::shared_ptr<cDriveInterface> Drive, std::shared_ptr<cBufferInterface> Data )
+eErrorCode IssueCommand_IdentifyDevice( std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data )
 {
     //TODO: populate parameters and call IssueCommand
+    cAta::uCommandFields commandFields;
+    commandFields.InputFields.Command = ATA_COMMAND_IDENTIFY_DEVICE;
+    commandFields.InputFields.Count = 1;
+
+    //TODO: allocate size appropriately
+    std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>( 128 );
+    cCommandDescriptorVersion1::InitializeBuffer( commandDescriptor, commandFields );
+
+    Drive->IssueCommand( CommandType, commandDescriptor, Data );
+
     return( eErrorCode::None );
 }
 

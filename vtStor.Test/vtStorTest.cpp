@@ -22,25 +22,42 @@ limitations under the License.
 #include "vtStor.h"
 #include "vtStorAta.h"
 #include "DriveEnumeratorAta.h"
+#include "DriveAtaCommandExtensions.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace vtStorTest
 {		
-    TEST_CLASS(cVtStorTest)
+    TEST_CLASS( cVtStorTest )
     {
     public:
-        
-        TEST_METHOD(Enumeration)
+
+        TEST_METHOD( Enumeration )
         {
-            std::unique_ptr<vtStor::cDriveManagerInterface> driveManager;
-            vtStorInit( driveManager );
+            Enumerate();
+        }
+
+        TEST_METHOD( IssueCommand_IdentifyDevice )
+        {
+            Enumerate();
+            //TODO: system needs to have a drive to test.
+            //vtStor::Ata::IssueCommand_IdentifyDevice();
+        }
+
+        void Enumerate()
+        {
+            std::unique_ptr<vtStor::cDriveManagerInterface> m_DriveManager;
+            vtStorInit( m_DriveManager );
 
             vtStor::cAta::s_DefaultCommandHandlerCommandType = 1;
-            std::shared_ptr<vtStor::cDriveEnumeratorInterface> driveEnumeratorAta = std::make_unique<vtStor::cDriveEnumeratorAta>();
-            driveManager->RegisterDriveEnumerator( driveEnumeratorAta );
-            driveManager->EnumerateDrives( vtStor::cDriveManagerInterface::eScanForHardwareChanges::No );
+            std::shared_ptr<vtStor::cDriveEnumeratorInterface> m_DriveEnumeratorAta = std::make_unique<vtStor::cDriveEnumeratorAta>();
+            m_DriveManager->RegisterDriveEnumerator( m_DriveEnumeratorAta );
+            m_DriveManager->EnumerateDrives( vtStor::cDriveManagerInterface::eScanForHardwareChanges::No );
         }
+
+    private:
+        std::unique_ptr<vtStor::cDriveManagerInterface> m_DriveManager;
+        std::shared_ptr<vtStor::cDriveEnumeratorInterface> m_DriveEnumeratorAta;
 
     };
 }

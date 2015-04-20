@@ -148,6 +148,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CommandDescriptorUtility.cpp" />
     <ClCompile Include="CommandHandlerAta.cpp" />
     <ClCompile Include="DriveAta.cpp" />
     <ClCompile Include="DriveAtaCommandExtensions.cpp" />
@@ -156,6 +157,7 @@
     <ClCompile Include="vtStorAta.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CommandDescriptorUtility.h" />
     <ClInclude Include="CommandHandlerAta.h" />
     <ClInclude Include="DriveAta.h" />
     <ClInclude Include="DriveAtaCommandExtensions.h" />

@@ -42,3 +42,4 @@ x64/
 *.suo
 vtStorAta.UTest/x64Debug/
 vtStor.Test/vtStor.Test.vcxproj.user
+vtStorAta/Win32Debug/

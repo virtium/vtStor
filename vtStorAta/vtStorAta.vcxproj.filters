@@ -33,6 +33,9 @@
     <ClCompile Include="Platform\Windows\AtaPassThroughUtility.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CommandDescriptorUtility.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DriveEnumeratorAta.h">
@@ -54,6 +57,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Platform\Windows\AtaPassThroughUtility.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandDescriptorUtility.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -154,6 +154,7 @@
     <ClInclude Include="..\Common\ErrorCodes.h" />
     <ClInclude Include="..\Common\Platform\x86x64\BasicTypes.h" />
     <ClInclude Include="..\Common\Platform\x86x64\Windows\PlatformDefines.h" />
+    <ClInclude Include="Buffer.h" />
     <ClInclude Include="BufferInterface.h" />
     <ClInclude Include="CommandHandlerInterface.h" />
     <ClInclude Include="Drive.h" />
@@ -165,6 +166,7 @@
     <ClInclude Include="vtStor.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Buffer.cpp" />
     <ClCompile Include="BufferInterface.cpp" />
     <ClCompile Include="CommandHandlerInterface.cpp" />
     <ClCompile Include="Drive.cpp" />
