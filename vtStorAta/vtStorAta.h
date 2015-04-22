@@ -28,7 +28,10 @@ namespace vtStor
 class VT_STOR_ATA_API cAta
 {
 public:
-    static const U32 SECTOR_SIZE_IN_BYTES;
+    static const U32    SECTOR_SIZE_IN_BYTES;
+
+    static const U8     DEVICE_REGISTER_DEFAULT;
+    static const U8     DEVICE_REGISTER_CHSMODE_DEFAULT;
 
 public:
     struct sCommandInputFields
@@ -95,6 +98,36 @@ public:
         eTransferMode        TransferMode;
         eMultipleMode        MultipleMode;
         U32                  DataTransferLengthInBytes;
+    };
+
+    struct sTaskFileInputRegister
+    {
+        U8 Feature;
+        U8 Count;
+        U8 LbaLow;
+        U8 LbaMid;
+        U8 LbaHigh;
+        U8 Device;
+        U8 Command;
+        U8 Reserved;
+    };
+
+    struct sTaskFileOutputRegister
+    {
+        U8 Error;
+        U8 Count;
+        U8 LbaLow;
+        U8 LbaMid;
+        U8 LbaHigh;
+        U8 Device;
+        U8 Status;
+        U8 Reserved;
+    };
+
+    union uTaskFileRegister
+    {
+        sTaskFileInputRegister  InputRegister;
+        sTaskFileOutputRegister OutputRegister;
     };
 
 public:

@@ -34,6 +34,9 @@ public:
 public:
     virtual eErrorCode IssueCommand( std::shared_ptr<const cBufferInterface> CommandDescriptor, std::shared_ptr<cBufferInterface> Data ) override;
 
+private:
+    void cCommandHandlerAta::PrepareTaskFileRegisters( const cAta::sCommandCharacteristic& AtaCommandCharacteristics, const cAta::uCommandFields& CommandFields, cAta::uTaskFileRegister& TaskFileRegister, cAta::uTaskFileRegister& TaskFileRegisterExt );
+
 };
 
 }

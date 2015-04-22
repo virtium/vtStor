@@ -17,6 +17,7 @@ limitations under the License.
 */
 #include <assert.h>
 
+#include "BasicTypes.h"
 #include "AtaPassThroughUtility.h"
 
 namespace vtStor
@@ -24,18 +25,36 @@ namespace vtStor
 namespace AtaPassThroughUtility
 {
 
-eErrorCode IssueCommand( const cAta::sCommandCharacteristic CommandCharacteristics, std::shared_ptr<cBufferInterface> DataBuffer )
+const vtStor::U8 FEATURE_REGISTER_OFFSET = 0;
+const vtStor::U8 ERROR_REGISTER_OFFSET = 0;
+const vtStor::U8 COUNT_REGISTER_OFFSET = 1;
+const vtStor::U8 LBA_LOW_REGISTER_OFFSET = 2;
+const vtStor::U8 LBA_MID_REGISTER_OFFSET = 3;
+const vtStor::U8 LBA_HIGH_REGISTER_OFFSET = 4;
+const vtStor::U8 DEVICE_REGISTER_OFFSET = 5;
+const vtStor::U8 COMMAND_REGISTER_OFFSET = 6;
+const vtStor::U8 STATUS_REGISTER_OFFSET = 6;
+const vtStor::U8 RESERVED_REGISTER_OFFSET = 7;
+
+eErrorCode IssueCommand(
+    HANDLE Handle,
+    const cAta::sCommandCharacteristic CommandCharacteristics,
+    const cAta::uTaskFileRegister& PreviousTaskFile,
+    const cAta::uTaskFileRegister& CurrentTaskFile,
+    std::shared_ptr<cBufferInterface> DataBuffer
+    )
 {
     ATA_PASS_THROUGH_DIRECT ataPassThrough;
-    InitializePassThroughDirect( ataPassThrough, CommandCharacteristics, DataBuffer, 60 );  //TODO: allow configurable timeout
+    InitializePassThroughDirect( ataPassThrough, CommandCharacteristics, PreviousTaskFile, CurrentTaskFile, DataBuffer, 60 );  //TODO: allow configurable timeout
 
     eErrorCode errorCode = eErrorCode::None;
-    //TODO: issue command
+    U32 bytesReturned = 0;
+    errorCode = IssuePassThroughDirectCommand( Handle, ataPassThrough, bytesReturned );
 
     return( errorCode );
 }
 
-void InitializePassThroughDirect( ATA_PASS_THROUGH_DIRECT& AtaPassThrough, const cAta::sCommandCharacteristic CommandCharacteristics, std::shared_ptr<cBufferInterface> DataBuffer, U32 TimeoutValueInSeconds )
+void InitializePassThroughDirect( ATA_PASS_THROUGH_DIRECT& AtaPassThrough, const cAta::sCommandCharacteristic& CommandCharacteristics, const cAta::uTaskFileRegister& PreviousTaskFile, const cAta::uTaskFileRegister& CurrentTaskFile, std::shared_ptr<cBufferInterface> DataBuffer, U32 TimeoutValueInSeconds )
 {
     AtaPassThrough.Length = sizeof( ATA_PASS_THROUGH_DIRECT );
     AtaPassThrough.DataTransferLength = CommandCharacteristics.DataTransferLengthInBytes;
@@ -48,7 +67,7 @@ void InitializePassThroughDirect( ATA_PASS_THROUGH_DIRECT& AtaPassThrough, const
     AtaPassThrough.ReservedAsUlong = 0;
 
     InitializeFlags( AtaPassThrough, CommandCharacteristics );
-    //InitializeTaskFileInputRegisters( AtaPassThrough, previousTaskFile, curentTaskFile );
+    InitializeTaskFileInputRegisters( AtaPassThrough, PreviousTaskFile, CurrentTaskFile );
 }
 
 void InitializeFlags( ATA_PASS_THROUGH_DIRECT& AtaPassThrough, const cAta::sCommandCharacteristic& AtaCommandCharacteristic )
@@ -89,6 +108,27 @@ void InitializeFlags( ATA_PASS_THROUGH_DIRECT& AtaPassThrough, const cAta::sComm
     }
 }
 
+void InitializeTaskFileInputRegisters( ATA_PASS_THROUGH_DIRECT& AtaPassThrough, const cAta::uTaskFileRegister& PreviousTaskFile, const cAta::uTaskFileRegister& CurrentTaskFile )
+{
+    AtaPassThrough.PreviousTaskFile[FEATURE_REGISTER_OFFSET] = PreviousTaskFile.InputRegister.Feature;
+    AtaPassThrough.PreviousTaskFile[COUNT_REGISTER_OFFSET] = PreviousTaskFile.InputRegister.Count;
+    AtaPassThrough.PreviousTaskFile[LBA_LOW_REGISTER_OFFSET] = PreviousTaskFile.InputRegister.LbaLow;
+    AtaPassThrough.PreviousTaskFile[LBA_MID_REGISTER_OFFSET] = PreviousTaskFile.InputRegister.LbaMid;
+    AtaPassThrough.PreviousTaskFile[LBA_HIGH_REGISTER_OFFSET] = PreviousTaskFile.InputRegister.LbaHigh;
+    AtaPassThrough.PreviousTaskFile[DEVICE_REGISTER_OFFSET] = PreviousTaskFile.InputRegister.Device;
+    AtaPassThrough.PreviousTaskFile[COMMAND_REGISTER_OFFSET] = PreviousTaskFile.InputRegister.Command;
+    AtaPassThrough.PreviousTaskFile[RESERVED_REGISTER_OFFSET] = PreviousTaskFile.InputRegister.Reserved;
+
+    AtaPassThrough.CurrentTaskFile[FEATURE_REGISTER_OFFSET] = CurrentTaskFile.InputRegister.Feature;
+    AtaPassThrough.CurrentTaskFile[COUNT_REGISTER_OFFSET] = CurrentTaskFile.InputRegister.Count;
+    AtaPassThrough.CurrentTaskFile[LBA_LOW_REGISTER_OFFSET] = CurrentTaskFile.InputRegister.LbaLow;
+    AtaPassThrough.CurrentTaskFile[LBA_MID_REGISTER_OFFSET] = CurrentTaskFile.InputRegister.LbaMid;
+    AtaPassThrough.CurrentTaskFile[LBA_HIGH_REGISTER_OFFSET] = CurrentTaskFile.InputRegister.LbaHigh;
+    AtaPassThrough.CurrentTaskFile[DEVICE_REGISTER_OFFSET] = CurrentTaskFile.InputRegister.Device;
+    AtaPassThrough.CurrentTaskFile[COMMAND_REGISTER_OFFSET] = CurrentTaskFile.InputRegister.Command;
+    AtaPassThrough.CurrentTaskFile[RESERVED_REGISTER_OFFSET] = CurrentTaskFile.InputRegister.Reserved;
+}
+
 eErrorCode IssuePassThroughDirectCommand( HANDLE Handle, ATA_PASS_THROUGH_DIRECT& AtaPassThrough, U32& BytesReturned )
 {
     assert( INVALID_HANDLE_VALUE != Handle );
@@ -97,6 +137,7 @@ eErrorCode IssuePassThroughDirectCommand( HANDLE Handle, ATA_PASS_THROUGH_DIRECT
     error = eErrorCode::None;
 
     BOOL commandSuccessfulFlag;
+    DWORD bytesReturned;
     commandSuccessfulFlag = DeviceIoControl
         (
         Handle,
@@ -105,7 +146,7 @@ eErrorCode IssuePassThroughDirectCommand( HANDLE Handle, ATA_PASS_THROUGH_DIRECT
         AtaPassThrough.Length,
         &AtaPassThrough,
         AtaPassThrough.Length,
-        &BytesReturned,
+        &bytesReturned,
         NULL
         );
 
@@ -117,6 +158,8 @@ eErrorCode IssuePassThroughDirectCommand( HANDLE Handle, ATA_PASS_THROUGH_DIRECT
         //TODO: report extended error
         //fprintf( stderr, "\nDeviceIoControl was not successful. Error Code: %d", GetLastError() );
     }
+
+    BytesReturned = bytesReturned;
 
     return( error );
 }

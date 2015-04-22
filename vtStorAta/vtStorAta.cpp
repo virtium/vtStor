@@ -22,6 +22,9 @@ namespace vtStor
 
 const U32 cAta::SECTOR_SIZE_IN_BYTES = 512;
 
+const U8  cAta::DEVICE_REGISTER_DEFAULT         = 0xE0;
+const U8  cAta::DEVICE_REGISTER_CHSMODE_DEFAULT = 0xA0;
+
 U32 cAta::s_DefaultCommandHandlerCommandType = 0;
 
 }

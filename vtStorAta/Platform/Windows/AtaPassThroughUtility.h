@@ -32,13 +32,33 @@ namespace vtStor
 namespace AtaPassThroughUtility
 {
 
-eErrorCode IssueCommand( const cAta::sCommandCharacteristic CommandCharacteristics, std::shared_ptr<cBufferInterface> DataBuffer );
+eErrorCode IssueCommand( 
+    HANDLE Handle,
+    const cAta::sCommandCharacteristic CommandCharacteristics, 
+    const cAta::uTaskFileRegister& PreviousTaskFile,
+    const cAta::uTaskFileRegister& CurrentTaskFile,
+    std::shared_ptr<cBufferInterface> DataBuffer
+    );
 
-void InitializePassThroughDirect( ATA_PASS_THROUGH_DIRECT& AtaPassThrough, const cAta::sCommandCharacteristic CommandCharacteristics, std::shared_ptr<cBufferInterface> DataBuffer, U32 TimeoutValueInSeconds );
+//--    Private functions
+void InitializePassThroughDirect(
+    ATA_PASS_THROUGH_DIRECT& AtaPassThrough,
+    const cAta::sCommandCharacteristic& CommandCharacteristics,
+    const cAta::uTaskFileRegister& PreviousTaskFile,
+    const cAta::uTaskFileRegister& CurrentTaskFile,
+    std::shared_ptr<cBufferInterface> DataBuffer,
+    U32 TimeoutValueInSeconds
+    );
 
 //! Initialize the ATA flags in the ATA_PASS_THROUGH_DIRECT structure
 //!
 void InitializeFlags(ATA_PASS_THROUGH_DIRECT& AtaPassThrough, const cAta::sCommandCharacteristic& AtaCommandCharacteristic);
+
+//! Initialize the iCurrentTaskFile. and the PreviousTaskFile in the ATA_PASS_THROUGH_DIRECT structure
+//!
+void InitializeTaskFileInputRegisters( ATA_PASS_THROUGH_DIRECT& AtaPassThrough, const cAta::uTaskFileRegister& PreviousTaskFile, const cAta::uTaskFileRegister& CurrentTaskFile );
+
+eErrorCode IssuePassThroughDirectCommand( HANDLE Handle, ATA_PASS_THROUGH_DIRECT& AtaPassThrough, U32& BytesReturned );
 
 }
 }
