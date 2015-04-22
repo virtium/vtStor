@@ -28,6 +28,9 @@ namespace vtStor
 class VT_STOR_ATA_API cAta
 {
 public:
+    static const U32 SECTOR_SIZE_IN_BYTES;
+
+public:
     struct sCommandInputFields
     {
         U16  Feature;
@@ -78,7 +81,7 @@ public:
         PIO_PROTOCOL
     };
 
-    enum eMultipleCommandFlag
+    enum eMultipleMode
     {
         MULTIPLE_COMMAND,
         NOT_MULTIPLE_COMMAND
@@ -90,7 +93,7 @@ public:
         eDataAccess          DataAccess;
         eFieldFormatting     FieldFormatting;
         eTransferMode        TransferMode;
-        eMultipleCommandFlag MultipleCommandFlag;
+        eMultipleMode        MultipleMode;
         U32                  DataTransferLengthInBytes;
     };
 

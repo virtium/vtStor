@@ -54,7 +54,7 @@ void InitializeFlags(ATA_PASS_THROUGH_DIRECT& AtaPassThrough, const cAta::sComma
         AtaPassThrough.AtaFlags |= ATA_FLAGS_USE_DMA;
     }
 
-    if (cAta::eMultipleCommandFlag::NOT_MULTIPLE_COMMAND == AtaCommandCharacteristic.MultipleCommandFlag)
+    if (cAta::eMultipleMode::NOT_MULTIPLE_COMMAND == AtaCommandCharacteristic.MultipleMode)
     {
         AtaPassThrough.AtaFlags |= ATA_FLAGS_NO_MULTIPLE;
     }

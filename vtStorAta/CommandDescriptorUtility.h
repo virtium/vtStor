@@ -37,14 +37,21 @@ const U32 COMMAND_DESCRIPTOR_RESERVED0_SIZE_IN_BYTES    = 2;
 class VT_STOR_ATA_API cCommandDescriptorVersion1
 {
 public:
+    static const U32 SIZE_IN_BYTES;
+
+public:
     cCommandDescriptorVersion1( std::shared_ptr<cBufferInterface> CommandDescriptor );
 
 public:
     U16 GetVersion() const;
-    cAta::uCommandFields& GetCommandFields();
+
+    cAta::uCommandFields&           GetCommandFields();
+    cAta::sCommandCharacteristic&   GetCommandCharacteristics();
 
 private:
-    static const U32 COMMAND_FIELD_OFFSET;
+    static const U32 COMMAND_FIELDS_OFFSET;
+    static const U32 COMMAND_CHARACTERISTICS_OFFSET;
+    
 
 private:
     std::shared_ptr<cBufferInterface> m_CommandDescriptor;

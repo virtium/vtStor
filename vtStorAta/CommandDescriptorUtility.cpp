@@ -22,8 +22,11 @@ namespace vtStor
 namespace Ata
 {
 
-const U32 cCommandDescriptorVersion1::COMMAND_FIELD_OFFSET = COMMAND_DESCRIPTOR_RESERVED0_OFFSET + COMMAND_DESCRIPTOR_RESERVED0_SIZE_IN_BYTES;
+const U32 cCommandDescriptorVersion1::COMMAND_FIELDS_OFFSET             = COMMAND_DESCRIPTOR_RESERVED0_OFFSET + COMMAND_DESCRIPTOR_RESERVED0_SIZE_IN_BYTES;
+const U32 cCommandDescriptorVersion1::COMMAND_CHARACTERISTICS_OFFSET    = cCommandDescriptorVersion1::COMMAND_FIELDS_OFFSET + sizeof( cAta::uCommandFields );
 
+//! IMPORTANT NOTE: this must be updated to use the very last item
+const U32 cCommandDescriptorVersion1::SIZE_IN_BYTES = COMMAND_CHARACTERISTICS_OFFSET + sizeof( cAta::sCommandCharacteristic );
 
 cCommandDescriptorVersion1::cCommandDescriptorVersion1( std::shared_ptr<cBufferInterface> CommandDescriptor ) :
 m_CommandDescriptor( CommandDescriptor )
@@ -48,7 +51,13 @@ U16 cCommandDescriptorVersion1::GetVersion() const
 cAta::uCommandFields& cCommandDescriptorVersion1::GetCommandFields()
 {
     U8* buffer = m_CommandDescriptor->ToDataBuffer();
-    return( (cAta::uCommandFields&)buffer[COMMAND_FIELD_OFFSET] );
+    return( (cAta::uCommandFields&)buffer[COMMAND_FIELDS_OFFSET] );
+}
+
+cAta::sCommandCharacteristic& cCommandDescriptorVersion1::GetCommandCharacteristics()
+{
+    U8* buffer = m_CommandDescriptor->ToDataBuffer();
+    return( (cAta::sCommandCharacteristic&)buffer[COMMAND_CHARACTERISTICS_OFFSET] );
 }
 
 }

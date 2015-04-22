@@ -20,6 +20,8 @@ limitations under the License.
 namespace vtStor
 {
 
+const U32 cAta::SECTOR_SIZE_IN_BYTES = 512;
+
 U32 cAta::s_DefaultCommandHandlerCommandType = 0;
 
 }

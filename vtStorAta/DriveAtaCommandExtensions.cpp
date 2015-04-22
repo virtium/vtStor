@@ -28,14 +28,24 @@ namespace Ata
 
 eErrorCode IssueCommand_IdentifyDevice( std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data )
 {
-    //TODO: populate parameters and call IssueCommand
-    //TODO: allocate size appropriately
-    std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>( 128 );
+    
+    std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>( cCommandDescriptorVersion1::SIZE_IN_BYTES );
     cCommandDescriptorVersion1 commandDescriptorVersion1( commandDescriptor );
 
     cAta::uCommandFields& commandFields = commandDescriptorVersion1.GetCommandFields();
     commandFields.InputFields.Command = ATA_COMMAND_IDENTIFY_DEVICE;
     commandFields.InputFields.Count = 1;
+
+    cAta::sCommandCharacteristic& commandCharacteristics = commandDescriptorVersion1.GetCommandCharacteristics();
+
+    commandCharacteristics.DeviceReadyFlag = cAta::eDeviceReadyFlag::DEVICE_READY_REQUIRED;
+    commandCharacteristics.DataAccess = cAta::eDataAccess::READ_FROM_DEVICE;
+    commandCharacteristics.FieldFormatting = cAta::eFieldFormatting::COMMAND_28_BIT;
+    commandCharacteristics.TransferMode = cAta::eTransferMode::PIO_PROTOCOL;
+    commandCharacteristics.MultipleMode = cAta::eMultipleMode::NOT_MULTIPLE_COMMAND;
+    commandCharacteristics.DataTransferLengthInBytes = cAta::SECTOR_SIZE_IN_BYTES;
+
+    //TODO: populate required information for IssueCommand
 
     Drive->IssueCommand( CommandType, commandDescriptor, Data );
 
