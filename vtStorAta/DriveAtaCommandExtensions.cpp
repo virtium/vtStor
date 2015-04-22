@@ -29,13 +29,13 @@ namespace Ata
 eErrorCode IssueCommand_IdentifyDevice( std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data )
 {
     //TODO: populate parameters and call IssueCommand
-    cAta::uCommandFields commandFields;
-    commandFields.InputFields.Command = ATA_COMMAND_IDENTIFY_DEVICE;
-    commandFields.InputFields.Count = 1;
-
     //TODO: allocate size appropriately
     std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>( 128 );
-    cCommandDescriptorVersion1::InitializeBuffer( commandDescriptor, commandFields );
+    cCommandDescriptorVersion1 commandDescriptorVersion1( commandDescriptor );
+
+    cAta::uCommandFields& commandFields = commandDescriptorVersion1.GetCommandFields();
+    commandFields.InputFields.Command = ATA_COMMAND_IDENTIFY_DEVICE;
+    commandFields.InputFields.Count = 1;
 
     Drive->IssueCommand( CommandType, commandDescriptor, Data );
 

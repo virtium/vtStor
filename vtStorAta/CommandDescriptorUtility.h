@@ -22,6 +22,7 @@ limitations under the License.
 
 #include "BufferInterface.h"
 #include "vtStorAta.h"
+#include "vtStorAtaPlatformDefines.h"
 
 namespace vtStor
 {
@@ -33,18 +34,23 @@ const U32 COMMAND_DESCRIPTOR_VERSION_SIZE_IN_BYTES      = 2;
 const U32 COMMAND_DESCRIPTOR_RESERVED0_OFFSET           = COMMAND_DESCRIPTOR_VERSION_OFFSET + COMMAND_DESCRIPTOR_VERSION_SIZE_IN_BYTES;
 const U32 COMMAND_DESCRIPTOR_RESERVED0_SIZE_IN_BYTES    = 2;
 
-class cCommandDescriptorVersion1
+class VT_STOR_ATA_API cCommandDescriptorVersion1
 {
 public:
-    static void InitializeBuffer( std::shared_ptr<cBufferInterface> CommandDescriptor, const cAta::uCommandFields& CommandFields );
+    cCommandDescriptorVersion1( std::shared_ptr<cBufferInterface> CommandDescriptor );
+
+public:
+    U16 GetVersion() const;
+    cAta::uCommandFields& GetCommandFields();
 
 private:
     static const U32 COMMAND_FIELD_OFFSET;
 
+private:
+    std::shared_ptr<cBufferInterface> m_CommandDescriptor;
 };
 
 }
-
 }
 
 #endif

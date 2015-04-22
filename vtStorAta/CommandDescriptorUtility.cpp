@@ -24,24 +24,31 @@ namespace Ata
 
 const U32 cCommandDescriptorVersion1::COMMAND_FIELD_OFFSET = COMMAND_DESCRIPTOR_RESERVED0_OFFSET + COMMAND_DESCRIPTOR_RESERVED0_SIZE_IN_BYTES;
 
-void cCommandDescriptorVersion1::InitializeBuffer( std::shared_ptr<cBufferInterface> CommandDescriptor, const cAta::uCommandFields& CommandFields )
+
+cCommandDescriptorVersion1::cCommandDescriptorVersion1( std::shared_ptr<cBufferInterface> CommandDescriptor ) :
+m_CommandDescriptor( CommandDescriptor )
 {
     U8* commandDescriptorBuffer = CommandDescriptor->ToDataBuffer();
 
     const U32 VERSION = 1;
-    commandDescriptorBuffer[COMMAND_DESCRIPTOR_VERSION_OFFSET]      = (VERSION >> 8) & 0xff;
-    commandDescriptorBuffer[COMMAND_DESCRIPTOR_VERSION_OFFSET + 1]  = (VERSION)& 0xff;
+    commandDescriptorBuffer[COMMAND_DESCRIPTOR_VERSION_OFFSET] = (VERSION >> 8) & 0xff;
+    commandDescriptorBuffer[COMMAND_DESCRIPTOR_VERSION_OFFSET + 1] = (VERSION)& 0xff;
 
-    commandDescriptorBuffer[COMMAND_DESCRIPTOR_RESERVED0_OFFSET]     = 0;
+    commandDescriptorBuffer[COMMAND_DESCRIPTOR_RESERVED0_OFFSET] = 0;
     commandDescriptorBuffer[COMMAND_DESCRIPTOR_RESERVED0_OFFSET + 1] = 0;
+}
 
-    cAta::uCommandFields* commandFields = (cAta::uCommandFields*)(&commandDescriptorBuffer[COMMAND_FIELD_OFFSET]);
-    commandFields->InputFields.Command = CommandFields.InputFields.Command;
-    commandFields->InputFields.CHSMode = CommandFields.InputFields.CHSMode;
-    commandFields->InputFields.Count = CommandFields.InputFields.Count;
-    commandFields->InputFields.Device = CommandFields.InputFields.Device;
-    commandFields->InputFields.Feature = CommandFields.InputFields.Feature;
-    commandFields->InputFields.LBA = CommandFields.InputFields.LBA;
+U16 cCommandDescriptorVersion1::GetVersion() const
+{
+    U8* commandDescriptorBuffer = m_CommandDescriptor->ToDataBuffer();
+    U16 version = (commandDescriptorBuffer[COMMAND_DESCRIPTOR_VERSION_OFFSET] << 8) | (commandDescriptorBuffer[COMMAND_DESCRIPTOR_VERSION_OFFSET + 1]);
+    return( version );
+}
+
+cAta::uCommandFields& cCommandDescriptorVersion1::GetCommandFields()
+{
+    U8* buffer = m_CommandDescriptor->ToDataBuffer();
+    return( (cAta::uCommandFields&)buffer[COMMAND_FIELD_OFFSET] );
 }
 
 }

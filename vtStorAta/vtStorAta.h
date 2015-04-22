@@ -32,17 +32,17 @@ public:
     {
         U16  Feature;
         U32  Count;
-        U64  LBA;
+        U64  Lba;
         U8   Device;
         U8   Command;
-        bool CHSMode;
+        bool ChsMode;
     };
 
     struct sCommandOutputFields
     {
         U16 Error;
         U32 Count;
-        U64 LBA;
+        U64 Lba;
         U8  Device;
         U8  Status;
     };
