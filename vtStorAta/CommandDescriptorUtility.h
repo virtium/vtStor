@@ -41,12 +41,15 @@ public:
 
 public:
     cCommandDescriptorVersion1( std::shared_ptr<cBufferInterface> CommandDescriptor );
+    cCommandDescriptorVersion1( std::shared_ptr<const cBufferInterface> CommandDescriptor );
 
 public:
     U16 GetVersion() const;
 
-    cAta::uCommandFields&           GetCommandFields();
-    cAta::sCommandCharacteristic&   GetCommandCharacteristics();
+    cAta::uCommandFields&               GetCommandFields();
+    const cAta::uCommandFields&         GetCommandFields() const;
+    cAta::sCommandCharacteristic&       GetCommandCharacteristics();
+    const cAta::sCommandCharacteristic& GetCommandCharacteristics() const;
 
 private:
     static const U32 COMMAND_FIELDS_OFFSET;
@@ -55,6 +58,7 @@ private:
 
 private:
     std::shared_ptr<cBufferInterface> m_CommandDescriptor;
+    std::shared_ptr<const cBufferInterface> m_ConstantCommandDescriptor;
 };
 
 }

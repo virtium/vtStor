@@ -18,15 +18,23 @@ limitations under the License.
 #ifndef __AtaPassThroughUtility_h__
 #define __AtaPassThroughUtility_h__
 
+#include <memory>
+
 #include <Windows.h>
 #include <Ntddscsi.h>
 
+#include "ErrorCodes.h"
+#include "BufferInterface.h"
 #include "vtStorAta.h"
 
 namespace vtStor
 {
 namespace AtaPassThroughUtility
 {
+
+eErrorCode IssueCommand( const cAta::sCommandCharacteristic CommandCharacteristics, std::shared_ptr<cBufferInterface> DataBuffer );
+
+void InitializePassThroughDirect( ATA_PASS_THROUGH_DIRECT& AtaPassThrough, const cAta::sCommandCharacteristic CommandCharacteristics, std::shared_ptr<cBufferInterface> DataBuffer, U32 TimeoutValueInSeconds );
 
 //! Initialize the ATA flags in the ATA_PASS_THROUGH_DIRECT structure
 //!

@@ -41,6 +41,12 @@ m_CommandDescriptor( CommandDescriptor )
     commandDescriptorBuffer[COMMAND_DESCRIPTOR_RESERVED0_OFFSET + 1] = 0;
 }
 
+cCommandDescriptorVersion1::cCommandDescriptorVersion1( std::shared_ptr<const cBufferInterface> CommandDescriptor ) :
+m_ConstantCommandDescriptor( CommandDescriptor )
+{
+    
+}
+
 U16 cCommandDescriptorVersion1::GetVersion() const
 {
     U8* commandDescriptorBuffer = m_CommandDescriptor->ToDataBuffer();
@@ -54,10 +60,22 @@ cAta::uCommandFields& cCommandDescriptorVersion1::GetCommandFields()
     return( (cAta::uCommandFields&)buffer[COMMAND_FIELDS_OFFSET] );
 }
 
+const cAta::uCommandFields& cCommandDescriptorVersion1::GetCommandFields() const
+{
+    const U8* buffer = m_CommandDescriptor->ToDataBuffer();
+    return((cAta::uCommandFields&)buffer[COMMAND_FIELDS_OFFSET]);
+}
+
 cAta::sCommandCharacteristic& cCommandDescriptorVersion1::GetCommandCharacteristics()
 {
     U8* buffer = m_CommandDescriptor->ToDataBuffer();
     return( (cAta::sCommandCharacteristic&)buffer[COMMAND_CHARACTERISTICS_OFFSET] );
+}
+
+const cAta::sCommandCharacteristic& cCommandDescriptorVersion1::GetCommandCharacteristics() const
+{
+    const U8* buffer = m_CommandDescriptor->ToDataBuffer();
+    return((cAta::sCommandCharacteristic&)buffer[COMMAND_CHARACTERISTICS_OFFSET]);
 }
 
 }

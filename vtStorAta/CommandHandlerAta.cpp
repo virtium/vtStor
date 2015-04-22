@@ -15,6 +15,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
+#include "vtStorAta.h"
+#include "CommandDescriptorUtility.h"
+#include "AtaPassThroughUtility.h"
+
 #include "CommandHandlerAta.h"
 
 namespace vtStor
@@ -33,7 +37,10 @@ eErrorCode cCommandHandlerAta::IssueCommand( std::shared_ptr<const cBufferInterf
 {
     eErrorCode errorCode = eErrorCode::None;
 
-    //TODO: process issue command for Ata
+    Ata::cCommandDescriptorVersion1 commandDescriptorVersion1( CommandDescriptor );
+    cAta::sCommandCharacteristic& commandCharacteristics = commandDescriptorVersion1.GetCommandCharacteristics();
+
+    AtaPassThroughUtility::IssueCommand( commandCharacteristics, Data );
 
     return(errorCode);
 }
