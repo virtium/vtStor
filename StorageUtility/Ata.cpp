@@ -15,11 +15,21 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
-#include "vtStorAta.h"
+
+#include "Ata.h"
 
 namespace vtStor
 {
+namespace StorageUtility
+{
+namespace Ata
+{
 
-U32 cAta::s_DefaultCommandHandlerCommandType = 0;
+const U32 SECTOR_SIZE_IN_BYTES = 512;
 
+const U8  DEVICE_REGISTER_DEFAULT = 0xE0;
+const U8  DEVICE_REGISTER_CHSMODE_DEFAULT = 0xA0;
+
+}
+}
 }

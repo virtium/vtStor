@@ -22,60 +22,47 @@ namespace vtStor
 namespace Ata
 {
 
-const U32 cCommandDescriptorVersion1::COMMAND_FIELDS_OFFSET             = COMMAND_DESCRIPTOR_RESERVED0_OFFSET + COMMAND_DESCRIPTOR_RESERVED0_SIZE_IN_BYTES;
-const U32 cCommandDescriptorVersion1::COMMAND_CHARACTERISTICS_OFFSET    = cCommandDescriptorVersion1::COMMAND_FIELDS_OFFSET + sizeof( cAta::uCommandFields );
+const U32 cCommandDescriptor1::COMMAND_FIELDS_OFFSET             = cBufferFormatter::DATA_OFFSET;
+const U32 cCommandDescriptor1::COMMAND_CHARACTERISTICS_OFFSET    = cCommandDescriptor1::COMMAND_FIELDS_OFFSET + sizeof( StorageUtility::Ata::uCommandFields );
 
 //! IMPORTANT NOTE: this must be updated to use the very last item
-const U32 cCommandDescriptorVersion1::SIZE_IN_BYTES = COMMAND_CHARACTERISTICS_OFFSET + sizeof( cAta::sCommandCharacteristic );
+const U32 cCommandDescriptor1::SIZE_IN_BYTES = COMMAND_CHARACTERISTICS_OFFSET + sizeof( StorageUtility::Ata::sCommandCharacteristic );
 
-cCommandDescriptorVersion1::cCommandDescriptorVersion1( std::shared_ptr<cBufferInterface> CommandDescriptor ) :
-m_CommandDescriptor( CommandDescriptor )
+cCommandDescriptor1::cCommandDescriptor1( std::shared_ptr<cBufferInterface> Buffer ) :
+cBufferFormatter( Buffer )
 {
-    U8* commandDescriptorBuffer = CommandDescriptor->ToDataBuffer();
-
-    const U32 VERSION = 1;
-    commandDescriptorBuffer[COMMAND_DESCRIPTOR_VERSION_OFFSET] = (VERSION >> 8) & 0xff;
-    commandDescriptorBuffer[COMMAND_DESCRIPTOR_VERSION_OFFSET + 1] = (VERSION)& 0xff;
-
-    commandDescriptorBuffer[COMMAND_DESCRIPTOR_RESERVED0_OFFSET] = 0;
-    commandDescriptorBuffer[COMMAND_DESCRIPTOR_RESERVED0_OFFSET + 1] = 0;
+    Header& header = GetHeader();
+    header.Format = 1;
 }
 
-cCommandDescriptorVersion1::cCommandDescriptorVersion1( std::shared_ptr<const cBufferInterface> CommandDescriptor ) :
-m_ConstantCommandDescriptor( CommandDescriptor )
+cCommandDescriptor1::cCommandDescriptor1( std::shared_ptr<const cBufferInterface> Buffer ) :
+cBufferFormatter( Buffer )
 {
     
 }
 
-U16 cCommandDescriptorVersion1::GetVersion() const
+StorageUtility::Ata::uCommandFields& cCommandDescriptor1::GetCommandFields()
 {
-    U8* commandDescriptorBuffer = m_CommandDescriptor->ToDataBuffer();
-    U16 version = (commandDescriptorBuffer[COMMAND_DESCRIPTOR_VERSION_OFFSET] << 8) | (commandDescriptorBuffer[COMMAND_DESCRIPTOR_VERSION_OFFSET + 1]);
-    return( version );
+    U8* buffer = m_Buffer->ToDataBuffer();
+    return( (StorageUtility::Ata::uCommandFields&)buffer[COMMAND_FIELDS_OFFSET] );
 }
 
-cAta::uCommandFields& cCommandDescriptorVersion1::GetCommandFields()
+const StorageUtility::Ata::uCommandFields& cCommandDescriptor1::GetCommandFields() const
 {
-    U8* buffer = m_CommandDescriptor->ToDataBuffer();
-    return( (cAta::uCommandFields&)buffer[COMMAND_FIELDS_OFFSET] );
+    const U8* buffer = m_Buffer->ToDataBuffer();
+    return((StorageUtility::Ata::uCommandFields&)buffer[COMMAND_FIELDS_OFFSET]);
 }
 
-const cAta::uCommandFields& cCommandDescriptorVersion1::GetCommandFields() const
+StorageUtility::Ata::sCommandCharacteristic& cCommandDescriptor1::GetCommandCharacteristics()
 {
-    const U8* buffer = m_CommandDescriptor->ToDataBuffer();
-    return((cAta::uCommandFields&)buffer[COMMAND_FIELDS_OFFSET]);
+    U8* buffer = m_Buffer->ToDataBuffer();
+    return( (StorageUtility::Ata::sCommandCharacteristic&)buffer[COMMAND_CHARACTERISTICS_OFFSET] );
 }
 
-cAta::sCommandCharacteristic& cCommandDescriptorVersion1::GetCommandCharacteristics()
+const StorageUtility::Ata::sCommandCharacteristic& cCommandDescriptor1::GetCommandCharacteristics() const
 {
-    U8* buffer = m_CommandDescriptor->ToDataBuffer();
-    return( (cAta::sCommandCharacteristic&)buffer[COMMAND_CHARACTERISTICS_OFFSET] );
-}
-
-const cAta::sCommandCharacteristic& cCommandDescriptorVersion1::GetCommandCharacteristics() const
-{
-    const U8* buffer = m_CommandDescriptor->ToDataBuffer();
-    return((cAta::sCommandCharacteristic&)buffer[COMMAND_CHARACTERISTICS_OFFSET]);
+    const U8* buffer = m_Buffer->ToDataBuffer();
+    return((StorageUtility::Ata::sCommandCharacteristic&)buffer[COMMAND_CHARACTERISTICS_OFFSET]);
 }
 
 }

@@ -15,11 +15,24 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
-#include "vtStorAta.h"
+
+
+#include "ProtocolInterface.h"
 
 namespace vtStor
 {
+namespace Protocol
+{
 
-U32 cAta::s_DefaultCommandHandlerCommandType = 0;
+cProtocolInterface::cProtocolInterface()
+{
 
+}
+
+cProtocolInterface::~cProtocolInterface()
+{
+
+}
+
+}
 }

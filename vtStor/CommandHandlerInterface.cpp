@@ -20,12 +20,13 @@ limitations under the License.
 namespace vtStor
 {
 
-    cCommandHandlerInterface::cCommandHandlerInterface()
-    {
-    }
+cCommandHandlerInterface::cCommandHandlerInterface( std::shared_ptr<Protocol::cProtocolInterface> Protocol ) :
+    m_Protocol( Protocol )
+{
+}
 
-    cCommandHandlerInterface::~cCommandHandlerInterface()
-    {
-    }
+cCommandHandlerInterface::~cCommandHandlerInterface()
+{
+}
 
 }

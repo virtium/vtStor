@@ -15,11 +15,15 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
-#include "vtStorAta.h"
+#ifndef __vtStorProtocolPlatformDefines_h__
+#define __vtStorProtocolPlatformDefines_h__
 
-namespace vtStor
-{
 
-U32 cAta::s_DefaultCommandHandlerCommandType = 0;
 
-}
+#ifdef VT_STOR_PROTOCOL_DLL_EXPORTS
+#define VT_STOR_PROTOCOL_API _declspec( dllexport )
+#else
+#define VT_STOR_PROTOCOL_API _declspec( dllimport )
+#endif
+
+#endif

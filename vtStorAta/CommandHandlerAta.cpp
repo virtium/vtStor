@@ -17,14 +17,18 @@ limitations under the License.
 */
 #include "vtStorAta.h"
 #include "CommandDescriptorUtility.h"
-#include "AtaPassThroughUtility.h"
 
 #include "CommandHandlerAta.h"
+#include "Buffer.h"
+#include "BufferFormatter.h"
+
+#include "vtStorProtocol/AtaProtocolEssense1.h"
 
 namespace vtStor
 {
 
-cCommandHandlerAta::cCommandHandlerAta()
+cCommandHandlerAta::cCommandHandlerAta( std::shared_ptr<Protocol::cProtocolInterface> Protocol ):
+    cCommandHandlerInterface( Protocol )
 {
 }
 
@@ -39,24 +43,26 @@ eErrorCode cCommandHandlerAta::IssueCommand( std::shared_ptr<const cBufferInterf
 
     //TODO: check command descriptor version and use the propriate parsing
 
-    Ata::cCommandDescriptorVersion1 commandDescriptorVersion1( CommandDescriptor );
-    const cAta::uCommandFields& commandFields = commandDescriptorVersion1.GetCommandFields();
-    const cAta::sCommandCharacteristic& commandCharacteristics = commandDescriptorVersion1.GetCommandCharacteristics();
+    Ata::cCommandDescriptor1 commandDescriptor( CommandDescriptor );
+    const StorageUtility::Ata::uCommandFields& commandFields = commandDescriptor.GetCommandFields();
 
-    cAta::uTaskFileRegister taskFile;
-    cAta::uTaskFileRegister taskFileExt;
+    std::shared_ptr<cBufferInterface> buffer = std::make_shared<cBuffer>( cBufferFormatter::HEADER_SIZE_IN_BYTES + vtStor::Protocol::cEssenseAta1::SIZE_IN_BYTES );
+    Protocol::cEssenseAta1 essense( buffer );
+
+    const StorageUtility::Ata::sCommandCharacteristic& commandCharacteristics = essense.GetCommandCharacteristics();
+    StorageUtility::Ata::uTaskFileRegister& taskFile = essense.GetTaskFile();
+    StorageUtility::Ata::uTaskFileRegister& taskFileExt = essense.GetTaskFileExt();
     PrepareTaskFileRegisters( commandCharacteristics, commandFields, taskFile, taskFileExt );
 
-    //TODO: pass in the handle
-    //AtaPassThroughUtility::IssueCommand( Handle, commandCharacteristics, taskFileExt, taskFile, Data );
+    m_Protocol->IssueCommand( buffer, Data );
 
     return(errorCode);
 }
 
-void cCommandHandlerAta::PrepareTaskFileRegisters( const cAta::sCommandCharacteristic& AtaCommandCharacteristics, const cAta::uCommandFields& CommandFields, cAta::uTaskFileRegister& TaskFileRegister, cAta::uTaskFileRegister& TaskFileRegisterExt )
+void cCommandHandlerAta::PrepareTaskFileRegisters( const StorageUtility::Ata::sCommandCharacteristic& AtaCommandCharacteristics, const StorageUtility::Ata::uCommandFields& CommandFields, StorageUtility::Ata::uTaskFileRegister& TaskFileRegister, StorageUtility::Ata::uTaskFileRegister& TaskFileRegisterExt )
 {
     // If 28-bit command:
-    if (cAta::eFieldFormatting::COMMAND_28_BIT == AtaCommandCharacteristics.FieldFormatting)
+    if (StorageUtility::Ata::eFieldFormatting::COMMAND_28_BIT == AtaCommandCharacteristics.FieldFormatting)
     {
         TaskFileRegister.InputRegister.Feature = (U8)CommandFields.InputFields.Feature;
         TaskFileRegister.InputRegister.Count = (U8)CommandFields.InputFields.Count;
@@ -68,7 +74,7 @@ void cCommandHandlerAta::PrepareTaskFileRegisters( const cAta::sCommandCharacter
         TaskFileRegister.InputRegister.Reserved = (U8)0;
 
         // If data access command:
-        if (cAta::eDataAccess::NONE != AtaCommandCharacteristics.DataAccess)
+        if (StorageUtility::Ata::eDataAccess::NONE != AtaCommandCharacteristics.DataAccess)
         {
             // Initialize the last 4 bits of the 28 bit LBA
             U8 last4BitInLBA;
@@ -77,12 +83,12 @@ void cCommandHandlerAta::PrepareTaskFileRegisters( const cAta::sCommandCharacter
             // 0x0E is used instead of 0x40 to be safe and support legacy systems
             if (false == CommandFields.InputFields.ChsMode)
             {
-                TaskFileRegister.InputRegister.Device = (U8)(cAta::DEVICE_REGISTER_DEFAULT | last4BitInLBA);
+                TaskFileRegister.InputRegister.Device = (U8)(StorageUtility::Ata::DEVICE_REGISTER_DEFAULT | last4BitInLBA);
             }
             // Support for CHS mode
             else
             {
-                TaskFileRegister.InputRegister.Device = (U8)(cAta::DEVICE_REGISTER_CHSMODE_DEFAULT | last4BitInLBA);
+                TaskFileRegister.InputRegister.Device = (U8)(StorageUtility::Ata::DEVICE_REGISTER_CHSMODE_DEFAULT | last4BitInLBA);
             }
         }
     }
@@ -108,20 +114,20 @@ void cCommandHandlerAta::PrepareTaskFileRegisters( const cAta::sCommandCharacter
         TaskFileRegisterExt.InputRegister.Reserved = (U8)0;
 
         // If data access command:
-        if (cAta::eDataAccess::NONE != AtaCommandCharacteristics.DataAccess)
+        if (StorageUtility::Ata::eDataAccess::NONE != AtaCommandCharacteristics.DataAccess)
         {
             if (false == CommandFields.InputFields.ChsMode)
             {
                 // 0x0E is used instead of 0x40 to be safe and support legacy systems
-                TaskFileRegister.InputRegister.Device = (U8)(cAta::DEVICE_REGISTER_DEFAULT | CommandFields.InputFields.Device);
-                TaskFileRegisterExt.InputRegister.Device = (U8)(cAta::DEVICE_REGISTER_DEFAULT | CommandFields.InputFields.Device);
+                TaskFileRegister.InputRegister.Device = (U8)(StorageUtility::Ata::DEVICE_REGISTER_DEFAULT | CommandFields.InputFields.Device);
+                TaskFileRegisterExt.InputRegister.Device = (U8)(StorageUtility::Ata::DEVICE_REGISTER_DEFAULT | CommandFields.InputFields.Device);
             }
             // Support for CHS mode
             else
             {
                 U8 last4BitInLBA;
                 last4BitInLBA = (U8)((CommandFields.InputFields.Lba >> 24) & 0x0000000F);
-                TaskFileRegister.InputRegister.Device = (U8)(cAta::DEVICE_REGISTER_CHSMODE_DEFAULT | last4BitInLBA);
+                TaskFileRegister.InputRegister.Device = (U8)(StorageUtility::Ata::DEVICE_REGISTER_CHSMODE_DEFAULT | last4BitInLBA);
             }
         }
     }

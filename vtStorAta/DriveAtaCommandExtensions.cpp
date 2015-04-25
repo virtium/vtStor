@@ -29,21 +29,21 @@ namespace Ata
 eErrorCode IssueCommand_IdentifyDevice( std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data )
 {
     
-    std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>( cCommandDescriptorVersion1::SIZE_IN_BYTES );
-    cCommandDescriptorVersion1 commandDescriptorVersion1( commandDescriptor );
+    std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>( cCommandDescriptor1::SIZE_IN_BYTES );
+    cCommandDescriptor1 commandDescriptorVersion1( commandDescriptor );
 
-    cAta::uCommandFields& commandFields = commandDescriptorVersion1.GetCommandFields();
+    StorageUtility::Ata::uCommandFields& commandFields = commandDescriptorVersion1.GetCommandFields();
     commandFields.InputFields.Command = ATA_COMMAND_IDENTIFY_DEVICE;
     commandFields.InputFields.Count = 1;
 
-    cAta::sCommandCharacteristic& commandCharacteristics = commandDescriptorVersion1.GetCommandCharacteristics();
+    StorageUtility::Ata::sCommandCharacteristic& commandCharacteristics = commandDescriptorVersion1.GetCommandCharacteristics();
 
-    commandCharacteristics.DeviceReadyFlag = cAta::eDeviceReadyFlag::DEVICE_READY_REQUIRED;
-    commandCharacteristics.DataAccess = cAta::eDataAccess::READ_FROM_DEVICE;
-    commandCharacteristics.FieldFormatting = cAta::eFieldFormatting::COMMAND_28_BIT;
-    commandCharacteristics.TransferMode = cAta::eTransferMode::PIO_PROTOCOL;
-    commandCharacteristics.MultipleMode = cAta::eMultipleMode::NOT_MULTIPLE_COMMAND;
-    commandCharacteristics.DataTransferLengthInBytes = cAta::SECTOR_SIZE_IN_BYTES;
+    commandCharacteristics.DeviceReadyFlag = StorageUtility::Ata::eDeviceReadyFlag::DEVICE_READY_REQUIRED;
+    commandCharacteristics.DataAccess = StorageUtility::Ata::eDataAccess::READ_FROM_DEVICE;
+    commandCharacteristics.FieldFormatting = StorageUtility::Ata::eFieldFormatting::COMMAND_28_BIT;
+    commandCharacteristics.TransferMode = StorageUtility::Ata::eTransferMode::PIO_PROTOCOL;
+    commandCharacteristics.MultipleMode = StorageUtility::Ata::eMultipleMode::NOT_MULTIPLE_COMMAND;
+    commandCharacteristics.DataTransferLengthInBytes = StorageUtility::Ata::SECTOR_SIZE_IN_BYTES;
 
     //TODO: populate required information for IssueCommand
 
