@@ -23,6 +23,7 @@ limitations under the License.
 
 #include "ErrorCodes.h"
 #include "DriveInterface.h"
+#include "vtStorAtaPlatformDefines.h"
 
 //! These are like "extension methods"
 
@@ -33,7 +34,7 @@ namespace Ata
 
 const U8 ATA_COMMAND_IDENTIFY_DEVICE = 0xec;
 
-eErrorCode IssueCommand_IdentifyDevice( std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data );
+VT_STOR_ATA_API eErrorCode IssueCommand_IdentifyDevice(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data);
 
 }
 }

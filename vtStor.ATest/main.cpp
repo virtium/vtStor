@@ -20,6 +20,8 @@ limitations under the License.
 #include "DriveEnumeratorAta.h"
 #include "vtStor.h"
 #include "vtStorAta.h"
+#include "Buffer.h"
+#include "DriveAtaCommandExtensions.h"
 
 void main()
 {
@@ -37,5 +39,11 @@ void main()
     std::shared_ptr<vtStor::cDriveEnumeratorInterface> driveEnumeratorAta = std::make_unique<vtStor::cDriveEnumeratorAta>();
     driveManager->RegisterDriveEnumerator(driveEnumeratorAta);
     driveManager->EnumerateDrives( vtStor::cDriveManagerInterface::eScanForHardwareChanges::No );
+
+    vtStor::Vector_Drives drives = driveManager->GetDrives();
+    std::shared_ptr<vtStor::cBufferInterface> dataBuffer = std::make_shared<vtStor::cBuffer>(512);
+    vtStor::Ata::IssueCommand_IdentifyDevice(drives[0], 1, dataBuffer);
+    vtStor::U8* data = dataBuffer->ToDataBuffer();
+
 
 }
