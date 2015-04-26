@@ -15,34 +15,26 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
-#ifndef __vtStorCommandHandlerInterface_h__
-#define __vtStorCommandHandlerInterface_h__
+#ifndef __vtStorBuffer_h__
+#define __vtStorBuffer_h__
 #pragma once
 
-#include <memory>
-
-#include "ErrorCodes.h"
 #include "BufferInterface.h"
-#include "ProtocolInterface.h"
-#include "vtStorPlatformDefines.h"
 
 namespace vtStor
 {
 
-VTSTOR_API_EXPORT_IMPL template class VTSTOR_API std::shared_ptr<Protocol::cProtocolInterface>;
-
-class VTSTOR_API cCommandHandlerInterface
+class VTSTOR_API cBuffer : public cBufferInterface
 {
 public:
-    cCommandHandlerInterface( std::shared_ptr<Protocol::cProtocolInterface> Protocol );
-    virtual ~cCommandHandlerInterface();
+    cBuffer( U32 SizeInBytes );
+    virtual ~cBuffer();
 
 public:
-    virtual eErrorCode IssueCommand( std::shared_ptr<const cBufferInterface> CommandDescriptor, std::shared_ptr<cBufferInterface> Data ) = 0;
+    virtual U8* ToDataBuffer();
 
 protected:
-    std::shared_ptr<Protocol::cProtocolInterface>   m_Protocol;
-
+    U8* m_Memory;
 };
 
 }

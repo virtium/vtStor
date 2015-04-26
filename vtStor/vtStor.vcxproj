@@ -154,6 +154,8 @@
     <ClInclude Include="..\Common\ErrorCodes.h" />
     <ClInclude Include="..\Common\Platform\x86x64\BasicTypes.h" />
     <ClInclude Include="..\Common\Platform\x86x64\Windows\PlatformDefines.h" />
+    <ClInclude Include="Buffer.h" />
+    <ClInclude Include="BufferFormatter.h" />
     <ClInclude Include="BufferInterface.h" />
     <ClInclude Include="CommandHandlerInterface.h" />
     <ClInclude Include="Drive.h" />
@@ -162,9 +164,12 @@
     <ClInclude Include="DriveManager.h" />
     <ClInclude Include="DriveManagerInterface.h" />
     <ClInclude Include="Platform\Windows\vtStorPlatformDefines.h" />
+    <ClInclude Include="ProtocolInterface.h" />
     <ClInclude Include="vtStor.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Buffer.cpp" />
+    <ClCompile Include="BufferFormatter.cpp" />
     <ClCompile Include="BufferInterface.cpp" />
     <ClCompile Include="CommandHandlerInterface.cpp" />
     <ClCompile Include="Drive.cpp" />
@@ -172,6 +177,7 @@
     <ClCompile Include="DriveInterface.cpp" />
     <ClCompile Include="DriveManager.cpp" />
     <ClCompile Include="DriveManagerInterface.cpp" />
+    <ClCompile Include="ProtocolInterface.cpp" />
     <ClCompile Include="vtStor.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

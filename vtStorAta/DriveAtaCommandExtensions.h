@@ -31,7 +31,9 @@ namespace vtStor
 namespace Ata
 {
 
-eErrorCode IssueCommand_IdentifyDevice( std::shared_ptr<cDriveInterface> Drive, std::shared_ptr<cBufferInterface> Data );
+const U8 ATA_COMMAND_IDENTIFY_DEVICE = 0xec;
+
+eErrorCode IssueCommand_IdentifyDevice( std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data );
 
 }
 }

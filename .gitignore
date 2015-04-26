@@ -42,3 +42,7 @@ x64/
 *.suo
 vtStorAta.UTest/x64Debug/
 vtStor.Test/vtStor.Test.vcxproj.user
+vtStorAta/Win32Debug/
+vtStor.Test/x64Release/Intermediate/vtStor.Test.vcxprojResolveAssemblyReference.cache
+vtStorAta/x64Debug/
+vtStor.Test/x64Debug/

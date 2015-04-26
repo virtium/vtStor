@@ -15,18 +15,24 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
-#include "CommandHandlerInterface.h"
+
+
+#include "ProtocolInterface.h"
 
 namespace vtStor
 {
-
-cCommandHandlerInterface::cCommandHandlerInterface( std::shared_ptr<Protocol::cProtocolInterface> Protocol ) :
-    m_Protocol( Protocol )
+namespace Protocol
 {
+
+cProtocolInterface::cProtocolInterface()
+{
+
 }
 
-cCommandHandlerInterface::~cCommandHandlerInterface()
+cProtocolInterface::~cProtocolInterface()
 {
+
 }
 
+}
 }

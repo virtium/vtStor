@@ -15,45 +15,24 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DriveEnumeratorAta.cpp">
+    <ClCompile Include="Platform\Windows\ProtocolAtaPassThrough.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CommandHandlerAta.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DriveAta.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="vtStorAta.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DriveAtaCommandExtensions.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CommandDescriptorUtility.cpp">
+    <ClCompile Include="AtaProtocolEssense1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DriveEnumeratorAta.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CommandHandlerAta.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DriveAta.h">
+    <ClInclude Include="Platform\Windows\ProtocolAtaPassThrough.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Platform\Windows\vtStorAtaPlatformDefines.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="vtStorAta.h">
+    <ClInclude Include="AtaProtocolEssense1.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DriveAtaCommandExtensions.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CommandDescriptorUtility.h">
+    <ClInclude Include="Platform\Windows\vtStorProtocolPlatformDefines.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

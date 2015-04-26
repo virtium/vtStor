@@ -8,7 +8,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)DriveAta;$(SolutionDir)DriveAta\Platform\Windows;$(ProjectDir)Platform\Windows\;$(SolutionDir)\StorageUtility\Windows;$(SolutionDir)Common;$(SolutionDir)Common\Platform\x86x64;$(SolutionDir)Common\Platform\x86x64\Windows;$(SolutionDir)vtStor;$(SolutionDir)vtStor\Platform\Windows</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)vtStorProtocol\Platform\Windows;$(SolutionDir);$(ProjectDir);$(ProjectDir)Platform\Windows\;$(SolutionDir)\StorageUtility\Windows;$(SolutionDir)Common;$(SolutionDir)Common\Platform\x86x64;$(SolutionDir)Common\Platform\x86x64\Windows;$(SolutionDir)vtStor;$(SolutionDir)vtStor\Platform\Windows</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>VT_STOR_ATA_DLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>

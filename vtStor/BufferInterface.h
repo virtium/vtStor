@@ -17,17 +17,25 @@ limitations under the License.
 */
 #ifndef __vtStorBufferInterface_h__
 #define __vtStorBufferInterface_h__
-
 #pragma once
+
+#include <memory>
+
+#include "BasicTypes.h"
+#include "vtStorPlatformDefines.h"
 
 namespace vtStor
 {
 
-class cBufferInterface
+class VTSTOR_API cBufferInterface
 {
 public:
     cBufferInterface();
     virtual ~cBufferInterface();
+
+public:
+    //! The use of normal pointer is intentional
+    virtual U8* ToDataBuffer() = 0;
 };
 
 }

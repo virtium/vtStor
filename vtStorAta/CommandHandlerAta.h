@@ -17,8 +17,9 @@ limitations under the License.
 */
 #ifndef __vtStorCommandHandlerAta_h__
 #define __vtStorCommandHandlerAta_h__
-
 #pragma once
+
+#include "StorageUtility/Ata.h"
 #include "CommandHandlerInterface.h"
 #include "vtStorAtaPlatformDefines.h"
 
@@ -28,11 +29,14 @@ namespace vtStor
 class VT_STOR_ATA_API cCommandHandlerAta : public cCommandHandlerInterface
 {
 public:
-    cCommandHandlerAta();
+    cCommandHandlerAta( std::shared_ptr<Protocol::cProtocolInterface> Protocol );
     virtual ~cCommandHandlerAta();
 
 public:
     virtual eErrorCode IssueCommand( std::shared_ptr<const cBufferInterface> CommandDescriptor, std::shared_ptr<cBufferInterface> Data ) override;
+
+private:
+    void cCommandHandlerAta::PrepareTaskFileRegisters( const StorageUtility::Ata::sCommandCharacteristic& AtaCommandCharacteristics, const StorageUtility::Ata::uCommandFields& CommandFields, StorageUtility::Ata::uTaskFileRegister& TaskFileRegister, StorageUtility::Ata::uTaskFileRegister& TaskFileRegisterExt );
 
 };
 

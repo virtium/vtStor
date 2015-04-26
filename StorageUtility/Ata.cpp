@@ -15,18 +15,21 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
-#include "CommandHandlerInterface.h"
+
+#include "Ata.h"
 
 namespace vtStor
 {
-
-cCommandHandlerInterface::cCommandHandlerInterface( std::shared_ptr<Protocol::cProtocolInterface> Protocol ) :
-    m_Protocol( Protocol )
+namespace StorageUtility
 {
-}
-
-cCommandHandlerInterface::~cCommandHandlerInterface()
+namespace Ata
 {
-}
 
+const U32 SECTOR_SIZE_IN_BYTES = 512;
+
+const U8  DEVICE_REGISTER_DEFAULT = 0xE0;
+const U8  DEVICE_REGISTER_CHSMODE_DEFAULT = 0xA0;
+
+}
+}
 }

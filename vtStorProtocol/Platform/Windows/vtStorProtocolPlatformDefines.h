@@ -15,18 +15,15 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
-#include "CommandHandlerInterface.h"
+#ifndef __vtStorProtocolPlatformDefines_h__
+#define __vtStorProtocolPlatformDefines_h__
 
-namespace vtStor
-{
 
-cCommandHandlerInterface::cCommandHandlerInterface( std::shared_ptr<Protocol::cProtocolInterface> Protocol ) :
-    m_Protocol( Protocol )
-{
-}
 
-cCommandHandlerInterface::~cCommandHandlerInterface()
-{
-}
+#ifdef VT_STOR_PROTOCOL_DLL_EXPORTS
+#define VT_STOR_PROTOCOL_API _declspec( dllexport )
+#else
+#define VT_STOR_PROTOCOL_API _declspec( dllimport )
+#endif
 
-}
+#endif

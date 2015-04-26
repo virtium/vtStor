@@ -19,9 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Ata.cpp" />
     <ClCompile Include="Windows\StorageUtility.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Ata.h" />
     <ClInclude Include="Windows\StorageUtility.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

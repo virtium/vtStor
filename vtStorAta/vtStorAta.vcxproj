@@ -148,6 +148,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CommandDescriptorUtility.cpp" />
     <ClCompile Include="CommandHandlerAta.cpp" />
     <ClCompile Include="DriveAta.cpp" />
     <ClCompile Include="DriveAtaCommandExtensions.cpp" />
@@ -155,6 +156,7 @@
     <ClCompile Include="vtStorAta.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CommandDescriptorUtility.h" />
     <ClInclude Include="CommandHandlerAta.h" />
     <ClInclude Include="DriveAta.h" />
     <ClInclude Include="DriveAtaCommandExtensions.h" />
@@ -165,6 +167,9 @@
   <ItemGroup>
     <ProjectReference Include="..\StorageUtility\StorageUtility.vcxproj">
       <Project>{0da52eb3-5f61-4919-8b1a-0dc1b50b619f}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\vtStorProtocol\vtStorProtocol.vcxproj">
+      <Project>{840f9dbc-342a-4e8a-875b-1378f43e5d9f}</Project>
     </ProjectReference>
     <ProjectReference Include="..\vtStor\vtStor.vcxproj">
       <Project>{2595ae3d-ff40-47c4-b050-55d450843934}</Project>

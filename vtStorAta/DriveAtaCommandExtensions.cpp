@@ -15,6 +15,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
+#include "vtStorAta.h"
+#include "Buffer.h"
+#include "CommandDescriptorUtility.h"
+
 #include "DriveAtaCommandExtensions.h"
 
 namespace vtStor
@@ -22,9 +26,29 @@ namespace vtStor
 namespace Ata
 {
 
-eErrorCode IssueCommand_IdentifyDevice( std::shared_ptr<cDriveInterface> Drive, std::shared_ptr<cBufferInterface> Data )
+eErrorCode IssueCommand_IdentifyDevice( std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data )
 {
-    //TODO: populate parameters and call IssueCommand
+    
+    std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>( cCommandDescriptor1::SIZE_IN_BYTES );
+    cCommandDescriptor1 commandDescriptorVersion1( commandDescriptor );
+
+    StorageUtility::Ata::uCommandFields& commandFields = commandDescriptorVersion1.GetCommandFields();
+    commandFields.InputFields.Command = ATA_COMMAND_IDENTIFY_DEVICE;
+    commandFields.InputFields.Count = 1;
+
+    StorageUtility::Ata::sCommandCharacteristic& commandCharacteristics = commandDescriptorVersion1.GetCommandCharacteristics();
+
+    commandCharacteristics.DeviceReadyFlag = StorageUtility::Ata::eDeviceReadyFlag::DEVICE_READY_REQUIRED;
+    commandCharacteristics.DataAccess = StorageUtility::Ata::eDataAccess::READ_FROM_DEVICE;
+    commandCharacteristics.FieldFormatting = StorageUtility::Ata::eFieldFormatting::COMMAND_28_BIT;
+    commandCharacteristics.TransferMode = StorageUtility::Ata::eTransferMode::PIO_PROTOCOL;
+    commandCharacteristics.MultipleMode = StorageUtility::Ata::eMultipleMode::NOT_MULTIPLE_COMMAND;
+    commandCharacteristics.DataTransferLengthInBytes = StorageUtility::Ata::SECTOR_SIZE_IN_BYTES;
+
+    //TODO: populate required information for IssueCommand
+
+    Drive->IssueCommand( CommandType, commandDescriptor, Data );
+
     return( eErrorCode::None );
 }
 

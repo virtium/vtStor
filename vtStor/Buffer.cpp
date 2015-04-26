@@ -15,18 +15,31 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
-#include "CommandHandlerInterface.h"
+#include <assert.h>
+
+#include "Buffer.h"
 
 namespace vtStor
 {
 
-cCommandHandlerInterface::cCommandHandlerInterface( std::shared_ptr<Protocol::cProtocolInterface> Protocol ) :
-    m_Protocol( Protocol )
+cBuffer::cBuffer( U32 SizeInBytes )
 {
+    assert( 0 != SizeInBytes );
+
+    m_Memory = new U8[SizeInBytes];
 }
 
-cCommandHandlerInterface::~cCommandHandlerInterface()
+cBuffer::~cBuffer()
 {
+    if ( nullptr != m_Memory )
+    {
+        delete[] m_Memory;
+    }
+}
+
+U8* cBuffer::ToDataBuffer()
+{
+    return( m_Memory );
 }
 
 }

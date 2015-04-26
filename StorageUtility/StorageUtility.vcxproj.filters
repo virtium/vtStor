@@ -18,9 +18,15 @@
     <ClCompile Include="Windows\StorageUtility.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Ata.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Windows\StorageUtility.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Ata.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
