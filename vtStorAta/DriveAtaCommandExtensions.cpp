@@ -45,8 +45,6 @@ eErrorCode IssueCommand_IdentifyDevice( std::shared_ptr<cDriveInterface> Drive, 
     commandCharacteristics.MultipleMode = StorageUtility::Ata::eMultipleMode::NOT_MULTIPLE_COMMAND;
     commandCharacteristics.DataTransferLengthInBytes = StorageUtility::Ata::SECTOR_SIZE_IN_BYTES;
 
-    //TODO: populate required information for IssueCommand
-
     Drive->IssueCommand( CommandType, commandDescriptor, Data );
 
     return( eErrorCode::None );
