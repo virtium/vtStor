@@ -161,9 +161,6 @@
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
       <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
     </ProjectReference>
-    <ProjectReference Include="..\vtStorProtocol\vtStorProtocol.vcxproj">
-      <Project>{840f9dbc-342a-4e8a-875b-1378f43e5d9f}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\vtStor\vtStor.vcxproj">
       <Project>{2595ae3d-ff40-47c4-b050-55d450843934}</Project>
       <Private>true</Private>
