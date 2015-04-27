@@ -8,6 +8,9 @@
       <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Platform\Windows;$(SolutionDir)vtStor\Platform\Windows;$(SolutionDir)Common\Platform\x86x64\Windows;$(SolutionDir);$(SolutionDir)Common\Platform\x86x64;$(SolutionDir)Common;$(SolutionDir)vtStor</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>VT_STOR_PROTOCOL_DLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
+    <PostBuildEvent>
+      <Command>python $(SolutionDir)PostBuildLibExport.py $(ProjectName) $(Platform)$(Configuration) $(SolutionDir)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup />
 </Project>
