@@ -31,15 +31,15 @@ namespace vtStor
 namespace Ata
 {
 
-const U32 COMMAND_DESCRIPTOR_VERSION_OFFSET             = 0;
-const U32 COMMAND_DESCRIPTOR_VERSION_SIZE_IN_BYTES      = 2;
-const U32 COMMAND_DESCRIPTOR_RESERVED0_OFFSET           = COMMAND_DESCRIPTOR_VERSION_OFFSET + COMMAND_DESCRIPTOR_VERSION_SIZE_IN_BYTES;
-const U32 COMMAND_DESCRIPTOR_RESERVED0_SIZE_IN_BYTES    = 2;
+const size_t COMMAND_DESCRIPTOR_VERSION_OFFSET = 0;
+const size_t COMMAND_DESCRIPTOR_VERSION_SIZE_IN_BYTES = 2;
+const size_t COMMAND_DESCRIPTOR_RESERVED0_OFFSET = COMMAND_DESCRIPTOR_VERSION_OFFSET + COMMAND_DESCRIPTOR_VERSION_SIZE_IN_BYTES;
+const size_t COMMAND_DESCRIPTOR_RESERVED0_SIZE_IN_BYTES = 2;
 
 class VT_STOR_ATA_API cCommandDescriptor1 : public cBufferFormatter
 {
 public:
-    static const U32 SIZE_IN_BYTES;
+    static const size_t SIZE_IN_BYTES;
 
 public:
     cCommandDescriptor1( std::shared_ptr<cBufferInterface> Buffer );
@@ -52,8 +52,8 @@ public:
     const StorageUtility::Ata::sCommandCharacteristic& GetCommandCharacteristics() const;
 
 private:
-    static const U32 COMMAND_FIELDS_OFFSET;
-    static const U32 COMMAND_CHARACTERISTICS_OFFSET;
+    static const size_t COMMAND_FIELDS_OFFSET;
+    static const size_t COMMAND_CHARACTERISTICS_OFFSET;
 };
 
 }

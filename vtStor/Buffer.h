@@ -27,7 +27,7 @@ namespace vtStor
 class VTSTOR_API cBuffer : public cBufferInterface
 {
 public:
-    cBuffer( U32 SizeInBytes );
+    cBuffer( size_t SizeInBytes );
     virtual ~cBuffer();
 
 public:

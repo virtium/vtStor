@@ -22,11 +22,11 @@ namespace vtStor
 namespace Ata
 {
 
-const U32 cCommandDescriptor1::COMMAND_FIELDS_OFFSET             = cBufferFormatter::DATA_OFFSET;
-const U32 cCommandDescriptor1::COMMAND_CHARACTERISTICS_OFFSET    = cCommandDescriptor1::COMMAND_FIELDS_OFFSET + sizeof( StorageUtility::Ata::uCommandFields );
+const size_t cCommandDescriptor1::COMMAND_FIELDS_OFFSET = cBufferFormatter::DATA_OFFSET;
+const size_t cCommandDescriptor1::COMMAND_CHARACTERISTICS_OFFSET = cCommandDescriptor1::COMMAND_FIELDS_OFFSET + sizeof(StorageUtility::Ata::uCommandFields);
 
 //! IMPORTANT NOTE: this must be updated to use the very last item
-const U32 cCommandDescriptor1::SIZE_IN_BYTES = COMMAND_CHARACTERISTICS_OFFSET + sizeof( StorageUtility::Ata::sCommandCharacteristic );
+const size_t cCommandDescriptor1::SIZE_IN_BYTES = COMMAND_CHARACTERISTICS_OFFSET + sizeof(StorageUtility::Ata::sCommandCharacteristic);
 
 cCommandDescriptor1::cCommandDescriptor1( std::shared_ptr<cBufferInterface> Buffer ) :
 cBufferFormatter( Buffer )
