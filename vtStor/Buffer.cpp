@@ -22,7 +22,7 @@ limitations under the License.
 namespace vtStor
 {
 
-cBuffer::cBuffer( U32 SizeInBytes )
+cBuffer::cBuffer( size_t SizeInBytes )
 {
     assert( 0 != SizeInBytes );
 
