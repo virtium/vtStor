@@ -50,5 +50,54 @@ eErrorCode IssueCommand_IdentifyDevice( std::shared_ptr<cDriveInterface> Drive, 
     return( eErrorCode::None );
 }
 
+
+eErrorCode IssueCommand_ReadDma(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data, U32 Lba, U8 Count)
+{
+    std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cCommandDescriptor1::SIZE_IN_BYTES);
+    cCommandDescriptor1 commandDescriptorVersion1(commandDescriptor);
+
+    StorageUtility::Ata::uCommandFields& commandFields = commandDescriptorVersion1.GetCommandFields();
+    commandFields.InputFields.Command = ATA_COMMAND_READ_DMA;
+    commandFields.InputFields.Lba = Lba;
+    commandFields.InputFields.Count = Count;
+    commandFields.InputFields.ChsMode = 0;
+
+    StorageUtility::Ata::sCommandCharacteristic& commandCharacteristics = commandDescriptorVersion1.GetCommandCharacteristics();
+    commandCharacteristics.DeviceReadyFlag = StorageUtility::Ata::eDeviceReadyFlag::DEVICE_READY_REQUIRED;
+    commandCharacteristics.DataAccess = StorageUtility::Ata::eDataAccess::READ_FROM_DEVICE;
+    commandCharacteristics.FieldFormatting = StorageUtility::Ata::eFieldFormatting::COMMAND_28_BIT;
+    commandCharacteristics.TransferMode = StorageUtility::Ata::eTransferMode::DMA_PROTOCOL;
+    commandCharacteristics.MultipleMode = StorageUtility::Ata::eMultipleMode::NOT_MULTIPLE_COMMAND;
+    commandCharacteristics.DataTransferLengthInBytes = Count * StorageUtility::Ata::SECTOR_SIZE_IN_BYTES;
+
+    Drive->IssueCommand(CommandType, commandDescriptor, Data);
+
+    return(eErrorCode::None);
+}
+
+eErrorCode IssueCommand_WriteDma(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data, U32 Lba, U8 Count)
+{
+    std::shared_ptr<cBufferInterface> commmandDescriptor = std::make_shared<cBuffer>(cCommandDescriptor1::SIZE_IN_BYTES);
+    cCommandDescriptor1 commandDescriptorVersion1(commmandDescriptor);
+
+    StorageUtility::Ata::uCommandFields& commandFields = commandDescriptorVersion1.GetCommandFields();
+    commandFields.InputFields.Command = ATA_COMMAND_WRITE_DMA;
+    commandFields.InputFields.Lba = Lba;
+    commandFields.InputFields.Count = Count;
+    commandFields.InputFields.ChsMode = 0;
+
+    StorageUtility::Ata::sCommandCharacteristic& commandCharacteristics = commandDescriptorVersion1.GetCommandCharacteristics();
+    commandCharacteristics.DeviceReadyFlag = StorageUtility::Ata::eDeviceReadyFlag::DEVICE_READY_REQUIRED;
+    commandCharacteristics.DataAccess = StorageUtility::Ata::eDataAccess::WRITE_TO_DEVICE;
+    commandCharacteristics.FieldFormatting = StorageUtility::Ata::eFieldFormatting::COMMAND_28_BIT;
+    commandCharacteristics.TransferMode = StorageUtility::Ata::eTransferMode::DMA_PROTOCOL;
+    commandCharacteristics.MultipleMode = StorageUtility::Ata::eMultipleMode::NOT_MULTIPLE_COMMAND;
+    commandCharacteristics.DataTransferLengthInBytes = Count * StorageUtility::Ata::SECTOR_SIZE_IN_BYTES;
+
+    Drive->IssueCommand(CommandType, commmandDescriptor, Data);
+
+    return(eErrorCode::None);
+}
+
 }
 }
