@@ -33,8 +33,12 @@ namespace Ata
 {
 
 const U8 ATA_COMMAND_IDENTIFY_DEVICE = 0xec;
+const U8 ATA_COMMAND_READ_DMA = 0xc8;
+const U8 ATA_COMMAND_WRITE_DMA = 0xca;
 
 VT_STOR_ATA_API eErrorCode IssueCommand_IdentifyDevice(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data);
+VT_STOR_ATA_API eErrorCode IssueCommand_ReadDma(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data, U32 Lba, U8 Count);
+VT_STOR_ATA_API eErrorCode IssueCommand_WriteDma(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data, U32 Lba, U8 Count);
 
 }
 }
