@@ -29,11 +29,14 @@ limitations under the License.
 namespace vtStor
 {
 
-VTSTOR_API_EXPORT_IMPL template class VTSTOR_API std::shared_ptr<Protocol::cProtocolInterface>;
+
+
+class VTSTOR_API cDriveInterface;
 
 class VTSTOR_API cCommandHandlerInterface
 {
 public:
+    cCommandHandlerInterface();
     cCommandHandlerInterface( std::shared_ptr<Protocol::cProtocolInterface> Protocol );
     virtual ~cCommandHandlerInterface();
 

@@ -21,15 +21,11 @@ limitations under the License.
 
 #include <memory>
 
-#include "vtStorPlatformDefines.h"
 #include "BufferInterface.h"
-
+#include "vtStorPlatformDefines.h"
 
 namespace vtStor
 {
-
-    VTSTOR_API_EXPORT_IMPL template class VTSTOR_API std::shared_ptr<cBufferInterface>;
-
     class VTSTOR_API cBufferFormatter
     {
     public:
@@ -51,7 +47,7 @@ namespace vtStor
     protected:
         static const size_t HEADER_OFFSET;
         static const size_t DATA_OFFSET;
-
+    
     protected:
         std::shared_ptr<cBufferInterface> m_Buffer;
     };

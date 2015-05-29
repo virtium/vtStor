@@ -17,7 +17,7 @@ limitations under the License.
 */
 #ifndef __vtStorBufferInterface_h__
 #define __vtStorBufferInterface_h__
-#pragma once
+//#pragma once
 
 #include <memory>
 
@@ -26,9 +26,10 @@ limitations under the License.
 
 namespace vtStor
 {
-
+    
 class VTSTOR_API cBufferInterface
 {
+    
 public:
     cBufferInterface();
     virtual ~cBufferInterface();
@@ -36,7 +37,11 @@ public:
 public:
     //! The use of normal pointer is intentional
     virtual U8* ToDataBuffer() = 0;
+    virtual void SetByteAt(U32 Index, U8 Value) = 0;
 };
+
+VTSTOR_API_EXPORT_IMPL template class VTSTOR_API std::shared_ptr<cBufferInterface>;
+VTSTOR_API_EXPORT_IMPL template class VTSTOR_API std::shared_ptr<const cBufferInterface>;
 
 }
 
