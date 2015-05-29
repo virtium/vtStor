@@ -32,6 +32,7 @@ public:
 
 public:
     virtual U8* ToDataBuffer();
+    virtual void SetByteAt(U32 Index, U8 Value);
 
 protected:
     U8* m_Memory;

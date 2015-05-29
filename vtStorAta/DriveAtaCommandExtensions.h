@@ -35,10 +35,20 @@ namespace Ata
 const U8 ATA_COMMAND_IDENTIFY_DEVICE = 0xec;
 const U8 ATA_COMMAND_READ_DMA = 0xc8;
 const U8 ATA_COMMAND_WRITE_DMA = 0xca;
+const U8 ATA_COMMAND_READ_BUFFER = 0xe4;
+const U8 ATA_COMMAND_WRITE_BUFFER = 0xe8;
+const U8 ATA_COMMAND_SMART = 0xb0;
+const U8 ATA_COMMAND_DOWNLOADMICROCODE = 0x92;
+const U8 ATA_COMMAND_DOWNLOADMICROCODE_DMA = 0x93;
 
 VT_STOR_ATA_API eErrorCode IssueCommand_IdentifyDevice(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data);
 VT_STOR_ATA_API eErrorCode IssueCommand_ReadDma(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data, U32 Lba, U8 Count);
 VT_STOR_ATA_API eErrorCode IssueCommand_WriteDma(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data, U32 Lba, U8 Count);
+VT_STOR_ATA_API eErrorCode IssueCommand_ReadBuffer(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data);
+VT_STOR_ATA_API eErrorCode IssueCommand_WriteBuffer(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data);
+VT_STOR_ATA_API eErrorCode IssueCommand_Smart(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data, U8 SubCommand);
+VT_STOR_ATA_API eErrorCode IssueCommand_DownloadMicrocode(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data, U8 SubCommand, U16 BlockCount, U16 BufferOffset);
+VT_STOR_ATA_API eErrorCode IssueCommand_DownloadMicrocodeDma(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data, U8 SubCommand, U16 BlockCount, U16 BufferOffset);
 
 }
 }
