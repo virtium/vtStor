@@ -17,7 +17,6 @@ limitations under the License.
 */
 #ifndef __vtStorBufferInterface_h__
 #define __vtStorBufferInterface_h__
-//#pragma once
 
 #include <memory>
 
