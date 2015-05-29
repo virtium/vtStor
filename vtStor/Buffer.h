@@ -31,8 +31,8 @@ public:
     virtual ~cBuffer();
 
 public:
-    virtual U8* ToDataBuffer();
-    virtual void SetByteAt(U32 Index, U8 Value);
+    virtual U8* ToDataBuffer() override;
+    virtual void SetByteAt(U32 Index, U8 Value) override;
 
 protected:
     U8* m_Memory;
