@@ -36,7 +36,6 @@ class VTSTOR_API cDriveInterface;
 class VTSTOR_API cCommandHandlerInterface
 {
 public:
-    cCommandHandlerInterface();
     cCommandHandlerInterface( std::shared_ptr<Protocol::cProtocolInterface> Protocol );
     virtual ~cCommandHandlerInterface();
 
