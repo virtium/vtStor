@@ -27,6 +27,9 @@ enum eErrorCode
     Unknown,
     Memory,
     Io,
+    Timeout,
+    NoSupport,
+    Invalid,
 };
 
 enum eOnErrorBehavior
