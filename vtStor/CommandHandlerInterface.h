@@ -28,11 +28,7 @@ limitations under the License.
 
 namespace vtStor
 {
-
-
-
-class VTSTOR_API cDriveInterface;
-
+    
 class VTSTOR_API cCommandHandlerInterface
 {
 public:
