@@ -56,7 +56,7 @@ eErrorCode cCommandHandlerAta::IssueCommand( std::shared_ptr<const cBufferInterf
     StorageUtility::Ata::uTaskFileRegister& taskFileExt = essense.GetTaskFileExt();
     PrepareTaskFileRegisters( commandCharacteristics, commandFields, taskFile, taskFileExt );
 
-    m_Protocol->IssueCommand( buffer, Data );
+    errorCode = m_Protocol->IssueCommand( buffer, Data );
 
     return(errorCode);
 }
