@@ -28,7 +28,10 @@ namespace vtStor
     
 class VTSTOR_API cBufferInterface
 {
-    
+public:
+    static std::shared_ptr<vtStor::cBufferInterface> ToSharedPtr( void* Object );
+    static void* ToVoidPointer( std::shared_ptr<vtStor::cBufferInterface>& Object );
+
 public:
     cBufferInterface();
     virtual ~cBufferInterface();

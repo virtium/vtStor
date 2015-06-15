@@ -15,26 +15,35 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
-#ifndef __ErrorCodes_h__
-#define __ErrorCodes_h__
+
+#ifndef __vtStorBufferInterfaceManaged_h__
+#define __vtStorBufferInterfaceManaged_h__
+#pragma once
+
+#include "BufferInterface.h"
+#include "SharedPtrManaged.h"
 
 namespace vtStor
 {
+    namespace Managed
+    {
+        public ref class cBufferInterface
+        {
+        public:
+            cBufferInterface( U32 SizeInByte );
+            ~cBufferInterface();
 
-enum eErrorCode
-{
-    None = 0,
-    Unknown,
-    Memory,
-    Io,
-};
+        protected:
+            !cBufferInterface();
 
-enum eOnErrorBehavior
-{
-    Stop = 0,
-    Continue,
-};
+        public:
+            operator void*();
+            void SetByteAt( U32 Index, U8 value );
 
+        private:
+            cSharedPtr<vtStor::cBufferInterface> m_Buffer;
+        };
+    }
 }
 
-#endif __ErrorCodes_h__
+#endif

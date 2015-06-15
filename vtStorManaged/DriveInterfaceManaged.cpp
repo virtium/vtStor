@@ -15,24 +15,29 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
-#include "DriveInterface.h"
+
+#include "DriveInterfaceManaged.h"
 
 namespace vtStor
 {
+    namespace Managed
+    {
+        cDriveInterface::cDriveInterface( std::shared_ptr<vtStor::cDriveInterface> Drive )
+        {
+            m_Drive = Drive;
+        }
 
-std::shared_ptr<vtStor::cDriveInterface> cDriveInterface::ToSharedPtr( void* Object )
-{
-    return( *reinterpret_cast<std::shared_ptr<vtStor::cDriveInterface>*>( Object ) );
-}
+        cDriveInterface::~cDriveInterface()
+        {
+        }
 
-void* cDriveInterface::ToVoidPointer( std::shared_ptr<vtStor::cDriveInterface>& Object )
-{
-    return( reinterpret_cast<void*>( &(Object) ) );
-}
+        cDriveInterface::!cDriveInterface()
+        {
+        }
 
-cDriveInterface::~cDriveInterface()
-{
-
-}
-
+        cDriveInterface::operator void*()
+        {
+            return( vtStor::cDriveInterface::ToVoidPointer( *m_Drive ) );
+        }
+    }
 }

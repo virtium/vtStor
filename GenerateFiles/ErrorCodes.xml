@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<GenerateFile>
+  <WordPairs>
+    <WordPair Name="None" Value="0x00000000" />
+    <WordPair Name="Unknown" Value="0x00000001" />
+    <WordPair Name="Memory" Value="0x00000002" />
+    <WordPair Name="Io" Value="0x00000003" />
+    <WordPair Name="NullPointer" Value="0x00000004" />
+  </WordPairs>
+</GenerateFile>

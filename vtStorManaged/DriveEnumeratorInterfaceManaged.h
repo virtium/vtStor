@@ -15,24 +15,28 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
-#include "DriveInterface.h"
+
+#ifndef __vtStorDriveEnumeratorInterfaceManaged_h__
+#define __vtStorDriveEnumeratorInterfaceManaged_h__
+#pragma once
 
 namespace vtStor
 {
+    namespace Managed
+    {
+        public ref class cDriveEnumeratorInterface abstract
+        {
+        public:
+            cDriveEnumeratorInterface();
+            virtual ~cDriveEnumeratorInterface();
 
-std::shared_ptr<vtStor::cDriveInterface> cDriveInterface::ToSharedPtr( void* Object )
-{
-    return( *reinterpret_cast<std::shared_ptr<vtStor::cDriveInterface>*>( Object ) );
+        protected:
+            !cDriveEnumeratorInterface();
+
+        public:
+            virtual operator void*() abstract;
+        };
+    }
 }
 
-void* cDriveInterface::ToVoidPointer( std::shared_ptr<vtStor::cDriveInterface>& Object )
-{
-    return( reinterpret_cast<void*>( &(Object) ) );
-}
-
-cDriveInterface::~cDriveInterface()
-{
-
-}
-
-}
+#endif
