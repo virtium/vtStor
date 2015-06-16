@@ -46,3 +46,8 @@ vtStorAta/Win32Debug/
 vtStor.Test/x64Release/Intermediate/vtStor.Test.vcxprojResolveAssemblyReference.cache
 vtStorAta/x64Debug/
 vtStor.Test/x64Debug/
+Common/ErrorCodes.h
+vtStorManaged/ErrorCodesManaged.h
+vtStorManaged.ATest/bin/
+vtStorManaged.ATest/obj/
+vtStorManaged.Test/obj/

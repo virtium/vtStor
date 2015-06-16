@@ -15,24 +15,18 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
-#include "DriveInterface.h"
+
+#include "AtaManaged.h"
+#include "vtStorAta.h"
 
 namespace vtStor
 {
-
-std::shared_ptr<vtStor::cDriveInterface> cDriveInterface::ToSharedPtr( void* Object )
-{
-    return( *reinterpret_cast<std::shared_ptr<vtStor::cDriveInterface>*>( Object ) );
-}
-
-void* cDriveInterface::ToVoidPointer( std::shared_ptr<vtStor::cDriveInterface>& Object )
-{
-    return( reinterpret_cast<void*>( &(Object) ) );
-}
-
-cDriveInterface::~cDriveInterface()
-{
-
-}
+    namespace Managed
+    {
+        void cAta::SetDefaultCommandHandlerCommandType( U32 CommandType )
+        {
+            vtStor::cAta::s_DefaultCommandHandlerCommandType = CommandType;
+        }
+    }
 
 }
