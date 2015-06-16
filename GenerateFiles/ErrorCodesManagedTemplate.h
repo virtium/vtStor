@@ -15,24 +15,26 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
-#include "DriveInterface.h"
+//! =========
+//!  WARNING
+//! =========
+//! This file was automatically generated. Changes to this file may cause
+//! incorrect behavior and will be lost if the code is regenerated.
 
+#ifndef __ErrorCodesManaged_h__
+#define __ErrorCodesManaged_h__
+#pragma once
+<$Prefix></Prefix$>
+<$Suffix>,</Suffix$>
 namespace vtStor
 {
-
-std::shared_ptr<vtStor::cDriveInterface> cDriveInterface::ToSharedPtr( void* Object )
+namespace Managed
 {
-    return( *reinterpret_cast<std::shared_ptr<vtStor::cDriveInterface>*>( Object ) );
+    public enum class eErrorCode
+    {
+        <%Replace%>
+    };
+}
 }
 
-void* cDriveInterface::ToVoidPointer( std::shared_ptr<vtStor::cDriveInterface>& Object )
-{
-    return( reinterpret_cast<void*>( &(Object) ) );
-}
-
-cDriveInterface::~cDriveInterface()
-{
-
-}
-
-}
+#endif

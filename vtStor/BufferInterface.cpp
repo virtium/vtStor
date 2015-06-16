@@ -20,10 +20,19 @@ limitations under the License.
 namespace vtStor
 {
 
+std::shared_ptr<vtStor::cBufferInterface> cBufferInterface::ToSharedPtr( void* Object )
+{
+    return( *reinterpret_cast<std::shared_ptr<vtStor::cBufferInterface>*>( Object ) );
+}
+
+void* cBufferInterface::ToVoidPointer( std::shared_ptr<vtStor::cBufferInterface>& Object )
+{
+    return( reinterpret_cast<void*>( &(Object) ) );
+}
+
 cBufferInterface::cBufferInterface()
 {
 }
-
 
 cBufferInterface::~cBufferInterface()
 {

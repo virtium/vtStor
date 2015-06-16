@@ -15,38 +15,34 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
-#ifndef __DriveManagerInterface_h__
-#define __DriveManagerInterface_h__
+
+#ifndef __vtStorDriveInterfaceManaged_h__
+#define __vtStorDriveInterfaceManaged_h__
+#pragma once
 
 #include "DriveInterface.h"
-#include "DriveEnumeratorInterface.h"
-#include "ErrorCodes.h"
+#include "SharedPtrManaged.h"
 
 namespace vtStor
 {
-
-class cDriveManagerInterface
-{
-public:
-    enum eScanForHardwareChanges
+    namespace Managed
     {
-        No,
-        Yes
-    };
+        public ref class cDriveInterface
+        {
+        public:
+            cDriveInterface( std::shared_ptr<vtStor::cDriveInterface> Drive );
+            ~cDriveInterface();
 
-    virtual void RegisterDriveEnumerator( std::shared_ptr<cDriveEnumeratorInterface> DriveEnumerator ) = 0;
+        protected:
+            !cDriveInterface();
 
-    virtual eErrorCode EnumerateDrives( eScanForHardwareChanges ScanForHardwareChanges ) = 0;
+        public:
+            operator void*();
 
-public:
-    virtual ~cDriveManagerInterface();
-
-public:
-    virtual const Vector_Drives& GetDrives() = 0;
-
-    virtual std::shared_ptr<cDriveInterface> GetDrive(const U32 DriveIndex) = 0;
-};
-
+        private:
+            cSharedPtr<vtStor::cDriveInterface> m_Drive;
+        };
+    }
 }
 
 #endif

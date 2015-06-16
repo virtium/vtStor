@@ -15,24 +15,35 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
-#include "DriveInterface.h"
+
+#ifndef __vtStorLockObjectrManaged_h__
+#define __vtStorLockObjectrManaged_h__
+#pragma once
+
+using namespace System::Threading;
 
 namespace vtStor
 {
+    namespace Managed
+    {
+        ref class cLockObject
+        {
+        public:
+            cLockObject(Object^ Object) : m_Object(Object)
+            {
+                Monitor::Enter(m_Object);
+            }
 
-std::shared_ptr<vtStor::cDriveInterface> cDriveInterface::ToSharedPtr( void* Object )
-{
-    return( *reinterpret_cast<std::shared_ptr<vtStor::cDriveInterface>*>( Object ) );
+        public:
+            ~cLockObject()
+            {
+                Monitor::Exit(m_Object);
+            }
+
+        private:
+            Object^ m_Object;
+        };
+    }
 }
 
-void* cDriveInterface::ToVoidPointer( std::shared_ptr<vtStor::cDriveInterface>& Object )
-{
-    return( reinterpret_cast<void*>( &(Object) ) );
-}
-
-cDriveInterface::~cDriveInterface()
-{
-
-}
-
-}
+#endif
