@@ -15,24 +15,32 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
-#include "DriveInterface.h"
+
+#include <memory>
+
+#include "DriveEnumeratorAtaManaged.h"
+#include "vtStorAta.h"
 
 namespace vtStor
 {
+    namespace Managed
+    {
+        cDriveEnumeratorAta::cDriveEnumeratorAta()
+        {
+            vtStorAtaInit( *m_DriveEnumerator );
+        }
 
-std::shared_ptr<vtStor::cDriveInterface> cDriveInterface::ToSharedPtr( void* Object )
-{
-    return( *reinterpret_cast<std::shared_ptr<vtStor::cDriveInterface>*>( Object ) );
-}
+        cDriveEnumeratorAta::~cDriveEnumeratorAta()
+        {
+        }
 
-void* cDriveInterface::ToVoidPointer( std::shared_ptr<vtStor::cDriveInterface>& Object )
-{
-    return( reinterpret_cast<void*>( &(Object) ) );
-}
+        cDriveEnumeratorAta::!cDriveEnumeratorAta()
+        {
+        }
 
-cDriveInterface::~cDriveInterface()
-{
-
-}
-
+        cDriveEnumeratorAta::operator void*()
+        {
+            return( vtStor::cDriveEnumeratorInterface::ToVoidPointer( *m_DriveEnumerator ) );
+        }
+    }
 }

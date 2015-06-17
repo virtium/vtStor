@@ -17,7 +17,6 @@ limitations under the License.
 */
 #ifndef __vtStorBufferInterface_h__
 #define __vtStorBufferInterface_h__
-//#pragma once
 
 #include <memory>
 
@@ -29,7 +28,10 @@ namespace vtStor
     
 class VTSTOR_API cBufferInterface
 {
-    
+public:
+    static std::shared_ptr<vtStor::cBufferInterface> ToSharedPtr( void* Object );
+    static void* ToVoidPointer( std::shared_ptr<vtStor::cBufferInterface>& Object );
+
 public:
     cBufferInterface();
     virtual ~cBufferInterface();

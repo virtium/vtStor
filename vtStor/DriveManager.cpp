@@ -62,4 +62,14 @@ const Vector_Drives& cDriveManager::GetDrives()
     return( m_Drives );
 }
 
+std::shared_ptr<cDriveInterface> cDriveManager::GetDrive(const U32 DriveIndex)
+{
+    std::shared_ptr<cDriveInterface> driveInterface = nullptr;
+    if (m_Drives.size() > DriveIndex)
+    {
+        driveInterface = m_Drives[DriveIndex];
+    }
+    return(driveInterface);
+}
+
 }

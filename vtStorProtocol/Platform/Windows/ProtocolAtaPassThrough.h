@@ -41,7 +41,7 @@ public:
     cAtaPassThrough( HANDLE DeviceHandle );
 
 public:
-    eErrorCode IssueCommand( std::shared_ptr<cBufferInterface> Essense, std::shared_ptr<cBufferInterface> DataBuffer );
+    virtual eErrorCode IssueCommand( std::shared_ptr<cBufferInterface> Essense, std::shared_ptr<cBufferInterface> DataBuffer ) override;
 
 private:
     void InitializePassThroughDirect(

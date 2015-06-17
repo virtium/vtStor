@@ -64,7 +64,9 @@ eErrorCode cDriveEnumeratorAta::EnumerateDrives( Vector_Drives& AddToList, U32& 
             std::shared_ptr<cDriveInterface> drive = std::make_shared<cDriveAta>(devicePath);
             std::shared_ptr<Protocol::cProtocolInterface> protocol = std::make_shared<Protocol::cAtaPassThrough>( deviceHandle );
             std::shared_ptr<cCommandHandlerAta> commandHandler = std::make_shared<cCommandHandlerAta>( protocol );
-            drive->m_Protocol = protocol;  // dien            
+
+            drive->m_Protocol = protocol;  // dien     
+
             drive->RegisterComandHandler( cAta::s_DefaultCommandHandlerCommandType, commandHandler );
 
             AddToList.push_back( drive );

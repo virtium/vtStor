@@ -29,6 +29,10 @@ namespace vtStor
 class VTSTOR_API cDriveEnumeratorInterface
 {
 public:
+    static std::shared_ptr<vtStor::cDriveEnumeratorInterface> ToSharedPtr( void* Object );
+    static void* ToVoidPointer( std::shared_ptr<vtStor::cDriveEnumeratorInterface>& Object );
+
+public:
     virtual eErrorCode EnumerateDrives( Vector_Drives& AddToList, U32& Count ) = 0;
 
 public:

@@ -26,31 +26,33 @@ limitations under the License.
 
 namespace vtStor
 {
-    class VTSTOR_API cBufferFormatter
+
+class VTSTOR_API cBufferFormatter
+{
+public:
+    struct Header
     {
-    public:
-        struct Header
-        {
-            U32 Format;
-        };
-
-        static const size_t HEADER_SIZE_IN_BYTES;
-
-    public:
-        cBufferFormatter( std::shared_ptr<cBufferInterface> Buffer );
-        cBufferFormatter( std::shared_ptr<const cBufferInterface> Buffer );
-
-    public:
-        Header& GetHeader();
-        const Header& GetHeader() const;
-
-    protected:
-        static const size_t HEADER_OFFSET;
-        static const size_t DATA_OFFSET;
-    
-    protected:
-        std::shared_ptr<cBufferInterface> m_Buffer;
+        U32 Format;
     };
+
+    static const size_t HEADER_SIZE_IN_BYTES;
+
+public:
+    cBufferFormatter( std::shared_ptr<cBufferInterface> Buffer );
+    cBufferFormatter( std::shared_ptr<const cBufferInterface> Buffer );
+
+public:
+    Header& GetHeader();
+    const Header& GetHeader() const;
+
+protected:
+    static const size_t HEADER_OFFSET;
+    static const size_t DATA_OFFSET;
+
+protected:
+    std::shared_ptr<cBufferInterface> m_Buffer;
+};
+
 }
 
 #endif
