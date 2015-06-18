@@ -20,6 +20,8 @@ limitations under the License.
 #define __vtStorDriveInterfaceManaged_h__
 #pragma once
 
+#include "BufferInterfaceManaged.h"
+#include "CommandHandlerInterfaceManaged.h"
 #include "DriveInterface.h"
 #include "SharedPtrManaged.h"
 
@@ -38,6 +40,11 @@ namespace vtStor
 
         public:
             operator void*();
+
+        public:
+            void RegisterCommandHandler(U32 CommandType, vtStor::Managed::cCommandHandlerInterface^ CommandHandler);
+
+            eErrorCode IssueCommand(U32 CommandType, vtStor::Managed::cBufferInterface^ CommandDescriptor, vtStor::Managed::cBufferInterface^ Data);
 
         private:
             cSharedPtr<vtStor::cDriveInterface> m_Drive;

@@ -27,7 +27,7 @@ limitations under the License.
 
 #include "StorageUtility/Ata.h"
 
-#include "vtStorProtocolPlatformDefines.h"
+#include "vtStorAtaProtocolPlatformDefines.h"
 
 
 namespace vtStor
@@ -35,10 +35,8 @@ namespace vtStor
 namespace Protocol
 {
 
-class VT_STOR_PROTOCOL_API cAtaPassThrough : public cProtocolInterface
+class VT_STOR_ATA_PROTOCOL_API cAtaPassThrough : public cProtocolInterface
 {
-public:
-    cAtaPassThrough( HANDLE DeviceHandle );
 
 public:
     virtual eErrorCode IssueCommand( std::shared_ptr<cBufferInterface> Essense, std::shared_ptr<cBufferInterface> DataBuffer ) override;
@@ -68,4 +66,9 @@ private:
 };
 
 }
+}
+
+extern "C"
+{
+    VT_STOR_ATA_PROTOCOL_API void vtStorProtocolAtaPassThroughInit(std::shared_ptr<vtStor::Protocol::cProtocolInterface>& Protocol);
 }

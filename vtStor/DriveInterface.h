@@ -37,7 +37,7 @@ public:
     static void* ToVoidPointer( std::shared_ptr<vtStor::cDriveInterface>& Object );
 
 public:
-    virtual void RegisterComandHandler(U32 CommandType, std::shared_ptr<cCommandHandlerInterface> CommandHandler) = 0;
+    virtual void RegisterCommandHandler(U32 CommandType, std::shared_ptr<cCommandHandlerInterface> CommandHandler) = 0;
 
 public:
     virtual eErrorCode IssueCommand(U32 CommandType, std::shared_ptr<const cBufferInterface> CommandDescriptor, std::shared_ptr<cBufferInterface> Data) = 0;
@@ -45,8 +45,6 @@ public:
 public:
     virtual ~cDriveInterface();
 
-public:
-    std::shared_ptr<Protocol::cProtocolInterface> m_Protocol;
 };
 
 using Vector_Drives = std::vector<std::shared_ptr<cDriveInterface>>;

@@ -15,30 +15,15 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
-//! =========
-//!  WARNING
-//! =========
-//! This file was automatically generated. Changes to this file may cause
-//! incorrect behavior and will be lost if the code is regenerated.
+#ifndef __vtStorAtaProtocolPlatformDefines_h__
+#define __vtStorAtaProtocolPlatformDefines_h__
 
-#ifndef __ErrorCodes_h__
-#define __ErrorCodes_h__
-#pragma once
-<$Prefix></Prefix$>
-<$Suffix>,</Suffix$>
-namespace vtStor
-{
 
-enum eErrorCode
-{
-    <%Replace%>
-};
 
-enum eOnErrorBehavior
-{
-    Stop = 0,
-    Continue,
-};
-}
+#ifdef VT_STOR_ATA_PROTOCOL_DLL_EXPORTS
+#define VT_STOR_ATA_PROTOCOL_API _declspec( dllexport )
+#else
+#define VT_STOR_ATA_PROTOCOL_API _declspec( dllimport )
+#endif
 
-#endif __ErrorCodes_h__
+#endif
