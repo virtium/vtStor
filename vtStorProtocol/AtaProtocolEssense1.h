@@ -40,6 +40,9 @@ public:
     cEssenseAta1( std::shared_ptr<const cBufferInterface> Buffer );
 
 public:
+    DeviceHandle&                                      GetDeviceHandle();
+    const DeviceHandle&                                GetDeviceHandle() const;
+
     StorageUtility::Ata::sCommandCharacteristic&       GetCommandCharacteristics();
     const StorageUtility::Ata::sCommandCharacteristic& GetCommandCharacteristics() const;
 
@@ -50,6 +53,7 @@ public:
     const StorageUtility::Ata::uTaskFileRegister&   GetTaskFileExt() const;
 
 protected:
+    static const size_t DEVICE_HANDLE_OFFSET;
     static const size_t COMMAND_CHARACTERISTICS_OFFSET;
     static const size_t TASK_FILE_OFFSET;
     static const size_t TASK_FILE_EXT_OFFSET;

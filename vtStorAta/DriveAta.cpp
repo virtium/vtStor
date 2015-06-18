@@ -20,8 +20,8 @@ limitations under the License.
 namespace vtStor
 {
 
-cDriveAta::cDriveAta(String DevicePath) :
-    m_DevicePath(DevicePath)
+cDriveAta::cDriveAta(std::shared_ptr<String> DevicePath) :
+    cDrive(DevicePath)
 {
 
 }
@@ -29,6 +29,17 @@ cDriveAta::cDriveAta(String DevicePath) :
 cDriveAta::~cDriveAta()
 {
 
+}
+
+eErrorCode cDriveAta::IssueCommand(U32 CommandType, std::shared_ptr<const cBufferInterface> CommandDescriptor, std::shared_ptr<cBufferInterface> Data)
+{
+    // set Device handle to Command descriptor and call parent->IssueCommand()
+    DeviceHandle& deviceHandle = ((Ata::cCommandDescriptor1)CommandDescriptor).GetDeviceHandle();
+    deviceHandle = m_DeviceHandle;
+
+    eErrorCode errorCode = cDrive::IssueCommand(CommandType, CommandDescriptor, Data);
+
+    return( errorCode );
 }
 
 }

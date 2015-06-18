@@ -51,3 +51,13 @@ vtStorManaged/ErrorCodesManaged.h
 vtStorManaged.ATest/bin/
 vtStorManaged.ATest/obj/
 vtStorManaged.Test/obj/
+vtStorManaged/Win32Release/
+vtStorManaged/Win32Debug/
+vtStorManaged/x64Debug/
+vtStorAtaManaged/x64Debug/
+vtStor - Copy.opensdf
+vtStorAtaManaged/Win32Release/
+vtStorAtaManaged/Win32Debug/
+vtStor.Test/Win32Debug/
+vtStorProtocol/Win32Debug/
+Debug/

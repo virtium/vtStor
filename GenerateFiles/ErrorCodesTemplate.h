@@ -31,13 +31,7 @@ namespace vtStor
 
 enum eErrorCode
 {
-    None = 0,
-    Unknown,
-    Memory,
-    Io,
-    Timeout,
-    NoSupport,
-    Invalid,
+    <%Replace%>
 };
 
 enum eOnErrorBehavior

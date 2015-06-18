@@ -103,6 +103,9 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command />
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -161,7 +164,6 @@
   <ItemGroup>
     <ClInclude Include="AtaProtocolEssense1.h" />
     <ClInclude Include="Platform\Windows\ProtocolAtaPassThrough.h" />
-    <ClInclude Include="Platform\Windows\vtStorAtaPlatformDefines.h" />
     <ClInclude Include="Platform\Windows\vtStorProtocolPlatformDefines.h" />
   </ItemGroup>
   <ItemGroup>

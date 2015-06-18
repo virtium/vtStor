@@ -22,7 +22,8 @@ namespace vtStor
 {
 namespace Protocol
 {
-const size_t cEssenseAta1::COMMAND_CHARACTERISTICS_OFFSET   = cBufferFormatter::DATA_OFFSET;
+const size_t cEssenseAta1::DEVICE_HANDLE_OFFSET             = cBufferFormatter::DATA_OFFSET;
+const size_t cEssenseAta1::COMMAND_CHARACTERISTICS_OFFSET   = cBufferFormatter::DATA_OFFSET + sizeof(DeviceHandle);
 const size_t cEssenseAta1::TASK_FILE_OFFSET                 = cEssenseAta1::COMMAND_CHARACTERISTICS_OFFSET + sizeof( StorageUtility::Ata::sCommandCharacteristic );
 const size_t cEssenseAta1::TASK_FILE_EXT_OFFSET             = cEssenseAta1::TASK_FILE_OFFSET + sizeof( StorageUtility::Ata::uTaskFileRegister );
 
@@ -43,6 +44,18 @@ cEssenseAta1::cEssenseAta1( std::shared_ptr<const cBufferInterface> Buffer ) :
 
 }
 
+DeviceHandle& cEssenseAta1::GetDeviceHandle()
+{
+    U8* buffer = m_Buffer->ToDataBuffer();
+    return( (DeviceHandle&)buffer[DEVICE_HANDLE_OFFSET] );
+}
+
+const DeviceHandle& cEssenseAta1::GetDeviceHandle() const
+{
+    const U8* buffer = m_Buffer->ToDataBuffer();
+    return((DeviceHandle&)buffer[DEVICE_HANDLE_OFFSET]);
+}
+
 StorageUtility::Ata::sCommandCharacteristic& cEssenseAta1::GetCommandCharacteristics()
 {
     U8* buffer = m_Buffer->ToDataBuffer();
@@ -52,7 +65,7 @@ StorageUtility::Ata::sCommandCharacteristic& cEssenseAta1::GetCommandCharacteris
         
 const StorageUtility::Ata::sCommandCharacteristic& cEssenseAta1::GetCommandCharacteristics() const
 {
-    U8* buffer = m_Buffer->ToDataBuffer();
+    const U8* buffer = m_Buffer->ToDataBuffer();
     return( (StorageUtility::Ata::sCommandCharacteristic&)buffer[ COMMAND_CHARACTERISTICS_OFFSET ] );
 }
 
@@ -64,7 +77,7 @@ StorageUtility::Ata::uTaskFileRegister& cEssenseAta1::GetTaskFile()
 
 const StorageUtility::Ata::uTaskFileRegister& cEssenseAta1::GetTaskFile() const
 {
-    U8* buffer = m_Buffer->ToDataBuffer();
+    const U8* buffer = m_Buffer->ToDataBuffer();
     return( (StorageUtility::Ata::uTaskFileRegister&)buffer[ TASK_FILE_OFFSET ] );
 }
 
@@ -76,7 +89,7 @@ StorageUtility::Ata::uTaskFileRegister& cEssenseAta1::GetTaskFileExt()
         
 const StorageUtility::Ata::uTaskFileRegister& cEssenseAta1::GetTaskFileExt() const
 {
-    U8* buffer = m_Buffer->ToDataBuffer();
+    const U8* buffer = m_Buffer->ToDataBuffer();
     return( (StorageUtility::Ata::uTaskFileRegister&)buffer[ TASK_FILE_EXT_OFFSET ] );
 }
             

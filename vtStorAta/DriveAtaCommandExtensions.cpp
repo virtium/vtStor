@@ -43,7 +43,7 @@ eErrorCode IssueCommand_IdentifyDevice( std::shared_ptr<cDriveInterface> Drive, 
     commandCharacteristics.TransferMode = StorageUtility::Ata::eTransferMode::PIO_PROTOCOL;
     commandCharacteristics.MultipleMode = StorageUtility::Ata::eMultipleMode::NOT_MULTIPLE_COMMAND;
     commandCharacteristics.DataTransferLengthInBytes = StorageUtility::Ata::SECTOR_SIZE_IN_BYTES;
-
+    
     Drive->IssueCommand( CommandType, commandDescriptor, Data );
 
     return( eErrorCode::None );

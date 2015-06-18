@@ -45,8 +45,6 @@ public:
 public:
     virtual ~cDriveInterface();
 
-public:
-    std::shared_ptr<Protocol::cProtocolInterface> m_Protocol;
 };
 
 using Vector_Drives = std::vector<std::shared_ptr<cDriveInterface>>;
