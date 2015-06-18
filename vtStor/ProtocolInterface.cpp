@@ -24,6 +24,16 @@ namespace vtStor
 namespace Protocol
 {
 
+std::shared_ptr<vtStor::Protocol::cProtocolInterface> cProtocolInterface::ToSharedPtr( void* Object )
+{
+    return( *reinterpret_cast< std::shared_ptr<vtStor::Protocol::cProtocolInterface>* >( Object ) );
+}
+
+void* cProtocolInterface::ToVoidPointer( std::shared_ptr<vtStor::Protocol::cProtocolInterface>& Object )
+{
+    return( reinterpret_cast<void*>( &( Object ) ) );
+}
+
 cProtocolInterface::cProtocolInterface()
 {
 

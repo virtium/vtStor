@@ -21,7 +21,7 @@ limitations under the License.
 #include <memory>
 
 #include "BufferInterface.h"
-#include "BufferFormatter.h"
+#include "CommandDescriptor.h"
 
 #include "StorageUtility/Ata.h"
 #include "vtStorAtaPlatformDefines.h"
@@ -36,14 +36,20 @@ const size_t COMMAND_DESCRIPTOR_VERSION_SIZE_IN_BYTES = 2;
 const size_t COMMAND_DESCRIPTOR_RESERVED0_OFFSET = COMMAND_DESCRIPTOR_VERSION_OFFSET + COMMAND_DESCRIPTOR_VERSION_SIZE_IN_BYTES;
 const size_t COMMAND_DESCRIPTOR_RESERVED0_SIZE_IN_BYTES = 2;
 
-class VT_STOR_ATA_API cCommandDescriptor1 : public cBufferFormatter
+class VT_STOR_ATA_API cCommandDescriptor1 : public cCommandDescriptor
 {
 public:
     static const size_t SIZE_IN_BYTES;
 
 public:
-    cCommandDescriptor1( std::shared_ptr<cBufferInterface> Buffer );
-    cCommandDescriptor1( std::shared_ptr<const cBufferInterface> Buffer );
+    static cCommandDescriptor1 Reader(std::shared_ptr<const cBufferInterface> Buffer);
+    static cCommandDescriptor1 Writer(std::shared_ptr<cBufferInterface> Buffer);
+    static cCommandDescriptor1 Modifier(std::shared_ptr<cBufferInterface> Buffer);
+
+protected:
+    cCommandDescriptor1(std::shared_ptr<cBufferInterface> Buffer);
+    cCommandDescriptor1(std::shared_ptr<cBufferInterface> Buffer, U32 Format);
+    cCommandDescriptor1( std::shared_ptr<const cBufferInterface> Buffer);
 
 public:
     StorageUtility::Ata::uCommandFields&               GetCommandFields();

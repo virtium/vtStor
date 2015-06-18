@@ -20,8 +20,8 @@ limitations under the License.
 namespace vtStor
 {
 
-cDriveAta::cDriveAta(String DevicePath) :
-    m_DevicePath(DevicePath)
+cDriveAta::cDriveAta(std::shared_ptr<String> DevicePath) :
+    cDrive(DevicePath)
 {
 
 }

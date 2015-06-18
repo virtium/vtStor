@@ -1,10 +1,14 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <GenerateFile>
   <WordPairs>
     <WordPair Name="None" Value="0x00000000" />
     <WordPair Name="Unknown" Value="0x00000001" />
     <WordPair Name="Memory" Value="0x00000002" />
     <WordPair Name="Io" Value="0x00000003" />
-    <WordPair Name="NullPointer" Value="0x00000004" />
+    <WordPair Name="Timeout" Value="0x00000004" />
+    <WordPair Name="NoSupport" Value="0x00000005" />
+    <WordPair Name="Invalid" Value="0x00000006" />
+    <WordPair Name="NullPointer" Value="0x00000007" />
+    <WordPair Name="FormatNotSupported" Value="0x00000008" />
   </WordPairs>
 </GenerateFile>

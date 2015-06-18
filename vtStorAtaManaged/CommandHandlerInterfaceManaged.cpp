@@ -16,36 +16,30 @@ limitations under the License.
 </License>
 */
 
-#ifndef __vtStorBufferInterfaceManaged_h__
-#define __vtStorBufferInterfaceManaged_h__
-#pragma once
-
-#include "BufferInterface.h"
-#include "SharedPtrManaged.h"
+#include "vtStorAta/CommandHandlerAta.h"
+#include "CommandHandlerAtaManaged.h"
+#include "vtStorAta.h"
 
 namespace vtStor
 {
     namespace Managed
     {
-        public ref class cBufferInterface
+        cCommandHandlerAta::cCommandHandlerAta( cProtocolInterface^ Protocol )
         {
-        public:
-            cBufferInterface( U32 SizeInByte );
-            ~cBufferInterface();
+            vtStorCommandHandlerAtaInit( *m_CommandHandler, vtStor::Protocol::cProtocolInterface::ToSharedPtr( *Protocol ) );
+        }
 
-        protected:
-            !cBufferInterface();
+        cCommandHandlerAta::~cCommandHandlerAta()
+        {
+        }
 
-        public:
-            operator void*();
-            void SetByteAt( U32 Index, U8 value );
-            U8 GetByteAt( U32 Index );
-            U32 GetSizeInBytes();
+        cCommandHandlerAta::!cCommandHandlerAta()
+        {
+        }
 
-        private:
-            cSharedPtr<vtStor::cBufferInterface> m_Buffer;
-        };
+        cCommandHandlerAta::operator void*()
+        {
+            return( vtStor::cCommandHandlerInterface::ToVoidPointer( *m_CommandHandler ) );
+        }
     }
 }
-
-#endif

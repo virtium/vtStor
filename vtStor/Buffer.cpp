@@ -22,7 +22,8 @@ limitations under the License.
 namespace vtStor
 {
 
-cBuffer::cBuffer( size_t SizeInBytes )
+cBuffer::cBuffer( size_t SizeInBytes ) :
+    m_SizeInBytes( SizeInBytes )
 {
     assert( 0 != SizeInBytes );
 
@@ -45,6 +46,16 @@ U8* cBuffer::ToDataBuffer()
 void cBuffer::SetByteAt(U32 Index, U8 Value)
 {
     m_Memory[Index] = Value;
+}
+
+U8 cBuffer::GetByteAt(U32 Index)
+{
+    return( m_Memory[Index] );
+}
+
+U32 cBuffer::GetSizeInBytes()
+{
+    return( m_SizeInBytes );
 }
 
 }

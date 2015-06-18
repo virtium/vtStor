@@ -15,30 +15,23 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
-//! =========
-//!  WARNING
-//! =========
-//! This file was automatically generated. Changes to this file may cause
-//! incorrect behavior and will be lost if the code is regenerated.
 
-#ifndef __ErrorCodes_h__
-#define __ErrorCodes_h__
-#pragma once
-<$Prefix></Prefix$>
-<$Suffix>,</Suffix$>
+#include "ProtocolInterfaceManaged.h"
+
 namespace vtStor
 {
+    namespace Managed
+    {
+        cProtocolInterface::cProtocolInterface()
+        {
+        }
 
-enum eErrorCode
-{
-    <%Replace%>
-};
+        cProtocolInterface::~cProtocolInterface()
+        {
+        }
 
-enum eOnErrorBehavior
-{
-    Stop = 0,
-    Continue,
-};
+        cProtocolInterface::!cProtocolInterface()
+        {
+        }
+    }
 }
-
-#endif __ErrorCodes_h__

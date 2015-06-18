@@ -22,7 +22,7 @@ limitations under the License.
 #include "Buffer.h"
 #include "BufferFormatter.h"
 
-#include "vtStorProtocol/AtaProtocolEssense1.h"
+#include "vtStorAtaProtocol/AtaProtocolEssense1.h"
 
 namespace vtStor
 {
@@ -41,22 +41,36 @@ eErrorCode cCommandHandlerAta::IssueCommand( std::shared_ptr<const cBufferInterf
 {
     eErrorCode errorCode = eErrorCode::None;
 
-    //TODO: check command descriptor version and use the propriate parsing
+    cBufferFormatter bufferFormatter = cBufferFormatter::Reader(CommandDescriptor);
+    switch (bufferFormatter.GetHeader().Format)
+    {
+        case 1:
+        {
+            Ata::cCommandDescriptor1 commandDescriptor = Ata::cCommandDescriptor1::Reader(CommandDescriptor);
+            const StorageUtility::Ata::uCommandFields& commandFields = commandDescriptor.GetCommandFields();
 
-    Ata::cCommandDescriptor1 commandDescriptor( CommandDescriptor );
-    const StorageUtility::Ata::uCommandFields& commandFields = commandDescriptor.GetCommandFields();
+            std::shared_ptr<cBufferInterface> buffer = std::make_shared<cBuffer>(vtStor::Protocol::cEssenseAta1::SIZE_IN_BYTES);
+            Protocol::cEssenseAta1 essense = Protocol::cEssenseAta1::Writer(buffer);
+    
+            DeviceHandle& deviceHandle = essense.GetDeviceHandle();
+            deviceHandle = commandDescriptor.GetDeviceHandle();
 
-    std::shared_ptr<cBufferInterface> buffer = std::make_shared<cBuffer>( cBufferFormatter::HEADER_SIZE_IN_BYTES + vtStor::Protocol::cEssenseAta1::SIZE_IN_BYTES );
-    Protocol::cEssenseAta1 essense( buffer );
+            StorageUtility::Ata::sCommandCharacteristic& commandCharacteristics = essense.GetCommandCharacteristics();
+            commandCharacteristics = commandDescriptor.GetCommandCharacteristics();
 
-    StorageUtility::Ata::sCommandCharacteristic& commandCharacteristics = essense.GetCommandCharacteristics();
-    commandCharacteristics = commandDescriptor.GetCommandCharacteristics();
+            StorageUtility::Ata::uTaskFileRegister& taskFile = essense.GetTaskFile();
+            StorageUtility::Ata::uTaskFileRegister& taskFileExt = essense.GetTaskFileExt();
+            PrepareTaskFileRegisters(commandCharacteristics, commandFields, taskFile, taskFileExt);
 
-    StorageUtility::Ata::uTaskFileRegister& taskFile = essense.GetTaskFile();
-    StorageUtility::Ata::uTaskFileRegister& taskFileExt = essense.GetTaskFileExt();
-    PrepareTaskFileRegisters( commandCharacteristics, commandFields, taskFile, taskFileExt );
+            errorCode = m_Protocol->IssueCommand( buffer, Data );
 
-    errorCode = m_Protocol->IssueCommand( buffer, Data );
+        } break;
+
+        default:
+        {
+            errorCode = eErrorCode::FormatNotSupported;
+        } break;
+    }
 
     return(errorCode);
 }
@@ -135,4 +149,9 @@ void cCommandHandlerAta::PrepareTaskFileRegisters( const StorageUtility::Ata::sC
     }
 }
 
+}
+
+VT_STOR_ATA_API void vtStorCommandHandlerAtaInit( std::shared_ptr<vtStor::cCommandHandlerInterface>& CommandHandler, std::shared_ptr<vtStor::Protocol::cProtocolInterface> Protocol )
+{
+    CommandHandler = std::make_shared<vtStor::cCommandHandlerAta>( Protocol );
 }

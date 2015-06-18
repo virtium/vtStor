@@ -49,6 +49,10 @@
       <Project>{afaa866b-3981-4914-a526-c3274b270d38}</Project>
       <Name>vtStorAtaManaged</Name>
     </ProjectReference>
+    <ProjectReference Include="..\vtStorAtaProtocolManaged\vtStorAtaProtocolManaged.vcxproj">
+      <Project>{3f1631e9-76d6-4489-8dc1-f0d3846ff633}</Project>
+      <Name>vtStorAtaProtocolManaged</Name>
+    </ProjectReference>
     <ProjectReference Include="..\vtStorManaged\vtStorManaged.vcxproj">
       <Project>{131076b3-3784-43d5-8f57-e6277de39de8}</Project>
       <Name>vtStorManaged</Name>

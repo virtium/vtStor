@@ -15,30 +15,28 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
-//! =========
-//!  WARNING
-//! =========
-//! This file was automatically generated. Changes to this file may cause
-//! incorrect behavior and will be lost if the code is regenerated.
 
-#ifndef __ErrorCodes_h__
-#define __ErrorCodes_h__
+#ifndef __vtStorCommandHandlerInterfaceManaged_h__
+#define __vtStorCommandHandlerInterfaceManaged_h__
 #pragma once
-<$Prefix></Prefix$>
-<$Suffix>,</Suffix$>
+
 namespace vtStor
 {
+    namespace Managed
+    {
+        public ref class cCommandHandlerInterface abstract
+        {
+        public:
+            cCommandHandlerInterface();
+            virtual ~cCommandHandlerInterface();
 
-enum eErrorCode
-{
-    <%Replace%>
-};
+        protected:
+            !cCommandHandlerInterface();
 
-enum eOnErrorBehavior
-{
-    Stop = 0,
-    Continue,
-};
+        public:
+            virtual operator void*() abstract;
+        };
+    }
 }
 
-#endif __ErrorCodes_h__
+#endif

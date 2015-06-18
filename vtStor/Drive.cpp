@@ -15,28 +15,38 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
+#include <assert.h>
+
 #include "Drive.h"
 
 namespace vtStor
 {
 
-cDrive::cDrive()
+cDrive::cDrive(std::shared_ptr<String> DevicePath) : m_DevicePath(DevicePath)
 {
+    eErrorCode errorCode = GetStorageDeviceHandle(*m_DevicePath, m_DeviceHandle);
+    //TODO: handle error
+    assert(eErrorCode::None == errorCode);
 }
-
 
 cDrive::~cDrive()
 {
     m_CommandHandlers.clear();
 }
 
-void cDrive::RegisterComandHandler( U32 CommandType, std::shared_ptr<cCommandHandlerInterface> CommandHandler )
+void cDrive::RegisterCommandHandler(U32 CommandType, std::shared_ptr<cCommandHandlerInterface> CommandHandler)
 {
     m_CommandHandlers.insert({ CommandType, CommandHandler });
 }
 
 eErrorCode cDrive::IssueCommand( U32 CommandType, std::shared_ptr<const cBufferInterface> CommandDescriptor, std::shared_ptr<cBufferInterface> Data )
 {
+    // set device handle into CommandDescriptor here
+    cCommandDescriptor commandDescriptor = cCommandDescriptor::Modifier(std::const_pointer_cast<cBufferInterface>(CommandDescriptor));
+
+    DeviceHandle& deviceHandle = commandDescriptor.GetDeviceHandle();
+    deviceHandle = m_DeviceHandle;
+
     return( m_CommandHandlers[CommandType]->IssueCommand( CommandDescriptor, Data ) );
 }
 
