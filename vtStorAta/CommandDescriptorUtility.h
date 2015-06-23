@@ -42,8 +42,12 @@ public:
     static const size_t SIZE_IN_BYTES;
 
 public:
-    cCommandDescriptor1( std::shared_ptr<cBufferInterface> Buffer );
-    cCommandDescriptor1( std::shared_ptr<const cBufferInterface> Buffer );
+    static cCommandDescriptor1 Reader(std::shared_ptr<const cBufferInterface> Buffer);
+    static cCommandDescriptor1 Writer(std::shared_ptr<cBufferInterface> Buffer);
+
+protected:
+    cCommandDescriptor1(std::shared_ptr<cBufferInterface> Buffer);
+    cCommandDescriptor1( std::shared_ptr<const cBufferInterface> Buffer);
 
 public:
     DeviceHandle&                                       GetDeviceHandle();  
