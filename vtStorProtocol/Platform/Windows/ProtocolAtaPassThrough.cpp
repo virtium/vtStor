@@ -37,16 +37,11 @@ namespace Protocol
     const vtStor::U8 COMMAND_REGISTER_OFFSET = 6;
     const vtStor::U8 STATUS_REGISTER_OFFSET = 6;
     const vtStor::U8 RESERVED_REGISTER_OFFSET = 7;
-
-    cAtaPassThrough::cAtaPassThrough( HANDLE DeviceHandle ) :
-        m_DeviceHandle( DeviceHandle )
-    {
-
-    }
-
+    
     eErrorCode cAtaPassThrough::IssueCommand( std::shared_ptr<cBufferInterface> Essense, std::shared_ptr<cBufferInterface> DataBuffer )
     {
         cEssenseAta1 essense( Essense );
+        m_DeviceHandle = essense.GetDeviceHandle(); 
 
         InitializePassThroughDirect( 
             essense.GetCommandCharacteristics(), 

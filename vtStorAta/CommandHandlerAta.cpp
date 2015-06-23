@@ -48,6 +48,9 @@ eErrorCode cCommandHandlerAta::IssueCommand( std::shared_ptr<const cBufferInterf
 
     std::shared_ptr<cBufferInterface> buffer = std::make_shared<cBuffer>( cBufferFormatter::HEADER_SIZE_IN_BYTES + vtStor::Protocol::cEssenseAta1::SIZE_IN_BYTES );
     Protocol::cEssenseAta1 essense( buffer );
+    
+    DeviceHandle& deviceHandle = essense.GetDeviceHandle();
+    deviceHandle = commandDescriptor.GetDeviceHandle();
 
     StorageUtility::Ata::sCommandCharacteristic& commandCharacteristics = essense.GetCommandCharacteristics();
     commandCharacteristics = commandDescriptor.GetCommandCharacteristics();
@@ -56,7 +59,7 @@ eErrorCode cCommandHandlerAta::IssueCommand( std::shared_ptr<const cBufferInterf
     StorageUtility::Ata::uTaskFileRegister& taskFileExt = essense.GetTaskFileExt();
     PrepareTaskFileRegisters( commandCharacteristics, commandFields, taskFile, taskFileExt );
 
-    m_Protocol->IssueCommand( buffer, Data );
+    errorCode = m_Protocol->IssueCommand( buffer, Data );
 
     return(errorCode);
 }

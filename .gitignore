@@ -34,6 +34,7 @@ vtStor/Debug/vtStor.tlog/vtStor.lastbuildstate
 *.tlog
 *.idb
 x64/
+obj/
 *.exp
 *.sdf
 *.ilk
@@ -51,3 +52,9 @@ vtStorManaged/ErrorCodesManaged.h
 vtStorManaged.ATest/bin/
 vtStorManaged.ATest/obj/
 vtStorManaged.Test/obj/
+vtStorManaged/Win32Debug
+vtStorAtaManaged/Win32Debug
+vtStorManaged/x64Debug
+vtStorAtaManaged/x64Debug
+
+

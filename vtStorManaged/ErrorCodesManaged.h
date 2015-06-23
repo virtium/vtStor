@@ -15,27 +15,34 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
-#ifndef __DriveAta_h__
-#define __DriveAta_h__
+//! =========
+//!  WARNING
+//! =========
+//! This file was automatically generated. Changes to this file may cause
+//! incorrect behavior and will be lost if the code is regenerated.
 
-#include "Drive.h"
+#ifndef __ErrorCodesManaged_h__
+#define __ErrorCodesManaged_h__
+#pragma once
 
-#include "BufferInterface.h"
-#include "CommandDescriptorUtility.h"
 
 namespace vtStor
 {
-    class cDriveAta : public cDrive
+namespace Managed
+{
+    public enum class eErrorCode
     {
-    public:
-        cDriveAta(std::shared_ptr<String> DevicePath);
+        None = 0x00000000,
+        Unknown = 0x00000001,
+        Memory = 0x00000002,
+        Io = 0x00000003,
+        Timeout = 0x00000004,
+        NoSupport = 0x00000005,
+        Invalid = 0x00000006,
+        NullPointer = 0x00000007,
 
-    public:
-        virtual ~cDriveAta();
-
-    public:
-        virtual eErrorCode IssueCommand(U32 CommandType, std::shared_ptr<const cBufferInterface> CommandDescriptor, std::shared_ptr<cBufferInterface> Data) override;
     };
+}
 }
 
 #endif

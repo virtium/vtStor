@@ -19,6 +19,9 @@ limitations under the License.
 #define __vtStorCommonPlatformDefines_h__
 
 #include <string>
+#include <Windows.h>
+
+#include "vtStorPlatformDefines.h"
 
 #ifdef _UNICODE
 #define    __STORAPITEXT( s ) L##s
@@ -27,7 +30,15 @@ using tstring = std::wstring;
 #else
 #define    __STORAPITEXT( s ) s
 using tchar = char;
-using tstring = string;
+using tstring = std::string; 
 #endif
+
+namespace vtStor
+{
+    
+using DeviceHandle = HANDLE;
+
+}
+
 
 #endif
