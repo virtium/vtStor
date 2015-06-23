@@ -158,9 +158,6 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\vtStorVsc\vtStorVsc.vcxproj">
-      <Project>{3e4c19d1-b867-4af8-8e0f-58e84a9bcf19}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\StorageUtility\StorageUtility.vcxproj">
       <Project>{0da52eb3-5f61-4919-8b1a-0dc1b50b619f}</Project>
     </ProjectReference>
