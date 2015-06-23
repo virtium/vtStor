@@ -33,8 +33,8 @@ def CreateRequiredDirectoriesAndCopyFiles( ProjectName, SourceBinDirectory, expo
     shutil.copyfile( libFile, destinationLibFile )
 
     destinationDllFile = os.path.join( projectExportBinDirectory, projectName + ".dll" )
-    print "\n..Copying " + libFile + " to " + destinationDllFile
-    shutil.copyfile( libFile, destinationDllFile )
+    print "\n..Copying " + dllFile + " to " + destinationDllFile
+    shutil.copyfile( dllFile, destinationDllFile )
 
 # Main entry point
 if __name__ == "__main__":
