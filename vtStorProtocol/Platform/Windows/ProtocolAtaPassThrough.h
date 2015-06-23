@@ -37,8 +37,6 @@ namespace Protocol
 
 class VT_STOR_PROTOCOL_API cAtaPassThrough : public cProtocolInterface
 {
-public:
-    cAtaPassThrough( HANDLE DeviceHandle );
 
 public:
     virtual eErrorCode IssueCommand( std::shared_ptr<cBufferInterface> Essense, std::shared_ptr<cBufferInterface> DataBuffer ) override;
