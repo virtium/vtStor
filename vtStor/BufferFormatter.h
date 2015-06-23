@@ -45,6 +45,7 @@ public:
     const Header& GetHeader() const;
 
 protected:
+    cBufferFormatter(std::shared_ptr<cBufferInterface> Buffer);
     cBufferFormatter(std::shared_ptr<cBufferInterface> Buffer, U32 Format);
     cBufferFormatter(std::shared_ptr<const cBufferInterface> Buffer);
 

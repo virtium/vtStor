@@ -36,11 +36,22 @@ cCommandDescriptor1 cCommandDescriptor1::Reader(std::shared_ptr<const cBufferInt
 
 cCommandDescriptor1 cCommandDescriptor1::Writer(std::shared_ptr<cBufferInterface> Buffer)
 {
+    return(cCommandDescriptor1(Buffer, 1));
+}
+
+cCommandDescriptor1 cCommandDescriptor1::Modifier(std::shared_ptr<cBufferInterface> Buffer)
+{
     return(cCommandDescriptor1(Buffer));
 }
 
-cCommandDescriptor1::cCommandDescriptor1( std::shared_ptr<cBufferInterface> Buffer) :
-cBufferFormatter( Buffer, 1 )
+cCommandDescriptor1::cCommandDescriptor1(std::shared_ptr<cBufferInterface> Buffer) :
+cBufferFormatter(Buffer)
+{
+
+}
+
+cCommandDescriptor1::cCommandDescriptor1(std::shared_ptr<cBufferInterface> Buffer, U32 Format) :
+cBufferFormatter( Buffer, Format )
 {
     
 }

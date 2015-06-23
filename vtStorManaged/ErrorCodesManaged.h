@@ -40,6 +40,7 @@ namespace Managed
         NoSupport = 0x00000005,
         Invalid = 0x00000006,
         NullPointer = 0x00000007,
+        FormatNotSupported = 0x00000008,
 
     };
 }
