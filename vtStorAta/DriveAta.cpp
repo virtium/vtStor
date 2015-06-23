@@ -34,10 +34,13 @@ cDriveAta::~cDriveAta()
 eErrorCode cDriveAta::IssueCommand(U32 CommandType, std::shared_ptr<const cBufferInterface> CommandDescriptor, std::shared_ptr<cBufferInterface> Data)
 {
     // set Device handle to Command descriptor and call parent->IssueCommand()
-    DeviceHandle& deviceHandle = ((Ata::cCommandDescriptor1)CommandDescriptor).GetDeviceHandle();
+    std::shared_ptr<cBufferInterface> commandDescriptor = std::const_pointer_cast<cBufferInterface>(CommandDescriptor);
+    Ata::cCommandDescriptor1 commandDescriptorVersion1(commandDescriptor);
+
+    DeviceHandle& deviceHandle = commandDescriptorVersion1.GetDeviceHandle();
     deviceHandle = m_DeviceHandle;
 
-    eErrorCode errorCode = cDrive::IssueCommand(CommandType, CommandDescriptor, Data);
+    eErrorCode errorCode = cDrive::IssueCommand(CommandType, commandDescriptor, Data);
 
     return( errorCode );
 }
