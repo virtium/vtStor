@@ -42,4 +42,9 @@ U8* cBuffer::ToDataBuffer()
     return( m_Memory );
 }
 
+void cBuffer::SetByteAt(U32 Index, U8 Value)
+{
+    m_Memory[Index] = Value;
+}
+
 }

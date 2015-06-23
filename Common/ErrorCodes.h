@@ -15,18 +15,31 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
+//! =========
+//!  WARNING
+//! =========
+//! This file was automatically generated. Changes to this file may cause
+//! incorrect behavior and will be lost if the code is regenerated.
+
 #ifndef __ErrorCodes_h__
 #define __ErrorCodes_h__
+#pragma once
+
 
 namespace vtStor
 {
 
 enum eErrorCode
 {
-    None = 0,
-    Unknown,
-    Memory,
-    Io,
+    None = 0x00000000,
+    Unknown = 0x00000001,
+    Memory = 0x00000002,
+    Io = 0x00000003,
+    Timeout = 0x00000004,
+    NoSupport = 0x00000005,
+    Invalid = 0x00000006,
+    NullPointer = 0x00000007,
+
 };
 
 enum eOnErrorBehavior
@@ -34,7 +47,6 @@ enum eOnErrorBehavior
     Stop = 0,
     Continue,
 };
-
 }
 
 #endif __ErrorCodes_h__

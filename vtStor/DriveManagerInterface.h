@@ -43,6 +43,8 @@ public:
 
 public:
     virtual const Vector_Drives& GetDrives() = 0;
+
+    virtual std::shared_ptr<cDriveInterface> GetDrive(const U32 DriveIndex) = 0;
 };
 
 }

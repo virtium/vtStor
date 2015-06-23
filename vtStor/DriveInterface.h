@@ -33,6 +33,10 @@ namespace vtStor
 class VTSTOR_API cDriveInterface
 {
 public:
+    static std::shared_ptr<vtStor::cDriveInterface> ToSharedPtr( void* Object );
+    static void* ToVoidPointer( std::shared_ptr<vtStor::cDriveInterface>& Object );
+
+public:
     virtual void RegisterComandHandler(U32 CommandType, std::shared_ptr<cCommandHandlerInterface> CommandHandler) = 0;
 
 public:
@@ -40,6 +44,7 @@ public:
 
 public:
     virtual ~cDriveInterface();
+
 };
 
 using Vector_Drives = std::vector<std::shared_ptr<cDriveInterface>>;

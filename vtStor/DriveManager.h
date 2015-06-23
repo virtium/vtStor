@@ -33,6 +33,8 @@ public:
 public:
     virtual const Vector_Drives& GetDrives() override;
 
+    virtual std::shared_ptr<cDriveInterface> GetDrive(const U32 DriveIndex) override;
+
 public:
     cDriveManager();
     virtual ~cDriveManager();

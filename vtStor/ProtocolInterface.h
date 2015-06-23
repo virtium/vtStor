@@ -38,6 +38,8 @@ public:
     virtual eErrorCode IssueCommand( std::shared_ptr<cBufferInterface> Essense, std::shared_ptr<cBufferInterface> DataBuffer ) = 0;
 };
 
+VTSTOR_API_EXPORT_IMPL template class VTSTOR_API std::shared_ptr<Protocol::cProtocolInterface>;
+
 }
 }
 

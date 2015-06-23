@@ -1,0 +1,8 @@
+D:\Works\vtStorX\vtStorInternal\vtStor\vtStorManaged.ATest\bin\x86\Release\vtStorManaged.ATest.exe.config
+D:\Works\vtStorX\vtStorInternal\vtStor\vtStorManaged.ATest\bin\x86\Release\vtStorManaged.ATest.exe
+D:\Works\vtStorX\vtStorInternal\vtStor\vtStorManaged.ATest\bin\x86\Release\vtStorAtaManaged.dll
+D:\Works\vtStorX\vtStorInternal\vtStor\vtStorManaged.ATest\bin\x86\Release\vtStorManaged.dll
+D:\Works\vtStorX\vtStorInternal\vtStor\vtStorManaged.ATest\bin\x86\Release\vtStorAtaManaged.pdb
+D:\Works\vtStorX\vtStorInternal\vtStor\vtStorManaged.ATest\bin\x86\Release\vtStorManaged.pdb
+D:\Works\vtStorX\vtStorInternal\vtStor\vtStorManaged.ATest\obj\x86\Release\vtStorManaged.ATest.csprojResolveAssemblyReference.cache
+D:\Works\vtStorX\vtStorInternal\vtStor\vtStorManaged.ATest\obj\x86\Release\vtStorManaged.ATest.exe

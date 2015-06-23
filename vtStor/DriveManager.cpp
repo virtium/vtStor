@@ -41,7 +41,8 @@ eErrorCode cDriveManager::EnumerateDrives( eScanForHardwareChanges ScanForHardwa
 
     if ( eScanForHardwareChanges::Yes == ScanForHardwareChanges )
     {
-        //TODO: scan for hardware changes
+        // scan for hardware changes
+        m_Drives.clear();
     }
 
     U32 count = 0;
@@ -60,6 +61,16 @@ eErrorCode cDriveManager::EnumerateDrives( eScanForHardwareChanges ScanForHardwa
 const Vector_Drives& cDriveManager::GetDrives()
 {
     return( m_Drives );
+}
+
+std::shared_ptr<cDriveInterface> cDriveManager::GetDrive(const U32 DriveIndex)
+{
+    std::shared_ptr<cDriveInterface> driveInterface = nullptr;
+    if (m_Drives.size() > DriveIndex)
+    {
+        driveInterface = m_Drives[DriveIndex];
+    }
+    return(driveInterface);
 }
 
 }
