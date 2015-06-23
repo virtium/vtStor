@@ -34,6 +34,7 @@ vtStor/Debug/vtStor.tlog/vtStor.lastbuildstate
 *.tlog
 *.idb
 x64/
+obj/
 *.exp
 *.sdf
 *.ilk
