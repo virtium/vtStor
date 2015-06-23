@@ -41,7 +41,8 @@ eErrorCode cDriveManager::EnumerateDrives( eScanForHardwareChanges ScanForHardwa
 
     if ( eScanForHardwareChanges::Yes == ScanForHardwareChanges )
     {
-        //TODO: scan for hardware changes
+        // scan for hardware changes
+        m_Drives.clear();
     }
 
     U32 count = 0;

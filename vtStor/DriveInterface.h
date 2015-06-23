@@ -44,6 +44,7 @@ public:
 
 public:
     virtual ~cDriveInterface();
+
 };
 
 using Vector_Drives = std::vector<std::shared_ptr<cDriveInterface>>;

@@ -46,12 +46,15 @@ public:
     cCommandDescriptor1( std::shared_ptr<const cBufferInterface> Buffer );
 
 public:
+    DeviceHandle&                                       GetDeviceHandle();  
+    const DeviceHandle&                                 GetDeviceHandle() const;
     StorageUtility::Ata::uCommandFields&               GetCommandFields();
     const StorageUtility::Ata::uCommandFields&         GetCommandFields() const;
     StorageUtility::Ata::sCommandCharacteristic&       GetCommandCharacteristics();
     const StorageUtility::Ata::sCommandCharacteristic& GetCommandCharacteristics() const;
 
 private:
+    static const size_t DEVICE_HANDLE_OFFSET;  
     static const size_t COMMAND_FIELDS_OFFSET;
     static const size_t COMMAND_CHARACTERISTICS_OFFSET;
 };

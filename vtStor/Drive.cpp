@@ -15,15 +15,19 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
+#include <assert.h>
+
 #include "Drive.h"
 
 namespace vtStor
 {
 
-cDrive::cDrive()
+cDrive::cDrive(std::shared_ptr<String> DevicePath) : m_DevicePath(DevicePath)
 {
+    eErrorCode errorCode = GetStorageDeviceHandle(*m_DevicePath, m_DeviceHandle);
+    //TODO: handle error
+    assert(eErrorCode::None == errorCode);
 }
-
 
 cDrive::~cDrive()
 {
