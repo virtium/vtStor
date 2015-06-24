@@ -57,7 +57,7 @@ cBufferFormatter::Header& cBufferFormatter::GetHeader()
 
 const cBufferFormatter::Header& cBufferFormatter::GetHeader() const
 {
-    U8* buffer = m_Buffer->ToDataBuffer();
+    const U8* buffer = m_Buffer->ToDataBuffer();
     return( (Header&)buffer[HEADER_OFFSET] );
 }
 
