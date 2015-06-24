@@ -41,25 +41,36 @@ eErrorCode cCommandHandlerAta::IssueCommand( std::shared_ptr<const cBufferInterf
 {
     eErrorCode errorCode = eErrorCode::None;
 
-    //TODO: check command descriptor version and use the propriate parsing
+    cBufferFormatter bufferFormatter = cBufferFormatter::Reader(CommandDescriptor);
+    switch (bufferFormatter.GetHeader().Format)
+    {
+        case 1:
+        {
+            Ata::cCommandDescriptor1 commandDescriptor = Ata::cCommandDescriptor1::Reader(CommandDescriptor);
+            const StorageUtility::Ata::uCommandFields& commandFields = commandDescriptor.GetCommandFields();
 
-    Ata::cCommandDescriptor1 commandDescriptor( CommandDescriptor );
-    const StorageUtility::Ata::uCommandFields& commandFields = commandDescriptor.GetCommandFields();
-
-    std::shared_ptr<cBufferInterface> buffer = std::make_shared<cBuffer>( cBufferFormatter::HEADER_SIZE_IN_BYTES + vtStor::Protocol::cEssenseAta1::SIZE_IN_BYTES );
-    Protocol::cEssenseAta1 essense( buffer );
+            std::shared_ptr<cBufferInterface> buffer = std::make_shared<cBuffer>(cBufferFormatter::HEADER_SIZE_IN_BYTES + vtStor::Protocol::cEssenseAta1::SIZE_IN_BYTES);
+            Protocol::cEssenseAta1 essense(buffer);
     
-    DeviceHandle& deviceHandle = essense.GetDeviceHandle();
-    deviceHandle = commandDescriptor.GetDeviceHandle();
+            DeviceHandle& deviceHandle = essense.GetDeviceHandle();
+            deviceHandle = commandDescriptor.GetDeviceHandle();
 
-    StorageUtility::Ata::sCommandCharacteristic& commandCharacteristics = essense.GetCommandCharacteristics();
-    commandCharacteristics = commandDescriptor.GetCommandCharacteristics();
+            StorageUtility::Ata::sCommandCharacteristic& commandCharacteristics = essense.GetCommandCharacteristics();
+            commandCharacteristics = commandDescriptor.GetCommandCharacteristics();
 
-    StorageUtility::Ata::uTaskFileRegister& taskFile = essense.GetTaskFile();
-    StorageUtility::Ata::uTaskFileRegister& taskFileExt = essense.GetTaskFileExt();
-    PrepareTaskFileRegisters( commandCharacteristics, commandFields, taskFile, taskFileExt );
+            StorageUtility::Ata::uTaskFileRegister& taskFile = essense.GetTaskFile();
+            StorageUtility::Ata::uTaskFileRegister& taskFileExt = essense.GetTaskFileExt();
+            PrepareTaskFileRegisters(commandCharacteristics, commandFields, taskFile, taskFileExt);
 
-    errorCode = m_Protocol->IssueCommand( buffer, Data );
+            errorCode = m_Protocol->IssueCommand( buffer, Data );
+
+        } break;
+
+        default:
+        {
+            errorCode = eErrorCode::FormatNotSupported;
+        } break;
+    }
 
     return(errorCode);
 }
