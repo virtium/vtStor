@@ -31,6 +31,10 @@ namespace Protocol
 class VTSTOR_API cProtocolInterface
 {
 public:
+    static std::shared_ptr<vtStor::Protocol::cProtocolInterface> ToSharedPtr( void* Object );
+    static void* ToVoidPointer( std::shared_ptr<vtStor::Protocol::cProtocolInterface>& Object );
+
+public:
     cProtocolInterface();
     virtual ~cProtocolInterface();
 

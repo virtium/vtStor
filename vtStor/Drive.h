@@ -39,7 +39,7 @@ public:
     virtual ~cDrive();
 
 public:
-    virtual void RegisterComandHandler( U32 CommandType, std::shared_ptr<cCommandHandlerInterface> CommandHandler ) override;
+    virtual void RegisterCommandHandler(U32 CommandType, std::shared_ptr<cCommandHandlerInterface> CommandHandler) override;
 
 public:
     virtual eErrorCode IssueCommand(U32 CommandType, std::shared_ptr<const cBufferInterface> CommandDescriptor, std::shared_ptr<cBufferInterface> Data) override;
