@@ -26,6 +26,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vtStorManaged.ATest", "vtSt
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vtStorManaged.Test", "vtStorManaged.Test\vtStorManaged.Test.csproj", "{EB4C7B7F-9C54-462F-A103-1FEA260F247C}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vtStorProtocolManaged", "vtStorProtocolManaged\vtStorProtocolManaged.vcxproj", "{3F1631E9-76D6-4489-8DC1-F0D3846FF633}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -114,6 +116,14 @@ Global
 		{EB4C7B7F-9C54-462F-A103-1FEA260F247C}.Release|Win32.Build.0 = Release|x86
 		{EB4C7B7F-9C54-462F-A103-1FEA260F247C}.Release|x64.ActiveCfg = Release|x64
 		{EB4C7B7F-9C54-462F-A103-1FEA260F247C}.Release|x64.Build.0 = Release|x64
+		{3F1631E9-76D6-4489-8DC1-F0D3846FF633}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3F1631E9-76D6-4489-8DC1-F0D3846FF633}.Debug|Win32.Build.0 = Debug|Win32
+		{3F1631E9-76D6-4489-8DC1-F0D3846FF633}.Debug|x64.ActiveCfg = Debug|x64
+		{3F1631E9-76D6-4489-8DC1-F0D3846FF633}.Debug|x64.Build.0 = Debug|x64
+		{3F1631E9-76D6-4489-8DC1-F0D3846FF633}.Release|Win32.ActiveCfg = Release|Win32
+		{3F1631E9-76D6-4489-8DC1-F0D3846FF633}.Release|Win32.Build.0 = Release|Win32
+		{3F1631E9-76D6-4489-8DC1-F0D3846FF633}.Release|x64.ActiveCfg = Release|x64
+		{3F1631E9-76D6-4489-8DC1-F0D3846FF633}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -149,10 +149,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BufferInterfaceManaged.h" />
+    <ClInclude Include="CommandHandlerInterfaceManaged.h" />
     <ClInclude Include="DriveEnumeratorInterfaceManaged.h" />
     <ClInclude Include="DriveInterfaceManaged.h" />
     <ClInclude Include="DriveManagerInterfaceManaged.h" />
     <ClInclude Include="LockManaged.h" />
+    <ClInclude Include="ProtocolInterfaceManaged.h" />
     <ClInclude Include="SharedPtrManaged.h" />
     <ClInclude Include="UniquePtrManaged.h" />
   </ItemGroup>
@@ -161,6 +163,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="CommandHandlerInterfaceManaged.cpp" />
     <ClCompile Include="DriveEnumeratorInterfaceManaged.cpp" />
     <ClCompile Include="DriveInterfaceManaged.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
@@ -170,6 +173,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="ProtocolInterfaceManaged.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\vtStor\vtStor.vcxproj">

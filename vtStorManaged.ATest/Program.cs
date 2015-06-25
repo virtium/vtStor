@@ -18,6 +18,7 @@ limitations under the License.
 
 using vtStor.Ata.Managed;
 using vtStor.Managed;
+using vtStor.Protocol.Managed;
 
 namespace vtStorManaged.ATest
 {
@@ -58,6 +59,17 @@ namespace vtStorManaged.ATest
                 {
                     cBufferInterface buffer = new cBufferInterface(512);
                     cDriveInterface drive = driveManager.GetDrive(0);
+
+                    // Create protocol AtaPassThrough
+                    cProtocolInterface protocol = new cProtocolAtaPassThrough();
+
+                    // Create CommandHandlerAta
+                    cCommandHandlerInterface commandHandlerAta = new cCommandHandlerAta(protocol);
+
+                    // Register command handler to drive
+                    drive.RegisterCommandHandler(commandTypeAta, commandHandlerAta);
+
+                    // Issue command identify device
                     errorCode = cDriveAtaCommandExtensions.IssueCommand_IdentifyDevice(drive, commandTypeAta, buffer);
                     if (eErrorCode.None == errorCode)
                     {
