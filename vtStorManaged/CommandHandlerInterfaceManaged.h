@@ -16,33 +16,27 @@ limitations under the License.
 </License>
 */
 
-
-#include "ProtocolInterface.h"
+#ifndef __vtStorCommandHandlerInterfaceManaged_h__
+#define __vtStorCommandHandlerInterfaceManaged_h__
+#pragma once
 
 namespace vtStor
 {
-namespace Protocol
-{
+    namespace Managed
+    {
+        public ref class cCommandHandlerInterface abstract
+        {
+        public:
+            cCommandHandlerInterface();
+            virtual ~cCommandHandlerInterface();
 
-std::shared_ptr<vtStor::Protocol::cProtocolInterface> cProtocolInterface::ToSharedPtr( void* Object )
-{
-    return( *reinterpret_cast< std::shared_ptr<vtStor::Protocol::cProtocolInterface>* >( Object ) );
+        protected:
+            !cCommandHandlerInterface();
+
+        public:
+            virtual operator void*() abstract;
+        };
+    }
 }
 
-void* cProtocolInterface::ToVoidPointer( std::shared_ptr<vtStor::Protocol::cProtocolInterface>& Object )
-{
-    return( reinterpret_cast<void*>( &( Object ) ) );
-}
-
-cProtocolInterface::cProtocolInterface()
-{
-
-}
-
-cProtocolInterface::~cProtocolInterface()
-{
-
-}
-
-}
-}
+#endif

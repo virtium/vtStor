@@ -42,4 +42,9 @@ private:
 
 }
 
+extern "C"
+{
+    VT_STOR_ATA_API void vtStorCommandHandlerAtaInit( std::shared_ptr<vtStor::cCommandHandlerInterface>& CommandHandler, std::shared_ptr<vtStor::Protocol::cProtocolInterface> Protocol );
+}
+
 #endif

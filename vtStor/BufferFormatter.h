@@ -38,12 +38,16 @@ public:
     static const size_t HEADER_SIZE_IN_BYTES;
 
 public:
-    cBufferFormatter( std::shared_ptr<cBufferInterface> Buffer );
-    cBufferFormatter( std::shared_ptr<const cBufferInterface> Buffer );
+    static cBufferFormatter Reader(std::shared_ptr<const cBufferInterface> Buffer);
 
 public:
     Header& GetHeader();
     const Header& GetHeader() const;
+
+protected:
+    cBufferFormatter(std::shared_ptr<cBufferInterface> Buffer);
+    cBufferFormatter(std::shared_ptr<cBufferInterface> Buffer, U32 Format);
+    cBufferFormatter(std::shared_ptr<const cBufferInterface> Buffer);
 
 protected:
     static const size_t HEADER_OFFSET;

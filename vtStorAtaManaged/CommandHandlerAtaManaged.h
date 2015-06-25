@@ -16,38 +16,31 @@ limitations under the License.
 </License>
 */
 
-#ifndef __vtStorDriveInterfaceManaged_h__
-#define __vtStorDriveInterfaceManaged_h__
+#ifndef __vtStorCommandHandlerAtaManaged_h__
+#define __vtStorCommandHandlerAtaManaged_h__
 #pragma once
 
-#include "BufferInterfaceManaged.h"
-#include "CommandHandlerInterfaceManaged.h"
-#include "DriveInterface.h"
+#include "CommandHandlerInterface.h"
 #include "SharedPtrManaged.h"
 
 namespace vtStor
 {
     namespace Managed
     {
-        public ref class cDriveInterface
+        public ref class cCommandHandlerAta : public cCommandHandlerInterface
         {
         public:
-            cDriveInterface( std::shared_ptr<vtStor::cDriveInterface> Drive );
-            ~cDriveInterface();
+            cCommandHandlerAta( cProtocolInterface^ Protocol );
+            virtual ~cCommandHandlerAta();
 
         protected:
-            !cDriveInterface();
+            !cCommandHandlerAta();
 
         public:
-            operator void*();
-
-        public:
-            void RegisterCommandHandler(U32 CommandType, vtStor::Managed::cCommandHandlerInterface^ CommandHandler);
-
-            eErrorCode IssueCommand(U32 CommandType, vtStor::Managed::cBufferInterface^ CommandDescriptor, vtStor::Managed::cBufferInterface^ Data);
+            virtual operator void*() override;
 
         private:
-            cSharedPtr<vtStor::cDriveInterface> m_Drive;
+            cSharedPtr<vtStor::cCommandHandlerInterface> m_CommandHandler;
         };
     }
 }
