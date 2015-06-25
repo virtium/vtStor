@@ -67,3 +67,8 @@ private:
 
 }
 }
+
+extern "C"
+{
+    VT_STOR_PROTOCOL_API void vtStorProtocolAtaPassThroughInit(std::shared_ptr<vtStor::Protocol::cProtocolInterface>& Protocol);
+}

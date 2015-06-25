@@ -150,3 +150,8 @@ void cCommandHandlerAta::PrepareTaskFileRegisters( const StorageUtility::Ata::sC
 }
 
 }
+
+VT_STOR_ATA_API void vtStorCommandHandlerAtaInit( std::shared_ptr<vtStor::cCommandHandlerInterface>& CommandHandler, std::shared_ptr<vtStor::Protocol::cProtocolInterface> Protocol )
+{
+    CommandHandler = std::make_shared<vtStor::cCommandHandlerAta>( Protocol );
+}

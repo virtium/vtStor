@@ -32,6 +32,10 @@ namespace vtStor
 class VTSTOR_API cCommandHandlerInterface
 {
 public:
+    static std::shared_ptr<vtStor::cCommandHandlerInterface> ToSharedPtr( void* Object );
+    static void* ToVoidPointer( std::shared_ptr<vtStor::cCommandHandlerInterface>& Object );
+
+public:
     cCommandHandlerInterface( std::shared_ptr<Protocol::cProtocolInterface> Protocol );
     virtual ~cCommandHandlerInterface();
 
