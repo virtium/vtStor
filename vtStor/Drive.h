@@ -21,6 +21,8 @@ limitations under the License.
 
 #include <map>
 
+#include "CommandDescriptor.h"
+
 #include "StorageUtility.h"
 #include "BasicTypes.h"
 #include "DriveInterface.h"

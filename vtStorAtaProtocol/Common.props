@@ -6,7 +6,7 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Platform\Windows;$(SolutionDir)vtStor\Platform\Windows;$(SolutionDir)Common\Platform\x86x64\Windows;$(SolutionDir);$(SolutionDir)Common\Platform\x86x64;$(SolutionDir)Common;$(SolutionDir)vtStor;$(SolutionDir)StorageUtility</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>VT_STOR_PROTOCOL_DLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>VT_STOR_ATA_PROTOCOL_DLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <PostBuildEvent>
       <Command>python $(SolutionDir)PostBuildLibExport.py $(ProjectName) $(Platform)$(Configuration) $(SolutionDir)</Command>
