@@ -40,33 +40,20 @@ namespace Protocol
     
     eErrorCode cAtaPassThrough::IssueCommand( std::shared_ptr<cBufferInterface> Essense, std::shared_ptr<cBufferInterface> DataBuffer )
     {
+        cEssenseAta1 essense( Essense );
+        m_DeviceHandle = essense.GetDeviceHandle(); 
+
+        InitializePassThroughDirect( 
+            essense.GetCommandCharacteristics(), 
+            essense.GetTaskFileExt(),
+            essense.GetTaskFile(),
+            DataBuffer, 
+            60 //TODO: allow configurable timeout
+            );  
+
         eErrorCode errorCode = eErrorCode::None;
-
-        cEssenseAta1 essense = cEssenseAta1::Reader( Essense ); 
-        
-        switch (essense.GetHeader().Format)
-        {
-            case 1:
-            {
-                m_DeviceHandle = essense.GetDeviceHandle();
-
-                InitializePassThroughDirect(
-                    essense.GetCommandCharacteristics(),
-                    essense.GetTaskFileExt(),
-                    essense.GetTaskFile(),
-                    DataBuffer,
-                    60 //TODO: allow configurable timeout
-                    );
-
-                  
-                U32 bytesReturned = 0;
-                errorCode = IssuePassThroughDirectCommand(bytesReturned);
-            } break;
-
-            default:
-                errorCode = eErrorCode::FormatNotSupported;
-                break; 
-        }        
+        U32 bytesReturned = 0;
+        errorCode = IssuePassThroughDirectCommand( bytesReturned );
 
         return(errorCode);
     }
@@ -148,12 +135,11 @@ namespace Protocol
 
     eErrorCode cAtaPassThrough::IssuePassThroughDirectCommand( U32& BytesReturned )
     {
-        
         assert( INVALID_HANDLE_VALUE != m_DeviceHandle );
 
         eErrorCode error;
         error = eErrorCode::None;
-        
+
         BOOL commandSuccessfulFlag;
         DWORD bytesReturned;
         commandSuccessfulFlag = DeviceIoControl
@@ -172,7 +158,7 @@ namespace Protocol
         if (FALSE == commandSuccessfulFlag)
         {
             error = eErrorCode::Io;
-            
+
             //TODO: report extended error
             //fprintf( stderr, "\nDeviceIoControl was not successful. Error Code: %d", GetLastError() );
         }
@@ -185,7 +171,7 @@ namespace Protocol
 }
 }
 
-VT_STOR_ATA_PROTOCOL_API void vtStorProtocolAtaPassThroughInit(std::shared_ptr<vtStor::Protocol::cProtocolInterface>& Protocol)
+VT_STOR_PROTOCOL_API void vtStorProtocolAtaPassThroughInit(std::shared_ptr<vtStor::Protocol::cProtocolInterface>& Protocol)
 {
     Protocol = std::make_shared<vtStor::Protocol::cAtaPassThrough>();
 }

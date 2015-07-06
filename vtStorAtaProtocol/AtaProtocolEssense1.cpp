@@ -22,41 +22,38 @@ namespace vtStor
 {
 namespace Protocol
 {
-const size_t cEssenseAta1::COMMAND_CHARACTERISTICS_OFFSET   = cProtocolEssense::DEVICE_HANDLE_OFFSET + sizeof(DeviceHandle);
+const size_t cEssenseAta1::DEVICE_HANDLE_OFFSET             = cBufferFormatter::DATA_OFFSET;
+const size_t cEssenseAta1::COMMAND_CHARACTERISTICS_OFFSET   = cEssenseAta1::DEVICE_HANDLE_OFFSET + sizeof(DeviceHandle);
 const size_t cEssenseAta1::TASK_FILE_OFFSET                 = cEssenseAta1::COMMAND_CHARACTERISTICS_OFFSET + sizeof( StorageUtility::Ata::sCommandCharacteristic );
 const size_t cEssenseAta1::TASK_FILE_EXT_OFFSET             = cEssenseAta1::TASK_FILE_OFFSET + sizeof( StorageUtility::Ata::uTaskFileRegister );
 
-const size_t cEssenseAta1::SIZE_IN_BYTES    = cEssenseAta1::COMMAND_CHARACTERISTICS_OFFSET
-                                            + sizeof( StorageUtility::Ata::sCommandCharacteristic )
+const size_t cEssenseAta1::SIZE_IN_BYTES    = sizeof( StorageUtility::Ata::sCommandCharacteristic )
                                             + sizeof( StorageUtility::Ata::uTaskFileRegister )
                                             + sizeof( StorageUtility::Ata::uTaskFileRegister );
 
-cEssenseAta1 cEssenseAta1::Reader(std::shared_ptr<const cBufferInterface> Buffer)
+cEssenseAta1::cEssenseAta1( std::shared_ptr<cBufferInterface> Buffer ) :
+    cBufferFormatter( Buffer )
 {
-    return(cEssenseAta1(Buffer));
+    Header& header = GetHeader();
+    header.Format = 1;
 }
-
-cEssenseAta1 cEssenseAta1::Writer(std::shared_ptr<cBufferInterface> Buffer)
-{
-    return(cEssenseAta1(Buffer, 1));
-}
-
-cEssenseAta1::cEssenseAta1(std::shared_ptr<cBufferInterface> Buffer) :
-cProtocolEssense(Buffer)
+            
+cEssenseAta1::cEssenseAta1( std::shared_ptr<const cBufferInterface> Buffer ) :
+    cBufferFormatter( Buffer )
 {
 
 }
 
-cEssenseAta1::cEssenseAta1(std::shared_ptr<cBufferInterface> Buffer, U32 Format) :
-cProtocolEssense(Buffer, Format)
+DeviceHandle& cEssenseAta1::GetDeviceHandle()
 {
-
+    U8* buffer = m_Buffer->ToDataBuffer();
+    return( (DeviceHandle&)buffer[DEVICE_HANDLE_OFFSET] );
 }
 
-cEssenseAta1::cEssenseAta1(std::shared_ptr<const cBufferInterface> Buffer) :
-cProtocolEssense(Buffer)
+const DeviceHandle& cEssenseAta1::GetDeviceHandle() const
 {
-
+    const U8* buffer = m_Buffer->ToDataBuffer();
+    return((DeviceHandle&)buffer[DEVICE_HANDLE_OFFSET]);
 }
 
 StorageUtility::Ata::sCommandCharacteristic& cEssenseAta1::GetCommandCharacteristics()

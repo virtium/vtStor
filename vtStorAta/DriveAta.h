@@ -33,6 +33,8 @@ namespace vtStor
     public:
         virtual ~cDriveAta();
 
+    public:
+        virtual eErrorCode IssueCommand(U32 CommandType, std::shared_ptr<const cBufferInterface> CommandDescriptor, std::shared_ptr<cBufferInterface> Data) override;
     };
 }
 
