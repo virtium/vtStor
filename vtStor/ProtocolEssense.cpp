@@ -44,7 +44,7 @@ namespace vtStor
     }
 
     cProtocolEssense::cProtocolEssense(std::shared_ptr<const cBufferInterface> Buffer) :
-        cBufferFormatter(std::const_pointer_cast<cBufferInterface>(Buffer))
+        cBufferFormatter(Buffer)
     {
 
     }
