@@ -15,7 +15,7 @@
     <ClInclude Include="Platform\Windows\ProtocolAtaPassThrough.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Platform\Windows\vtStorProtocolPlatformDefines.h">
+    <ClInclude Include="Platform\Windows\vtStorAtaProtocolPlatformDefines.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

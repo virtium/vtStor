@@ -185,7 +185,7 @@ namespace Protocol
 }
 }
 
-VT_STOR_PROTOCOL_API void vtStorProtocolAtaPassThroughInit(std::shared_ptr<vtStor::Protocol::cProtocolInterface>& Protocol)
+VT_STOR_ATA_PROTOCOL_API void vtStorProtocolAtaPassThroughInit(std::shared_ptr<vtStor::Protocol::cProtocolInterface>& Protocol)
 {
     Protocol = std::make_shared<vtStor::Protocol::cAtaPassThrough>();
 }

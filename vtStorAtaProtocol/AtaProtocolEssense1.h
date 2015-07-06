@@ -22,7 +22,7 @@ limitations under the License.
 
 #include "BufferInterface.h"
 #include "StorageUtility/Ata.h"
-#include "vtStorProtocolPlatformDefines.h"
+#include "vtStorAtaProtocolPlatformDefines.h"
 #include "ProtocolEssense.h"
 
 namespace vtStor
@@ -30,7 +30,7 @@ namespace vtStor
 namespace Protocol
 {
 
-class VT_STOR_PROTOCOL_API cEssenseAta1 : public cProtocolEssense
+class VT_STOR_ATA_PROTOCOL_API cEssenseAta1 : public cProtocolEssense
 {
 public:
     static const size_t SIZE_IN_BYTES;
