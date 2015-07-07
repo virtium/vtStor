@@ -33,9 +33,12 @@ public:
 public:
     virtual U8* ToDataBuffer() override;
     virtual void SetByteAt(U32 Index, U8 Value) override;
+    virtual U8 GetByteAt(U32 Index) override;
+    virtual U32 GetSizeInBytes() override;
 
 protected:
     U8* m_Memory;
+    size_t m_SizeInBytes;
 };
 
 }

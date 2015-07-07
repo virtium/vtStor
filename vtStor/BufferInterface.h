@@ -40,6 +40,8 @@ public:
     //! The use of normal pointer is intentional
     virtual U8* ToDataBuffer() = 0;
     virtual void SetByteAt(U32 Index, U8 Value) = 0;
+    virtual U8 GetByteAt(U32 Index) = 0;
+    virtual U32 GetSizeInBytes() = 0;
 };
 
 VTSTOR_API_EXPORT_IMPL template class VTSTOR_API std::shared_ptr<cBufferInterface>;

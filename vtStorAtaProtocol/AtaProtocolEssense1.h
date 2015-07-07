@@ -22,26 +22,29 @@ limitations under the License.
 
 #include "BufferInterface.h"
 #include "StorageUtility/Ata.h"
-#include "vtStorProtocolPlatformDefines.h"
-#include "BufferFormatter.h"
+#include "vtStorAtaProtocolPlatformDefines.h"
+#include "ProtocolEssense.h"
 
 namespace vtStor
 {
 namespace Protocol
 {
 
-class VT_STOR_PROTOCOL_API cEssenseAta1 : public cBufferFormatter
+class VT_STOR_ATA_PROTOCOL_API cEssenseAta1 : public cProtocolEssense
 {
 public:
     static const size_t SIZE_IN_BYTES;
+    
+public:
+    static cEssenseAta1 Reader(std::shared_ptr<const cBufferInterface> Buffer);
+    static cEssenseAta1 Writer(std::shared_ptr<cBufferInterface> Buffer);
+
+protected:
+    cEssenseAta1(std::shared_ptr<cBufferInterface> Buffer);
+    cEssenseAta1(std::shared_ptr<cBufferInterface> Buffer, U32 Format);
+    cEssenseAta1(std::shared_ptr<const cBufferInterface> Buffer);
 
 public:
-    cEssenseAta1( std::shared_ptr<cBufferInterface> Buffer );
-    cEssenseAta1( std::shared_ptr<const cBufferInterface> Buffer );
-
-public:
-    DeviceHandle&                                      GetDeviceHandle();
-    const DeviceHandle&                                GetDeviceHandle() const;
 
     StorageUtility::Ata::sCommandCharacteristic&       GetCommandCharacteristics();
     const StorageUtility::Ata::sCommandCharacteristic& GetCommandCharacteristics() const;
@@ -53,7 +56,6 @@ public:
     const StorageUtility::Ata::uTaskFileRegister&   GetTaskFileExt() const;
 
 protected:
-    static const size_t DEVICE_HANDLE_OFFSET;
     static const size_t COMMAND_CHARACTERISTICS_OFFSET;
     static const size_t TASK_FILE_OFFSET;
     static const size_t TASK_FILE_EXT_OFFSET;

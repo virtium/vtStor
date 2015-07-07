@@ -22,8 +22,7 @@ namespace vtStor
 namespace Ata
 {
 
-const size_t cCommandDescriptor1::DEVICE_HANDLE_OFFSET = cBufferFormatter::DATA_OFFSET;
-const size_t cCommandDescriptor1::COMMAND_FIELDS_OFFSET = cCommandDescriptor1::DEVICE_HANDLE_OFFSET + sizeof(DeviceHandle);
+const size_t cCommandDescriptor1::COMMAND_FIELDS_OFFSET = cCommandDescriptor::DEVICE_HANDLE_OFFSET + sizeof(DeviceHandle);
 const size_t cCommandDescriptor1::COMMAND_CHARACTERISTICS_OFFSET = cCommandDescriptor1::COMMAND_FIELDS_OFFSET + sizeof(StorageUtility::Ata::uCommandFields);
 
 //! IMPORTANT NOTE: this must be updated to use the very last item
@@ -45,33 +44,21 @@ cCommandDescriptor1 cCommandDescriptor1::Modifier(std::shared_ptr<cBufferInterfa
 }
 
 cCommandDescriptor1::cCommandDescriptor1(std::shared_ptr<cBufferInterface> Buffer) :
-cBufferFormatter(Buffer)
+cCommandDescriptor(Buffer)
 {
 
 }
 
 cCommandDescriptor1::cCommandDescriptor1(std::shared_ptr<cBufferInterface> Buffer, U32 Format) :
-cBufferFormatter( Buffer, Format )
+cCommandDescriptor(Buffer, Format)
 {
     
 }
 
 cCommandDescriptor1::cCommandDescriptor1( std::shared_ptr<const cBufferInterface> Buffer ) :
-cBufferFormatter( Buffer )
+cCommandDescriptor(Buffer)
 {
     
-}
-
-DeviceHandle& cCommandDescriptor1::GetDeviceHandle()
-{
-    U8* buffer = m_Buffer->ToDataBuffer();
-    return( (DeviceHandle&)buffer[DEVICE_HANDLE_OFFSET] );
-}
-
-const DeviceHandle& cCommandDescriptor1::GetDeviceHandle() const
-{
-    const U8* buffer = m_Buffer->ToDataBuffer();
-    return((DeviceHandle&)buffer[DEVICE_HANDLE_OFFSET]);
 }
 
 StorageUtility::Ata::uCommandFields& cCommandDescriptor1::GetCommandFields()

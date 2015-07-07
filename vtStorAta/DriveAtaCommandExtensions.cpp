@@ -148,6 +148,7 @@ eErrorCode IssueCommand_Smart(std::shared_ptr<cDriveInterface> Drive, U32 Comman
     StorageUtility::Ata::uCommandFields& commandFields = commandDescriptorVersion1.GetCommandFields();
     commandFields.InputFields.Command = ATA_COMMAND_SMART;
     commandFields.InputFields.Feature = SubCommand;
+    commandFields.InputFields.Lba = ATA_SMART_IDENTIFIER;
 
     StorageUtility::Ata::sCommandCharacteristic& commandCharacteristics = commandDescriptorVersion1.GetCommandCharacteristics();
     commandCharacteristics.DeviceReadyFlag = StorageUtility::Ata::eDeviceReadyFlag::DEVICE_READY_REQUIRED;
@@ -171,7 +172,10 @@ eErrorCode IssueCommand_DownloadMicrocode(std::shared_ptr<cDriveInterface> Drive
     commandFields.InputFields.Command = ATA_COMMAND_DOWNLOADMICROCODE;
     commandFields.InputFields.Feature = SubCommand;
     commandFields.InputFields.Count = (BlockCount & 0xFF);
-    commandFields.InputFields.Lba = (BlockCount >> 8) | (BufferOffset << 8);
+    U64 address = ((BlockCount >> 8) & 0xFF);
+    address |= ((BufferOffset & 0xFF) << 8);
+    address |= ((BufferOffset & 0xFF00) << 8);
+    commandFields.InputFields.Lba = address;//(BlockCount >> 8) | (BufferOffset << 8);
 
     StorageUtility::Ata::sCommandCharacteristic& commandCharacteristics = commandDescriptorVersion1.GetCommandCharacteristics();
     commandCharacteristics.DeviceReadyFlag = StorageUtility::Ata::eDeviceReadyFlag::DEVICE_READY_REQUIRED;

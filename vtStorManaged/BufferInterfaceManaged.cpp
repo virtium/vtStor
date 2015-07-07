@@ -46,5 +46,15 @@ namespace vtStor
         {
             return( m_Buffer->SetByteAt( Index, Value ) );
         }
+
+        U8 cBufferInterface::GetByteAt(U32 Index)
+        {
+            return( m_Buffer->GetByteAt(Index) );
+        }
+
+        U32 cBufferInterface::GetSizeInBytes()
+        {
+            return( m_Buffer->GetSizeInBytes() );
+        }
     }
 }
