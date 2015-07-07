@@ -24,6 +24,9 @@
     <ClInclude Include="AtaManaged.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CommandHandlerAtaManaged.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DriveAtaCommandExtensionsManaged.cpp">
@@ -33,6 +36,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AtaManaged.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandHandlerInterfaceManaged.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

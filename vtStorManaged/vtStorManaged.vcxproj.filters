@@ -39,6 +39,12 @@
     <ClInclude Include="DriveManagerInterfaceManaged.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ProtocolInterfaceManaged.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandHandlerInterfaceManaged.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BufferInterfaceManaged.cpp">
@@ -51,6 +57,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DriveManagerInterfaceManaged.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ProtocolInterfaceManaged.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandHandlerInterfaceManaged.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
