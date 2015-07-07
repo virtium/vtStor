@@ -57,6 +57,10 @@
       <Project>{131076b3-3784-43d5-8f57-e6277de39de8}</Project>
       <Name>vtStorManaged</Name>
     </ProjectReference>
+    <ProjectReference Include="..\vtStorProtocolManaged\vtStorProtocolManaged.vcxproj">
+      <Project>{3f1631e9-76d6-4489-8dc1-f0d3846ff633}</Project>
+      <Name>vtStorProtocolManaged</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
