@@ -17,13 +17,13 @@ limitations under the License.
 */
 #include <memory>
 
-#include "DriveEnumeratorAta.h"
 #include "vtStor.h"
+#include "Buffer.h"
+
+#include "DriveEnumeratorAta.h"
 #include "vtStorAta.h"
 #include "CommandHandlerAta.h"
-#include "Buffer.h"
 #include "DriveAtaCommandExtensions.h"
-
 #include "ProtocolAtaPassThrough.h"
 
 #include "ErrorCodes.h"
