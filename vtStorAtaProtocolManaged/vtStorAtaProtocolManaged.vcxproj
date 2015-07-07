@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{3F1631E9-76D6-4489-8DC1-F0D3846FF633}</ProjectGuid>
-    <RootNamespace>vtStorProtocolManaged</RootNamespace>
+    <RootNamespace>vtStorAtaProtocolManaged</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -107,11 +107,11 @@
     <ClCompile Include="ProtocolAtaPassThroughManaged.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\vtStorAtaProtocol\vtStorAtaProtocol.vcxproj">
+      <Project>{1f24edf0-ef6d-46f8-b0c8-964120e50963}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\vtStorManaged\vtStorManaged.vcxproj">
       <Project>{131076b3-3784-43d5-8f57-e6277de39de8}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\vtStorProtocol\vtStorProtocol.vcxproj">
-      <Project>{840f9dbc-342a-4e8a-875b-1378f43e5d9f}</Project>
     </ProjectReference>
     <ProjectReference Include="..\vtStor\vtStor.vcxproj">
       <Project>{2595ae3d-ff40-47c4-b050-55d450843934}</Project>

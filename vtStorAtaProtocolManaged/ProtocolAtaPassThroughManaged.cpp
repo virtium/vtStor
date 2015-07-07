@@ -18,7 +18,7 @@ limitations under the License.
 
 #include "ProtocolAtaPassThroughManaged.h"
 
-#include "vtStorProtocol/Platform/Windows/ProtocolAtaPassThrough.h"
+#include "vtStorAtaProtocol/Platform/Windows/ProtocolAtaPassThrough.h"
 
 namespace vtStor
 {
