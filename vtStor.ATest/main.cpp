@@ -26,6 +26,8 @@ limitations under the License.
 
 #include "ProtocolAtaPassThrough.h"
 
+#include "ErrorCodes.h"
+
 void main()
 {
 #if 0
@@ -51,13 +53,30 @@ void main()
     // Create command handler
     std::shared_ptr<vtStor::cCommandHandlerInterface> commandHandlerAta = std::make_shared<vtStor::cCommandHandlerAta>(protocol);
     // Register command handler
-    drives[1]->RegisterComandHandler(vtStor::cAta::s_DefaultCommandHandlerCommandType, commandHandlerAta);
-    // Call command
-    vtStor::Ata::IssueCommand_IdentifyDevice(drives[1], vtStor::cAta::s_DefaultCommandHandlerCommandType, dataBuffer);
+    drives[1]->RegisterCommandHandler(vtStor::cAta::s_DefaultCommandHandlerCommandType, commandHandlerAta);
 
+    // Call command
+    //vtStor::Ata::IssueCommand_IdentifyDevice(drives[1], vtStor::cAta::s_DefaultCommandHandlerCommandType, dataBuffer);
+    //vtStor::Ata::IssueCommand_ReadBuffer(drives[1], vtStor::cAta::s_DefaultCommandHandlerCommandType, dataBuffer);
+    vtStor::Ata::IssueCommand_Smart(drives[1], vtStor::cAta::s_DefaultCommandHandlerCommandType, dataBuffer, 208);
+    
     vtStor::U8* data = dataBuffer->ToDataBuffer();
 
     // dump buffer
+    for (int i = 0; i < 512; i++)
+    {
+        if (i % 16 == 15)
+        {
+
+            printf("%02X\n", *data);
+            data++;
+        }
+        else
+        {
+            printf("%02X ", *data);
+            data++;
+        }
+    }
 
     getchar();
 }

@@ -39,5 +39,15 @@ namespace vtStor
         {
             return( vtStor::cDriveInterface::ToVoidPointer( *m_Drive ) );
         }
+
+        void cDriveInterface::RegisterCommandHandler(U32 CommandType, vtStor::Managed::cCommandHandlerInterface^ CommandHandler)
+        {
+            m_Drive->RegisterCommandHandler(CommandType, vtStor::cCommandHandlerInterface::ToSharedPtr(*CommandHandler));
+        }
+
+        eErrorCode cDriveInterface::IssueCommand(U32 CommandType, vtStor::Managed::cBufferInterface^ CommandDescriptor, vtStor::Managed::cBufferInterface^ Data)
+        {
+            return( m_Drive->IssueCommand( CommandType, vtStor::cBufferInterface::ToSharedPtr( *CommandDescriptor ), vtStor::cBufferInterface::ToSharedPtr( *Data ) ) );
+        }
     }
 }

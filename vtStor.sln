@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio Express 2013 for Windows Desktop
+VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vtStor", "vtStor\vtStor.vcxproj", "{2595AE3D-FF40-47C4-B050-55D450843934}"
 EndProject
@@ -16,8 +16,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vtStorAta", "vtStorAta\vtSt
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vtStor.Test", "vtStor.Test\vtStor.Test.vcxproj", "{1B9EF3CF-4867-42AB-8CF1-582D89BB25C8}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vtStorProtocol", "vtStorProtocol\vtStorProtocol.vcxproj", "{840F9DBC-342A-4E8A-875B-1378F43E5D9F}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vtStorManaged", "vtStorManaged\vtStorManaged.vcxproj", "{131076B3-3784-43D5-8F57-E6277DE39DE8}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vtStorAtaManaged", "vtStorAtaManaged\vtStorAtaManaged.vcxproj", "{AFAA866B-3981-4914-A526-C3274B270D38}"
@@ -25,6 +23,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vtStorManaged.ATest", "vtStorManaged.ATest\vtStorManaged.ATest.csproj", "{AAD52396-DA13-4A4D-ADB8-BE40267181F3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vtStorManaged.Test", "vtStorManaged.Test\vtStorManaged.Test.csproj", "{EB4C7B7F-9C54-462F-A103-1FEA260F247C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vtStorAtaProtocol", "vtStorAtaProtocol\vtStorAtaProtocol.vcxproj", "{1F24EDF0-EF6D-46F8-B0C8-964120E50963}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -74,14 +74,6 @@ Global
 		{1B9EF3CF-4867-42AB-8CF1-582D89BB25C8}.Release|Win32.Build.0 = Release|Win32
 		{1B9EF3CF-4867-42AB-8CF1-582D89BB25C8}.Release|x64.ActiveCfg = Release|x64
 		{1B9EF3CF-4867-42AB-8CF1-582D89BB25C8}.Release|x64.Build.0 = Release|x64
-		{840F9DBC-342A-4E8A-875B-1378F43E5D9F}.Debug|Win32.ActiveCfg = Debug|Win32
-		{840F9DBC-342A-4E8A-875B-1378F43E5D9F}.Debug|Win32.Build.0 = Debug|Win32
-		{840F9DBC-342A-4E8A-875B-1378F43E5D9F}.Debug|x64.ActiveCfg = Debug|x64
-		{840F9DBC-342A-4E8A-875B-1378F43E5D9F}.Debug|x64.Build.0 = Debug|x64
-		{840F9DBC-342A-4E8A-875B-1378F43E5D9F}.Release|Win32.ActiveCfg = Release|Win32
-		{840F9DBC-342A-4E8A-875B-1378F43E5D9F}.Release|Win32.Build.0 = Release|Win32
-		{840F9DBC-342A-4E8A-875B-1378F43E5D9F}.Release|x64.ActiveCfg = Release|x64
-		{840F9DBC-342A-4E8A-875B-1378F43E5D9F}.Release|x64.Build.0 = Release|x64
 		{131076B3-3784-43D5-8F57-E6277DE39DE8}.Debug|Win32.ActiveCfg = Debug|Win32
 		{131076B3-3784-43D5-8F57-E6277DE39DE8}.Debug|Win32.Build.0 = Debug|Win32
 		{131076B3-3784-43D5-8F57-E6277DE39DE8}.Debug|x64.ActiveCfg = Debug|x64
@@ -114,6 +106,14 @@ Global
 		{EB4C7B7F-9C54-462F-A103-1FEA260F247C}.Release|Win32.Build.0 = Release|x86
 		{EB4C7B7F-9C54-462F-A103-1FEA260F247C}.Release|x64.ActiveCfg = Release|x64
 		{EB4C7B7F-9C54-462F-A103-1FEA260F247C}.Release|x64.Build.0 = Release|x64
+		{1F24EDF0-EF6D-46F8-B0C8-964120E50963}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1F24EDF0-EF6D-46F8-B0C8-964120E50963}.Debug|Win32.Build.0 = Debug|Win32
+		{1F24EDF0-EF6D-46F8-B0C8-964120E50963}.Debug|x64.ActiveCfg = Debug|x64
+		{1F24EDF0-EF6D-46F8-B0C8-964120E50963}.Debug|x64.Build.0 = Debug|x64
+		{1F24EDF0-EF6D-46F8-B0C8-964120E50963}.Release|Win32.ActiveCfg = Release|Win32
+		{1F24EDF0-EF6D-46F8-B0C8-964120E50963}.Release|Win32.Build.0 = Release|Win32
+		{1F24EDF0-EF6D-46F8-B0C8-964120E50963}.Release|x64.ActiveCfg = Release|x64
+		{1F24EDF0-EF6D-46F8-B0C8-964120E50963}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

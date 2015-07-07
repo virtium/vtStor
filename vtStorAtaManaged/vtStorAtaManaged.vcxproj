@@ -142,6 +142,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AtaManaged.h" />
+    <ClInclude Include="CommandHandlerAtaManaged.h" />
     <ClInclude Include="DriveAtaCommandExtensionsManaged.h" />
     <ClInclude Include="DriveEnumeratorAtaManaged.h" />
   </ItemGroup>
@@ -158,6 +159,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AtaManaged.cpp" />
+    <ClCompile Include="CommandHandlerInterfaceManaged.cpp" />
     <ClCompile Include="DriveAtaCommandExtensionsManaged.cpp" />
     <ClCompile Include="DriveEnumeratorAtaManaged.cpp" />
   </ItemGroup>
