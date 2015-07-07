@@ -61,3 +61,5 @@ vtStorAtaManaged/Win32Debug/
 vtStor.Test/Win32Debug/
 vtStorProtocol/Win32Debug/
 Debug/
+Common/ScanForHardwareChanges.h
+vtStorManaged/ScanForHardwareChangesManaged.h

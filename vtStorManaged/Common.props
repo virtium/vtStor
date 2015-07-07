@@ -15,7 +15,8 @@
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies> <AdditionalLibraryDirectories>$(SolutionDir)StorageUtility\$(Platform)$(Configuration);$(SolutionDir)vtStor\$(Platform)$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
-      <Command>python $(SolutionDir)GenerateFiles\GenerateFiles.py $(SolutionDir)vtStorManaged\ErrorCodesManaged.h $(SolutionDir)GenerateFiles\ErrorCodesManagedTemplate.h $(SolutionDir)GenerateFiles\ErrorCodes.xml</Command>
+      <Command>python $(SolutionDir)GenerateFiles\GenerateFiles.py $(SolutionDir)vtStorManaged\ErrorCodesManaged.h $(SolutionDir)GenerateFiles\ErrorCodesManagedTemplate.h $(SolutionDir)GenerateFiles\ErrorCodes.xml
+python $(SolutionDir)GenerateFiles\GenerateFiles.py $(SolutionDir)vtStorManaged\ScanForHardwareChangesManaged.h $(SolutionDir)GenerateFiles\ScanForHardwareChangesManagedTemplate.h $(SolutionDir)GenerateFiles\ScanForHardwareChanges.xml</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command />
