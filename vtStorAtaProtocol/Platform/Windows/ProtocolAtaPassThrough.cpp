@@ -49,6 +49,7 @@ namespace Protocol
             case 1:
             {
                 cEssenseAta1 essense = cEssenseAta1::Reader(Essense);
+                
                 m_DeviceHandle = essense.GetDeviceHandle();
 
                 InitializePassThroughDirect(
@@ -58,7 +59,6 @@ namespace Protocol
                     DataBuffer,
                     60 //TODO: allow configurable timeout
                     );
-
                   
                 U32 bytesReturned = 0;
                 errorCode = IssuePassThroughDirectCommand(bytesReturned);
