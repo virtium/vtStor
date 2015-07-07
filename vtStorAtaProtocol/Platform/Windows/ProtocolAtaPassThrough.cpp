@@ -42,12 +42,13 @@ namespace Protocol
     {
         eErrorCode errorCode = eErrorCode::None;
 
-        cEssenseAta1 essense = cEssenseAta1::Reader( Essense ); 
+        cBufferFormatter bufferFormatter = cBufferFormatter::Reader(Essense);       
         
-        switch (essense.GetHeader().Format)
+        switch (bufferFormatter.GetHeader().Format)
         {
             case 1:
             {
+                cEssenseAta1 essense = cEssenseAta1::Reader(Essense);
                 m_DeviceHandle = essense.GetDeviceHandle();
 
                 InitializePassThroughDirect(
