@@ -39,6 +39,8 @@ namespace vtStor
         public:
             operator void*();
             void SetByteAt( U32 Index, U8 value );
+            U8 GetByteAt( U32 Index );
+            U32 GetSizeInBytes();
 
         private:
             cSharedPtr<vtStor::cBufferInterface> m_Buffer;

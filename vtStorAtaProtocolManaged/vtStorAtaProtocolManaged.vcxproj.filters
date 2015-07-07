@@ -15,25 +15,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Platform\Windows\ProtocolAtaPassThrough.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="AtaProtocolEssense1.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClInclude Include="ProtocolAtaPassThroughManaged.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Platform\Windows\ProtocolAtaPassThrough.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Platform\Windows\vtStorAtaPlatformDefines.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AtaProtocolEssense1.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Platform\Windows\vtStorProtocolPlatformDefines.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <ClCompile Include="ProtocolAtaPassThroughManaged.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
