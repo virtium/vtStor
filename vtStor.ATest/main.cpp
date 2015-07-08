@@ -43,7 +43,7 @@ void main()
     vtStor::cAta::s_DefaultCommandHandlerCommandType = 0;
     std::shared_ptr<vtStor::cDriveEnumeratorInterface> driveEnumeratorAta = std::make_unique<vtStor::cDriveEnumeratorAta>();
     driveManager->RegisterDriveEnumerator(driveEnumeratorAta);
-    driveManager->EnumerateDrives( vtStor::cDriveManagerInterface::eScanForHardwareChanges::No );
+    driveManager->EnumerateDrives( vtStor::eScanForHardwareChanges::No );
 
     vtStor::Vector_Drives drives = driveManager->GetDrives();
     // Create data buffer

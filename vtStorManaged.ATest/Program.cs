@@ -46,7 +46,7 @@ namespace vtStorManaged.ATest
             driveManager.RegisterDriveEnumerator(driveEnumeratorAta);
 
             // Enumerate drives
-            errorCode = driveManager.EnumerateDrives();
+            errorCode = driveManager.EnumerateDrives( vtStor.Managed.eScanForHardwareChanges.Yes );
             if (eErrorCode.None == errorCode)
             {
                 System.Console.WriteLine("Enumerate drive successfully!!!");
