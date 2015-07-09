@@ -48,14 +48,10 @@ vtStor.Test/x64Release/Intermediate/vtStor.Test.vcxprojResolveAssemblyReference.
 vtStorAta/x64Debug/
 vtStor.Test/x64Debug/
 Common/ErrorCodes.h
+Common/ScanForHardwareChanges.h
+vtStorManaged/ScanForHardwareChangesManaged.h
 vtStorManaged/ErrorCodesManaged.h
 vtStorManaged.ATest/bin/
 vtStorManaged.ATest/obj/
 vtStorManaged.Test/obj/
-vtStorManaged/Win32Debug
-vtStorAtaManaged/Win32Debug
-vtStorManaged/x64Debug
-vtStorAtaManaged/x64Debug
-
-
-/vtStorManaged/ErrorCodesManaged.h
+vtStor - Copy.opensdf

@@ -46,13 +46,13 @@ namespace vtStor
             m_DriveManager->RegisterDriveEnumerator( driveEnumerator );
         }
 
-        eErrorCode cDriveManagerInterface::EnumerateDrives()
+        eErrorCode cDriveManagerInterface::EnumerateDrives( eScanForHardwareChanges ScanForHardwareChanges )
         {
             eErrorCode errorCode;
             errorCode = eErrorCode::NullPointer;
             if (nullptr != *m_DriveManager)
             {
-                errorCode = static_cast<eErrorCode>( m_DriveManager->EnumerateDrives( vtStor::cDriveManagerInterface::eScanForHardwareChanges::No ) );
+                errorCode = static_cast<eErrorCode>( m_DriveManager->EnumerateDrives( static_cast<vtStor::eScanForHardwareChanges>( ScanForHardwareChanges ) ) );
             }
             return( errorCode );
         }
