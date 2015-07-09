@@ -19,7 +19,8 @@
 python $(SolutionDir)GenerateFiles\GenerateFiles.py $(SolutionDir)vtStorManaged\ScanForHardwareChangesManaged.h $(SolutionDir)GenerateFiles\ScanForHardwareChangesManagedTemplate.h $(SolutionDir)GenerateFiles\ScanForHardwareChanges.xml</Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command />
+      <Command>cd $(SolutionDir)
+python Build\BuildEventer.py Build\BuildEventer.xml $(ProjectName) $(Platform) $(Configuration)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup />
