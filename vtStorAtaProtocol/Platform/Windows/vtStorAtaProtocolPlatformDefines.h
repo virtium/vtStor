@@ -15,32 +15,15 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
-#ifndef __vtStorBuffer_h__
-#define __vtStorBuffer_h__
-#pragma once
+#ifndef __vtStorAtaProtocolPlatformDefines_h__
+#define __vtStorAtaProtocolPlatformDefines_h__
 
-#include "BufferInterface.h"
 
-namespace vtStor
-{
 
-class VTSTOR_API cBuffer : public cBufferInterface
-{
-public:
-    cBuffer( size_t SizeInBytes );
-    virtual ~cBuffer();
-
-public:
-    virtual U8* ToDataBuffer() override;
-    virtual void SetByteAt(U32 Index, U8 Value) override;
-    virtual U8 GetByteAt(U32 Index) override;
-    virtual U32 GetSizeInBytes() override;
-
-protected:
-    U8* m_Memory;
-    size_t m_SizeInBytes;
-};
-
-}
+#ifdef VT_STOR_ATA_PROTOCOL_DLL_EXPORTS
+#define VT_STOR_ATA_PROTOCOL_API _declspec( dllexport )
+#else
+#define VT_STOR_ATA_PROTOCOL_API _declspec( dllimport )
+#endif
 
 #endif

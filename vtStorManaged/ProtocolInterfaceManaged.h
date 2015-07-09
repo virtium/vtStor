@@ -15,15 +15,28 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
-#ifndef __vtStorProtocolPlatformDefines_h__
-#define __vtStorProtocolPlatformDefines_h__
 
+#ifndef __vtStorProtocolInterfaceManaged_h__
+#define __vtStorProtocolInterfaceManaged_h__
+#pragma once
 
+namespace vtStor
+{
+    namespace Managed
+    {
+        public ref class cProtocolInterface abstract
+        {
+        public:
+            cProtocolInterface();
+            virtual ~cProtocolInterface();
 
-#ifdef VT_STOR_PROTOCOL_DLL_EXPORTS
-#define VT_STOR_PROTOCOL_API _declspec( dllexport )
-#else
-#define VT_STOR_PROTOCOL_API _declspec( dllimport )
-#endif
+        protected:
+            !cProtocolInterface();
+
+        public:
+            virtual operator void*() abstract;
+        };
+    }
+}
 
 #endif

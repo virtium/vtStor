@@ -15,30 +15,12 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DriveAtaCommandExtensionsManaged.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DriveEnumeratorAtaManaged.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AtaManaged.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CommandHandlerAtaManaged.h">
+    <ClInclude Include="ProtocolAtaPassThroughManaged.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DriveAtaCommandExtensionsManaged.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DriveEnumeratorAtaManaged.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="AtaManaged.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CommandHandlerInterfaceManaged.cpp">
+    <ClCompile Include="ProtocolAtaPassThroughManaged.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
