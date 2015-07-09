@@ -23,6 +23,7 @@ limitations under the License.
 #include "DriveManagerInterface.h"
 #include "DriveEnumeratorInterfaceManaged.h"
 #include "ErrorCodesManaged.h"
+#include "ScanForHardwareChangesManaged.h"
 #include "UniquePtrManaged.h"
 
 namespace vtStor
@@ -42,7 +43,7 @@ namespace vtStor
 
         public:
             void        RegisterDriveEnumerator( cDriveEnumeratorInterface^ DriveEnumerator );
-            eErrorCode  EnumerateDrives();
+            eErrorCode  EnumerateDrives( eScanForHardwareChanges ScanForHardwareChanges );
 
         public:
             U32     GetDriveCount();
