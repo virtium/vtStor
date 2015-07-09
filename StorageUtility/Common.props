@@ -20,6 +20,10 @@
       <Command>cd $(SolutionDir)
 python Build\BuildEventer.py Build\BuildEventer.xml $(ProjectName) $(Platform) $(Configuration)</Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>python $(SolutionDir)GenerateFiles\GenerateFiles.py $(SolutionDir)Common\ErrorCodes.h $(SolutionDir)GenerateFiles\ErrorCodesTemplate.h $(SolutionDir)GenerateFiles\ErrorCodes.xml
+python $(SolutionDir)GenerateFiles\GenerateFiles.py $(SolutionDir)Common\ScanForHardwareChanges.h $(SolutionDir)GenerateFiles\ScanForHardwareChangesTemplate.h $(SolutionDir)GenerateFiles\ScanForHardwareChanges.xml</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup />
 </Project>
