@@ -21,6 +21,7 @@ limitations under the License.
 #include "DriveInterface.h"
 #include "DriveEnumeratorInterface.h"
 #include "ErrorCodes.h"
+#include "ScanForHardwareChanges.h"
 
 namespace vtStor
 {
@@ -28,12 +29,6 @@ namespace vtStor
 class cDriveManagerInterface
 {
 public:
-    enum eScanForHardwareChanges
-    {
-        No,
-        Yes
-    };
-
     virtual void RegisterDriveEnumerator( std::shared_ptr<cDriveEnumeratorInterface> DriveEnumerator ) = 0;
 
     virtual eErrorCode EnumerateDrives( eScanForHardwareChanges ScanForHardwareChanges ) = 0;

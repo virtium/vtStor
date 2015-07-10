@@ -52,7 +52,7 @@ namespace vtStorManaged.Test
             driveManager.RegisterDriveEnumerator(driveEnumeratorAta);
 
             // Enumerate drives
-            errorCode = driveManager.EnumerateDrives();
+            errorCode = driveManager.EnumerateDrives( eScanForHardwareChanges.Yes );
         }
     }
 }

@@ -17,16 +17,14 @@ limitations under the License.
 */
 #include <memory>
 
-#include "vtStor.h"
 #include "Buffer.h"
-
-#include "DriveEnumeratorAta.h"
-#include "vtStorAta.h"
 #include "CommandHandlerAta.h"
 #include "DriveAtaCommandExtensions.h"
-#include "ProtocolAtaPassThrough.h"
-
+#include "DriveEnumeratorAta.h"
 #include "ErrorCodes.h"
+#include "ProtocolAtaPassThrough.h"
+#include "vtStor.h"
+#include "vtStorAta.h"
 
 void main()
 {
@@ -43,7 +41,7 @@ void main()
     vtStor::cAta::s_DefaultCommandHandlerCommandType = 0;
     std::shared_ptr<vtStor::cDriveEnumeratorInterface> driveEnumeratorAta = std::make_unique<vtStor::cDriveEnumeratorAta>();
     driveManager->RegisterDriveEnumerator(driveEnumeratorAta);
-    driveManager->EnumerateDrives( vtStor::cDriveManagerInterface::eScanForHardwareChanges::No );
+    driveManager->EnumerateDrives( vtStor::eScanForHardwareChanges::No );
 
     vtStor::Vector_Drives drives = driveManager->GetDrives();
     // Create data buffer
@@ -59,7 +57,7 @@ void main()
     //vtStor::Ata::IssueCommand_IdentifyDevice(drives[1], vtStor::cAta::s_DefaultCommandHandlerCommandType, dataBuffer);
     //vtStor::Ata::IssueCommand_ReadBuffer(drives[1], vtStor::cAta::s_DefaultCommandHandlerCommandType, dataBuffer);
     vtStor::Ata::IssueCommand_Smart(drives[1], vtStor::cAta::s_DefaultCommandHandlerCommandType, dataBuffer, 208);
-    
+
     vtStor::U8* data = dataBuffer->ToDataBuffer();
 
     // dump buffer
