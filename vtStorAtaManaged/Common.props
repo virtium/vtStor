@@ -16,7 +16,8 @@
       <AdditionalLibraryDirectories>$(SolutionDir)$(Platform)$(Configuration);$(SolutionDir)vtStor\$(Platform)$(Configuration);$(SolutionDir)vtStorAta\$(Platform)$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command></Command>
+      <Command>cd $(SolutionDir)
+python Build\BuildEventer.py Build\BuildEventer.xml $(ProjectName) $(Platform) $(Configuration)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup />

@@ -11,11 +11,9 @@
       <AdditionalIncludeDirectories>$(SolutionDir)Common;$(SolutionDir)Common\Platform\x86x64;$(SolutionDir)Common\Platform\x86x64\Windows;$(ProjectDir)Platform\Windows</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>VTSTOR_DLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
-    <PreBuildEvent>
-      <Command>python $(SolutionDir)GenerateFiles\GenerateFiles.py $(SolutionDir)Common\ErrorCodes.h $(SolutionDir)GenerateFiles\ErrorCodesTemplate.h $(SolutionDir)GenerateFiles\ErrorCodes.xml</Command>
-    </PreBuildEvent>
     <PostBuildEvent>
-      <Command>python $(SolutionDir)PostBuildLibExport.py $(ProjectName) $(Platform)$(Configuration) $(SolutionDir)</Command>
+      <Command>cd $(SolutionDir)
+python Build\BuildEventer.py Build\BuildEventer.xml $(ProjectName) $(Platform) $(Configuration)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup />
