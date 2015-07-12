@@ -27,30 +27,36 @@ cBuffer::cBuffer( size_t SizeInBytes ) :
 {
     assert( 0 != SizeInBytes );
 
-    m_Memory = new U8[SizeInBytes];
+    // Allocate enough memory to ensure cache alignment
+    m_UnalignedBuffer = new U8[ m_SizeInBytes + CACHE_ALIGN_BYTES ];
+    U16 currentAddress = ((U32)m_UnalignedBuffer & 0x0000FFFF);
+    U16 nextAlignAddress = ((currentAddress | CACHE_ALIGN_BITMASK) + 1);
+    m_AlignedBuffer = (m_UnalignedBuffer + (nextAlignAddress - currentAddress));
 }
 
 cBuffer::~cBuffer()
 {
-    if ( nullptr != m_Memory )
+    if ( nullptr != m_UnalignedBuffer )
     {
-        delete[] m_Memory;
+        delete[] m_UnalignedBuffer;
     }
 }
 
 U8* cBuffer::ToDataBuffer()
 {
-    return( m_Memory );
+    return( m_AlignedBuffer );
 }
 
-void cBuffer::SetByteAt(U32 Index, U8 Value)
+void cBuffer::SetByteAt( U32 Index, U8 Value )
 {
-    m_Memory[Index] = Value;
+    assert( Index < m_SizeInBytes );
+    m_AlignedBuffer[ Index ] = Value;
 }
 
-U8 cBuffer::GetByteAt(U32 Index)
+U8 cBuffer::GetByteAt( U32 Index )
 {
-    return( m_Memory[Index] );
+    assert( Index < m_SizeInBytes );
+    return( m_AlignedBuffer[ Index ] );
 }
 
 U32 cBuffer::GetSizeInBytes()
