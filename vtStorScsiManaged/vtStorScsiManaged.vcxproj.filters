@@ -15,25 +15,31 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Windows\StorageUtility.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Ata.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Scsi.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClInclude Include="DriveScsiCommandExtensionsManaged.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DriveEnumeratorScsiManaged.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ScsiManaged.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandHandlerScsiManaged.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Windows\StorageUtility.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Ata.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Scsi.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <ClCompile Include="DriveScsiCommandExtensionsManaged.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DriveEnumeratorScsiManaged.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ScsiManaged.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandHandlerScsiManaged.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

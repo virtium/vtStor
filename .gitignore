@@ -55,3 +55,4 @@ vtStorManaged.ATest/bin/
 vtStorManaged.ATest/obj/
 vtStorManaged.Test/obj/
 vtStor - Copy.opensdf
+*.cache

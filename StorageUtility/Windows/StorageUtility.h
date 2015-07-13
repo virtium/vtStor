@@ -58,6 +58,7 @@ namespace vtStor
     eErrorCode GetStorageAdapterProperty( HANDLE Handle, sStorageAdapterProperty& AdapterProperty );
 
     bool IsAtaDeviceBus( sStorageAdapterProperty StorageAdapterProperty );
+    bool IsScsiDeviceBus( sStorageAdapterProperty StorageAdapterProperty );
 }
 
 #endif
