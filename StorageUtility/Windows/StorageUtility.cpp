@@ -225,4 +225,23 @@ bool IsAtaDeviceBus( sStorageAdapterProperty StorageDeviceProperty )
     return successFlag;
 }
 
+bool IsScsiDeviceBus(sStorageAdapterProperty StorageDeviceProperty)
+{
+    bool successFlag = false;
+    switch (StorageDeviceProperty.BusType)
+    {
+    case BusTypeScsi:
+    case BusTypeUsb:
+    case BusTypeiScsi:
+    {
+                         successFlag = true;
+    }
+        break;
+    default:
+        break;
+    }
+
+    return successFlag;
+}
+
 }

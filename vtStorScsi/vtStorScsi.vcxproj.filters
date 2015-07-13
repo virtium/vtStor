@@ -15,24 +15,45 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Windows\StorageUtility.cpp">
+    <ClCompile Include="DriveEnumeratorScsi.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Ata.cpp">
+    <ClCompile Include="CommandHandlerScsi.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Scsi.cpp">
+    <ClCompile Include="DriveScsi.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="vtStorScsi.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DriveScsiCommandExtensions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ScsiCommandDescriptor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Windows\StorageUtility.h">
+    <ClInclude Include="DriveEnumeratorScsi.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Ata.h">
+    <ClInclude Include="CommandHandlerScsi.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Scsi.h">
+    <ClInclude Include="DriveScsi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Windows\vtStorScsiPlatformDefines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="vtStorScsi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DriveScsiCommandExtensions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ScsiCommandDescriptor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
