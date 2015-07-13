@@ -27,6 +27,21 @@ namespace vtStor
 namespace Protocol
 {
 
+    cScsiPassThrough::cScsiPassThrough()
+    {
+        ProtocolType = 1;
+    }
+
+    cScsiPassThrough::~cScsiPassThrough()
+    {
+    
+    }
+
+    U8 cScsiPassThrough::GetProtocolType()
+    {
+        return ( ProtocolType );
+    }
+
     eErrorCode cScsiPassThrough::IssueCommand( std::shared_ptr<cBufferInterface> Essense, std::shared_ptr<cBufferInterface> DataBuffer )
     {
         eErrorCode errorCode = eErrorCode::None;

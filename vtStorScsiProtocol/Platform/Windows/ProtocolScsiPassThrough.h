@@ -37,9 +37,15 @@ namespace Protocol
 
 class VT_STOR_SCSI_PROTOCOL_API cScsiPassThrough : public cProtocolInterface
 {
+public:
+    cScsiPassThrough();
+    ~cScsiPassThrough();
 
 public:
     virtual eErrorCode IssueCommand( std::shared_ptr<cBufferInterface> Essense, std::shared_ptr<cBufferInterface> DataBuffer ) override;
+
+public:
+    virtual U8 GetProtocolType() override;
 
 private:
     void InitializePassThroughDirect(
