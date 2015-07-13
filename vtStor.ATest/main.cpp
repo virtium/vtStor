@@ -57,7 +57,7 @@ void main()
     //vtStor::Ata::IssueCommand_IdentifyDevice(drives[1], vtStor::cAta::s_DefaultCommandHandlerCommandType, dataBuffer);
     //vtStor::Ata::IssueCommand_ReadBuffer(drives[1], vtStor::cAta::s_DefaultCommandHandlerCommandType, dataBuffer);
     vtStor::Ata::IssueCommand_Smart(drives[1], vtStor::cAta::s_DefaultCommandHandlerCommandType, dataBuffer, 208);
-    
+
     vtStor::U8* data = dataBuffer->ToDataBuffer();
 
     // dump buffer
