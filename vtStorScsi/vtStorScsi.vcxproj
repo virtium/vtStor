@@ -105,8 +105,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>cd $(SolutionDir)
-python Build\BuildEventer.py Build\BuildEventer.xml $(ProjectName) $(Platform) $(Configuration)</Command>
+      <Command />
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -123,8 +122,7 @@ python Build\BuildEventer.py Build\BuildEventer.xml $(ProjectName) $(Platform) $
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>cd $(SolutionDir)
-python Build\BuildEventer.py Build\BuildEventer.xml $(ProjectName) $(Platform) $(Configuration)</Command>
+      <Command />
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -144,10 +142,6 @@ python Build\BuildEventer.py Build\BuildEventer.xml $(ProjectName) $(Platform) $
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
-    <PostBuildEvent>
-      <Command>cd $(SolutionDir)
-python Build\BuildEventer.py Build\BuildEventer.xml $(ProjectName) $(Platform) $(Configuration)</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -166,13 +160,9 @@ python Build\BuildEventer.py Build\BuildEventer.xml $(ProjectName) $(Platform) $
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
-    <PostBuildEvent>
-      <Command>cd $(SolutionDir)
-python Build\BuildEventer.py Build\BuildEventer.xml $(ProjectName) $(Platform) $(Configuration)</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ScsiCommandDescriptor.cpp" />
+    <ClCompile Include="AtaPassThroughCommandDescriptor.cpp" />
     <ClCompile Include="CommandHandlerScsi.cpp" />
     <ClCompile Include="DriveScsi.cpp" />
     <ClCompile Include="DriveScsiCommandExtensions.cpp" />
@@ -180,7 +170,7 @@ python Build\BuildEventer.py Build\BuildEventer.xml $(ProjectName) $(Platform) $
     <ClCompile Include="vtStorScsi.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ScsiCommandDescriptor.h" />
+    <ClInclude Include="AtaPassThroughCommandDescriptor.h" />
     <ClInclude Include="CommandHandlerScsi.h" />
     <ClInclude Include="DriveScsi.h" />
     <ClInclude Include="DriveScsiCommandExtensions.h" />

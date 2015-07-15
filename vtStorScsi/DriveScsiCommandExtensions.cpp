@@ -17,7 +17,7 @@ limitations under the License.
 */
 #include "vtStorScsi.h"
 #include "Buffer.h"
-#include "ScsiCommandDescriptor.h"
+#include "AtaPassThroughCommandDescriptor.h"
 #include "DriveScsiCommandExtensions.h"
 
 namespace vtStor
@@ -26,15 +26,15 @@ namespace Scsi
 {  
     eErrorCode IssueCommand_AtaIdentifyDevice(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data)
     {
-        std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cScsiCommandDescriptor::SIZE_IN_BYTES);
-        cScsiCommandDescriptor commandDescriptorVersion1 = cScsiCommandDescriptor::Writer(commandDescriptor);
+        std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cAtaPassThroughCommandDescriptor::SIZE_IN_BYTES);
+        cAtaPassThroughCommandDescriptor commandDescriptorVersion1 = cAtaPassThroughCommandDescriptor::Writer(commandDescriptor);
 
         StorageUtility::Scsi::sCommandFields& commandFields = commandDescriptorVersion1.GetCommandFields();
-        commandFields.InputFields.Command = SCSI_COMMAND_ATA_PASS_THROUGH;
-        commandFields.InputFields.SubCommand = ATA_SUBCOMMAND_IDENTIFY_DEVICE;
-        commandFields.InputFields.Count = 0;
-        commandFields.InputFields.Feature = 0;
-        commandFields.InputFields.Lba = 0;
+        //commandFields.InputFields.Command = SCSI_COMMAND_ATA_PASS_THROUGH;
+        commandFields.SubCommand = ATA_SUBCOMMAND_IDENTIFY_DEVICE;
+        commandFields.Count = 0;
+        commandFields.Feature = 0;
+        commandFields.Lba = 0;
 
         StorageUtility::Scsi::sCommandCharacteristics& commandCharacteristics = commandDescriptorVersion1.GetCommandCharacteristics();
         commandCharacteristics.FieldFormatting = StorageUtility::Scsi::eFieldFormatting::COMMAND_16;
@@ -49,16 +49,16 @@ namespace Scsi
 
     eErrorCode IssueCommand_AtaReadDma(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data, U32 Lba, U8 Count)
     {
-        std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cScsiCommandDescriptor::SIZE_IN_BYTES);
-        cScsiCommandDescriptor commandDescriptorVersion1 = cScsiCommandDescriptor::Writer(commandDescriptor);
+        std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cAtaPassThroughCommandDescriptor::SIZE_IN_BYTES);
+        cAtaPassThroughCommandDescriptor commandDescriptorVersion1 = cAtaPassThroughCommandDescriptor::Writer(commandDescriptor);
 
         StorageUtility::Scsi::sCommandFields& commandFields = commandDescriptorVersion1.GetCommandFields();
-        commandFields.InputFields.Command = SCSI_COMMAND_ATA_PASS_THROUGH;
-        commandFields.InputFields.SubCommand = ATA_SUBCOMMAND_READ_DMA;
-        commandFields.InputFields.Count = Count;
-        commandFields.InputFields.Feature = 0;
-        commandFields.InputFields.Lba = Lba;
-        commandFields.InputFields.Device = 1 << 6;
+        //commandFields.InputFields.Command = SCSI_COMMAND_ATA_PASS_THROUGH;
+        commandFields.SubCommand = ATA_SUBCOMMAND_READ_DMA;
+        commandFields.Count = Count;
+        commandFields.Feature = 0;
+        commandFields.Lba = Lba;
+        commandFields.Device = 1 << 6;
 
         StorageUtility::Scsi::sCommandCharacteristics& commandCharacteristics = commandDescriptorVersion1.GetCommandCharacteristics();
         commandCharacteristics.FieldFormatting = StorageUtility::Scsi::eFieldFormatting::COMMAND_16;
@@ -73,16 +73,16 @@ namespace Scsi
 
     eErrorCode IssueCommand_AtaWriteDma(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data, U32 Lba, U8 Count)
     {
-        std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cScsiCommandDescriptor::SIZE_IN_BYTES);
-        cScsiCommandDescriptor commandDescriptorVersion1 = cScsiCommandDescriptor::Writer(commandDescriptor);
+        std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cAtaPassThroughCommandDescriptor::SIZE_IN_BYTES);
+        cAtaPassThroughCommandDescriptor commandDescriptorVersion1 = cAtaPassThroughCommandDescriptor::Writer(commandDescriptor);
 
         StorageUtility::Scsi::sCommandFields& commandFields = commandDescriptorVersion1.GetCommandFields();
-        commandFields.InputFields.Command = SCSI_COMMAND_ATA_PASS_THROUGH;
-        commandFields.InputFields.SubCommand = ATA_SUBCOMMAND_WRITE_DMA;
-        commandFields.InputFields.Count = Count;
-        commandFields.InputFields.Feature = 0;
-        commandFields.InputFields.Lba = Lba;
-        commandFields.InputFields.Device = 1 << 6;
+        //commandFields.InputFields.Command = SCSI_COMMAND_ATA_PASS_THROUGH;
+        commandFields.SubCommand = ATA_SUBCOMMAND_WRITE_DMA;
+        commandFields.Count = Count;
+        commandFields.Feature = 0;
+        commandFields.Lba = Lba;
+        commandFields.Device = 1 << 6;
 
         StorageUtility::Scsi::sCommandCharacteristics& commandCharacteristics = commandDescriptorVersion1.GetCommandCharacteristics();
         commandCharacteristics.FieldFormatting = StorageUtility::Scsi::eFieldFormatting::COMMAND_16;
@@ -97,12 +97,12 @@ namespace Scsi
 
     eErrorCode IssueCommand_AtaReadBuffer(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data)
     {
-        std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cScsiCommandDescriptor::SIZE_IN_BYTES);
-        cScsiCommandDescriptor commandDescriptorVersion1 = cScsiCommandDescriptor::Writer(commandDescriptor);
+        std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cAtaPassThroughCommandDescriptor::SIZE_IN_BYTES);
+        cAtaPassThroughCommandDescriptor commandDescriptorVersion1 = cAtaPassThroughCommandDescriptor::Writer(commandDescriptor);
 
         StorageUtility::Scsi::sCommandFields& commandFields = commandDescriptorVersion1.GetCommandFields();
-        commandFields.InputFields.Command = SCSI_COMMAND_ATA_PASS_THROUGH;
-        commandFields.InputFields.SubCommand = ATA_SUBCOMMAND_READ_BUFFER;
+        //commandFields.InputFields.Command = SCSI_COMMAND_ATA_PASS_THROUGH;
+        commandFields.SubCommand = ATA_SUBCOMMAND_READ_BUFFER;
 
         StorageUtility::Scsi::sCommandCharacteristics& commandCharacteristics = commandDescriptorVersion1.GetCommandCharacteristics();
         commandCharacteristics.FieldFormatting = StorageUtility::Scsi::eFieldFormatting::COMMAND_16;
@@ -117,12 +117,12 @@ namespace Scsi
 
     eErrorCode IssueCommand_AtaWriteBuffer(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data)
     {
-        std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cScsiCommandDescriptor::SIZE_IN_BYTES);
-        cScsiCommandDescriptor commandDescriptorVersion1 = cScsiCommandDescriptor::Writer(commandDescriptor);
+        std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cAtaPassThroughCommandDescriptor::SIZE_IN_BYTES);
+        cAtaPassThroughCommandDescriptor commandDescriptorVersion1 = cAtaPassThroughCommandDescriptor::Writer(commandDescriptor);
 
         StorageUtility::Scsi::sCommandFields& commandFields = commandDescriptorVersion1.GetCommandFields();
-        commandFields.InputFields.Command = SCSI_COMMAND_ATA_PASS_THROUGH;
-        commandFields.InputFields.SubCommand = ATA_SUBCOMMAND_WRITE_BUFFER;
+        //commandFields.InputFields.Command = SCSI_COMMAND_ATA_PASS_THROUGH;
+        commandFields.SubCommand = ATA_SUBCOMMAND_WRITE_BUFFER;
 
         StorageUtility::Scsi::sCommandCharacteristics& commandCharacteristics = commandDescriptorVersion1.GetCommandCharacteristics();
         commandCharacteristics.FieldFormatting = StorageUtility::Scsi::eFieldFormatting::COMMAND_16;
@@ -137,15 +137,15 @@ namespace Scsi
 
     eErrorCode IssueCommand_AtaSmart(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data, U8 SubCommand)
     {
-        std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cScsiCommandDescriptor::SIZE_IN_BYTES);
-        cScsiCommandDescriptor commandDescriptorVersion1 = cScsiCommandDescriptor::Writer(commandDescriptor);
+        std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cAtaPassThroughCommandDescriptor::SIZE_IN_BYTES);
+        cAtaPassThroughCommandDescriptor commandDescriptorVersion1 = cAtaPassThroughCommandDescriptor::Writer(commandDescriptor);
 
         StorageUtility::Scsi::sCommandFields& commandFields = commandDescriptorVersion1.GetCommandFields();
-        commandFields.InputFields.Command = SCSI_COMMAND_ATA_PASS_THROUGH;
-        commandFields.InputFields.SubCommand = ATA_SUBCOMMAND_SMART;
-        commandFields.InputFields.Feature = SubCommand;
-        commandFields.InputFields.Lba = 0xC24F00;
-        commandFields.InputFields.Device = 1 << 6;
+        //commandFields.InputFields.Command = SCSI_COMMAND_ATA_PASS_THROUGH;
+        commandFields.SubCommand = ATA_SUBCOMMAND_SMART;
+        commandFields.Feature = SubCommand;
+        commandFields.Lba = 0xC24F00;
+        commandFields.Device = 1 << 6;
 
         StorageUtility::Scsi::sCommandCharacteristics& commandCharacteristics = commandDescriptorVersion1.GetCommandCharacteristics();
         commandCharacteristics.FieldFormatting = StorageUtility::Scsi::eFieldFormatting::COMMAND_16;
@@ -160,18 +160,18 @@ namespace Scsi
 
     eErrorCode IssueCommand_AtaDownloadMicrocode(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data, U8 SubCommand, U16 BlockCount, U16 BufferOffset)
     {
-        std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cScsiCommandDescriptor::SIZE_IN_BYTES);
-        cScsiCommandDescriptor commandDescriptorVersion1 = cScsiCommandDescriptor::Writer(commandDescriptor);
+        std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cAtaPassThroughCommandDescriptor::SIZE_IN_BYTES);
+        cAtaPassThroughCommandDescriptor commandDescriptorVersion1 = cAtaPassThroughCommandDescriptor::Writer(commandDescriptor);
 
         StorageUtility::Scsi::sCommandFields& commandFields = commandDescriptorVersion1.GetCommandFields();
-        commandFields.InputFields.Command = SCSI_COMMAND_ATA_PASS_THROUGH;
-        commandFields.InputFields.SubCommand = ATA_SUBCOMMAND_DOWNLOADMICROCODE;
-        commandFields.InputFields.Feature = SubCommand;
-        commandFields.InputFields.Count = (BlockCount & 0xFF);
+        //commandFields.InputFields.Command = SCSI_COMMAND_ATA_PASS_THROUGH;
+        commandFields.SubCommand = ATA_SUBCOMMAND_DOWNLOADMICROCODE;
+        commandFields.Feature = SubCommand;
+        commandFields.Count = (BlockCount & 0xFF);
         U64 address = ((BlockCount >> 8) & 0xFF);
         address |= ((BufferOffset & 0xFF) << 8);
         address |= ((BufferOffset & 0xFF00) << 8);
-        commandFields.InputFields.Lba = address;
+        commandFields.Lba = address;
         
         StorageUtility::Scsi::sCommandCharacteristics& commandCharacteristics = commandDescriptorVersion1.GetCommandCharacteristics();
         commandCharacteristics.FieldFormatting = StorageUtility::Scsi::eFieldFormatting::COMMAND_16;

@@ -59,7 +59,7 @@ namespace Protocol
 
                 InitializePassThroughDirect(
                     essense.GetCommandCharacteristics(),
-                    essense.GetTaskFileRegister(),
+                    essense.GetCdbRegister(),
                     DataBuffer,
                     60 //TODO: allow configurable timeout
                     );
@@ -77,7 +77,7 @@ namespace Protocol
         return(errorCode);
     }
 
-    void cScsiPassThrough::InitializePassThroughDirect( const StorageUtility::Scsi::sCommandCharacteristics& CommandCharacteristics, const StorageUtility::Scsi::sTaskFileRegister& TaskFileRegister, std::shared_ptr<cBufferInterface> DataBuffer, U32 TimeoutValueInSeconds )
+    void cScsiPassThrough::InitializePassThroughDirect( const StorageUtility::Scsi::sCommandCharacteristics& CommandCharacteristics, const StorageUtility::Scsi::cdbRegister& CdbRegister, std::shared_ptr<cBufferInterface> DataBuffer, U32 TimeoutValueInSeconds )
     {
         m_ScsiPassThrough.Length = sizeof( SCSI_PASS_THROUGH_DIRECT );
         m_ScsiPassThrough.PathId = 0;
@@ -85,6 +85,7 @@ namespace Protocol
         m_ScsiPassThrough.Lun = 0;
         m_ScsiPassThrough.DataTransferLength = CommandCharacteristics.DataTransferLengthInBytes;
         m_ScsiPassThrough.TimeOutValue = TimeoutValueInSeconds;
+
         switch (CommandCharacteristics.FieldFormatting)
         {
         case StorageUtility::Scsi::eFieldFormatting::COMMAND_12:
@@ -97,7 +98,6 @@ namespace Protocol
             break;
         }
         
-
         switch (CommandCharacteristics.DataAccess)
         {
             case StorageUtility::Scsi::eDataAccess::READ_FROM_DEVICE:
@@ -109,67 +109,21 @@ namespace Protocol
             default:
                 break;
         }
-
-        switch (CommandCharacteristics.TransferMode)
-        {
-            case StorageUtility::Scsi::eTransferMode::PIO_PROTOCOL:
-            {
-                if (CommandCharacteristics.DataAccess == StorageUtility::Scsi::eDataAccess::WRITE_TO_DEVICE)
-                {
-                    m_ScsiPassThrough.Cdb[1] = 0x0B;                                                    // MULTIPLE_COUNT = 000, PROTOCOL = 0101b (PIO OUT), Extended = 1
-                }
-                else if (CommandCharacteristics.DataAccess == StorageUtility::Scsi::eDataAccess::READ_FROM_DEVICE)
-                {
-                    m_ScsiPassThrough.Cdb[1] = 0x09;                                                    // MULTIPLE_COUNT = 000, PROTOCOL = 0100b (PIO IN), Extended = 1
-                }
-            } break;
-
-            case StorageUtility::Scsi::eTransferMode::DMA_PROTOCOL:
-            {
-                m_ScsiPassThrough.Cdb[1] = 0x0D;                                                        // MULTIPLE_COUNT = 000, PROTOCOL = 0110b (DMA), Extended = 1
-            } break;
-            default:
-            {
-                printf("No supported!\n");
-            } break;
-        }
-
-        switch (CommandCharacteristics.DataAccess)
-        {
-            case StorageUtility::Scsi::eDataAccess::READ_FROM_DEVICE:
-            {
-                m_ScsiPassThrough.Cdb[2] = 0x0B;                                                      // OFF_LINE = 0, CK_COND = 0, T_TYPE = 0, T_DIR = 1, BYT_BLOCK = 0, T_LENGTH = 11b
-            } break;
-            case StorageUtility::Scsi::eDataAccess::WRITE_TO_DEVICE:
-            {
-                m_ScsiPassThrough.Cdb[2] = 0x03;                                                      // OFF_LINE = 0, CK_COND = 0, T_TYPE = 0, T_DIR = 0, BYT_BLOCK = 0, T_LENGTH = 11b
-            } break;
-        }
-
+        
         if (nullptr != DataBuffer)
         {
             m_ScsiPassThrough.DataBuffer = DataBuffer->ToDataBuffer();
         }
 
-        InitializeCdbRegister( TaskFileRegister );
+        InitializeCdbRegister( CdbRegister );
     }
     
-    void cScsiPassThrough::InitializeCdbRegister( const StorageUtility::Scsi::sTaskFileRegister& TaskFileRegister )
+    void cScsiPassThrough::InitializeCdbRegister( const StorageUtility::Scsi::cdbRegister& CdbRegister )
     {
-        m_ScsiPassThrough.Cdb[0] = TaskFileRegister.Command;   
-        m_ScsiPassThrough.Cdb[3] = (TaskFileRegister.Feature >> 8) & 0xFF;
-        m_ScsiPassThrough.Cdb[4] = TaskFileRegister.Feature & 0xFF;
-        m_ScsiPassThrough.Cdb[5] = (TaskFileRegister.Count >> 8) & 0xFF;
-        m_ScsiPassThrough.Cdb[6] = TaskFileRegister.Count & 0xFF;
-        m_ScsiPassThrough.Cdb[7] = (TaskFileRegister.LbaMid >> 8) & 0xFF;
-        m_ScsiPassThrough.Cdb[8] = TaskFileRegister.LbaLow & 0xFF;                                   // low lba
-        m_ScsiPassThrough.Cdb[9] = TaskFileRegister.LbaHigh & 0xFF;
-        m_ScsiPassThrough.Cdb[10] = (TaskFileRegister.LbaLow >> 8) & 0xFF;                                   // middle lba
-        m_ScsiPassThrough.Cdb[11] = (TaskFileRegister.LbaHigh >> 8) & 0xFF;
-        m_ScsiPassThrough.Cdb[12] = TaskFileRegister.LbaMid & 0xFF;                                  // high lba
-        m_ScsiPassThrough.Cdb[13] = TaskFileRegister.Device;                                                        // CommandFields.InputFields.Device;
-        m_ScsiPassThrough.Cdb[14] = TaskFileRegister.SubCommand;
-        m_ScsiPassThrough.Cdb[15] = 0;
+        for (size_t i = 0; i < 16; i++)
+        {
+            m_ScsiPassThrough.Cdb[i] = CdbRegister[i]; // hardcode 16, need to define cdb size
+        }
     }
 
     eErrorCode cScsiPassThrough::IssuePassThroughDirectCommand( U32& BytesReturned )

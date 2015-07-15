@@ -35,7 +35,7 @@ public:
     virtual eErrorCode IssueCommand( std::shared_ptr<const cBufferInterface> CommandDescriptor, std::shared_ptr<cBufferInterface> Data ) override;
 
 private:
-    void cCommandHandlerScsi::PrepareTaskFileRegister(const StorageUtility::Scsi::sCommandCharacteristics& ScsiCommandCharacteristics, const StorageUtility::Scsi::sCommandFields& CommandFields, StorageUtility::Scsi::sTaskFileRegister& Cdb);
+    void cCommandHandlerScsi::PrepareAtaPassThroughCdbRegister(const StorageUtility::Scsi::sCommandCharacteristics& ScsiCommandCharacteristics, const StorageUtility::Scsi::sCommandFields& CommandFields, StorageUtility::Scsi::cdbRegister& CdbRegister);
 
 };
 

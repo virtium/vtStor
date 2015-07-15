@@ -50,7 +50,7 @@ public:
 private:
     void InitializePassThroughDirect(
         const StorageUtility::Scsi::sCommandCharacteristics& CommandCharacteristics,
-        const StorageUtility::Scsi::sTaskFileRegister& TaskFileRegister,
+        const StorageUtility::Scsi::cdbRegister& CdbRegister,
         std::shared_ptr<cBufferInterface> DataBuffer,
         U32 TimeoutValueInSeconds
         );
@@ -61,7 +61,7 @@ private:
 
     //! Initialize the iCurrentTaskFile. and the PreviousTaskFile in the ATA_PASS_THROUGH_DIRECT structure
     //!
-    void InitializeCdbRegister( const StorageUtility::Scsi::sTaskFileRegister& ScsiCommandField );
+    void InitializeCdbRegister( const StorageUtility::Scsi::cdbRegister& ScsiCommandField );
 
     eErrorCode IssuePassThroughDirectCommand( U32& BytesReturned );
 

@@ -32,7 +32,12 @@ namespace vtStor
             extern const U8  DEVICE_REGISTER_DEFAULT;
             extern const U8  DEVICE_REGISTER_CHSMODE_DEFAULT;
 
-            struct sCommandInputFields
+            extern const U8  CDB_REGISTER_SIZE;
+            extern const U8  SCSI_COMMAND_ATA_PASS_THROUGH_12;
+            extern const U8  SCSI_COMMAND_ATA_PASS_THROUGH_16;
+            
+
+            struct sCommandFields
             {
                 U16  Feature;
                 U32  Count;
@@ -43,18 +48,7 @@ namespace vtStor
                 bool ChsMode;
             };
 
-            struct sTaskFileRegister
-            {
-                U16 Feature;
-                U16 Count;
-                U16 LbaLow;
-                U16 LbaMid;
-                U16 LbaHigh;
-                U8 Device;
-                U8 Command;
-                U8 SubCommand;
-                U8 Reserved;
-            };
+            using cdbRegister = U8 [16];
 
             enum eDataAccess
             {
@@ -74,12 +68,7 @@ namespace vtStor
                 COMMAND_12,
                 COMMAND_16
             };
-
-            struct sCommandFields
-            {
-                sCommandInputFields InputFields;
-            };
-            
+                        
             struct sCommandCharacteristics
             {
                 //eDeviceReadyFlag     DeviceReadyFlag;
