@@ -52,13 +52,13 @@ protected:
     cScsiCommandDescriptor(std::shared_ptr<const cBufferInterface> Buffer);
 
 public:
-    StorageUtility::Scsi::sCommandFields&               GetCommandFields();
-    const StorageUtility::Scsi::sCommandFields&         GetCommandFields() const;
+    StorageUtility::Scsi::sCdbFields&               GetCdbFields();
+    const StorageUtility::Scsi::sCdbFields&         GetCdbFields() const;
     StorageUtility::Scsi::sCommandCharacteristics&       GetCommandCharacteristics();
     const StorageUtility::Scsi::sCommandCharacteristics& GetCommandCharacteristics() const;
 
 private:
-    static const size_t COMMAND_FIELDS_OFFSET;
+    static const size_t CDB_FIELDS_OFFSET;
     static const size_t COMMAND_CHARACTERISTICS_OFFSET;
 };
 

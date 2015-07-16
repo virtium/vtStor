@@ -22,8 +22,8 @@ namespace vtStor
 namespace Scsi
 {
 
-    const size_t cScsiCommandDescriptor::COMMAND_FIELDS_OFFSET = cCommandDescriptor::DEVICE_HANDLE_OFFSET + sizeof(DeviceHandle);
-    const size_t cScsiCommandDescriptor::COMMAND_CHARACTERISTICS_OFFSET = cScsiCommandDescriptor::COMMAND_FIELDS_OFFSET + sizeof(StorageUtility::Scsi::sCommandFields);
+    const size_t cScsiCommandDescriptor::CDB_FIELDS_OFFSET = cCommandDescriptor::DEVICE_HANDLE_OFFSET + sizeof(DeviceHandle);
+    const size_t cScsiCommandDescriptor::COMMAND_CHARACTERISTICS_OFFSET = cScsiCommandDescriptor::CDB_FIELDS_OFFSET + sizeof(StorageUtility::Scsi::sCdbFields);
 
 //! IMPORTANT NOTE: this must be updated to use the very last item
     const size_t cScsiCommandDescriptor::SIZE_IN_BYTES = COMMAND_CHARACTERISTICS_OFFSET + sizeof(StorageUtility::Scsi::sCommandCharacteristics);
@@ -61,16 +61,16 @@ cCommandDescriptor(Buffer)
     
 }
 
-    StorageUtility::Scsi::sCommandFields& cScsiCommandDescriptor::GetCommandFields()
+    StorageUtility::Scsi::sCdbFields& cScsiCommandDescriptor::GetCdbFields()
 {
     U8* buffer = m_Buffer->ToDataBuffer();
-    return( (StorageUtility::Scsi::sCommandFields&)buffer[COMMAND_FIELDS_OFFSET] );
+    return( (StorageUtility::Scsi::sCdbFields&)buffer[CDB_FIELDS_OFFSET] );
 }
 
-    const StorageUtility::Scsi::sCommandFields& cScsiCommandDescriptor::GetCommandFields() const
+    const StorageUtility::Scsi::sCdbFields& cScsiCommandDescriptor::GetCdbFields() const
 {
     const U8* buffer = m_Buffer->ToDataBuffer();
-    return((StorageUtility::Scsi::sCommandFields&)buffer[COMMAND_FIELDS_OFFSET]);
+    return((StorageUtility::Scsi::sCdbFields&)buffer[CDB_FIELDS_OFFSET]);
 }
 
     StorageUtility::Scsi::sCommandCharacteristics& cScsiCommandDescriptor::GetCommandCharacteristics()

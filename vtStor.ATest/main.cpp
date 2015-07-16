@@ -68,12 +68,15 @@ void main()
     // Call command
     ZeroMemory(dataBuffer->ToDataBuffer(), dataBuffer->GetSizeInBytes());
     //memset(dataBuffer->ToDataBuffer(), 'G', dataBuffer->GetSizeInBytes());
+    //vtStor::Scsi::IssueCommand_Inquiry(drives[1], 1, dataBuffer);
+    vtStor::Scsi::IssueCommand_Read6(drives[1], 1, dataBuffer, 0, 1);
+
     //vtStor::Scsi::IssueCommand_AtaIdentifyDevice(drives[1], 1, dataBuffer);    
     //vtStor::Scsi::IssueCommand_AtaReadDma(drives[1], 1, dataBuffer, 0, 1);
     //vtStor::Scsi::IssueCommand_AtaWriteDma(drives[1], 1, dataBuffer, 0, 1);
     //vtStor::Scsi::IssueCommand_AtaReadBuffer(drives[1], 1, dataBuffer);
     //vtStor::Scsi::IssueCommand_AtaWriteBuffer(drives[1], 1, dataBuffer);
-    vtStor::Scsi::IssueCommand_AtaSmart(drives[1], 1, dataBuffer, 0xD0);
+    //vtStor::Scsi::IssueCommand_AtaSmart(drives[1], 1, dataBuffer, 0xD0);
 
     //vtStor::Ata::IssueCommand_IdentifyDevice(drives[1], vtStor::cAta::s_DefaultCommandHandlerCommandType, dataBuffer);
     //vtStor::Ata::IssueCommand_ReadBuffer(drives[1], vtStor::cAta::s_DefaultCommandHandlerCommandType, dataBuffer);

@@ -30,7 +30,7 @@
     <ClCompile Include="DriveScsiCommandExtensions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AtaPassThroughCommandDescriptor.cpp">
+    <ClCompile Include="ScsiCommandDescriptor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -53,7 +53,7 @@
     <ClInclude Include="DriveScsiCommandExtensions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AtaPassThroughCommandDescriptor.h">
+    <ClInclude Include="ScsiCommandDescriptor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

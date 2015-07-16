@@ -88,6 +88,12 @@ namespace Protocol
 
         switch (CommandCharacteristics.FieldFormatting)
         {
+        case StorageUtility::Scsi::eFieldFormatting::COMMAND_6:
+            m_ScsiPassThrough.CdbLength = 6;
+            break;
+        case StorageUtility::Scsi::eFieldFormatting::COMMAND_10:
+            m_ScsiPassThrough.CdbLength = 10;
+            break;
         case StorageUtility::Scsi::eFieldFormatting::COMMAND_12:
             m_ScsiPassThrough.CdbLength = 12;
             break;

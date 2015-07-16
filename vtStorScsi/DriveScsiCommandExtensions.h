@@ -31,6 +31,8 @@ namespace vtStor
 {
 namespace Scsi
 {
+    const U8 SCSI_COMMAND_INQUIRY = 0x12;
+    const U8 SCSI_COMMAND_READ06 = 0x08;
     const U8 SCSI_COMMAND_ATA_PASS_THROUGH = 0x85;
     const U8 ATA_SUBCOMMAND_IDENTIFY_DEVICE = 0xec;
     const U8 ATA_SUBCOMMAND_READ_DMA = 0xc8;
@@ -50,6 +52,8 @@ namespace Scsi
     VT_STOR_SCSI_API eErrorCode IssueCommand_AtaSmart(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data, U8 SubCommand);
     VT_STOR_SCSI_API eErrorCode IssueCommand_AtaDownloadMicrocode(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data, U8 SubCommand, U16 BlockCount, U16 BufferOffset);
 
+    VT_STOR_SCSI_API eErrorCode IssueCommand_Inquiry(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data);
+    VT_STOR_SCSI_API eErrorCode IssueCommand_Read6(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data, U16 Lba, U8 Count);
 }
 }
 

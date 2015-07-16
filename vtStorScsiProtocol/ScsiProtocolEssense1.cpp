@@ -69,19 +69,7 @@ const StorageUtility::Scsi::sCommandCharacteristics& cEssenseScsi1::GetCommandCh
     const U8* buffer = m_Buffer->ToDataBuffer();
     return((StorageUtility::Scsi::sCommandCharacteristics&)buffer[COMMAND_CHARACTERISTICS_OFFSET]);
 }
-/*
-StorageUtility::Scsi::sTaskFileRegister& cEssenseScsi1::GetTaskFileRegister()
-{
-    U8* buffer = m_Buffer->ToDataBuffer();
-    return( (StorageUtility::Scsi::sTaskFileRegister&)buffer[ TASKFILE_REGISTER_OFFSET ] );
-}
 
-const StorageUtility::Scsi::sTaskFileRegister& cEssenseScsi1::GetTaskFileRegister() const
-{
-    const U8* buffer = m_Buffer->ToDataBuffer();
-    return((StorageUtility::Scsi::sTaskFileRegister&)buffer[ TASKFILE_REGISTER_OFFSET ]);
-}
-  */   
 StorageUtility::Scsi::cdbRegister& cEssenseScsi1::GetCdbRegister()
 {
     U8* buffer = m_Buffer->ToDataBuffer();

@@ -31,21 +31,17 @@ namespace vtStor
 
             extern const U8  DEVICE_REGISTER_DEFAULT;
             extern const U8  DEVICE_REGISTER_CHSMODE_DEFAULT;
-
-            extern const U8  CDB_REGISTER_SIZE;
-            extern const U8  SCSI_COMMAND_ATA_PASS_THROUGH_12;
-            extern const U8  SCSI_COMMAND_ATA_PASS_THROUGH_16;
-            
-
-            struct sCommandFields
+                                    
+            struct sCdbFields
             {
-                U16  Feature;
-                U32  Count;
-                U64  Lba;
-                U8   Device;
-                U8   Command;
-                U8   SubCommand;
-                bool ChsMode;
+                U8  OpCode;
+                U8  Service;
+                U64 Lba;
+                U32 TransferLen;
+                U8  ParameterLen;
+                U32 AllocationLen;
+                U8  Group;
+                U8  Control;
             };
 
             using cdbRegister = U8 [16];
@@ -57,25 +53,18 @@ namespace vtStor
                 WRITE_TO_DEVICE
             };
 
-            enum eTransferMode
-            {
-                DMA_PROTOCOL,
-                PIO_PROTOCOL
-            };
-
             enum eFieldFormatting
             {
+                COMMAND_6,
+                COMMAND_10,
                 COMMAND_12,
                 COMMAND_16
             };
                         
             struct sCommandCharacteristics
             {
-                //eDeviceReadyFlag     DeviceReadyFlag;
                 eDataAccess          DataAccess;
                 eFieldFormatting     FieldFormatting;
-                eTransferMode        TransferMode;
-                //eMultipleMode        MultipleMode;
                 U32                  DataTransferLengthInBytes;
             };
         }

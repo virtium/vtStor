@@ -48,8 +48,6 @@ public:
     StorageUtility::Scsi::sCommandCharacteristics&       GetCommandCharacteristics();
     const StorageUtility::Scsi::sCommandCharacteristics& GetCommandCharacteristics() const;
 
-    //StorageUtility::Scsi::sTaskFileRegister&         GetTaskFileRegister();
-    //const StorageUtility::Scsi::sTaskFileRegister&   GetTaskFileRegister() const;
     StorageUtility::Scsi::cdbRegister&         GetCdbRegister();
     const StorageUtility::Scsi::cdbRegister&   GetCdbRegister() const;
 

@@ -17,43 +17,81 @@ limitations under the License.
 */
 #include "vtStorScsi.h"
 #include "Buffer.h"
-#include "AtaPassThroughCommandDescriptor.h"
+#include "ScsiCommandDescriptor.h"
 #include "DriveScsiCommandExtensions.h"
 
 namespace vtStor
 {
-namespace Scsi
-{  
+    namespace Scsi
+    {
+        eErrorCode IssueCommand_Inquiry(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data)
+        {
+            std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cScsiCommandDescriptor::SIZE_IN_BYTES);
+            cScsiCommandDescriptor commandDescriptorVersion1 = cScsiCommandDescriptor::Writer(commandDescriptor);
+
+            StorageUtility::Scsi::sCdbFields& cdbFields = commandDescriptorVersion1.GetCdbFields();
+            cdbFields.OpCode = SCSI_COMMAND_INQUIRY;
+            cdbFields.TransferLen = 36;  // convert to allocation length, see specs
+
+            StorageUtility::Scsi::sCommandCharacteristics& commandCharacteristics = commandDescriptorVersion1.GetCommandCharacteristics();
+            commandCharacteristics.FieldFormatting = StorageUtility::Scsi::eFieldFormatting::COMMAND_6;
+            commandCharacteristics.DataAccess = StorageUtility::Scsi::eDataAccess::READ_FROM_DEVICE;
+            commandCharacteristics.DataTransferLengthInBytes = StorageUtility::Scsi::SECTOR_SIZE_IN_BYTES;
+
+            Drive->IssueCommand(CommandType, commandDescriptor, Data);
+
+            return(eErrorCode::None);
+        }
+
+        eErrorCode IssueCommand_Read6(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data, U16 Lba, U8 Count)
+        {
+            std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cScsiCommandDescriptor::SIZE_IN_BYTES);
+            cScsiCommandDescriptor commandDescriptorVersion1 = cScsiCommandDescriptor::Writer(commandDescriptor);
+
+            StorageUtility::Scsi::sCdbFields& cdbFields = commandDescriptorVersion1.GetCdbFields();
+            cdbFields.OpCode = SCSI_COMMAND_READ06;
+            cdbFields.Service = Lba >> 16;
+            cdbFields.Lba = Lba & 0xFFFF;
+            cdbFields.TransferLen = Count;
+
+            StorageUtility::Scsi::sCommandCharacteristics& commandCharacteristics = commandDescriptorVersion1.GetCommandCharacteristics();
+            commandCharacteristics.FieldFormatting = StorageUtility::Scsi::eFieldFormatting::COMMAND_6;
+            commandCharacteristics.DataAccess = StorageUtility::Scsi::eDataAccess::READ_FROM_DEVICE;
+            commandCharacteristics.DataTransferLengthInBytes = Count * StorageUtility::Scsi::SECTOR_SIZE_IN_BYTES;
+
+            Drive->IssueCommand(CommandType, commandDescriptor, Data);
+
+            return(eErrorCode::None);
+        }
+
     eErrorCode IssueCommand_AtaIdentifyDevice(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data)
     {
-        std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cAtaPassThroughCommandDescriptor::SIZE_IN_BYTES);
-        cAtaPassThroughCommandDescriptor commandDescriptorVersion1 = cAtaPassThroughCommandDescriptor::Writer(commandDescriptor);
+        std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cScsiCommandDescriptor::SIZE_IN_BYTES);
+        cScsiCommandDescriptor commandDescriptorVersion1 = cScsiCommandDescriptor::Writer(commandDescriptor);
 
-        StorageUtility::Scsi::sCommandFields& commandFields = commandDescriptorVersion1.GetCommandFields();
-        //commandFields.InputFields.Command = SCSI_COMMAND_ATA_PASS_THROUGH;
-        commandFields.SubCommand = ATA_SUBCOMMAND_IDENTIFY_DEVICE;
-        commandFields.Count = 0;
-        commandFields.Feature = 0;
-        commandFields.Lba = 0;
+        StorageUtility::Scsi::sCdbFields& cdbFields = commandDescriptorVersion1.GetCdbFields();
+        cdbFields.OpCode = SCSI_COMMAND_ATA_PASS_THROUGH;
+        cdbFields.Service = 0x09; // hardcode
+        cdbFields.Lba = (U64)0x0B << 56; // hardcode
+        cdbFields.TransferLen = 0;
+        cdbFields.Group = ATA_SUBCOMMAND_IDENTIFY_DEVICE;
 
         StorageUtility::Scsi::sCommandCharacteristics& commandCharacteristics = commandDescriptorVersion1.GetCommandCharacteristics();
         commandCharacteristics.FieldFormatting = StorageUtility::Scsi::eFieldFormatting::COMMAND_16;
         commandCharacteristics.DataAccess = StorageUtility::Scsi::eDataAccess::READ_FROM_DEVICE;
-        commandCharacteristics.TransferMode = StorageUtility::Scsi::eTransferMode::PIO_PROTOCOL;
         commandCharacteristics.DataTransferLengthInBytes = StorageUtility::Scsi::SECTOR_SIZE_IN_BYTES;
 
         Drive->IssueCommand(CommandType, commandDescriptor, Data);
 
         return(eErrorCode::None);
     }
-
+    /*
     eErrorCode IssueCommand_AtaReadDma(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data, U32 Lba, U8 Count)
     {
         std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cAtaPassThroughCommandDescriptor::SIZE_IN_BYTES);
         cAtaPassThroughCommandDescriptor commandDescriptorVersion1 = cAtaPassThroughCommandDescriptor::Writer(commandDescriptor);
 
         StorageUtility::Scsi::sCommandFields& commandFields = commandDescriptorVersion1.GetCommandFields();
-        //commandFields.InputFields.Command = SCSI_COMMAND_ATA_PASS_THROUGH;
         commandFields.SubCommand = ATA_SUBCOMMAND_READ_DMA;
         commandFields.Count = Count;
         commandFields.Feature = 0;
@@ -77,7 +115,6 @@ namespace Scsi
         cAtaPassThroughCommandDescriptor commandDescriptorVersion1 = cAtaPassThroughCommandDescriptor::Writer(commandDescriptor);
 
         StorageUtility::Scsi::sCommandFields& commandFields = commandDescriptorVersion1.GetCommandFields();
-        //commandFields.InputFields.Command = SCSI_COMMAND_ATA_PASS_THROUGH;
         commandFields.SubCommand = ATA_SUBCOMMAND_WRITE_DMA;
         commandFields.Count = Count;
         commandFields.Feature = 0;
@@ -101,7 +138,6 @@ namespace Scsi
         cAtaPassThroughCommandDescriptor commandDescriptorVersion1 = cAtaPassThroughCommandDescriptor::Writer(commandDescriptor);
 
         StorageUtility::Scsi::sCommandFields& commandFields = commandDescriptorVersion1.GetCommandFields();
-        //commandFields.InputFields.Command = SCSI_COMMAND_ATA_PASS_THROUGH;
         commandFields.SubCommand = ATA_SUBCOMMAND_READ_BUFFER;
 
         StorageUtility::Scsi::sCommandCharacteristics& commandCharacteristics = commandDescriptorVersion1.GetCommandCharacteristics();
@@ -121,7 +157,6 @@ namespace Scsi
         cAtaPassThroughCommandDescriptor commandDescriptorVersion1 = cAtaPassThroughCommandDescriptor::Writer(commandDescriptor);
 
         StorageUtility::Scsi::sCommandFields& commandFields = commandDescriptorVersion1.GetCommandFields();
-        //commandFields.InputFields.Command = SCSI_COMMAND_ATA_PASS_THROUGH;
         commandFields.SubCommand = ATA_SUBCOMMAND_WRITE_BUFFER;
 
         StorageUtility::Scsi::sCommandCharacteristics& commandCharacteristics = commandDescriptorVersion1.GetCommandCharacteristics();
@@ -141,7 +176,6 @@ namespace Scsi
         cAtaPassThroughCommandDescriptor commandDescriptorVersion1 = cAtaPassThroughCommandDescriptor::Writer(commandDescriptor);
 
         StorageUtility::Scsi::sCommandFields& commandFields = commandDescriptorVersion1.GetCommandFields();
-        //commandFields.InputFields.Command = SCSI_COMMAND_ATA_PASS_THROUGH;
         commandFields.SubCommand = ATA_SUBCOMMAND_SMART;
         commandFields.Feature = SubCommand;
         commandFields.Lba = 0xC24F00;
@@ -164,7 +198,6 @@ namespace Scsi
         cAtaPassThroughCommandDescriptor commandDescriptorVersion1 = cAtaPassThroughCommandDescriptor::Writer(commandDescriptor);
 
         StorageUtility::Scsi::sCommandFields& commandFields = commandDescriptorVersion1.GetCommandFields();
-        //commandFields.InputFields.Command = SCSI_COMMAND_ATA_PASS_THROUGH;
         commandFields.SubCommand = ATA_SUBCOMMAND_DOWNLOADMICROCODE;
         commandFields.Feature = SubCommand;
         commandFields.Count = (BlockCount & 0xFF);
@@ -183,6 +216,6 @@ namespace Scsi
 
         return(eErrorCode::None);
     }
-    
+    */
 }
 }
