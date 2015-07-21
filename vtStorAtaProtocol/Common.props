@@ -2,7 +2,10 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup>
+    <OutDir>$(ProjectDir)$(Platform)$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)$(Platform)$(Configuration)\Intermediate\</IntDir>
+  </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
       <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Platform\Windows;$(SolutionDir)vtStor\Platform\Windows;$(SolutionDir)Common\Platform\x86x64\Windows;$(SolutionDir);$(SolutionDir)Common\Platform\x86x64;$(SolutionDir)Common;$(SolutionDir)vtStor;$(SolutionDir)StorageUtility</AdditionalIncludeDirectories>

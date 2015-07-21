@@ -40,17 +40,12 @@ namespace Protocol
 
     cAtaPassThrough::cAtaPassThrough()
     {
-        ProtocolType = 0;
+
     }
 
     cAtaPassThrough::~cAtaPassThrough()
     {
 
-    }
-
-    U8 cAtaPassThrough::GetProtocolType()
-    {
-        return ( ProtocolType );
     }
     
     eErrorCode cAtaPassThrough::IssueCommand( std::shared_ptr<cBufferInterface> Essense, std::shared_ptr<cBufferInterface> DataBuffer )

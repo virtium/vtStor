@@ -36,6 +36,7 @@ public:
     static void* ToVoidPointer( std::shared_ptr<vtStor::cCommandHandlerInterface>& Object );
 
 public:
+    cCommandHandlerInterface();
     cCommandHandlerInterface( std::shared_ptr<Protocol::cProtocolInterface> Protocol );
     virtual ~cCommandHandlerInterface();
 

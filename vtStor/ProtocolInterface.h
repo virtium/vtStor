@@ -41,11 +41,6 @@ public:
 public:
     virtual eErrorCode IssueCommand( std::shared_ptr<cBufferInterface> Essense, std::shared_ptr<cBufferInterface> DataBuffer ) = 0;
 
-public:
-    virtual U8 GetProtocolType() = 0;
-
-protected:
-    U8 ProtocolType;
 };
 
 VTSTOR_API_EXPORT_IMPL template class VTSTOR_API std::shared_ptr<Protocol::cProtocolInterface>;

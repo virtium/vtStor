@@ -74,7 +74,8 @@ namespace vtStor
     return(errorCode);
 }
 
-    void cCommandHandlerScsi::PrepareCdbRegister(const StorageUtility::Scsi::sCommandCharacteristics& ScsiCommandCharacteristics, const StorageUtility::Scsi::sCdbFields& CdbFields, StorageUtility::Scsi::cdbRegister& CdbRegister)
+    void cCommandHandlerScsi::PrepareCdbRegister(const StorageUtility::Scsi::sCommandCharacteristics& ScsiCommandCharacteristics,
+        const StorageUtility::Scsi::sCdbFields& CdbFields, StorageUtility::Scsi::cdbRegister& CdbRegister)
     {   
         switch (ScsiCommandCharacteristics.FieldFormatting)
         {
