@@ -17,7 +17,7 @@ import os
 import shutil
 import subprocess
 
-X86                         = "win32"
+X86                         = "Win32"
 X64                         = "x64"
 RELEASE_NAME                = "Release"
 MS_BUILD                    = "MsBuild"
@@ -32,7 +32,7 @@ RELEASE_LOCAL_DIR_X64       = "./{0}{1}".format( X64, RELEASE_NAME )
 ARCHIVE_TEMP                = "ArchiveTemp"
 ARCHIVE_TEMP_PATH           = "./{0}/".format( ARCHIVE_TEMP )
 
-REMOVE_EXTENSION_SET = { 'pdb' }
+REMOVE_EXTENSION_SET = { 'lib', 'pdb' }
 
 def _Build( iBuildPlatform ) :
     status = subprocess.call( [ MS_BUILD, CONFIGURATION_BUILD_TYPE, iBuildPlatform, REBUILD_DEFAULT ] )
