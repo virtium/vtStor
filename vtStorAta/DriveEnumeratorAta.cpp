@@ -32,7 +32,7 @@ cDriveEnumeratorAta::~cDriveEnumeratorAta()
 
 }
 
-eErrorCode cDriveEnumeratorAta::EnumerateDrives(std::vector<String> PathsList, Vector_Drives& AddToList, U32& Count )
+eErrorCode cDriveEnumeratorAta::EnumerateDrives(std::vector<String>& PathsList, Vector_Drives& AddToList, U32& Count )
 {
     Count = 0;
     
