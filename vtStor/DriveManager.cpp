@@ -36,7 +36,7 @@ cDriveManager::~cDriveManager()
 
 std::unique_ptr<cDriveManager> cDriveManager::GetInstance()
 {
-    if (nullptr != s_Instance)
+    if (nullptr == s_Instance)
     {
         s_Instance = new cDriveManager();
     }
@@ -67,14 +67,18 @@ eErrorCode cDriveManager::EnumerateDrives( eScanForHardwareChanges ScanForHardwa
     vtStor::GetStorageDevicePaths(m_DevicePaths, eOnErrorBehavior::Continue);
 
     U32 count = 0;
-    for ( auto& enumerator : m_DriveEnumerators )
+
+    for (const auto& devicePath : m_DevicePaths)
     {
-        error = enumerator->EnumerateDrives(m_DevicePaths, m_Drives, count);
-        if (eErrorCode::None != error)
+        for (auto& enumerator : m_DriveEnumerators)
         {
-            //TODO: handle error
+            error = enumerator->EnumerateDrive(devicePath, m_Drives, count);
+            if (eErrorCode::None != error)
+            {
+                //TODO: handle error
+            }
         }
-    }
+    }    
 
     return( error );
 }

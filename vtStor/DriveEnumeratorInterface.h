@@ -33,7 +33,7 @@ public:
     static void* ToVoidPointer( std::shared_ptr<vtStor::cDriveEnumeratorInterface>& Object );
 
 public:
-    virtual eErrorCode EnumerateDrives( std::vector<String>& PathsList, Vector_Drives& AddToList, U32& Count ) = 0;
+    virtual eErrorCode EnumerateDrive( String DevicePath, Vector_Drives& AddToList, U32& Count ) = 0;
 
 public:
     virtual ~cDriveEnumeratorInterface();

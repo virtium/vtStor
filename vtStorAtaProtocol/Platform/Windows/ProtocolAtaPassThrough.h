@@ -58,10 +58,9 @@ private:
     //!
     void InitializeTaskFileInputRegisters( const StorageUtility::Ata::uTaskFileRegister& PreviousTaskFile, const StorageUtility::Ata::uTaskFileRegister& CurrentTaskFile );
 
-    eErrorCode IssuePassThroughDirectCommand( U32& BytesReturned );
+    eErrorCode IssuePassThroughDirectCommand( DeviceHandle Handle, U32& BytesReturned );
 
 private:
-    HANDLE                  m_DeviceHandle;
     ATA_PASS_THROUGH_DIRECT m_AtaPassThrough;
 };
 

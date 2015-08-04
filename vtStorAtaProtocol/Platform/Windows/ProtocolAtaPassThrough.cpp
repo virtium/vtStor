@@ -50,8 +50,6 @@ namespace Protocol
             {
                 cEssenseAta1 essense = cEssenseAta1::Reader(Essense);
                 
-                m_DeviceHandle = Handle;
-
                 InitializePassThroughDirect(
                     essense.GetCommandCharacteristics(),
                     essense.GetTaskFileExt(),
@@ -61,7 +59,7 @@ namespace Protocol
                     );
                   
                 U32 bytesReturned = 0;
-                errorCode = IssuePassThroughDirectCommand(bytesReturned);
+                errorCode = IssuePassThroughDirectCommand(Handle, bytesReturned);
             } break;
 
             default:
@@ -147,10 +145,10 @@ namespace Protocol
         m_AtaPassThrough.CurrentTaskFile[RESERVED_REGISTER_OFFSET] = CurrentTaskFile.InputRegister.Reserved;
     }
 
-    eErrorCode cAtaPassThrough::IssuePassThroughDirectCommand( U32& BytesReturned )
+    eErrorCode cAtaPassThrough::IssuePassThroughDirectCommand( DeviceHandle Handle, U32& BytesReturned )
     {
         
-        assert( INVALID_HANDLE_VALUE != m_DeviceHandle );
+        assert( INVALID_HANDLE_VALUE != Handle );
 
         eErrorCode error;
         error = eErrorCode::None;
@@ -159,7 +157,7 @@ namespace Protocol
         DWORD bytesReturned;
         commandSuccessfulFlag = DeviceIoControl
             (
-            m_DeviceHandle,
+            Handle,
             IOCTL_ATA_PASS_THROUGH_DIRECT,
             &m_AtaPassThrough,
             m_AtaPassThrough.Length,
