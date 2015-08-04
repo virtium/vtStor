@@ -23,7 +23,7 @@ using namespace vtStor;
 
 vtStor::eErrorCode vtStorInit(std::unique_ptr<vtStor::cDriveManagerInterface>& DriveManager)
 {
-    DriveManager = std::make_unique<cDriveManager>();
+    DriveManager = cDriveManager::getInstance();
 
     return(eErrorCode::None);
 }

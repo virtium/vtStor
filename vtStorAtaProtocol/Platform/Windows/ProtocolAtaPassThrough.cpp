@@ -38,7 +38,7 @@ namespace Protocol
     const vtStor::U8 STATUS_REGISTER_OFFSET = 6;
     const vtStor::U8 RESERVED_REGISTER_OFFSET = 7;
     
-    eErrorCode cAtaPassThrough::IssueCommand( std::shared_ptr<cBufferInterface> Essense, std::shared_ptr<cBufferInterface> DataBuffer )
+    eErrorCode cAtaPassThrough::IssueCommand( DeviceHandle Handle, std::shared_ptr<cBufferInterface> Essense, std::shared_ptr<cBufferInterface> DataBuffer )
     {
         eErrorCode errorCode = eErrorCode::None;
 
@@ -50,7 +50,7 @@ namespace Protocol
             {
                 cEssenseAta1 essense = cEssenseAta1::Reader(Essense);
                 
-                m_DeviceHandle = essense.GetDeviceHandle();
+                m_DeviceHandle = Handle;
 
                 InitializePassThroughDirect(
                     essense.GetCommandCharacteristics(),
