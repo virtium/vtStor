@@ -27,6 +27,7 @@ class cDriveManager : public cDriveManagerInterface
 {
 public:
     static std::unique_ptr<cDriveManager> GetInstance();
+    static void ResetInstance();
 
 public:
     virtual void RegisterDriveEnumerator( std::shared_ptr<cDriveEnumeratorInterface> DriveEnumerator ) override;
@@ -40,7 +41,7 @@ public:
 
 private:
     cDriveManager();
-    static cDriveManager* m_sInstance;
+    static cDriveManager* s_Instance;
 
 public:
     virtual ~cDriveManager();

@@ -31,6 +31,11 @@ cDrive::cDrive(std::shared_ptr<String> DevicePath) : m_DevicePath(DevicePath)
 
 cDrive::~cDrive()
 {
+    if (m_DeviceHandle)
+    {
+        CloseHandle(m_DeviceHandle);
+    }
+    
     m_CommandHandlers.clear();
 }
 
