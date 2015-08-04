@@ -55,8 +55,9 @@ void main()
 
     // Call command
     //vtStor::Ata::IssueCommand_IdentifyDevice(drives[1], vtStor::cAta::s_DefaultCommandHandlerCommandType, dataBuffer);
+    vtStor::Ata::IssueCommand_ReadDma(drives[1], vtStor::cAta::s_DefaultCommandHandlerCommandType, dataBuffer, 0, 1);
     //vtStor::Ata::IssueCommand_ReadBuffer(drives[1], vtStor::cAta::s_DefaultCommandHandlerCommandType, dataBuffer);
-    vtStor::Ata::IssueCommand_Smart(drives[1], vtStor::cAta::s_DefaultCommandHandlerCommandType, dataBuffer, 208);
+    //vtStor::Ata::IssueCommand_Smart(drives[1], vtStor::cAta::s_DefaultCommandHandlerCommandType, dataBuffer, 208);
 
     vtStor::U8* data = dataBuffer->ToDataBuffer();
 

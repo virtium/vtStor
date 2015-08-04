@@ -35,8 +35,14 @@ public:
 
     virtual std::shared_ptr<cDriveInterface> GetDrive(const U32 DriveIndex) override;
 
-public:
+private:
     cDriveManager();
+    static cDriveManager* single;
+
+public:
+    static std::unique_ptr<cDriveManager> getInstance();
+
+public:
     virtual ~cDriveManager();
 
 private:
@@ -45,6 +51,7 @@ private:
 
 private:
     Vector_Drives   m_Drives;
+    std::vector<String> m_DevicePaths;
 };
 
 }
