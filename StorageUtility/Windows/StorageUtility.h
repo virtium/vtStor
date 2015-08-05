@@ -57,6 +57,8 @@ namespace vtStor
 
     eErrorCode GetStorageAdapterProperty( HANDLE Handle, sStorageAdapterProperty& AdapterProperty );
 
+    void CloseDeviceHandle(HANDLE& Handle);
+
     bool IsAtaDeviceBus( sStorageAdapterProperty StorageAdapterProperty );
 }
 

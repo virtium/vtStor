@@ -206,6 +206,16 @@ eErrorCode GetStorageAdapterProperty( HANDLE Handle, sStorageAdapterProperty& Ad
     return( eErrorCode::None );
 }
 
+void CloseDeviceHandle(HANDLE& Handle)
+{
+    if (FALSE == CloseHandle(Handle))
+    {
+        //! TODO
+        //fprintf(stderr, "\nCloseDeviceHandle was not successful. Error Code: %d", GetLastError());
+    }
+    Handle = INVALID_HANDLE_VALUE;
+}
+
 bool IsAtaDeviceBus( sStorageAdapterProperty StorageDeviceProperty )
 {
     bool successFlag = false;

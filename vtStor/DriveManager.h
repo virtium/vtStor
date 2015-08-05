@@ -26,8 +26,7 @@ namespace vtStor
 class cDriveManager : public cDriveManagerInterface
 {
 public:
-    static std::unique_ptr<cDriveManager> GetInstance();
-    static void ResetInstance();
+    static void GetInstance(std::unique_ptr<cDriveManagerInterface>& DriveManager);
 
 public:
     virtual void RegisterDriveEnumerator( std::shared_ptr<cDriveEnumeratorInterface> DriveEnumerator ) override;
@@ -41,7 +40,7 @@ public:
 
 private:
     cDriveManager();
-    static cDriveManager* s_Instance;
+    static std::unique_ptr<cDriveManager> s_Instance;
 
 public:
     virtual ~cDriveManager();

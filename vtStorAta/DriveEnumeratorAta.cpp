@@ -32,7 +32,7 @@ cDriveEnumeratorAta::~cDriveEnumeratorAta()
 
 }
 
-eErrorCode cDriveEnumeratorAta::EnumerateDrive(String DevicePath, Vector_Drives& AddToList, U32& Count )
+eErrorCode cDriveEnumeratorAta::EnumerateDrive(const String& DevicePath, Vector_Drives& AddToList, U32& Count )
 {
     Count = 0;
     
@@ -50,7 +50,7 @@ eErrorCode cDriveEnumeratorAta::EnumerateDrive(String DevicePath, Vector_Drives&
     errorCode = GetStorageAdapterProperty( deviceHandle, storageAdapterProperty );
     if ( eErrorCode::None != errorCode )
     {
-        CloseHandle(deviceHandle);
+        CloseDeviceHandle(deviceHandle);
         //TODO: handle error
         return (errorCode);
     }
@@ -61,6 +61,8 @@ eErrorCode cDriveEnumeratorAta::EnumerateDrive(String DevicePath, Vector_Drives&
 
         AddToList.push_back( drive );
         ++Count;
+
+        return( eErrorCode::Success );
     }
 
     return( eErrorCode::None );
