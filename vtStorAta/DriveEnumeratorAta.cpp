@@ -32,39 +32,37 @@ cDriveEnumeratorAta::~cDriveEnumeratorAta()
 
 }
 
-eErrorCode cDriveEnumeratorAta::EnumerateDrives(std::vector<String> PathsList, Vector_Drives& AddToList, U32& Count )
+eErrorCode cDriveEnumeratorAta::EnumerateDrive(const String& DevicePath, Vector_Drives& AddToList, U32& Count )
 {
     Count = 0;
     
     DeviceHandle deviceHandle;
     eErrorCode errorCode;
-    for ( const auto& devicePath : PathsList )
+
+    errorCode = GetStorageDeviceHandle(DevicePath, deviceHandle);
+    if ( eErrorCode::None != errorCode )
     {
-        errorCode = GetStorageDeviceHandle( devicePath, deviceHandle );
-        if ( eErrorCode::None != errorCode )
-        {
-            //TODO: handle error
-            continue;
-        }
+        //TODO: handle error
+        return ( errorCode );
+    }
 
-        sStorageAdapterProperty storageAdapterProperty;
-        errorCode = GetStorageAdapterProperty( deviceHandle, storageAdapterProperty );
-        if ( eErrorCode::None != errorCode )
-        {
-            CloseHandle(deviceHandle);
-            //TODO: handle error
-            continue;
-        }
+    sStorageAdapterProperty storageAdapterProperty;
+    errorCode = GetStorageAdapterProperty( deviceHandle, storageAdapterProperty );
+    if ( eErrorCode::None != errorCode )
+    {
+        CloseDeviceHandle(deviceHandle);
+        //TODO: handle error
+        return (errorCode);
+    }
 
-        if ( true == IsAtaDeviceBus( storageAdapterProperty ) )
-        {
-            std::shared_ptr<cDriveInterface> drive = std::make_shared<cDriveAta>(std::make_shared<String>(devicePath));
+    if ( true == IsAtaDeviceBus( storageAdapterProperty ) )
+    {
+        std::shared_ptr<cDriveInterface> drive = std::make_shared<cDriveAta>(std::make_shared<String>(DevicePath));
 
-            AddToList.push_back( drive );
-            devicePath.empty();
+        AddToList.push_back( drive );
+        ++Count;
 
-            ++Count;
-        }
+        return( eErrorCode::Success );
     }
 
     return( eErrorCode::None );

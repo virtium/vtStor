@@ -18,7 +18,8 @@
     </Lib>
     <PreBuildEvent>
       <Command>python $(SolutionDir)GenerateFiles\GenerateFiles.py $(SolutionDir)Common\ErrorCodes.h $(SolutionDir)GenerateFiles\ErrorCodesTemplate.h $(SolutionDir)GenerateFiles\ErrorCodes.xml
-python $(SolutionDir)GenerateFiles\GenerateFiles.py $(SolutionDir)Common\ScanForHardwareChanges.h $(SolutionDir)GenerateFiles\ScanForHardwareChangesTemplate.h $(SolutionDir)GenerateFiles\ScanForHardwareChanges.xml</Command>
+python $(SolutionDir)GenerateFiles\GenerateFiles.py $(SolutionDir)Common\ScanForHardwareChanges.h $(SolutionDir)GenerateFiles\ScanForHardwareChangesTemplate.h $(SolutionDir)GenerateFiles\ScanForHardwareChanges.xml
+python $(SolutionDir)GenerateFiles\GenerateFiles.py $(SolutionDir)Common\BusTypes.h $(SolutionDir)GenerateFiles\BusTypesTemplate.h $(SolutionDir)GenerateFiles\BusTypes.xml</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>cd $(SolutionDir)

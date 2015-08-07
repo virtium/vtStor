@@ -31,6 +31,7 @@ cDrive::cDrive(std::shared_ptr<String> DevicePath) : m_DevicePath(DevicePath)
 
 cDrive::~cDrive()
 {
+    CloseDeviceHandle(m_DeviceHandle);    
     m_CommandHandlers.clear();
 }
 
@@ -42,6 +43,27 @@ void cDrive::RegisterCommandHandler(U32 CommandType, std::shared_ptr<cCommandHan
 eErrorCode cDrive::IssueCommand( U32 CommandType, std::shared_ptr<const cBufferInterface> CommandDescriptor, std::shared_ptr<cBufferInterface> Data )
 {
     return( m_CommandHandlers[CommandType]->IssueCommand( m_DeviceHandle, CommandDescriptor, Data ) );
+}
+
+eBusTypes cDrive::GetBusType()
+{
+    sStorageAdapterProperty storageAdapterProperty;
+    if (eErrorCode::None != GetStorageAdapterProperty(m_DeviceHandle, storageAdapterProperty))
+    {
+        //TODO: handle error
+        // Throw an exception
+        return(eBusTypes::Undefined);
+    }
+
+    if (true == IsAtaDeviceBus(storageAdapterProperty))
+    {
+        return( eBusTypes::AtaBus );
+    }
+    else        
+    {
+        return( eBusTypes::Undefined );
+    }
+    // !TODO: check if (true == IsScsiDeviceBus(storageAdapterProperty))
 }
 
 }

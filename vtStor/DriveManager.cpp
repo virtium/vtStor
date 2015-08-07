@@ -21,7 +21,7 @@ limitations under the License.
 
 namespace vtStor
 {
-    cDriveManager* cDriveManager::single = nullptr;
+    std::unique_ptr<cDriveManager> cDriveManager::s_Instance = nullptr;
 
 cDriveManager::cDriveManager()
 {
@@ -30,19 +30,17 @@ cDriveManager::cDriveManager()
 
 cDriveManager::~cDriveManager()
 {
-    single = nullptr;
-
     m_DriveEnumerators.clear();
     m_Drives.clear();
 }
 
-std::unique_ptr<cDriveManager> cDriveManager::getInstance()
+void cDriveManager::GetInstance(std::unique_ptr<cDriveManagerInterface>& DriveManager)
 {
-    if (!single)
+    if (nullptr == s_Instance)
     {
-        single = new cDriveManager();
+        s_Instance = std::unique_ptr<cDriveManager>(new cDriveManager());
     }
-    return std::unique_ptr<cDriveManager>(single);
+    DriveManager = std::move(s_Instance);
 }
 
 void cDriveManager::RegisterDriveEnumerator( std::shared_ptr<cDriveEnumeratorInterface> DriveEnumerator )
@@ -63,14 +61,22 @@ eErrorCode cDriveManager::EnumerateDrives( eScanForHardwareChanges ScanForHardwa
     vtStor::GetStorageDevicePaths(m_DevicePaths, eOnErrorBehavior::Continue);
 
     U32 count = 0;
-    for ( auto& enumerator : m_DriveEnumerators )
+
+    for (const auto& devicePath : m_DevicePaths)
     {
-        error = enumerator->EnumerateDrives(m_DevicePaths, m_Drives, count);
-        if (eErrorCode::None != error)
+        for (auto& enumerator : m_DriveEnumerators)
         {
-            //TODO: handle error
+            error = enumerator->EnumerateDrive(devicePath, m_Drives, count);
+            if (eErrorCode::Success == error)
+            {
+                continue;
+            }
+            else if (eErrorCode::None != error)
+            {
+                //TODO: handle error
+            }         
         }
-    }
+    }    
 
     return( error );
 }

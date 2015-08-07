@@ -9,6 +9,7 @@
     <WordPair Name="NoSupport" Value="0x00000005" />
     <WordPair Name="Invalid" Value="0x00000006" />
     <WordPair Name="NullPointer" Value="0x00000007" />
-    <WordPair Name="FormatNotSupported" Value="0x00000008" />
+    <WordPair Name="FormatNotSupported" Value="0x00000008" />    
+    <WordPair Name="Success" Value="0x00000009" />
   </WordPairs>
 </GenerateFile>
