@@ -61,8 +61,6 @@ eErrorCode cDriveEnumeratorAta::EnumerateDrive(const String& DevicePath, Vector_
 
         AddToList.push_back( drive );
         ++Count;
-
-        return( eErrorCode::Success );
     }
 
     return( eErrorCode::None );

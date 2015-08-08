@@ -67,14 +67,10 @@ eErrorCode cDriveManager::EnumerateDrives( eScanForHardwareChanges ScanForHardwa
         for (auto& enumerator : m_DriveEnumerators)
         {
             error = enumerator->EnumerateDrive(devicePath, m_Drives, count);
-            if (eErrorCode::Success == error)
+            if (1 == count)
             {
-                continue;
-            }
-            else if (eErrorCode::None != error)
-            {
-                //TODO: handle error
-            }         
+                break;
+            }      
         }
     }    
 
