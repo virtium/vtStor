@@ -23,7 +23,7 @@ namespace vtStor
 cDriveAta::cDriveAta(std::shared_ptr<String> DevicePath) :
     cDrive(DevicePath)
 {
-
+    m_BusType = eBusType::Ata;
 }
 
 cDriveAta::~cDriveAta()

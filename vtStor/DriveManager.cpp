@@ -51,6 +51,7 @@ void cDriveManager::RegisterDriveEnumerator( std::shared_ptr<cDriveEnumeratorInt
 eErrorCode cDriveManager::EnumerateDrives( eScanForHardwareChanges ScanForHardwareChanges )
 {
     eErrorCode error = eErrorCode::None;
+    bool successFlag = false;
 
     if ( eScanForHardwareChanges::Yes == ScanForHardwareChanges )
     {
@@ -60,15 +61,14 @@ eErrorCode cDriveManager::EnumerateDrives( eScanForHardwareChanges ScanForHardwa
     }
     vtStor::GetStorageDevicePaths(m_DevicePaths, eOnErrorBehavior::Continue);
 
-    U32 count = 0;
-
     for (const auto& devicePath : m_DevicePaths)
     {
         for (auto& enumerator : m_DriveEnumerators)
         {
-            error = enumerator->EnumerateDrive(devicePath, m_Drives, count);
-            if (1 == count)
+            error = enumerator->EnumerateDrive(devicePath, m_Drives, successFlag);
+            if (true == successFlag)
             {
+                successFlag = false;
                 break;
             }      
         }

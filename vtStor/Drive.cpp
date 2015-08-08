@@ -45,14 +45,9 @@ eErrorCode cDrive::IssueCommand( U32 CommandType, std::shared_ptr<const cBufferI
     return( m_CommandHandlers[CommandType]->IssueCommand( m_DeviceHandle, CommandDescriptor, Data ) );
 }
 
-eBusTypes cDrive::GetBusType()
+eBusType cDrive::GetBusType()
 {
     return( m_BusType );    
-}
-
-void cDrive::SetBusType(eBusTypes BusType)
-{
-    m_BusType = BusType;
 }
 
 }

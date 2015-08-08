@@ -21,24 +21,18 @@ limitations under the License.
 //! This file was automatically generated. Changes to this file may cause
 //! incorrect behavior and will be lost if the code is regenerated.
 
-#ifndef __ErrorCodes_h__
-#define __ErrorCodes_h__
+#ifndef __BusType_h__
+#define __BusType_h__
 #pragma once
 <$Prefix></Prefix$>
 <$Suffix>,</Suffix$>
 namespace vtStor
 {
 
-enum class eErrorCode
+enum class eBusType
 {
     <%Replace%>
 };
-
-enum class eOnErrorBehavior
-{
-    Stop = 0,
-    Continue,
-};
 }
 
-#endif __ErrorCodes_h__
+#endif __BusType_h__
