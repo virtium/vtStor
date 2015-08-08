@@ -36,7 +36,7 @@ void main()
     driveEnumeratorAta->EnumerateDrives( drives, count );
 #endif
 
-    std::unique_ptr<vtStor::cDriveManagerInterface> driveManager;
+    std::shared_ptr<vtStor::cDriveManagerInterface> driveManager;
     vtStorInit( driveManager );
 
     vtStor::cAta::s_DefaultCommandHandlerCommandType = 0;
