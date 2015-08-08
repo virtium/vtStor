@@ -48,6 +48,7 @@ public:
 
 public:
     virtual eBusTypes GetBusType() = 0;
+    virtual void SetBusType(eBusTypes BusType) = 0;
 
 };
 

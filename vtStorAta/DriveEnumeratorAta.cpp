@@ -58,6 +58,7 @@ eErrorCode cDriveEnumeratorAta::EnumerateDrive(const String& DevicePath, Vector_
     if ( true == IsAtaDeviceBus( storageAdapterProperty ) )
     {
         std::shared_ptr<cDriveInterface> drive = std::make_shared<cDriveAta>(std::make_shared<String>(DevicePath));
+        drive->SetBusType(eBusTypes::AtaBus);
 
         AddToList.push_back( drive );
         ++Count;

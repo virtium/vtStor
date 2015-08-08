@@ -37,7 +37,7 @@ cCommandHandlerAta::~cCommandHandlerAta()
 {
 }
 
-eErrorCode cCommandHandlerAta::IssueCommand( DeviceHandle Handle, std::shared_ptr<const cBufferInterface> CommandDescriptor, std::shared_ptr<cBufferInterface> Data )
+eErrorCode cCommandHandlerAta::IssueCommand( const DeviceHandle& Handle, std::shared_ptr<const cBufferInterface> CommandDescriptor, std::shared_ptr<cBufferInterface> Data )
 {
     eErrorCode errorCode = eErrorCode::None;
 

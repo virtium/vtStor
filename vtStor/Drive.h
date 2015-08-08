@@ -51,6 +51,10 @@ protected:
 
 public:
     virtual eBusTypes GetBusType() override;
+    virtual void SetBusType(eBusTypes BusType) override;
+
+private:
+    eBusTypes m_BusType;
 
 protected:
     //! This is a work around to by pass the need to export template for "String" type.
