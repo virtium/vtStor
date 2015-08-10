@@ -26,6 +26,7 @@ limitations under the License.
 #include "BufferInterface.h"
 #include "CommandHandlerInterface.h"
 #include "vtStorPlatformDefines.h"
+#include "BusType.h"
 
 namespace vtStor
 {
@@ -44,6 +45,9 @@ public:
 
 public:
     virtual ~cDriveInterface();
+
+public:
+    virtual eBusType GetBusType() = 0;
 
 };
 

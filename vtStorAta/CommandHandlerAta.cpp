@@ -37,7 +37,7 @@ cCommandHandlerAta::~cCommandHandlerAta()
 {
 }
 
-eErrorCode cCommandHandlerAta::IssueCommand( std::shared_ptr<const cBufferInterface> CommandDescriptor, std::shared_ptr<cBufferInterface> Data )
+eErrorCode cCommandHandlerAta::IssueCommand( const DeviceHandle& Handle, std::shared_ptr<const cBufferInterface> CommandDescriptor, std::shared_ptr<cBufferInterface> Data )
 {
     eErrorCode errorCode = eErrorCode::None;
 
@@ -51,9 +51,6 @@ eErrorCode cCommandHandlerAta::IssueCommand( std::shared_ptr<const cBufferInterf
 
             std::shared_ptr<cBufferInterface> buffer = std::make_shared<cBuffer>(vtStor::Protocol::cEssenseAta1::SIZE_IN_BYTES);
             Protocol::cEssenseAta1 essense = Protocol::cEssenseAta1::Writer(buffer);
-    
-            DeviceHandle& deviceHandle = essense.GetDeviceHandle();
-            deviceHandle = commandDescriptor.GetDeviceHandle();
 
             StorageUtility::Ata::sCommandCharacteristic& commandCharacteristics = essense.GetCommandCharacteristics();
             commandCharacteristics = commandDescriptor.GetCommandCharacteristics();
@@ -62,7 +59,7 @@ eErrorCode cCommandHandlerAta::IssueCommand( std::shared_ptr<const cBufferInterf
             StorageUtility::Ata::uTaskFileRegister& taskFileExt = essense.GetTaskFileExt();
             PrepareTaskFileRegisters(commandCharacteristics, commandFields, taskFile, taskFileExt);
 
-            errorCode = m_Protocol->IssueCommand( buffer, Data );
+            errorCode = m_Protocol->IssueCommand( Handle, buffer, Data );
 
         } break;
 

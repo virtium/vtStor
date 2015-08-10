@@ -29,7 +29,7 @@ limitations under the License.
 namespace vtStor
 {
 
-enum eScanForHardwareChanges
+enum class eScanForHardwareChanges
 {
     <%Replace%>
 };

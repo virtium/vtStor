@@ -32,40 +32,33 @@ cDriveEnumeratorAta::~cDriveEnumeratorAta()
 
 }
 
-eErrorCode cDriveEnumeratorAta::EnumerateDrives( Vector_Drives& AddToList, U32& Count )
+eErrorCode cDriveEnumeratorAta::EnumerateDrive(const String& DevicePath, Vector_Drives& AddToList, bool& SuccessFlag)
 {
-    Count = 0;
-
-    std::vector<String> devicePaths;
-    vtStor::GetStorageDevicePaths( devicePaths, eOnErrorBehavior::Continue );
-
     DeviceHandle deviceHandle;
     eErrorCode errorCode;
-    for ( const auto& devicePath : devicePaths )
+
+    errorCode = GetStorageDeviceHandle(DevicePath, deviceHandle);
+    if ( eErrorCode::None != errorCode )
     {
-        errorCode = GetStorageDeviceHandle( devicePath, deviceHandle );
-        if ( eErrorCode::None != errorCode )
-        {
-            //TODO: handle error
-            continue;
-        }
+        //TODO: handle error
+        return ( errorCode );
+    }
 
-        sStorageAdapterProperty storageAdapterProperty;
-        errorCode = GetStorageAdapterProperty( deviceHandle, storageAdapterProperty );
-        if ( eErrorCode::None != errorCode )
-        {
-            CloseHandle(deviceHandle);
-            //TODO: handle error
-            continue;
-        }
+    sStorageAdapterProperty storageAdapterProperty;
+    errorCode = GetStorageAdapterProperty( deviceHandle, storageAdapterProperty );
+    if ( eErrorCode::None != errorCode )
+    {
+        CloseDeviceHandle(deviceHandle);
+        //TODO: handle error
+        return (errorCode);
+    }
 
-        if ( true == IsAtaDeviceBus( storageAdapterProperty ) )
-        {
-            std::shared_ptr<cDriveInterface> drive = std::make_shared<cDriveAta>(std::make_shared<String>(devicePath));
+    if ( true == IsAtaDeviceBus( storageAdapterProperty ) )
+    {
+        std::shared_ptr<cDriveInterface> drive = std::make_shared<cDriveAta>(std::make_shared<String>(DevicePath));
 
-            AddToList.push_back( drive );
-            ++Count;
-        }
+        AddToList.push_back( drive );
+        SuccessFlag = true;
     }
 
     return( eErrorCode::None );
