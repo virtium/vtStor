@@ -15,28 +15,22 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
-#ifndef __vtStorAta_h__
-#define __vtStorAta_h__
-#pragma once
 
-#include "BasicTypes.h"
-#include "DriveEnumeratorInterface.h"
-#include "vtStorAtaPlatformDefines.h"
+#include "Scsi.h"
 
 namespace vtStor
 {
+    namespace StorageUtility
+    {
+        namespace Scsi
+        {
 
-class VT_STOR_ATA_API cAta
-{
-public:
-    cAta() = delete;
-};
+            const U32 SCSI_SECTOR_SIZE_IN_BYTES = 512;
 
+            const U8  CDB_REGISTER_SIZE = 16;
+            const U8  SCSI_COMMAND_ATA_PASS_THROUGH_12 = 0xA1;
+            const U8  SCSI_COMMAND_ATA_PASS_THROUGH_16 = 0x85;
+
+        }
+    }
 }
-
-extern "C"
-{
-    VT_STOR_ATA_API void vtStorAtaInit(std::shared_ptr<vtStor::cDriveEnumeratorInterface>& DriveEnumerator);
-}
-
-#endif

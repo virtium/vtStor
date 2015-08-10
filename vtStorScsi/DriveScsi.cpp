@@ -15,28 +15,25 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
-#ifndef __vtStorAta_h__
-#define __vtStorAta_h__
-#pragma once
-
-#include "BasicTypes.h"
-#include "DriveEnumeratorInterface.h"
-#include "vtStorAtaPlatformDefines.h"
+#include "DriveScsi.h"
 
 namespace vtStor
 {
 
-class VT_STOR_ATA_API cAta
+cDriveScsi::cDriveScsi(std::shared_ptr<String> DevicePath) : 
+    cDrive(DevicePath)
 {
-public:
-    cAta() = delete;
-};
 
 }
 
-extern "C"
+cDriveScsi::~cDriveScsi()
 {
-    VT_STOR_ATA_API void vtStorAtaInit(std::shared_ptr<vtStor::cDriveEnumeratorInterface>& DriveEnumerator);
+
 }
 
-#endif
+eBusType cDriveScsi::GetBusType()
+{
+    return( eBusType::Scsi );
+}
+
+}

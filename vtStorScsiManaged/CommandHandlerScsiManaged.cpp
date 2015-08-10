@@ -16,17 +16,30 @@ limitations under the License.
 </License>
 */
 
-#include "AtaManaged.h"
-#include "vtStorAta.h"
+#include "vtStorScsi/CommandHandlerScsi.h"
+#include "CommandHandlerScsiManaged.h"
+#include "vtStorScsi.h"
 
 namespace vtStor
 {
     namespace Managed
     {
-        void cAta::SetDefaultCommandHandlerCommandType( U32 CommandType )
+        cCommandHandlerScsi::cCommandHandlerScsi( cProtocolInterface^ Protocol )
         {
-            //vtStor::cAta::s_DefaultCommandHandlerCommandType = CommandType;
+            vtStorCommandHandlerScsiInit( *m_CommandHandler, vtStor::Protocol::cProtocolInterface::ToSharedPtr( *Protocol ) );
+        }
+
+        cCommandHandlerScsi::~cCommandHandlerScsi()
+        {
+        }
+
+        cCommandHandlerScsi::!cCommandHandlerScsi()
+        {
+        }
+
+        cCommandHandlerScsi::operator void*()
+        {
+            return( vtStor::cCommandHandlerInterface::ToVoidPointer( *m_CommandHandler ) );
         }
     }
-
 }
