@@ -29,12 +29,12 @@ limitations under the License.
 namespace vtStor
 {
 
-enum eErrorCode
+enum class eErrorCode
 {
     <%Replace%>
 };
 
-enum eOnErrorBehavior
+enum class eOnErrorBehavior
 {
     Stop = 0,
     Continue,

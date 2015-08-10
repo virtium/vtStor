@@ -45,25 +45,4 @@ eErrorCode cDrive::IssueCommand( U32 CommandType, std::shared_ptr<const cBufferI
     return( m_CommandHandlers[CommandType]->IssueCommand( m_DeviceHandle, CommandDescriptor, Data ) );
 }
 
-eBusTypes cDrive::GetBusType()
-{
-    sStorageAdapterProperty storageAdapterProperty;
-    if (eErrorCode::None != GetStorageAdapterProperty(m_DeviceHandle, storageAdapterProperty))
-    {
-        //TODO: handle error
-        // Throw an exception
-        return(eBusTypes::Undefined);
-    }
-
-    if (true == IsAtaDeviceBus(storageAdapterProperty))
-    {
-        return( eBusTypes::AtaBus );
-    }
-    else        
-    {
-        return( eBusTypes::Undefined );
-    }
-    // !TODO: check if (true == IsScsiDeviceBus(storageAdapterProperty))
-}
-
 }

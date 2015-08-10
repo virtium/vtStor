@@ -32,10 +32,8 @@ cDriveEnumeratorAta::~cDriveEnumeratorAta()
 
 }
 
-eErrorCode cDriveEnumeratorAta::EnumerateDrive(const String& DevicePath, Vector_Drives& AddToList, U32& Count )
+eErrorCode cDriveEnumeratorAta::EnumerateDrive(const String& DevicePath, Vector_Drives& AddToList, bool& SuccessFlag)
 {
-    Count = 0;
-    
     DeviceHandle deviceHandle;
     eErrorCode errorCode;
 
@@ -60,9 +58,7 @@ eErrorCode cDriveEnumeratorAta::EnumerateDrive(const String& DevicePath, Vector_
         std::shared_ptr<cDriveInterface> drive = std::make_shared<cDriveAta>(std::make_shared<String>(DevicePath));
 
         AddToList.push_back( drive );
-        ++Count;
-
-        return( eErrorCode::Success );
+        SuccessFlag = true;
     }
 
     return( eErrorCode::None );

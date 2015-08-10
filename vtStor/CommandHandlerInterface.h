@@ -40,7 +40,7 @@ public:
     virtual ~cCommandHandlerInterface();
 
 public:
-    virtual eErrorCode IssueCommand( DeviceHandle Handle, std::shared_ptr<const cBufferInterface> CommandDescriptor, std::shared_ptr<cBufferInterface> Data ) = 0;
+    virtual eErrorCode IssueCommand( const DeviceHandle& Handle, std::shared_ptr<const cBufferInterface> CommandDescriptor, std::shared_ptr<cBufferInterface> Data ) = 0;
 
 protected:
     std::shared_ptr<Protocol::cProtocolInterface>   m_Protocol;

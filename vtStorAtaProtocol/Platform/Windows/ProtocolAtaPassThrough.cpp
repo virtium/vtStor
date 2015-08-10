@@ -38,7 +38,7 @@ namespace Protocol
     const vtStor::U8 STATUS_REGISTER_OFFSET = 6;
     const vtStor::U8 RESERVED_REGISTER_OFFSET = 7;
     
-    eErrorCode cAtaPassThrough::IssueCommand( DeviceHandle Handle, std::shared_ptr<cBufferInterface> Essense, std::shared_ptr<cBufferInterface> DataBuffer )
+    eErrorCode cAtaPassThrough::IssueCommand( const DeviceHandle& Handle, std::shared_ptr<cBufferInterface> Essense, std::shared_ptr<cBufferInterface> DataBuffer )
     {
         eErrorCode errorCode = eErrorCode::None;
 
@@ -145,7 +145,7 @@ namespace Protocol
         m_AtaPassThrough.CurrentTaskFile[RESERVED_REGISTER_OFFSET] = CurrentTaskFile.InputRegister.Reserved;
     }
 
-    eErrorCode cAtaPassThrough::IssuePassThroughDirectCommand( DeviceHandle Handle, U32& BytesReturned )
+    eErrorCode cAtaPassThrough::IssuePassThroughDirectCommand( const DeviceHandle& Handle, U32& BytesReturned )
     {
         
         assert( INVALID_HANDLE_VALUE != Handle );

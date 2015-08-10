@@ -49,9 +49,6 @@ public:
 protected:
     std::map<U32, std::shared_ptr<cCommandHandlerInterface>> m_CommandHandlers;
 
-public:
-    virtual eBusTypes GetBusType() override;
-
 protected:
     //! This is a work around to by pass the need to export template for "String" type.
     //! Apparently exporting from within shared_ptr will cover it.

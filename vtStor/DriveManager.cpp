@@ -21,7 +21,7 @@ limitations under the License.
 
 namespace vtStor
 {
-    std::unique_ptr<cDriveManager> cDriveManager::s_Instance = nullptr;
+    std::shared_ptr<cDriveManager> cDriveManager::s_Instance = nullptr;
 
 cDriveManager::cDriveManager()
 {
@@ -34,13 +34,13 @@ cDriveManager::~cDriveManager()
     m_Drives.clear();
 }
 
-void cDriveManager::GetInstance(std::unique_ptr<cDriveManagerInterface>& DriveManager)
+void cDriveManager::GetInstance(std::shared_ptr<cDriveManagerInterface>& DriveManager)
 {
     if (nullptr == s_Instance)
     {
-        s_Instance = std::unique_ptr<cDriveManager>(new cDriveManager());
+        s_Instance = std::shared_ptr<cDriveManager>(new cDriveManager());
     }
-    DriveManager = std::move(s_Instance);
+    DriveManager = s_Instance;
 }
 
 void cDriveManager::RegisterDriveEnumerator( std::shared_ptr<cDriveEnumeratorInterface> DriveEnumerator )
@@ -51,6 +51,7 @@ void cDriveManager::RegisterDriveEnumerator( std::shared_ptr<cDriveEnumeratorInt
 eErrorCode cDriveManager::EnumerateDrives( eScanForHardwareChanges ScanForHardwareChanges )
 {
     eErrorCode error = eErrorCode::None;
+    bool successFlag = false;
 
     if ( eScanForHardwareChanges::Yes == ScanForHardwareChanges )
     {
@@ -60,21 +61,16 @@ eErrorCode cDriveManager::EnumerateDrives( eScanForHardwareChanges ScanForHardwa
     }
     vtStor::GetStorageDevicePaths(m_DevicePaths, eOnErrorBehavior::Continue);
 
-    U32 count = 0;
-
     for (const auto& devicePath : m_DevicePaths)
     {
         for (auto& enumerator : m_DriveEnumerators)
         {
-            error = enumerator->EnumerateDrive(devicePath, m_Drives, count);
-            if (eErrorCode::Success == error)
+            error = enumerator->EnumerateDrive(devicePath, m_Drives, successFlag);
+            if (true == successFlag)
             {
-                continue;
-            }
-            else if (eErrorCode::None != error)
-            {
-                //TODO: handle error
-            }         
+                successFlag = false;
+                break;
+            }      
         }
     }    
 

@@ -25,7 +25,7 @@ limitations under the License.
 #include "ProtocolAtaPassThrough.h"
 #include "vtStor.h"
 #include "vtStorAta.h"
-#include "BusTypes.h"
+#include "BusType.h"
 
 void main()
 {
@@ -36,7 +36,7 @@ void main()
     driveEnumeratorAta->EnumerateDrives( drives, count );
 #endif
 
-    std::unique_ptr<vtStor::cDriveManagerInterface> driveManager;
+    std::shared_ptr<vtStor::cDriveManagerInterface> driveManager;
     vtStorInit( driveManager );
 
     vtStor::cAta::s_DefaultCommandHandlerCommandType = 0;
@@ -48,7 +48,7 @@ void main()
     // Create data buffer
     std::shared_ptr<vtStor::cBufferInterface> dataBuffer = std::make_shared<vtStor::cBuffer>(512);
 
-    if (vtStor::eBusTypes::AtaBus == drives[1]->GetBusType())
+    if (vtStor::eBusType::Ata == drives[1]->GetBusType())
     {
         // Create protocol
         std::shared_ptr<vtStor::Protocol::cProtocolInterface> protocol = std::make_shared<vtStor::Protocol::cAtaPassThrough>();

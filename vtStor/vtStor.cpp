@@ -21,7 +21,7 @@ limitations under the License.
 
 using namespace vtStor;
 
-vtStor::eErrorCode vtStorInit(std::unique_ptr<vtStor::cDriveManagerInterface>& DriveManager)
+vtStor::eErrorCode vtStorInit(std::shared_ptr<vtStor::cDriveManagerInterface>& DriveManager)
 {
     cDriveManager::GetInstance(DriveManager);
 
