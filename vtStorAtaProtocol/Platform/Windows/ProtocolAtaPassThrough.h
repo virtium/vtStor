@@ -39,7 +39,7 @@ class VT_STOR_ATA_PROTOCOL_API cAtaPassThrough : public cProtocolInterface
 {
 
 public:
-    virtual eErrorCode IssueCommand( std::shared_ptr<cBufferInterface> Essense, std::shared_ptr<cBufferInterface> DataBuffer ) override;
+    virtual eErrorCode IssueCommand( const DeviceHandle& Handle, std::shared_ptr<cBufferInterface> Essense, std::shared_ptr<cBufferInterface> DataBuffer ) override;
 
 private:
     void InitializePassThroughDirect(
@@ -58,10 +58,9 @@ private:
     //!
     void InitializeTaskFileInputRegisters( const StorageUtility::Ata::uTaskFileRegister& PreviousTaskFile, const StorageUtility::Ata::uTaskFileRegister& CurrentTaskFile );
 
-    eErrorCode IssuePassThroughDirectCommand( U32& BytesReturned );
+    eErrorCode IssuePassThroughDirectCommand( const DeviceHandle& Handle, U32& BytesReturned );
 
 private:
-    HANDLE                  m_DeviceHandle;
     ATA_PASS_THROUGH_DIRECT m_AtaPassThrough;
 };
 

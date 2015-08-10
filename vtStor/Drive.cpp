@@ -31,6 +31,7 @@ cDrive::cDrive(std::shared_ptr<String> DevicePath) : m_DevicePath(DevicePath)
 
 cDrive::~cDrive()
 {
+    CloseDeviceHandle(m_DeviceHandle);    
     m_CommandHandlers.clear();
 }
 
@@ -41,13 +42,7 @@ void cDrive::RegisterCommandHandler(U32 CommandType, std::shared_ptr<cCommandHan
 
 eErrorCode cDrive::IssueCommand( U32 CommandType, std::shared_ptr<const cBufferInterface> CommandDescriptor, std::shared_ptr<cBufferInterface> Data )
 {
-    // set device handle into CommandDescriptor here
-    cCommandDescriptor commandDescriptor = cCommandDescriptor::Modifier(std::const_pointer_cast<cBufferInterface>(CommandDescriptor));
-
-    DeviceHandle& deviceHandle = commandDescriptor.GetDeviceHandle();
-    deviceHandle = m_DeviceHandle;
-
-    return( m_CommandHandlers[CommandType]->IssueCommand( CommandDescriptor, Data ) );
+    return( m_CommandHandlers[CommandType]->IssueCommand( m_DeviceHandle, CommandDescriptor, Data ) );
 }
 
 }

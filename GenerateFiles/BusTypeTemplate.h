@@ -15,28 +15,24 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
-#ifndef __DriveAta_h__
-#define __DriveAta_h__
+//! =========
+//!  WARNING
+//! =========
+//! This file was automatically generated. Changes to this file may cause
+//! incorrect behavior and will be lost if the code is regenerated.
 
-#include "Drive.h"
-
-#include "BufferInterface.h"
-#include "CommandDescriptorUtility.h"
-
+#ifndef __BusType_h__
+#define __BusType_h__
+#pragma once
+<$Prefix></Prefix$>
+<$Suffix>,</Suffix$>
 namespace vtStor
 {
-    class cDriveAta : public cDrive
-    {
-    public:
-        cDriveAta(std::shared_ptr<String> DevicePath);
 
-    public:
-        virtual ~cDriveAta();
-
-    public:
-        virtual eBusType GetBusType() override;
-
-    };
+enum class eBusType
+{
+    <%Replace%>
+};
 }
 
-#endif
+#endif __BusType_h__
