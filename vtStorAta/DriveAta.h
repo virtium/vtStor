@@ -33,6 +33,9 @@ namespace vtStor
     public:
         virtual ~cDriveAta();
 
+    public:
+        virtual eBusType GetBusType() override;
+
     };
 }
 
