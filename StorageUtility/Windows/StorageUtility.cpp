@@ -218,40 +218,35 @@ void CloseDeviceHandle(HANDLE& Handle)
 
 bool IsAtaDeviceBus( sStorageAdapterProperty StorageDeviceProperty )
 {
-    bool successFlag = false;
     switch ( StorageDeviceProperty.BusType )
     {
     case BusTypeAta:
     case BusTypeSata:
     {
-        successFlag = true;
+        return( true );
     } break;
-
     default:
     {
+        return( false );
     } break;
     }
-
-    return successFlag;
 }
 
 bool IsScsiDeviceBus(sStorageAdapterProperty StorageDeviceProperty)
 {
-    bool successFlag = false;
     switch (StorageDeviceProperty.BusType)
     {
     case BusTypeScsi:
     case BusTypeUsb:
     case BusTypeiScsi:
     {
-                         successFlag = true;
-    }
-        break;
+        return( true );
+    } break;
     default:
-        break;
+    {
+        return( false );
+    } break;
     }
-
-    return successFlag;
 }
 
 }
