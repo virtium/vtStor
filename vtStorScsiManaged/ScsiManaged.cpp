@@ -23,10 +23,7 @@ namespace vtStor
 {
     namespace Managed
     {
-        void cScsi::SetDefaultCommandHandlerCommandType( U32 CommandType )
-        {
-            //vtStor::cScsi::s_DefaultCommandHandlerCommandType = CommandType;
-        }
+
     }
 
 }

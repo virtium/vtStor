@@ -26,8 +26,6 @@ namespace vtStorManaged.ATest
     {
         static void Main(string[] args)
         {
-            const uint commandTypeAta = 1;
-
             cDriveManagerInterface driveManager;
             cDriveEnumeratorInterface driveEnumeratorAta;
             uint driveCount;
@@ -38,9 +36,6 @@ namespace vtStorManaged.ATest
 
             // Create an instance for DriveEnumeratorAta
             driveEnumeratorAta = new cDriveEnumeratorAta();
-
-            // Set default command handler command type for Ata
-            cAta.SetDefaultCommandHandlerCommandType(commandTypeAta);
 
             // Register drive enumerator Ata
             driveManager.RegisterDriveEnumerator(driveEnumeratorAta);
@@ -67,10 +62,10 @@ namespace vtStorManaged.ATest
                     cCommandHandlerInterface commandHandlerAta = new cCommandHandlerAta(protocol);
 
                     // Register command handler to drive
-                    drive.RegisterCommandHandler(commandTypeAta, commandHandlerAta);
+                    drive.RegisterCommandHandler(0, commandHandlerAta);
 
                     // Issue command identify device
-                    errorCode = cDriveAtaCommandExtensions.IssueCommand_IdentifyDevice(drive, commandTypeAta, buffer);
+                    errorCode = cDriveAtaCommandExtensions.IssueCommand_IdentifyDevice(drive, 0, buffer);
                     if (eErrorCode.None == errorCode)
                     {
                         System.Console.WriteLine("IssueCommand_IdentifyDevice on drive 0 successfully!!!");

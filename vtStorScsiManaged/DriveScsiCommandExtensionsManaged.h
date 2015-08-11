@@ -33,17 +33,17 @@ namespace vtStor
             public:
                 static vtStor::Managed::eErrorCode IssueCommand_AtaIdentifyDevice(vtStor::Managed::cDriveInterface^ Drive, U32 CommandType, vtStor::Managed::cBufferInterface^ Data);
 
-                //static vtStor::Managed::eErrorCode IssueCommand_AtaReadDma(vtStor::Managed::cDriveInterface^ Drive, U32 CommandType, vtStor::Managed::cBufferInterface^ Data, U32 Lba, U8 Count);
+                static vtStor::Managed::eErrorCode IssueCommand_AtaReadDma(vtStor::Managed::cDriveInterface^ Drive, U32 CommandType, vtStor::Managed::cBufferInterface^ Data, U32 Lba, U8 Count);
 
-                //static vtStor::Managed::eErrorCode IssueCommand_AtaWriteDma(vtStor::Managed::cDriveInterface^ Drive, U32 CommandType, vtStor::Managed::cBufferInterface^ Data, U32 Lba, U8 Count);
+                static vtStor::Managed::eErrorCode IssueCommand_AtaWriteDma(vtStor::Managed::cDriveInterface^ Drive, U32 CommandType, vtStor::Managed::cBufferInterface^ Data, U32 Lba, U8 Count);
 
                 static vtStor::Managed::eErrorCode IssueCommand_AtaReadBuffer(vtStor::Managed::cDriveInterface^ Drive, U32 CommandType, vtStor::Managed::cBufferInterface^ Data);
 
                 static vtStor::Managed::eErrorCode IssueCommand_AtaWriteBuffer(vtStor::Managed::cDriveInterface^ Drive, U32 CommandType, vtStor::Managed::cBufferInterface^ Data);
 
-                //static vtStor::Managed::eErrorCode IssueCommand_AtaSmart(vtStor::Managed::cDriveInterface^ Drive, U32 CommandType, vtStor::Managed::cBufferInterface^ Data, U8 SubCommand);
+                static vtStor::Managed::eErrorCode IssueCommand_AtaSmart(vtStor::Managed::cDriveInterface^ Drive, U32 CommandType, vtStor::Managed::cBufferInterface^ Data, U8 SubCommand);
 
-                //static vtStor::Managed::eErrorCode IssueCommand_AtaDownloadMicrocode(vtStor::Managed::cDriveInterface^ Drive, U32 CommandType, vtStor::Managed::cBufferInterface^ Data, U8 SubCommand, U16 BlockCount, U16 BufferOffset);
+                static vtStor::Managed::eErrorCode IssueCommand_AtaDownloadMicrocode(vtStor::Managed::cDriveInterface^ Drive, U32 CommandType, vtStor::Managed::cBufferInterface^ Data, U8 SubCommand, U16 BlockCount, U16 BufferOffset);
 
                 //static vtStor::Managed::eErrorCode IssueCommand_DownloadMicrocodeDma(vtStor::Managed::cDriveInterface^ Drive, U32 CommandType, vtStor::Managed::cBufferInterface^ Data, U8 SubCommand, U16 BlockCount, U16 BufferOffset);
             };
