@@ -15,22 +15,25 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
-
-#ifndef __vtStorAtaManaged_h__
-#define __vtStorAtaManaged_h__
-#pragma once
-
-#include "BasicTypes.h"
+#include "DriveScsi.h"
 
 namespace vtStor
 {
-    namespace Managed
-    {
-        public ref class cAta
-        {
 
-        };
-    }
+cDriveScsi::cDriveScsi(std::shared_ptr<String> DevicePath) : 
+    cDrive(DevicePath)
+{
+
 }
 
-#endif
+cDriveScsi::~cDriveScsi()
+{
+
+}
+
+eBusType cDriveScsi::GetBusType()
+{
+    return( eBusType::Scsi );
+}
+
+}

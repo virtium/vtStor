@@ -50,7 +50,6 @@ namespace vtStorTest
             std::shared_ptr<vtStor::cDriveManagerInterface> m_DriveManager;
             vtStorInit( m_DriveManager );
 
-            vtStor::cAta::s_DefaultCommandHandlerCommandType = 1;
             std::shared_ptr<vtStor::cDriveEnumeratorInterface> m_DriveEnumeratorAta = std::make_unique<vtStor::cDriveEnumeratorAta>();
             m_DriveManager->RegisterDriveEnumerator( m_DriveEnumeratorAta );
             m_DriveManager->EnumerateDrives( vtStor::eScanForHardwareChanges::No );

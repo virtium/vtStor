@@ -16,21 +16,21 @@ limitations under the License.
 </License>
 */
 
-#ifndef __vtStorAtaManaged_h__
-#define __vtStorAtaManaged_h__
-#pragma once
-
-#include "BasicTypes.h"
+#include "Scsi.h"
 
 namespace vtStor
 {
-    namespace Managed
+    namespace StorageUtility
     {
-        public ref class cAta
+        namespace Scsi
         {
 
-        };
+            const U32 SCSI_SECTOR_SIZE_IN_BYTES = 512;
+
+            const U8  CDB_REGISTER_SIZE = 16;
+            const U8  SCSI_COMMAND_ATA_PASS_THROUGH_12 = 0xA1;
+            const U8  SCSI_COMMAND_ATA_PASS_THROUGH_16 = 0x85;
+
+        }
     }
 }
-
-#endif

@@ -60,6 +60,7 @@ namespace vtStor
     void CloseDeviceHandle(HANDLE& Handle);
 
     bool IsAtaDeviceBus( sStorageAdapterProperty StorageAdapterProperty );
+    bool IsScsiDeviceBus( sStorageAdapterProperty StorageAdapterProperty );
 }
 
 #endif

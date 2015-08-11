@@ -16,19 +16,31 @@ limitations under the License.
 </License>
 */
 
-#ifndef __vtStorAtaManaged_h__
-#define __vtStorAtaManaged_h__
+#ifndef __vtStorCommandHandlerScsiManaged_h__
+#define __vtStorCommandHandlerScsiManaged_h__
 #pragma once
 
-#include "BasicTypes.h"
+#include "CommandHandlerInterface.h"
+#include "SharedPtrManaged.h"
 
 namespace vtStor
 {
     namespace Managed
     {
-        public ref class cAta
+        public ref class cCommandHandlerScsi : public cCommandHandlerInterface
         {
+        public:
+            cCommandHandlerScsi( cProtocolInterface^ Protocol );
+            virtual ~cCommandHandlerScsi();
 
+        protected:
+            !cCommandHandlerScsi();
+
+        public:
+            virtual operator void*() override;
+
+        private:
+            cSharedPtr<vtStor::cCommandHandlerInterface> m_CommandHandler;
         };
     }
 }

@@ -33,8 +33,6 @@ namespace vtStorManaged.Test
 
         private void Enumerate()
         {
-            const uint commandTypeAta = 1;
-
             cDriveManagerInterface driveManager;
             cDriveEnumeratorInterface driveEnumeratorAta;
             eErrorCode errorCode;
@@ -44,9 +42,6 @@ namespace vtStorManaged.Test
 
             // Create an instance for DriveEnumeratorAta
             driveEnumeratorAta = new cDriveEnumeratorAta();
-
-            // Set default command handler command type for Ata
-            cAta.SetDefaultCommandHandlerCommandType(commandTypeAta);
 
             // Register drive enumerator Ata
             driveManager.RegisterDriveEnumerator(driveEnumeratorAta);

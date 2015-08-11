@@ -17,15 +17,23 @@ limitations under the License.
 */
 #include <memory>
 
+#include "ErrorCodes.h"
+#include "BusType.h"
+
+#include "vtStor.h"
 #include "Buffer.h"
+
 #include "CommandHandlerAta.h"
 #include "DriveAtaCommandExtensions.h"
 #include "DriveEnumeratorAta.h"
-#include "ErrorCodes.h"
 #include "ProtocolAtaPassThrough.h"
-#include "vtStor.h"
 #include "vtStorAta.h"
-#include "BusType.h"
+
+#include "CommandHandlerScsi.h"
+#include "DriveScsiCommandExtensions.h"
+#include "DriveEnumeratorScsi.h"
+#include "ProtocolScsiPassThrough.h"
+#include "vtStorScsi.h"
 
 void main()
 {
@@ -39,9 +47,11 @@ void main()
     std::shared_ptr<vtStor::cDriveManagerInterface> driveManager;
     vtStorInit( driveManager );
 
-    vtStor::cAta::s_DefaultCommandHandlerCommandType = 0;
     std::shared_ptr<vtStor::cDriveEnumeratorInterface> driveEnumeratorAta = std::make_unique<vtStor::cDriveEnumeratorAta>();
     driveManager->RegisterDriveEnumerator(driveEnumeratorAta);
+    std::shared_ptr<vtStor::cDriveEnumeratorInterface> driveEnumeratorScsi = std::make_unique<vtStor::cDriveEnumeratorScsi>();
+    driveManager->RegisterDriveEnumerator(driveEnumeratorScsi);
+
     driveManager->EnumerateDrives( vtStor::eScanForHardwareChanges::No );
 
     vtStor::Vector_Drives drives = driveManager->GetDrives();
@@ -55,16 +65,32 @@ void main()
         // Create command handler
         std::shared_ptr<vtStor::cCommandHandlerInterface> commandHandlerAta = std::make_shared<vtStor::cCommandHandlerAta>(protocol);
         // Register command handler
-        drives[1]->RegisterCommandHandler(vtStor::cAta::s_DefaultCommandHandlerCommandType, commandHandlerAta);
+        drives[1]->RegisterCommandHandler(0, commandHandlerAta);
 
-        // Initialize and add more protocol, commandhandler here 
+        // Initialize and add more protocol, commandhandler here    
+
+        // Call command
+        vtStor::Ata::IssueCommand_IdentifyDevice(drives[1], 0, dataBuffer);
+        //vtStor::Ata::IssueCommand_ReadDma(drives[1], 0, dataBuffer, 10, 1);
+        //vtStor::Ata::IssueCommand_ReadBuffer(drives[1], 0, dataBuffer);
+        //vtStor::Ata::IssueCommand_Smart(drives[1], 0, dataBuffer, 208);
+    } else if (vtStor::eBusType::Scsi == drives[1]->GetBusType())
+    {
+        // Create protocol
+        std::shared_ptr<vtStor::Protocol::cProtocolInterface> protocol = std::make_shared<vtStor::Protocol::cScsiPassThrough>();
+        // Create command handler
+        std::shared_ptr<vtStor::cCommandHandlerInterface> commandHandlerScsi = std::make_shared<vtStor::cCommandHandlerScsi>(protocol);
+        // Register command handler
+        drives[1]->RegisterCommandHandler(0, commandHandlerScsi);
+
+        // Initialize and add more protocol, commandhandler here    
+
+        // Call command
+        vtStor::Scsi::IssueCommand_AtaIdentifyDevice(drives[1], 0, dataBuffer);
+        //vtStor::Scsi::IssueCommand_AtaReadDma(drives[1], 0, dataBuffer, 10, 1);
+        //vtStor::Scsi::IssueCommand_AtaReadBuffer(drives[1], 0, dataBuffer);
+        //vtStor::Scsi::IssueCommand_AtaSmart(drives[1], 0, dataBuffer, 208);
     }
-
-    // Call command
-    vtStor::Ata::IssueCommand_IdentifyDevice(drives[1], vtStor::cAta::s_DefaultCommandHandlerCommandType, dataBuffer);
-    //vtStor::Ata::IssueCommand_ReadDma(drives[1], vtStor::cAta::s_DefaultCommandHandlerCommandType, dataBuffer, 10, 1);
-    //vtStor::Ata::IssueCommand_ReadBuffer(drives[1], vtStor::cAta::s_DefaultCommandHandlerCommandType, dataBuffer);
-    //vtStor::Ata::IssueCommand_Smart(drives[1], vtStor::cAta::s_DefaultCommandHandlerCommandType, dataBuffer, 208);
 
     vtStor::U8* data = dataBuffer->ToDataBuffer();
 

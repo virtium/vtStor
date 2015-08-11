@@ -15,55 +15,54 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
-#include "vtStorAta.h"
-#include "CommandHandlerAta.h"
-#include "DriveAta.h"
+#include "vtStorScsi.h"
+#include "CommandHandlerScsi.h"
+#include "DriveScsi.h"
 #include "StorageUtility.h"
 
-#include "ProtocolAtaPassThrough.h"
+#include "ProtocolScsiPassThrough.h"
 
-#include "DriveEnumeratorAta.h"
+#include "DriveEnumeratorScsi.h"
 
 namespace vtStor
-{
- 
-cDriveEnumeratorAta::~cDriveEnumeratorAta()
+{ 
+cDriveEnumeratorScsi::~cDriveEnumeratorScsi()
 {
 
 }
 
-eErrorCode cDriveEnumeratorAta::EnumerateDrive(const String& DevicePath, Vector_Drives& AddToList, bool& SuccessFlag)
+eErrorCode cDriveEnumeratorScsi::EnumerateDrive(const String& DevicePath, Vector_Drives& AddToList, bool& SuccessFlag)
 {
     DeviceHandle deviceHandle;
     eErrorCode errorCode;
 
     errorCode = GetStorageDeviceHandle(DevicePath, deviceHandle);
-    if ( eErrorCode::None != errorCode )
-    {
-        //TODO: handle error
-        return ( errorCode );
-    }
-
-    sStorageAdapterProperty storageAdapterProperty;
-    errorCode = GetStorageAdapterProperty( deviceHandle, storageAdapterProperty );
-
-    CloseDeviceHandle(deviceHandle);
-
-    if ( eErrorCode::None != errorCode )
+    if (eErrorCode::None != errorCode)
     {
         //TODO: handle error
         return (errorCode);
     }
 
-    if ( true == IsAtaDeviceBus( storageAdapterProperty ) )
-    {
-        std::shared_ptr<cDriveInterface> drive = std::make_shared<cDriveAta>(std::make_shared<String>(DevicePath));
+    sStorageAdapterProperty storageAdapterProperty;
+    errorCode = GetStorageAdapterProperty(deviceHandle, storageAdapterProperty);
+    
+    CloseDeviceHandle(deviceHandle);
 
-        AddToList.push_back( drive );
+    if (eErrorCode::None != errorCode)
+    {        
+        //TODO: handle error
+        return (errorCode);
+    }
+
+    if (true == IsScsiDeviceBus(storageAdapterProperty))
+    {
+        std::shared_ptr<cDriveInterface> drive = std::make_shared<cDriveScsi>(std::make_shared<String>(DevicePath));
+
+        AddToList.push_back(drive);
         SuccessFlag = true;
     }
 
-    return( eErrorCode::None );
+    return(eErrorCode::None);
 }
 
 }

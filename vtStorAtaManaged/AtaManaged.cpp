@@ -23,10 +23,7 @@ namespace vtStor
 {
     namespace Managed
     {
-        void cAta::SetDefaultCommandHandlerCommandType( U32 CommandType )
-        {
-            vtStor::cAta::s_DefaultCommandHandlerCommandType = CommandType;
-        }
+
     }
 
 }

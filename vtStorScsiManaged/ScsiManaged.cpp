@@ -16,21 +16,14 @@ limitations under the License.
 </License>
 */
 
-#ifndef __vtStorAtaManaged_h__
-#define __vtStorAtaManaged_h__
-#pragma once
-
-#include "BasicTypes.h"
+#include "ScsiManaged.h"
+#include "vtStorScsi.h"
 
 namespace vtStor
 {
     namespace Managed
     {
-        public ref class cAta
-        {
 
-        };
     }
-}
 
-#endif
+}

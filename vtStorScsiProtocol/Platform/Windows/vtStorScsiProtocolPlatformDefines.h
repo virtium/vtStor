@@ -15,22 +15,15 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
+#ifndef __vtStorScsiProtocolPlatformDefines_h__
+#define __vtStorScsiProtocolPlatformDefines_h__
 
-#ifndef __vtStorAtaManaged_h__
-#define __vtStorAtaManaged_h__
-#pragma once
 
-#include "BasicTypes.h"
 
-namespace vtStor
-{
-    namespace Managed
-    {
-        public ref class cAta
-        {
-
-        };
-    }
-}
+#ifdef VT_STOR_SCSI_PROTOCOL_DLL_EXPORTS
+#define VT_STOR_SCSI_PROTOCOL_API _declspec( dllexport )
+#else
+#define VT_STOR_SCSI_PROTOCOL_API _declspec( dllimport )
+#endif
 
 #endif

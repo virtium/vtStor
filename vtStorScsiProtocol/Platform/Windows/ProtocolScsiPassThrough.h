@@ -25,9 +25,9 @@ limitations under the License.
 #include "BufferInterface.h"
 #include "ProtocolInterface.h"
 
-#include "StorageUtility/Ata.h"
+#include "StorageUtility/Scsi.h"
 
-#include "vtStorAtaProtocolPlatformDefines.h"
+#include "vtStorScsiProtocolPlatformDefines.h"
 
 
 namespace vtStor
@@ -35,33 +35,31 @@ namespace vtStor
 namespace Protocol
 {
 
-class VT_STOR_ATA_PROTOCOL_API cAtaPassThrough : public cProtocolInterface
+class VT_STOR_SCSI_PROTOCOL_API cScsiPassThrough : public cProtocolInterface
 {
-
 public:
-    virtual eErrorCode IssueCommand( const DeviceHandle& Handle, std::shared_ptr<const cBufferInterface> Essense, std::shared_ptr<cBufferInterface> DataBuffer ) override;
-
+    virtual eErrorCode IssueCommand(const DeviceHandle& Handle, std::shared_ptr<const cBufferInterface> Essense, std::shared_ptr<cBufferInterface> DataBuffer) override;
+    
 private:
     void InitializePassThroughDirect(
-        const StorageUtility::Ata::sCommandCharacteristic& CommandCharacteristics,
-        const StorageUtility::Ata::uTaskFileRegister& PreviousTaskFile,
-        const StorageUtility::Ata::uTaskFileRegister& CurrentTaskFile,
+        const StorageUtility::Scsi::sCommandCharacteristics& CommandCharacteristics,
+        const StorageUtility::Scsi::sCdbRegisters& CdbRegister,
         std::shared_ptr<cBufferInterface> DataBuffer,
         U32 TimeoutValueInSeconds
         );
 
     //! Initialize the ATA flags in the ATA_PASS_THROUGH_DIRECT structure
     //!
-    void InitializeFlags( const StorageUtility::Ata::sCommandCharacteristic& AtaCommandCharacteristic );
+    void InitializeFlags(const StorageUtility::Scsi::sCommandCharacteristics& ScsiCommandCharacteristics);
 
     //! Initialize the iCurrentTaskFile. and the PreviousTaskFile in the ATA_PASS_THROUGH_DIRECT structure
     //!
-    void InitializeTaskFileInputRegisters( const StorageUtility::Ata::uTaskFileRegister& PreviousTaskFile, const StorageUtility::Ata::uTaskFileRegister& CurrentTaskFile );
+    void InitializeCdbRegister( const StorageUtility::Scsi::sCdbRegisters& ScsiCommandField );
 
     eErrorCode IssuePassThroughDirectCommand( const DeviceHandle& Handle, U32& BytesReturned );
 
 private:
-    ATA_PASS_THROUGH_DIRECT m_AtaPassThrough;
+    SCSI_PASS_THROUGH_DIRECT m_ScsiPassThrough;
 };
 
 }
@@ -69,5 +67,5 @@ private:
 
 extern "C"
 {
-    VT_STOR_ATA_PROTOCOL_API void vtStorProtocolAtaPassThroughInit(std::shared_ptr<vtStor::Protocol::cProtocolInterface>& Protocol);
+    VT_STOR_SCSI_PROTOCOL_API void vtStorProtocolScsiPassThroughInit(std::shared_ptr<vtStor::Protocol::cProtocolInterface>& Protocol);
 }
