@@ -272,7 +272,7 @@ namespace Scsi
         address |= ((BufferOffset & 0xFF) << 8);
         address |= ((BufferOffset & 0xFF00) << 8);
         U64 Lba = address;
-        cdbFields.Lba = ((U64)0x0B << 56) | ((U16)SubCommand << 40) | (((U64)Lba & 0xFFFF) << 8) | (((U64)Lba >> 24) & 0xFF);
+        cdbFields.Lba = ((U64)0x0B << 56) | ((U64)SubCommand << 40) | (((U64)Lba & 0xFFFF) << 8) | (((U64)Lba >> 24) & 0xFF);
         cdbFields.TransferLen = (Lba & 0xFF0000) | ((Lba & 0xFFFF00000000) >> 32);
         cdbFields.Group = ATA_SUBCOMMAND_DOWNLOADMICROCODE;        
         
