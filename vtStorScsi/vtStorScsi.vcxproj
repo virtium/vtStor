@@ -177,7 +177,7 @@
       <Project>{0da52eb3-5f61-4919-8b1a-0dc1b50b619f}</Project>
     </ProjectReference>
     <ProjectReference Include="..\vtStorScsiProtocol\vtStorScsiProtocol.vcxproj">
-      <Project>{1f24edf0-ef6d-46f8-b0c8-964120e50963}</Project>
+      <Project>{90d0e9b4-dbc7-4d85-9740-59f0efbd3c0d}</Project>
     </ProjectReference>
     <ProjectReference Include="..\vtStor\vtStor.vcxproj">
       <Project>{2595ae3d-ff40-47c4-b050-55d450843934}</Project>
