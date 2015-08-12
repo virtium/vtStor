@@ -20,10 +20,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Ata.cpp" />
+    <ClCompile Include="DeviceInterface.cpp" />
+    <ClCompile Include="Windows\Device.cpp" />
     <ClCompile Include="Windows\StorageUtility.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Ata.h" />
+    <ClInclude Include="DeviceInterface.h" />
+    <ClInclude Include="Windows\Device.h" />
     <ClInclude Include="Windows\StorageUtility.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

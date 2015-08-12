@@ -19,8 +19,9 @@ limitations under the License.
 #define __DriveEnumeratorInterface_h__
 
 #include "BasicTypes.h"
-#include "ErrorCodes.h"
+#include "DeviceInterface.h"
 #include "DriveInterface.h"
+#include "ErrorCodes.h"
 #include "vtStorPlatformDefines.h"
 
 namespace vtStor
@@ -33,7 +34,7 @@ public:
     static void* ToVoidPointer( std::shared_ptr<vtStor::cDriveEnumeratorInterface>& Object );
 
 public:
-    virtual eErrorCode EnumerateDrive( const String& DevicePath, Vector_Drives& AddToList, bool& SuccessFlag ) = 0;
+    virtual eErrorCode EnumerateDrive( const std::shared_ptr<cDeviceInterface>& Devices, Vector_Drives& AddToList, bool& SuccessFlag ) = 0;
 
 public:
     virtual ~cDriveEnumeratorInterface();

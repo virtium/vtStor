@@ -53,19 +53,16 @@ eErrorCode cDriveManager::EnumerateDrives( eScanForHardwareChanges ScanForHardwa
     eErrorCode error = eErrorCode::None;
     bool successFlag = false;
 
-    if ( eScanForHardwareChanges::Yes == ScanForHardwareChanges )
-    {
-        // scan for hardware changes
-        m_Drives.clear();
-        m_DevicePaths.clear();
-    }
-    vtStor::GetStorageDevicePaths(m_DevicePaths, eOnErrorBehavior::Continue);
+    m_Drives.clear();
+    m_Devices.clear();
 
-    for (const auto& devicePath : m_DevicePaths)
+    vtStor::GetStorageDevices(m_Devices, eOnErrorBehavior::Continue);
+
+    for (const auto& device : m_Devices)
     {
         for (auto& enumerator : m_DriveEnumerators)
         {
-            error = enumerator->EnumerateDrive(devicePath, m_Drives, successFlag);
+            error = enumerator->EnumerateDrive(device, m_Drives, successFlag);
             if (true == successFlag)
             {
                 successFlag = false;

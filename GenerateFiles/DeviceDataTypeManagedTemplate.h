@@ -15,24 +15,26 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
-#ifndef __DriveEnumeratorAta_h__
-#define __DriveEnumeratorAta_h__
+//! =========
+//!  WARNING
+//! =========
+//! This file was automatically generated. Changes to this file may cause
+//! incorrect behavior and will be lost if the code is regenerated.
 
-#include "vtStorAtaPlatformDefines.h"
-#include "DriveEnumeratorInterface.h"
-
-#include "DeviceInterface.h"
-
+#ifndef __DeviceDataTypeManaged_h__
+#define __DeviceDataTypeManaged_h__
+#pragma once
+<$Prefix></Prefix$>
+<$Suffix>,</Suffix$>
 namespace vtStor
 {
-    class VT_STOR_ATA_API cDriveEnumeratorAta : public cDriveEnumeratorInterface
+namespace Managed
+{
+    public enum class eDeviceDataType
     {
-    public:
-        virtual eErrorCode EnumerateDrive( const std::shared_ptr<cDeviceInterface>& Device, Vector_Drives& AddToList, bool& SuccessFlag ) override;
-
-    public:
-        virtual ~cDriveEnumeratorAta();
+        <%Replace%>
     };
 }
+}
 
-#endif
+#endif __DeviceDataTypeManaged_h__

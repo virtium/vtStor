@@ -15,24 +15,17 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
-#ifndef __DriveEnumeratorAta_h__
-#define __DriveEnumeratorAta_h__
-
-#include "vtStorAtaPlatformDefines.h"
-#include "DriveEnumeratorInterface.h"
-
 #include "DeviceInterface.h"
 
 namespace vtStor
 {
-    class VT_STOR_ATA_API cDriveEnumeratorAta : public cDriveEnumeratorInterface
-    {
-    public:
-        virtual eErrorCode EnumerateDrive( const std::shared_ptr<cDeviceInterface>& Device, Vector_Drives& AddToList, bool& SuccessFlag ) override;
 
-    public:
-        virtual ~cDriveEnumeratorAta();
-    };
+cDeviceInterface::cDeviceInterface()
+{
 }
 
-#endif
+cDeviceInterface::~cDeviceInterface()
+{
+}
+
+}

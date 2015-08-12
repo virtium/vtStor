@@ -22,16 +22,14 @@ limitations under the License.
 namespace vtStor
 {
 
-cDrive::cDrive(std::shared_ptr<String> DevicePath) : m_DevicePath(DevicePath)
+cDrive::cDrive(std::shared_ptr<vtStor::cDeviceInterface> Device, DeviceHandle DeviceHandle) :
+    m_Device( Device ), m_DeviceHandle( DeviceHandle )
 {
-    eErrorCode errorCode = GetStorageDeviceHandle(*m_DevicePath, m_DeviceHandle);
-    //TODO: handle error
-    assert(eErrorCode::None == errorCode);
 }
 
 cDrive::~cDrive()
 {
-    CloseDeviceHandle(m_DeviceHandle);    
+    CloseDeviceHandle(m_DeviceHandle);
     m_CommandHandlers.clear();
 }
 
@@ -42,7 +40,17 @@ void cDrive::RegisterCommandHandler(U32 CommandType, std::shared_ptr<cCommandHan
 
 eErrorCode cDrive::IssueCommand( U32 CommandType, std::shared_ptr<const cBufferInterface> CommandDescriptor, std::shared_ptr<cBufferInterface> Data )
 {
-    return( m_CommandHandlers[CommandType]->IssueCommand( m_DeviceHandle, CommandDescriptor, Data ) );
+    return(m_CommandHandlers[CommandType]->IssueCommand(m_DeviceHandle, CommandDescriptor, Data));
+}
+
+void cDrive::Data(std::unordered_map<eDeviceDataType, void*>& Data)
+{
+    m_Device->Data(Data);
+}
+
+DeviceHandle cDrive::Handle()
+{
+    return m_Device->Handle();
 }
 
 }

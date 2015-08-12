@@ -25,10 +25,14 @@ limitations under the License.
 
 #ifdef _UNICODE
 #define    __STORAPITEXT( s ) L##s
+#define tstrlen wcslen
+#define tmemcpy_s wmemcpy_s
 using tchar = wchar_t;
 using tstring = std::wstring;
 #else
 #define    __STORAPITEXT( s ) s
+#define tstrlen strlen
+#define tmemcpy_s memcpy_s
 using tchar = char;
 using tstring = std::string; 
 #endif
