@@ -15,22 +15,28 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
-
-#ifndef __vtStorAtaManaged_h__
-#define __vtStorAtaManaged_h__
+#ifndef __vtStorScsi_h__
+#define __vtStorScsi_h__
 #pragma once
 
 #include "BasicTypes.h"
+#include "DriveEnumeratorInterface.h"
+#include "vtStorScsiPlatformDefines.h"
 
 namespace vtStor
 {
-    namespace Managed
-    {
-        public ref class cAta
-        {
 
-        };
-    }
+    class VT_STOR_SCSI_API cScsi
+{
+public:
+    cScsi() = delete;
+};
+
+}
+
+extern "C"
+{
+    VT_STOR_SCSI_API void vtStorScsiInit(std::shared_ptr<vtStor::cDriveEnumeratorInterface>& DriveEnumerator);
 }
 
 #endif

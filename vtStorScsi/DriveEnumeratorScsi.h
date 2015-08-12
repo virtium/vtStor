@@ -15,22 +15,22 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
+#ifndef __DriveEnumeratorScsi_h__
+#define __DriveEnumeratorScsi_h__
 
-#ifndef __vtStorAtaManaged_h__
-#define __vtStorAtaManaged_h__
-#pragma once
-
-#include "BasicTypes.h"
+#include "vtStorScsiPlatformDefines.h"
+#include "DriveEnumeratorInterface.h"
 
 namespace vtStor
 {
-    namespace Managed
+    class VT_STOR_SCSI_API cDriveEnumeratorScsi : public cDriveEnumeratorInterface
     {
-        public ref class cAta
-        {
+    public:
+        virtual eErrorCode EnumerateDrive(const String& DevicePath, Vector_Drives& AddToList, bool& SuccessFlag) override;
 
-        };
-    }
+    public:
+        virtual ~cDriveEnumeratorScsi();
+    };
 }
 
 #endif

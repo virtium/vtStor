@@ -16,21 +16,31 @@ limitations under the License.
 </License>
 */
 
-#ifndef __vtStorAtaManaged_h__
-#define __vtStorAtaManaged_h__
-#pragma once
+#include <memory>
 
-#include "BasicTypes.h"
+#include "DriveEnumeratorScsiManaged.h"
+#include "vtStorScsi.h"
 
 namespace vtStor
 {
     namespace Managed
     {
-        public ref class cAta
+        cDriveEnumeratorScsi::cDriveEnumeratorScsi()
         {
+            vtStorScsiInit( *m_DriveEnumerator );
+        }
 
-        };
+        cDriveEnumeratorScsi::~cDriveEnumeratorScsi()
+        {
+        }
+
+        cDriveEnumeratorScsi::!cDriveEnumeratorScsi()
+        {
+        }
+
+        cDriveEnumeratorScsi::operator void*()
+        {
+            return( vtStor::cDriveEnumeratorInterface::ToVoidPointer( *m_DriveEnumerator ) );
+        }
     }
 }
-
-#endif
