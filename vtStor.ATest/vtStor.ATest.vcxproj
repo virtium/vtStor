@@ -184,6 +184,12 @@
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
       <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
     </ProjectReference>
+    <ProjectReference Include="..\vtStorScsiProtocol\vtStorScsiProtocol.vcxproj">
+      <Project>{90d0e9b4-dbc7-4d85-9740-59f0efbd3c0d}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\vtStorScsi\vtStorScsi.vcxproj">
+      <Project>{b1f540ff-efce-42d5-8b92-a4067f213254}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\vtStor\vtStor.vcxproj">
       <Project>{2595ae3d-ff40-47c4-b050-55d450843934}</Project>
       <Private>true</Private>
