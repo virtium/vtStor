@@ -15,11 +15,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
-#include "vtStorScsi.h"
-#include "CommandHandlerScsi.h"
-#include "DriveScsi.h"
 #include "StorageUtility.h"
 
+#include "vtStorScsi.h"
+#include "DriveScsi.h"
 #include "ProtocolScsiPassThrough.h"
 
 #include "DriveEnumeratorScsi.h"
@@ -31,7 +30,7 @@ cDriveEnumeratorScsi::~cDriveEnumeratorScsi()
 
 }
 
-eErrorCode cDriveEnumeratorScsi::EnumerateDrive(const String& DevicePath, Vector_Drives& AddToList, bool& SuccessFlag)
+std::shared_ptr<cDriveInterface> cDriveEnumeratorScsi::EnumerateDrive(const String& DevicePath)
 {
     DeviceHandle deviceHandle;
     eErrorCode errorCode;
@@ -40,7 +39,7 @@ eErrorCode cDriveEnumeratorScsi::EnumerateDrive(const String& DevicePath, Vector
     if (eErrorCode::None != errorCode)
     {
         //TODO: handle error
-        return (errorCode);
+        return( nullptr );
     }
 
     sStorageAdapterProperty storageAdapterProperty;
@@ -51,18 +50,17 @@ eErrorCode cDriveEnumeratorScsi::EnumerateDrive(const String& DevicePath, Vector
     if (eErrorCode::None != errorCode)
     {        
         //TODO: handle error
-        return (errorCode);
+        return( nullptr );
     }
 
     if (true == IsScsiDeviceBus(storageAdapterProperty))
     {
         std::shared_ptr<cDriveInterface> drive = std::make_shared<cDriveScsi>(std::make_shared<String>(DevicePath));
 
-        AddToList.push_back(drive);
-        SuccessFlag = true;
+        return( drive );
     }
 
-    return(eErrorCode::None);
+    return( nullptr );
 }
 
 }

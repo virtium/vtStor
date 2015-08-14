@@ -65,11 +65,10 @@ eErrorCode cDriveManager::EnumerateDrives( eScanForHardwareChanges ScanForHardwa
     {
         for (auto& enumerator : m_DriveEnumerators)
         {
-            error = enumerator->EnumerateDrive(devicePath, m_Drives, successFlag);
-            if (true == successFlag)
+            auto drive = enumerator->EnumerateDrive(devicePath);
+            if (nullptr != drive)
             {
-                successFlag = false;
-                break;
+                m_Drives.push_back(drive);
             }      
         }
     }    
