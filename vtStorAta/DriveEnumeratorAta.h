@@ -26,7 +26,7 @@ namespace vtStor
     class VT_STOR_ATA_API cDriveEnumeratorAta : public cDriveEnumeratorInterface
     {
     public:
-        virtual eErrorCode EnumerateDrive( const String& DevicePath, Vector_Drives& AddToList, bool& SuccessFlag ) override;
+        virtual std::shared_ptr<cDriveInterface> EnumerateDrive( const String& DevicePath ) override;
 
     public:
         virtual ~cDriveEnumeratorAta();

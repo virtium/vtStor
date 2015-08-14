@@ -15,11 +15,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
-#include "vtStorAta.h"
-#include "CommandHandlerAta.h"
-#include "DriveAta.h"
 #include "StorageUtility.h"
 
+#include "vtStorAta.h"
+#include "DriveAta.h"
 #include "ProtocolAtaPassThrough.h"
 
 #include "DriveEnumeratorAta.h"
@@ -32,7 +31,7 @@ cDriveEnumeratorAta::~cDriveEnumeratorAta()
 
 }
 
-eErrorCode cDriveEnumeratorAta::EnumerateDrive(const String& DevicePath, Vector_Drives& AddToList, bool& SuccessFlag)
+std::shared_ptr<cDriveInterface> cDriveEnumeratorAta::EnumerateDrive(const String& DevicePath)
 {
     DeviceHandle deviceHandle;
     eErrorCode errorCode;
@@ -41,7 +40,7 @@ eErrorCode cDriveEnumeratorAta::EnumerateDrive(const String& DevicePath, Vector_
     if ( eErrorCode::None != errorCode )
     {
         //TODO: handle error
-        return ( errorCode );
+        return( nullptr );
     }
 
     sStorageAdapterProperty storageAdapterProperty;
@@ -52,18 +51,17 @@ eErrorCode cDriveEnumeratorAta::EnumerateDrive(const String& DevicePath, Vector_
     if ( eErrorCode::None != errorCode )
     {
         //TODO: handle error
-        return (errorCode);
+        return( nullptr );
     }
 
     if ( true == IsAtaDeviceBus( storageAdapterProperty ) )
     {
         std::shared_ptr<cDriveInterface> drive = std::make_shared<cDriveAta>(std::make_shared<String>(DevicePath));
 
-        AddToList.push_back( drive );
-        SuccessFlag = true;
+        return( drive );
     }
 
-    return( eErrorCode::None );
+    return( nullptr );
 }
 
 }

@@ -26,7 +26,7 @@ namespace vtStor
     class VT_STOR_SCSI_API cDriveEnumeratorScsi : public cDriveEnumeratorInterface
     {
     public:
-        virtual eErrorCode EnumerateDrive(const String& DevicePath, Vector_Drives& AddToList, bool& SuccessFlag) override;
+        virtual std::shared_ptr<cDriveInterface> EnumerateDrive(const String& DevicePath) override;
 
     public:
         virtual ~cDriveEnumeratorScsi();
