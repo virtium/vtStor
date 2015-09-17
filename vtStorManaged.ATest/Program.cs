@@ -17,6 +17,7 @@ limitations under the License.
 */
 
 using vtStor.Ata.Managed;
+using vtStor.Scsi.Managed;
 using vtStor.Managed;
 using vtStor.Protocol.Managed;
 
@@ -28,24 +29,27 @@ namespace vtStorManaged.ATest
         {
             cDriveManagerInterface driveManager;
             cDriveEnumeratorInterface driveEnumeratorAta;
+            cDriveEnumeratorInterface driveEnumeratorScsi;
             uint driveCount;
             eErrorCode errorCode;
-
+            
             // Create an instance for DriveManager
             driveManager = new cDriveManagerInterface();
 
-            // Create an instance for DriveEnumeratorAta
+            // Create an instance for DriveEnumerators
             driveEnumeratorAta = new cDriveEnumeratorAta();
+            driveEnumeratorScsi = new cDriveEnumeratorScsi();
 
-            // Register drive enumerator Ata
+            // Register drive enumerators
             driveManager.RegisterDriveEnumerator(driveEnumeratorAta);
+            driveManager.RegisterDriveEnumerator(driveEnumeratorScsi);
 
             // Enumerate drives
             errorCode = driveManager.EnumerateDrives( vtStor.Managed.eScanForHardwareChanges.Yes );
             if (eErrorCode.None == errorCode)
             {
                 System.Console.WriteLine("Enumerate drive successfully!!!");
-
+                
                 // Retrieve number of enumerate drives
                 driveCount = driveManager.GetDriveCount();
                 System.Console.WriteLine("Drive count: " + driveCount);
@@ -54,26 +58,51 @@ namespace vtStorManaged.ATest
                 {
                     cBufferInterface buffer = new cBufferInterface(512);
                     cDriveInterface drive = driveManager.GetDrive(0);
+                    if (eBusType.Ata == drive.GetBusType())
+                    {
+                        // Create protocol AtaPassThrough
+                        cProtocolInterface protocol = new cProtocolAtaPassThrough();
 
-                    // Create protocol AtaPassThrough
-                    cProtocolInterface protocol = new cProtocolAtaPassThrough();
+                        // Create CommandHandlerAta
+                        cCommandHandlerInterface commandHandlerAta = new cCommandHandlerAta(protocol);
 
-                    // Create CommandHandlerAta
-                    cCommandHandlerInterface commandHandlerAta = new cCommandHandlerAta(protocol);
+                        // Register command handler to drive
+                        drive.RegisterCommandHandler(0, commandHandlerAta);
 
-                    // Register command handler to drive
-                    drive.RegisterCommandHandler(0, commandHandlerAta);
+                        // Issue command identify device
+                        errorCode = cDriveAtaCommandExtensions.IssueCommand_IdentifyDevice(drive, 0, buffer);
+                    }
+                    else if (eBusType.Scsi == drive.GetBusType())
+                    {
+                        // Create protocol AtaPassThrough
+                        cProtocolInterface protocol = new cProtocolScsiPassThrough();
 
-                    // Issue command identify device
-                    errorCode = cDriveAtaCommandExtensions.IssueCommand_IdentifyDevice(drive, 0, buffer);
+                        // Create CommandHandlerAta
+                        cCommandHandlerInterface commandHandlerScsi = new cCommandHandlerScsi(protocol);
+
+                        // Register command handler to drive
+                        drive.RegisterCommandHandler(0, commandHandlerScsi);
+
+                        // Issue command identify device
+                        errorCode = cDriveScsiCommandExtensions.IssueCommand_AtaIdentifyDevice(drive, 0, buffer);
+                    }
+                    
                     if (eErrorCode.None == errorCode)
                     {
                         System.Console.WriteLine("IssueCommand_IdentifyDevice on drive 0 successfully!!!");
+                        for (uint i = 0; i < 512; i++)
+                        {
+                            if (i % 16 == 15 )
+                                System.Console.WriteLine((buffer.GetByteAt(i)).ToString("X2"));
+                            else
+                                System.Console.Write("{0} ", (buffer.GetByteAt(i)).ToString("X2"));
+                        }
                     }
                     else
                     {
                         System.Console.WriteLine("IssueCommand_IdentifyDevice failed!!!");
                     }
+                    System.Console.ReadKey();
                 }
             }
             else

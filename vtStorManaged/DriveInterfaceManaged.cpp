@@ -49,5 +49,10 @@ namespace vtStor
         {
             return( m_Drive->IssueCommand( CommandType, vtStor::cBufferInterface::ToSharedPtr( *CommandDescriptor ), vtStor::cBufferInterface::ToSharedPtr( *Data ) ) );
         }
+
+        vtStor::Managed::eBusType cDriveInterface::GetBusType()
+        {
+            return (static_cast<vtStor::Managed::eBusType>(m_Drive->GetBusType()));
+        }
     }
 }

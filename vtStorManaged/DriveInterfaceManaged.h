@@ -22,6 +22,7 @@ limitations under the License.
 
 #include "BufferInterfaceManaged.h"
 #include "CommandHandlerInterfaceManaged.h"
+#include "BusTypeManaged.h"
 #include "DriveInterface.h"
 #include "SharedPtrManaged.h"
 
@@ -46,8 +47,11 @@ namespace vtStor
 
             eErrorCode IssueCommand(U32 CommandType, vtStor::Managed::cBufferInterface^ CommandDescriptor, vtStor::Managed::cBufferInterface^ Data);
 
+        public:
+            vtStor::Managed::eBusType GetBusType();
+
         private:
-            cSharedPtr<vtStor::cDriveInterface> m_Drive;
+            vtStor::Managed::cSharedPtr<vtStor::cDriveInterface> m_Drive;
         };
     }
 }
