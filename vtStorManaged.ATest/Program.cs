@@ -27,22 +27,15 @@ namespace vtStorManaged.ATest
     {
         static void Main(string[] args)
         {
-            cDriveManagerInterface driveManager;
-            cDriveEnumeratorInterface driveEnumeratorAta;
-            cDriveEnumeratorInterface driveEnumeratorScsi;
             uint driveCount;
             eErrorCode errorCode;
-            
-            // Create an instance for DriveManager
+
+            cDriveManagerInterface driveManager;
             driveManager = new cDriveManagerInterface();
 
-            // Create an instance for DriveEnumerators
-            driveEnumeratorAta = new cDriveEnumeratorAta();
-            driveEnumeratorScsi = new cDriveEnumeratorScsi();
-
             // Register drive enumerators
-            driveManager.RegisterDriveEnumerator(driveEnumeratorAta);
-            driveManager.RegisterDriveEnumerator(driveEnumeratorScsi);
+            driveManager.RegisterDriveEnumerator(new cDriveEnumeratorAta());
+            driveManager.RegisterDriveEnumerator(new cDriveEnumeratorScsi());
 
             // Enumerate drives
             errorCode = driveManager.EnumerateDrives( vtStor.Managed.eScanForHardwareChanges.Yes );
@@ -57,13 +50,12 @@ namespace vtStorManaged.ATest
                 if (0 < driveCount)
                 {
                     cBufferInterface buffer = new cBufferInterface(512);
-                    cDriveInterface drive = driveManager.GetDrive(0);
+                    cDriveInterface drive = driveManager.GetDrive(0);   //!!! Warning: be careful with value 0 in GetDrive(0)
+
                     if (eBusType.Ata == drive.GetBusType())
                     {
-                        // Create protocol AtaPassThrough
+                        // Create CommandHandler Ata
                         cProtocolInterface protocol = new cProtocolAtaPassThrough();
-
-                        // Create CommandHandlerAta
                         cCommandHandlerInterface commandHandlerAta = new cCommandHandlerAta(protocol);
 
                         // Register command handler to drive
@@ -74,10 +66,8 @@ namespace vtStorManaged.ATest
                     }
                     else if (eBusType.Scsi == drive.GetBusType())
                     {
-                        // Create protocol AtaPassThrough
+                        // Create CommandHandler Scsi
                         cProtocolInterface protocol = new cProtocolScsiPassThrough();
-
-                        // Create CommandHandlerAta
                         cCommandHandlerInterface commandHandlerScsi = new cCommandHandlerScsi(protocol);
 
                         // Register command handler to drive
