@@ -47,6 +47,9 @@ namespace vtStorManaged.ATest
                 driveCount = driveManager.GetDriveCount();
                 System.Console.WriteLine("Drive count: " + driveCount);
 
+                cProtocolInterface protocol = null;
+                cCommandHandlerInterface commandHandler = null;
+
                 if (0 < driveCount)
                 {
                     cBufferInterface buffer = new cBufferInterface(512);
@@ -54,26 +57,22 @@ namespace vtStorManaged.ATest
 
                     if (eBusType.Ata == drive.GetBusType())
                     {
-                        // Create CommandHandler Ata
-                        cProtocolInterface protocol = new cProtocolAtaPassThrough();
-                        cCommandHandlerInterface commandHandlerAta = new cCommandHandlerAta(protocol);
+                        protocol = new cProtocolAtaPassThrough();
+                        commandHandler = new cCommandHandlerAta(protocol);
 
                         // Register command handler to drive
-                        drive.RegisterCommandHandler(0, commandHandlerAta);
+                        drive.RegisterCommandHandler(0, commandHandler);
 
-                        // Issue command identify device
                         errorCode = cDriveAtaCommandExtensions.IssueCommand_IdentifyDevice(drive, 0, buffer);
                     }
                     else if (eBusType.Scsi == drive.GetBusType())
                     {
-                        // Create CommandHandler Scsi
-                        cProtocolInterface protocol = new cProtocolScsiPassThrough();
-                        cCommandHandlerInterface commandHandlerScsi = new cCommandHandlerScsi(protocol);
+                        protocol = new cProtocolScsiPassThrough();
+                        commandHandler = new cCommandHandlerScsi(protocol);
 
                         // Register command handler to drive
-                        drive.RegisterCommandHandler(0, commandHandlerScsi);
+                        drive.RegisterCommandHandler(0, commandHandler);
 
-                        // Issue command identify device
                         errorCode = cDriveScsiCommandExtensions.IssueCommand_AtaIdentifyDevice(drive, 0, buffer);
                     }
                     
