@@ -51,6 +51,8 @@ public:
 
 };
 
+VTSTOR_API_EXPORT_IMPL template class VTSTOR_API std::shared_ptr<cDriveInterface>;
+
 using Vector_Drives = std::vector<std::shared_ptr<cDriveInterface>>;
 
 }
