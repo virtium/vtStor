@@ -56,3 +56,4 @@ vtStorManaged.ATest/obj/
 vtStorManaged.Test/obj/
 vtStor - Copy.opensdf
 Common/BusType.h
+Common/DeviceDataType.h

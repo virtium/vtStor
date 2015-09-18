@@ -9,7 +9,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)Common;$(SolutionDir)Common\Platform\x86x64;$(SolutionDir)Common\Platform\x86x64\Windows;$(SolutionDir)vtStor;$(SolutionDir)vtStor\Interfaces;$(SolutionDir)vtStor\Platform\Windows;$(SolutionDir)vtStorAtaProtocol;$(SolutionDir)vtStorManaged;$(SolutionDir)vtStorAtaProtocol\Platform\Windows</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)Common;$(SolutionDir)Common\Platform\x86x64;$(SolutionDir)Common\Platform\x86x64\Windows;$(SolutionDir)vtStor;$(SolutionDir)vtStor\Interfaces;$(SolutionDir)vtStor\Platform\Windows;$(SolutionDir)vtStorAtaProtocol;$(SolutionDir)vtStorManaged;$(SolutionDir)vtStorAtaProtocol\Platform\Windows;$(SolutionDir)StorageUtility</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>

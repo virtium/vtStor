@@ -51,7 +51,7 @@ private:
 
 private:
     Vector_Drives   m_Drives;
-    std::vector<String> m_DevicePaths;
+    std::vector<std::shared_ptr<cDeviceInterface>> m_Devices;
 };
 
 }
