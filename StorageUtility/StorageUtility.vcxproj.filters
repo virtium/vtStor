@@ -30,6 +30,9 @@
     <ClCompile Include="DeviceInterface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Scsi.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Windows\StorageUtility.h">
@@ -42,6 +45,9 @@
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="Windows\Device.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Scsi.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

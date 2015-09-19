@@ -28,8 +28,7 @@ namespace vtStor
     {
         public ref class cAta
         {
-        public:
-            static void SetDefaultCommandHandlerCommandType( U32 CommandType );
+
         };
     }
 }

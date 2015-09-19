@@ -23,8 +23,6 @@ using namespace vtStor;
 namespace vtStor
 {
 
-U32 cAta::s_DefaultCommandHandlerCommandType = 0;
-
 }
 
 void vtStorAtaInit(std::shared_ptr<vtStor::cDriveEnumeratorInterface>& DriveEnumerator)

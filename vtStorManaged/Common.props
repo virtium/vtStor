@@ -16,7 +16,8 @@
     </Link>
     <PreBuildEvent>
       <Command>python $(SolutionDir)GenerateFiles\GenerateFiles.py $(SolutionDir)vtStorManaged\ErrorCodesManaged.h $(SolutionDir)GenerateFiles\ErrorCodesManagedTemplate.h $(SolutionDir)GenerateFiles\ErrorCodes.xml
-python $(SolutionDir)GenerateFiles\GenerateFiles.py $(SolutionDir)vtStorManaged\ScanForHardwareChangesManaged.h $(SolutionDir)GenerateFiles\ScanForHardwareChangesManagedTemplate.h $(SolutionDir)GenerateFiles\ScanForHardwareChanges.xml</Command>
+python $(SolutionDir)GenerateFiles\GenerateFiles.py $(SolutionDir)vtStorManaged\ScanForHardwareChangesManaged.h $(SolutionDir)GenerateFiles\ScanForHardwareChangesManagedTemplate.h $(SolutionDir)GenerateFiles\ScanForHardwareChanges.xml
+python $(SolutionDir)GenerateFiles\GenerateFiles.py $(SolutionDir)vtStorManaged\BusTypeManaged.h $(SolutionDir)GenerateFiles\BusTypeManagedTemplate.h $(SolutionDir)GenerateFiles\BusType.xml</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>cd $(SolutionDir)

@@ -57,6 +57,14 @@
       <Project>{131076b3-3784-43d5-8f57-e6277de39de8}</Project>
       <Name>vtStorManaged</Name>
     </ProjectReference>
+    <ProjectReference Include="..\vtStorScsiManaged\vtStorScsiManaged.vcxproj">
+      <Project>{963c63df-e064-45e7-a4f7-b71afd8ab334}</Project>
+      <Name>vtStorScsiManaged</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\vtStorScsiProtocolManaged\vtStorScsiProtocolManaged.vcxproj">
+      <Project>{4dd12527-b4cd-4877-a89f-6673b30ee90d}</Project>
+      <Name>vtStorScsiProtocolManaged</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

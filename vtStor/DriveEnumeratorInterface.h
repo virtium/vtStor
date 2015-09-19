@@ -34,7 +34,7 @@ public:
     static void* ToVoidPointer( std::shared_ptr<vtStor::cDriveEnumeratorInterface>& Object );
 
 public:
-    virtual eErrorCode EnumerateDrive( const std::shared_ptr<cDeviceInterface>& Devices, Vector_Drives& AddToList, bool& SuccessFlag ) = 0;
+    virtual std::shared_ptr<cDriveInterface> EnumerateDrive(const std::shared_ptr<cDeviceInterface>& Device) = 0;
 
 public:
     virtual ~cDriveEnumeratorInterface();
