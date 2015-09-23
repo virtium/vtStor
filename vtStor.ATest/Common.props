@@ -8,11 +8,12 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <Link>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)vtStorAtaProtocol\Platform\Windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)vtStor\$(Platform)$(Configuration);$(SolutionDir)vtStorAta\$(Platform)$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)vtStorAtaProtocol\Platform\Windows;$(SolutionDir)vtStorScsiProtocol\Platform\Windows;$(SolutionDir)vtStor\Platform\Windows;$(SolutionDir)Common;$(SolutionDir)Common\Platform\x86x64;$(SolutionDir)Common\Platform\x86x64\Windows;$(SolutionDir)vtStor\;$(SolutionDir)vtStorAta\;$(SolutionDir)vtStorScsi\;$(SolutionDir)vtStorAta\Platform\Windows\;$(SolutionDir)vtStorScsi\Platform\Windows\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)vtStorAtaProtocol\Platform\Windows;$(SolutionDir)vtStorScsiProtocol\Platform\Windows;$(SolutionDir)vtStor\Platform\Windows;$(SolutionDir)Common;$(SolutionDir)Common\Platform\x86x64;$(SolutionDir)Common\Platform\x86x64\Windows;$(SolutionDir)vtStor\;$(SolutionDir)vtStorAta\;$(SolutionDir)vtStorScsi\;$(SolutionDir)vtStorAta\Platform\Windows\;$(SolutionDir)vtStorScsi\Platform\Windows\;$(SolutionDir)StorageUtility;</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup />

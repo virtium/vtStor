@@ -21,23 +21,22 @@ limitations under the License.
 
 #include <map>
 
-#include "CommandDescriptor.h"
-
-#include "StorageUtility.h"
 #include "BasicTypes.h"
-#include "DriveInterface.h"
+#include "CommandDescriptor.h"
 #include "CommandHandlerInterface.h"
+#include "DeviceInterface.h"
+#include "DriveInterface.h"
+#include "StorageUtility.h"
 
 VTSTOR_API_EXPORT_IMPL template class VTSTOR_API std::map<vtStor::U32, std::shared_ptr<vtStor::cCommandHandlerInterface>>;
-VTSTOR_API_EXPORT_IMPL template class VTSTOR_API std::shared_ptr<vtStor::String>;
 
 namespace vtStor
 {
 
-class VTSTOR_API cDrive : public cDriveInterface
+class VTSTOR_API cDrive : public cDriveInterface, cDeviceInterface
 {
 public:
-    cDrive(std::shared_ptr<String> DevicePath);
+    cDrive(std::shared_ptr<vtStor::cDeviceInterface> Device, DeviceHandle DeviceHandle);
     virtual ~cDrive();
 
 public:
@@ -45,14 +44,17 @@ public:
 
 public:
     virtual eErrorCode IssueCommand(U32 CommandType, std::shared_ptr<const cBufferInterface> CommandDescriptor, std::shared_ptr<cBufferInterface> Data) override;
-  
+
+public:
+    virtual void Data(std::unordered_map<eDeviceDataType, void*>& Data) override;
+
+    virtual DeviceHandle Handle() override;
+
 protected:
     std::map<U32, std::shared_ptr<cCommandHandlerInterface>> m_CommandHandlers;
 
 protected:
-    //! This is a work around to by pass the need to export template for "String" type.
-    //! Apparently exporting from within shared_ptr will cover it.
-    std::shared_ptr<String> m_DevicePath;
+    std::shared_ptr<vtStor::cDeviceInterface> m_Device;
     DeviceHandle m_DeviceHandle;
 };
 

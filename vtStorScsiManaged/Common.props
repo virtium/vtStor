@@ -8,7 +8,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)Common;$(SolutionDir)Common\Platform\x86x64;$(SolutionDir)Common\Platform\x86x64\Windows;$(SolutionDir)vtStor;$(SolutionDir)vtStor\Interfaces;$(SolutionDir)vtStor\Platform\Windows;$(SolutionDir)vtStorScsi;$(SolutionDir)vtStorManaged;$(SolutionDir)vtStorManaged\Platform\Windows;$(SolutionDir)vtStorScsi\Platform\Windows;$(SolutionDir)vtStorProtocolManaged</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)Common;$(SolutionDir)StorageUtility;$(SolutionDir)Common\Platform\x86x64;$(SolutionDir)Common\Platform\x86x64\Windows;$(SolutionDir)vtStor;$(SolutionDir)vtStor\Interfaces;$(SolutionDir)vtStor\Platform\Windows;$(SolutionDir)vtStorScsi;$(SolutionDir)vtStorManaged;$(SolutionDir)vtStorManaged\Platform\Windows;$(SolutionDir)vtStorScsi\Platform\Windows;$(SolutionDir)vtStorProtocolManaged</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>VTSTOR_SCSI_MANAGED_DLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>

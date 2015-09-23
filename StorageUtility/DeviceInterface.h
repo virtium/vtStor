@@ -15,30 +15,34 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
-#ifndef __DriveEnumeratorInterface_h__
-#define __DriveEnumeratorInterface_h__
+#ifndef __DeviceInterface_h__
+#define __DeviceInterface_h__
+#pragma once
+
+#include <memory>
+#include <unordered_map>
+#include <vector>
 
 #include "BasicTypes.h"
-#include "DeviceInterface.h"
-#include "DriveInterface.h"
-#include "ErrorCodes.h"
-#include "vtStorPlatformDefines.h"
+#include "DeviceDataType.h"
 
 namespace vtStor
 {
 
-class VTSTOR_API cDriveEnumeratorInterface
+class cDeviceInterface
 {
-public:
-    static std::shared_ptr<vtStor::cDriveEnumeratorInterface> ToSharedPtr( void* Object );
-    static void* ToVoidPointer( std::shared_ptr<vtStor::cDriveEnumeratorInterface>& Object );
+protected:
+    cDeviceInterface();
+    virtual ~cDeviceInterface();
 
 public:
-    virtual std::shared_ptr<cDriveInterface> EnumerateDrive(const std::shared_ptr<cDeviceInterface>& Device) = 0;
+    virtual void Data(std::unordered_map<eDeviceDataType, void*>& Data) = 0;
 
-public:
-    virtual ~cDriveEnumeratorInterface();
+    virtual DeviceHandle Handle() = 0;
+
 };
+
+using Vector_Devices = std::vector<std::shared_ptr<cDeviceInterface>>;
 
 }
 

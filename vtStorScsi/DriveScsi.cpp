@@ -20,8 +20,8 @@ limitations under the License.
 namespace vtStor
 {
 
-cDriveScsi::cDriveScsi(std::shared_ptr<String> DevicePath) : 
-    cDrive(DevicePath)
+cDriveScsi::cDriveScsi(std::shared_ptr<vtStor::cDeviceInterface> Device, DeviceHandle DeviceHandle) :
+    cDrive(Device, DeviceHandle)
 {
 
 }
