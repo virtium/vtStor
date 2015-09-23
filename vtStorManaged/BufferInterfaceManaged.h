@@ -46,7 +46,7 @@ namespace vtStor
             //! Databuffer utilities
             void FillEntireBufferWithPattern(U8 Pattern);
             void FillSectorsWithPattern(U32 NumberOfSectors, U8 Pattern);
-            bool CompareSector(vtStor::Managed::cBufferInterface ^DataBuffer, U32 Sector);
+            bool CompareSector(vtStor::Managed::cBufferInterface^ DataBuffer, U32 Sector);
 
         private:
             cSharedPtr<vtStor::cBufferInterface> m_Buffer;

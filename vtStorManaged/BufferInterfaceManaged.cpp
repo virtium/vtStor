@@ -67,7 +67,7 @@ namespace vtStor
             return( m_Buffer->FillSectorsWithPattern(NumberOfSectors, Pattern) );
         }
 
-        bool cBufferInterface::CompareSector(cBufferInterface ^DataBuffer, U32 Sector)
+        bool cBufferInterface::CompareSector(cBufferInterface^ DataBuffer, U32 Sector)
         {
             return(m_Buffer->CompareSector(vtStor::cBufferInterface::ToSharedPtr(DataBuffer), Sector));
         }
