@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<GenerateFile>
+  <WordPairs>
+    <WordPair Name="PSP_DEVINFO_DATA" Value="0x00000000" />
+    <WordPair Name="PSP_DEVICE_INTERFACE_DATA" Value="0x00000001" />
+    <WordPair Name="PSP_INTERFACE_DEVICE_DETAIL_DATA" Value="0x00000002" />
+  </WordPairs>
+</GenerateFile>

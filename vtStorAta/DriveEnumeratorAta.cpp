@@ -22,6 +22,7 @@ limitations under the License.
 #include "ProtocolAtaPassThrough.h"
 
 #include "DriveEnumeratorAta.h"
+#include "Device.h"
 
 namespace vtStor
 {
@@ -31,22 +32,24 @@ cDriveEnumeratorAta::~cDriveEnumeratorAta()
 
 }
 
-std::shared_ptr<cDriveInterface> cDriveEnumeratorAta::EnumerateDrive(const String& DevicePath)
+std::shared_ptr<cDriveInterface> cDriveEnumeratorAta::EnumerateDrive(const std::shared_ptr<cDeviceInterface>& Device)
 {
     DeviceHandle deviceHandle;
     eErrorCode errorCode;
 
-    errorCode = GetStorageDeviceHandle(DevicePath, deviceHandle);
-    if ( eErrorCode::None != errorCode )
+    try
     {
+        deviceHandle = Device->Handle();
+    }
+    catch (std::exception ex)
+    {
+        //fprintf(stderr, "\nEnumerateDrive was not successful. Exception:%s.", ex.what());
         //TODO: handle error
         return( nullptr );
     }
 
     sStorageAdapterProperty storageAdapterProperty;
     errorCode = GetStorageAdapterProperty( deviceHandle, storageAdapterProperty );
-
-    CloseDeviceHandle(deviceHandle);
 
     if ( eErrorCode::None != errorCode )
     {
@@ -56,7 +59,7 @@ std::shared_ptr<cDriveInterface> cDriveEnumeratorAta::EnumerateDrive(const Strin
 
     if ( true == IsAtaDeviceBus( storageAdapterProperty ) )
     {
-        std::shared_ptr<cDriveInterface> drive = std::make_shared<cDriveAta>(std::make_shared<String>(DevicePath));
+        std::shared_ptr<cDriveInterface> drive = std::make_shared<cDriveAta>(Device, deviceHandle);
 
         return( drive );
     }

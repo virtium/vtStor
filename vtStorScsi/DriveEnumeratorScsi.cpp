@@ -30,37 +30,39 @@ cDriveEnumeratorScsi::~cDriveEnumeratorScsi()
 
 }
 
-std::shared_ptr<cDriveInterface> cDriveEnumeratorScsi::EnumerateDrive(const String& DevicePath)
+std::shared_ptr<cDriveInterface> cDriveEnumeratorScsi::EnumerateDrive(const std::shared_ptr<cDeviceInterface>& Device)
 {
     DeviceHandle deviceHandle;
     eErrorCode errorCode;
 
-    errorCode = GetStorageDeviceHandle(DevicePath, deviceHandle);
-    if (eErrorCode::None != errorCode)
+    try
     {
+        deviceHandle = Device->Handle();
+    }
+    catch (std::exception ex)
+    {
+        //fprintf(stderr, "\nEnumerateDrive was not successful. Exception:%s.", ex.what());
         //TODO: handle error
-        return( nullptr );
+        return(nullptr);
     }
 
     sStorageAdapterProperty storageAdapterProperty;
     errorCode = GetStorageAdapterProperty(deviceHandle, storageAdapterProperty);
-    
-    CloseDeviceHandle(deviceHandle);
 
     if (eErrorCode::None != errorCode)
-    {        
+    {
         //TODO: handle error
-        return( nullptr );
+        return(nullptr);
     }
 
     if (true == IsScsiDeviceBus(storageAdapterProperty))
     {
-        std::shared_ptr<cDriveInterface> drive = std::make_shared<cDriveScsi>(std::make_shared<String>(DevicePath));
+        std::shared_ptr<cDriveInterface> drive = std::make_shared<cDriveScsi>(Device, deviceHandle);
 
-        return( drive );
+        return(drive);
     }
 
-    return( nullptr );
+    return(nullptr);
 }
 
 }

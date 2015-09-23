@@ -28,7 +28,7 @@ namespace vtStor
     class cDriveAta : public cDrive
     {
     public:
-        cDriveAta(std::shared_ptr<String> DevicePath);
+        cDriveAta(std::shared_ptr<vtStor::cDeviceInterface> Device, DeviceHandle DeviceHandle);
 
     public:
         virtual ~cDriveAta();

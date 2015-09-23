@@ -15,24 +15,24 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
-#include "DriveAta.h"
+//! =========
+//!  WARNING
+//! =========
+//! This file was automatically generated. Changes to this file may cause
+//! incorrect behavior and will be lost if the code is regenerated.
 
+#ifndef __DeviceDataType_h__
+#define __DeviceDataType_h__
+#pragma once
+<$Prefix></Prefix$>
+<$Suffix>,</Suffix$>
 namespace vtStor
 {
 
-cDriveAta::cDriveAta(std::shared_ptr<vtStor::cDeviceInterface> Device, DeviceHandle DeviceHandle) :
-    cDrive(Device, DeviceHandle)
+enum class eDeviceDataType
 {
+    <%Replace%>
+};
 }
 
-cDriveAta::~cDriveAta()
-{
-
-}
-
-eBusType cDriveAta::GetBusType()
-{
-    return( eBusType::Ata );
-}
-
-}
+#endif __DeviceDataType_h__

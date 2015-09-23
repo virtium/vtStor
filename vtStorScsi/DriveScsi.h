@@ -28,7 +28,7 @@ namespace vtStor
     class cDriveScsi : public cDrive
     {
     public:
-        cDriveScsi(std::shared_ptr<String> DevicePath);
+        cDriveScsi(std::shared_ptr<vtStor::cDeviceInterface> Device, DeviceHandle DeviceHandle);
 
     public:
         virtual ~cDriveScsi();
