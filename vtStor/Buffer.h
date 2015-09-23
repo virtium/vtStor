@@ -26,7 +26,7 @@ namespace vtStor
 
 class VTSTOR_API cBuffer : public cBufferInterface
 {
-public:
+
     static const int STOR_API_SECTOR_SIZE = 512;
 
 public:
@@ -49,6 +49,7 @@ protected:
     U8* m_UnalignedBuffer;
     U8* m_OffsetBuffer;
     size_t m_SizeInBytes;
+    size_t m_SizeInSectors;
 
 private:
     static const U8 CACHE_ALIGN_BYTES = 64;
