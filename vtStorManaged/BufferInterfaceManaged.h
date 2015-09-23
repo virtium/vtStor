@@ -42,6 +42,12 @@ namespace vtStor
             U8 GetByteAt( U32 Index );
             U32 GetSizeInBytes();
 
+        public:
+            //! Databuffer utilities
+            void FillEntireBufferWithPattern(U8 Pattern);
+            void FillSectorsWithPattern(U32 NumberOfSectors, U8 Pattern);
+            bool CompareSector(vtStor::Managed::cBufferInterface ^DataBuffer, U32 Sector);
+
         private:
             cSharedPtr<vtStor::cBufferInterface> m_Buffer;
         };

@@ -27,6 +27,9 @@ namespace vtStor
 class VTSTOR_API cBuffer : public cBufferInterface
 {
 public:
+    static const int STOR_API_SECTOR_SIZE = 512;
+
+public:
     cBuffer( size_t SizeInBytes );
     virtual ~cBuffer();
 
@@ -36,9 +39,15 @@ public:
     virtual U8 GetByteAt(U32 Index) override;
     virtual U32 GetSizeInBytes() override;
 
+public:
+    virtual void FillEntireBufferWithPattern(U8 Pattern) override;
+    virtual void FillSectorsWithPattern(U32 NumberOfSectors, U8 Pattern) override;
+    virtual bool CompareSector(std::shared_ptr<vtStor::cBufferInterface> DataBuffer, U32 Sector) override;
+
 protected:
     U8* m_AlignedBuffer;
     U8* m_UnalignedBuffer;
+    U8* m_OffsetBuffer;
     size_t m_SizeInBytes;
 
 private:

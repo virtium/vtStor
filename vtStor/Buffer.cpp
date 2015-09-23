@@ -32,6 +32,7 @@ cBuffer::cBuffer( size_t SizeInBytes ) :
     U16 currentAddress = ((U32)m_UnalignedBuffer & 0x0000FFFF);
     U16 nextAlignAddress = ((currentAddress | CACHE_ALIGN_BITMASK) + 1);
     m_AlignedBuffer = (m_UnalignedBuffer + (nextAlignAddress - currentAddress));
+    m_OffsetBuffer = m_AlignedBuffer;
 }
 
 cBuffer::~cBuffer()
@@ -62,6 +63,39 @@ U8 cBuffer::GetByteAt( U32 Index )
 U32 cBuffer::GetSizeInBytes()
 {
     return( m_SizeInBytes );
+}
+
+void cBuffer::FillEntireBufferWithPattern(U8 Pattern)
+{
+    FillSectorsWithPattern(m_SizeInBytes / STOR_API_SECTOR_SIZE, Pattern);
+}
+
+void cBuffer::FillSectorsWithPattern(U32 NumberOfSectors, U8 Pattern)
+{
+    memset(m_OffsetBuffer, Pattern, NumberOfSectors * STOR_API_SECTOR_SIZE);
+}
+
+bool cBuffer::CompareSector(std::shared_ptr<cBufferInterface> DataBuffer, U32 Sector)
+{
+    int result;
+
+    if (Sector >= m_SizeInBytes / STOR_API_SECTOR_SIZE)
+    {
+        return false;
+    }
+
+    int compareBytes = STOR_API_SECTOR_SIZE;
+    U8* thisPointer = (m_OffsetBuffer + (Sector * STOR_API_SECTOR_SIZE));
+    U8* comparePointer = (DataBuffer->ToDataBuffer() + (Sector * STOR_API_SECTOR_SIZE));
+
+    if (((Sector + 1) == (m_SizeInBytes / STOR_API_SECTOR_SIZE)) && (m_SizeInBytes % STOR_API_SECTOR_SIZE))
+    {
+        compareBytes = (m_SizeInBytes % STOR_API_SECTOR_SIZE);
+    }
+
+    result = memcmp(thisPointer, comparePointer, compareBytes);
+
+    return (0 == result);
 }
 
 }

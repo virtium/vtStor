@@ -42,6 +42,12 @@ public:
     virtual void SetByteAt(U32 Index, U8 Value) = 0;
     virtual U8 GetByteAt(U32 Index) = 0;
     virtual U32 GetSizeInBytes() = 0;
+
+public:
+    //! Databuffer utilities
+    virtual void FillEntireBufferWithPattern(U8 Pattern) = 0;
+    virtual void FillSectorsWithPattern(U32 NumberOfSectors, U8 Pattern) = 0;
+    virtual bool CompareSector(std::shared_ptr<vtStor::cBufferInterface> BufferInterface, U32 Sector) = 0;
 };
 
 VTSTOR_API_EXPORT_IMPL template class VTSTOR_API std::shared_ptr<cBufferInterface>;

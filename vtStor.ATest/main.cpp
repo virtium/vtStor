@@ -54,7 +54,8 @@ void main()
 
     vtStor::Vector_Drives drives = driveManager->GetDrives();
     // Create data buffer
-    std::shared_ptr<vtStor::cBufferInterface> dataBuffer = std::make_shared<vtStor::cBuffer>(512);
+    int sectorcount = 1;
+    std::shared_ptr<vtStor::cBufferInterface> dataBuffer = std::make_shared<vtStor::cBuffer>(512 * sectorcount);
 
     std::shared_ptr<vtStor::Protocol::cProtocolInterface> protocol = nullptr;
     std::shared_ptr<vtStor::cCommandHandlerInterface> commandHandler = nullptr;
@@ -85,7 +86,7 @@ void main()
     vtStor::U8* data = dataBuffer->ToDataBuffer();
 
     // dump buffer
-    for (int i = 0; i < 512; i++)
+    for (int i = 0; i < 512 * sectorcount; i++)
     {
         if (i % 16 == 15)
         {
