@@ -20,7 +20,7 @@ import subprocess
 X86                         = "Win32"
 X64                         = "x64"
 RELEASE_NAME                = "Release"
-MS_BUILD                    = "C:\\Program Files (x86)\\MSBuild\\12.0\\Bin\\MSBuild.exe"
+MS_BUILD                    = "MSBuild"
 CONFIGURATION_BUILD_TYPE    = "/p:Configuration={0}".format( RELEASE_NAME )
 BUILD_PLATFORM_X86          = "/p:Platform={0}".format( X86 )
 BUILD_PLATFORM_X64          = "/p:Platform={0}".format( X64 )
@@ -34,35 +34,35 @@ ARCHIVE_TEMP_PATH           = "./{0}/".format( ARCHIVE_TEMP )
 
 REMOVE_EXTENSION_SET = { 'exe', 'lib', 'pdb' }
 
-def _Build( iBuildPlatform ) :
+def Build( iBuildPlatform ) :
     status = subprocess.call( [ MS_BUILD, CONFIGURATION_BUILD_TYPE, iBuildPlatform, REBUILD_DEFAULT ] )
     if 0 != status :
         print "\nBuild failed for {0} {1}".format( RELEASE_NAME, X86 )
         return False
     return True
 
-def _CopyRequiredFiles( iConfiguration ) :
+def CopyRequiredFiles( iConfiguration ) :
     if X86 == iConfiguration :
         shutil.copytree( RELEASE_LOCAL_DIR_X86, ARCHIVE_TEMP_PATH + projectName + "/{0}/".format( iConfiguration ) )
     elif X64 == iConfiguration :
         shutil.copytree( RELEASE_LOCAL_DIR_X64, ARCHIVE_TEMP_PATH + projectName + "/{0}/".format( iConfiguration ) )
 
-def _BuildAndCopyAllRequiredFiles() :
+def BuildAndCopyAllRequiredFiles() :
     # Build via following orders:
-    if False == _Build( BUILD_PLATFORM_X86 ) :
+    if False == Build( BUILD_PLATFORM_X86 ) :
         exit( 1 )
-    _CopyRequiredFiles( X86 )
-    if False == _Build( BUILD_PLATFORM_X64 ) :
+    CopyRequiredFiles( X86 )
+    if False == Build( BUILD_PLATFORM_X64 ) :
         exit( 1 )
-    _CopyRequiredFiles( X64 )
+    CopyRequiredFiles( X64 )
 
-def _CreateTempDirArchive() :
+def CreateTempDirArchive() :
     if ( True == os.path.exists( ARCHIVE_TEMP_PATH ) ):
         shutil.rmtree( ARCHIVE_TEMP_PATH, ignore_errors=True )
     os.makedirs( ARCHIVE_TEMP_PATH )
     os.makedirs( ARCHIVE_TEMP_PATH + projectName )
 
-def _DoArchiveAndRemoveTempDirs() :
+def DoArchiveAndRemoveTempDirs() :
     archiveFilename = projectName + "_Release.7z"
     if ( True == os.path.exists( archiveFilename ) ):
         os.remove( archiveFilename )
@@ -75,15 +75,15 @@ def _DoArchiveAndRemoveTempDirs() :
     shutil.rmtree( ARCHIVE_TEMP_PATH, ignore_errors = True )
     return True
 
-def _CleanUpRelease() :
-    _CleanupFiles( X86 )
-    _CleanupFiles( X64 )
+def CleanUpRelease() :
+    CleanupFiles( X86 )
+    CleanupFiles( X64 )
 
-def _CleanupFiles( iConfiguration ) :
+def CleanupFiles( iConfiguration ) :
     if X86 == iConfiguration or X64 == iConfiguration :
-        _Prune( "/{0}/{1}/{2}".format( ARCHIVE_TEMP, projectName, iConfiguration ) )
+        Prune( "/{0}/{1}/{2}".format( ARCHIVE_TEMP, projectName, iConfiguration ) )
 
-def _Prune( iDirPath ) :
+def Prune( iDirPath ) :
     curDir = os.getcwd()
     fullPath = curDir + iDirPath
     os.chdir( fullPath )
@@ -97,16 +97,16 @@ def _Prune( iDirPath ) :
 # Main entry point
 if __name__ == "__main__":
     # Step 1: Create temporary directory archive
-    _CreateTempDirArchive()
+    CreateTempDirArchive()
 
     # Step 2: Build the project
-    _BuildAndCopyAllRequiredFiles()
+    BuildAndCopyAllRequiredFiles()
 
     # Step 3: Clean up release
-    _CleanUpRelease()
+    CleanUpRelease()
 
     # Step 4: Archive result and remove temporary thing
-    if True == _DoArchiveAndRemoveTempDirs() :
+    if True == DoArchiveAndRemoveTempDirs() :
         print "\nBUILD COMPLETE"
     else :
         print "\nBUILD FAIL"
