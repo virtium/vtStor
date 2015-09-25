@@ -16,17 +16,21 @@
 import os
 import shutil
 import subprocess
+import glob
 
 X86                         = "Win32"
 X64                         = "x64"
 RELEASE_NAME                = "Release"
-MS_BUILD                    = "MsBuild"
+RELEASE_DIR                 = "/{0}/".format( RELEASE_NAME )
+SOURCE_DIR                  = "/{0}/".format("Source")
+MS_BUILD                    = "C:\\Program Files (x86)\\MSBuild\\12.0\\Bin\\MSBuild.exe"
 CONFIGURATION_BUILD_TYPE    = "/p:Configuration={0}".format( RELEASE_NAME )
 BUILD_PLATFORM_X86          = "/p:Platform={0}".format( X86 )
 BUILD_PLATFORM_X64          = "/p:Platform={0}".format( X64 )
 REBUILD_DEFAULT             = "/t:rebuild"
 
 projectName                 = "vtStor"
+PROJECTDIR                  = "vtStor_Release"
 RELEASE_LOCAL_DIR_X86       = "./{0}{1}".format( X86, RELEASE_NAME )
 RELEASE_LOCAL_DIR_X64       = "./{0}{1}".format( X64, RELEASE_NAME )
 ARCHIVE_TEMP                = "ArchiveTemp"
@@ -43,9 +47,9 @@ def _Build( iBuildPlatform ) :
 
 def _CopyRequiredFiles( iConfiguration ) :
     if X86 == iConfiguration :
-        shutil.copytree( RELEASE_LOCAL_DIR_X86, ARCHIVE_TEMP_PATH + projectName + "/{0}/".format( iConfiguration ) )
+        shutil.copytree( RELEASE_LOCAL_DIR_X86, ARCHIVE_TEMP_PATH + PROJECTDIR + RELEASE_DIR + "/{0}/".format( iConfiguration ) )
     elif X64 == iConfiguration :
-        shutil.copytree( RELEASE_LOCAL_DIR_X64, ARCHIVE_TEMP_PATH + projectName + "/{0}/".format( iConfiguration ) )
+        shutil.copytree( RELEASE_LOCAL_DIR_X64, ARCHIVE_TEMP_PATH + PROJECTDIR + RELEASE_DIR + "/{0}/".format( iConfiguration ) )
 
 def _BuildAndCopyAllRequiredFiles() :
     # Build via following orders:
@@ -60,14 +64,14 @@ def _CreateTempDirArchive() :
     if ( True == os.path.exists( ARCHIVE_TEMP_PATH ) ):
         shutil.rmtree( ARCHIVE_TEMP_PATH, ignore_errors=True )
     os.makedirs( ARCHIVE_TEMP_PATH )
-    os.makedirs( ARCHIVE_TEMP_PATH + projectName )
+    os.makedirs( ARCHIVE_TEMP_PATH + PROJECTDIR )
 
 def _DoArchiveAndRemoveTempDirs() :
     archiveFilename = projectName + "_Release.7z"
     if ( True == os.path.exists( archiveFilename ) ):
         os.remove( archiveFilename )
 
-    status = subprocess.call( [ "7z", "a", "-t7z", archiveFilename, ARCHIVE_TEMP_PATH + projectName ] )
+    status = subprocess.call( [ "7z", "a", "-t7z", archiveFilename, ARCHIVE_TEMP_PATH + PROJECTDIR ] )
     if ( 0 != status ):
         print "\nFailed to archive " + archiveFilename
         return False
@@ -81,7 +85,7 @@ def _CleanUpRelease() :
 
 def _CleanupFiles( iConfiguration ) :
     if X86 == iConfiguration or X64 == iConfiguration :
-        _Prune( "/{0}/{1}/{2}".format( ARCHIVE_TEMP, projectName, iConfiguration ) )
+        _Prune( "/{0}/{1}/{2}/{3}".format( ARCHIVE_TEMP, PROJECTDIR, RELEASE_DIR, iConfiguration ) )
 
 def _Prune( iDirPath ) :
     curDir = os.getcwd()
@@ -94,11 +98,38 @@ def _Prune( iDirPath ) :
                 os.remove( file )
     os.chdir( curDir )
 
+def _BuildTreeOfHeaderFiles() :
+    for path, subdirs, files in os.walk(os.getcwd()):
+        for file in files:
+            if file.endswith(".h"):
+                _CopyHeaderFile( os.path.join(path, file) )
+    destDir = ARCHIVE_TEMP_PATH + PROJECTDIR + SOURCE_DIR
+    srcDir = "./{0}/".format("Source")
+    if not os.path.exists( destDir ) :
+        os.makedirs(destDir )
+    for item in os.listdir(srcDir):
+        s = os.path.join(srcDir, item)
+        d = os.path.join(destDir, item)
+        if os.path.isdir(s):
+            shutil.copytree(s, d, False, None)
+        else:
+            shutil.copy2(s, d)
+    shutil.rmtree(srcDir)
+
+def _CopyHeaderFile( iFilePath ) :
+    destDir = os.path.join(os.getcwd(), "Source", os.path.relpath(os.path.dirname(iFilePath), os.getcwd()));
+    if not os.path.exists( destDir ) :
+        os.makedirs(destDir )
+    shutil.copy2(iFilePath,  destDir )
+
 # Main entry point
 if __name__ == "__main__":
-    # Step 1: Create temporary directory archive
+    # Step 0: Create temporary directory archive
     _CreateTempDirArchive()
-
+    
+    # Step 1: Copy header files
+    _BuildTreeOfHeaderFiles()
+    
     # Step 2: Build the project
     _BuildAndCopyAllRequiredFiles()
 
@@ -111,3 +142,5 @@ if __name__ == "__main__":
     else :
         print "\nBUILD FAIL"
         exit( 1 )
+
+    
