@@ -56,5 +56,20 @@ namespace vtStor
         {
             return( m_Buffer->GetSizeInBytes() );
         }
+
+        void cBufferInterface::FillEntireBufferWithPattern(U8 Pattern)
+        {
+            return( m_Buffer->FillEntireBufferWithPattern(Pattern) );
+        }
+
+        void cBufferInterface::FillSectorsWithPattern(U32 NumberOfSectors, U8 Pattern)
+        {
+            return( m_Buffer->FillSectorsWithPattern(NumberOfSectors, Pattern) );
+        }
+
+        bool cBufferInterface::CompareSector(cBufferInterface^ DataBuffer, U32 Sector)
+        {
+            return(m_Buffer->CompareSector(vtStor::cBufferInterface::ToSharedPtr(DataBuffer), Sector));
+        }
     }
 }
