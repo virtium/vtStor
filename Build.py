@@ -27,8 +27,8 @@ LIB_DIR                     = "/{0}/".format("Lib")
 DLL_DIR                     = "/{0}/".format("Dll")
 SOURCE_DIR                  = "/{0}/".format("Source")
 
-#MS_BUILD                    = "MSBuild"
-MS_BUILD = "C:\\Program Files (x86)\\MSBuild\\12.0\\Bin\\MSBuild.exe"
+MS_BUILD                    = "MSBuild"
+#MS_BUILD = "C:\\Program Files (x86)\\MSBuild\\12.0\\Bin\\MSBuild.exe"
 
 #CONFIGURATION_BUILD_TYPE    = "/p:Configuration={0}".format( RELEASE_NAME )
 
