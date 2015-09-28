@@ -20,8 +20,11 @@ import subprocess
 X86                         = "Win32"
 X64                         = "x64"
 RELEASE_NAME                = "Release"
-MS_BUILD                    = "MSBuild"
-CONFIGURATION_BUILD_TYPE    = "/p:Configuration={0}".format( RELEASE_NAME )
+DEBUG_NAME                  = "Debug"
+#MS_BUILD                    = "MSBuild"
+MS_BUILD = "C:\\Program Files (x86)\\MSBuild\\12.0\\Bin\\MSBuild.exe"
+#CONFIGURATION_BUILD_TYPE    = "/p:Configuration={0}".format( RELEASE_NAME )
+CONFIGURATION_BUILD_TYPE_SET    = { "/p:Configuration={0}".format( RELEASE_NAME ), "/p:Configuration={0}".format( DEBUG_NAME ) } 
 BUILD_PLATFORM_X86          = "/p:Platform={0}".format( X86 )
 BUILD_PLATFORM_X64          = "/p:Platform={0}".format( X64 )
 REBUILD_DEFAULT             = "/t:rebuild"
@@ -29,23 +32,29 @@ REBUILD_DEFAULT             = "/t:rebuild"
 projectName                 = "vtStor_Managed"
 RELEASE_LOCAL_DIR_X86       = "./{0}{1}".format( X86, RELEASE_NAME )
 RELEASE_LOCAL_DIR_X64       = "./{0}{1}".format( X64, RELEASE_NAME )
+DEBUG_LOCAL_DIR_X86       = "./{0}{1}".format( X86, DEBUG_NAME )
+DEBUG_LOCAL_DIR_X64       = "./{0}{1}".format( X64, DEBUG_NAME )
 ARCHIVE_TEMP                = "ArchiveTemp"
 ARCHIVE_TEMP_PATH           = "./{0}/".format( ARCHIVE_TEMP )
 
-REMOVE_EXTENSION_SET = { 'exe', 'lib', 'pdb' }
+REMOVE_EXTENSION_SET = { 'exe', 'lib', 'pdb', 'ilk' }
 
 def Build( iBuildPlatform ) :
-    status = subprocess.call( [ MS_BUILD, CONFIGURATION_BUILD_TYPE, iBuildPlatform, REBUILD_DEFAULT ] )
-    if 0 != status :
-        print "\nBuild failed for {0} {1}".format( RELEASE_NAME, X86 )
-        return False
+    #status = subprocess.call( [ MS_BUILD, CONFIGURATION_BUILD_TYPE, iBuildPlatform, REBUILD_DEFAULT ] )
+    for config in CONFIGURATION_BUILD_TYPE_SET:
+        status = subprocess.call( [ MS_BUILD, config, iBuildPlatform, REBUILD_DEFAULT ] )
+        if 0 != status :
+            print "\nBuild failed for {0} {1}".format( config, iBuildPlatform )
+            return False
     return True
 
 def CopyRequiredFiles( iConfiguration ) :
     if X86 == iConfiguration :
-        shutil.copytree( RELEASE_LOCAL_DIR_X86, ARCHIVE_TEMP_PATH + projectName + "/{0}/".format( iConfiguration ) )
+        shutil.copytree( RELEASE_LOCAL_DIR_X86, ARCHIVE_TEMP_PATH + projectName + "/{0}".format( RELEASE_NAME ) + "/{0}/".format( iConfiguration ) )
+        shutil.copytree( DEBUG_LOCAL_DIR_X86, ARCHIVE_TEMP_PATH + projectName + "/{0}".format( DEBUG_NAME ) + "/{0}/".format( iConfiguration ) )
     elif X64 == iConfiguration :
-        shutil.copytree( RELEASE_LOCAL_DIR_X64, ARCHIVE_TEMP_PATH + projectName + "/{0}/".format( iConfiguration ) )
+        shutil.copytree( RELEASE_LOCAL_DIR_X64, ARCHIVE_TEMP_PATH + projectName + "/{0}".format( RELEASE_NAME ) + "/{0}/".format( iConfiguration ) )
+        shutil.copytree( DEBUG_LOCAL_DIR_X64, ARCHIVE_TEMP_PATH + projectName + "/{0}".format( DEBUG_NAME ) + "/{0}/".format( iConfiguration ) )
 
 def BuildAndCopyAllRequiredFiles() :
     # Build via following orders:
@@ -63,7 +72,8 @@ def CreateTempDirArchive() :
     os.makedirs( ARCHIVE_TEMP_PATH + projectName )
 
 def DoArchiveAndRemoveTempDirs() :
-    archiveFilename = projectName + "_Release.7z"
+    #archiveFilename = projectName + "_Release.7z"
+    archiveFilename = projectName + "_Build.7z"
     if ( True == os.path.exists( archiveFilename ) ):
         os.remove( archiveFilename )
 
@@ -81,7 +91,8 @@ def CleanUpRelease() :
 
 def CleanupFiles( iConfiguration ) :
     if X86 == iConfiguration or X64 == iConfiguration :
-        Prune( "/{0}/{1}/{2}".format( ARCHIVE_TEMP, projectName, iConfiguration ) )
+        Prune( "/{0}/{1}/{2}/{3}".format( ARCHIVE_TEMP, projectName, RELEASE_NAME, iConfiguration ) )
+        Prune( "/{0}/{1}/{2}/{3}".format( ARCHIVE_TEMP, projectName, DEBUG_NAME, iConfiguration ) )
 
 def Prune( iDirPath ) :
     curDir = os.getcwd()
