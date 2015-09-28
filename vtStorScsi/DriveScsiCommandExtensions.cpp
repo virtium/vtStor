@@ -43,7 +43,7 @@ namespace Scsi
         return(eErrorCode::None);
     }
 
-    eErrorCode IssueCommand_Read16(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data, U32 Lba, U8 Count)
+    eErrorCode IssueCommand_Read16(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data, U32 Lba, U32 Count)
     {
         std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cScsiCommandDescriptor::SIZE_IN_BYTES);
         cScsiCommandDescriptor commandDescriptorVersion1 = cScsiCommandDescriptor::Writer(commandDescriptor);
@@ -63,7 +63,7 @@ namespace Scsi
         return(eErrorCode::None);
     }
 
-    eErrorCode IssueCommand_Read10(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data, U32 Lba, U8 Count)
+    eErrorCode IssueCommand_Read10(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data, U32 Lba, U32 Count)
     {
         std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cScsiCommandDescriptor::SIZE_IN_BYTES);
         cScsiCommandDescriptor commandDescriptorVersion1 = cScsiCommandDescriptor::Writer(commandDescriptor);
@@ -83,7 +83,7 @@ namespace Scsi
         return(eErrorCode::None);
     }
 
-    eErrorCode IssueCommand_Write16(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data, U32 Lba, U8 Count)
+    eErrorCode IssueCommand_Write16(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data, U32 Lba, U32 Count)
     {
         std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cScsiCommandDescriptor::SIZE_IN_BYTES);
         cScsiCommandDescriptor commandDescriptorVersion1 = cScsiCommandDescriptor::Writer(commandDescriptor);
@@ -103,7 +103,7 @@ namespace Scsi
         return(eErrorCode::None);
     }
 
-    eErrorCode IssueCommand_Write10(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data, U32 Lba, U8 Count)
+    eErrorCode IssueCommand_Write10(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data, U32 Lba, U32 Count)
     {
         std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cScsiCommandDescriptor::SIZE_IN_BYTES);
         cScsiCommandDescriptor commandDescriptorVersion1 = cScsiCommandDescriptor::Writer(commandDescriptor);
@@ -145,7 +145,7 @@ namespace Scsi
         return(eErrorCode::None);
     }
     
-    eErrorCode IssueCommand_AtaReadDma(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data, U32 Lba, U8 Count)
+    eErrorCode IssueCommand_AtaReadDma(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data, U32 Lba, U32 Count)
     {//tested!!!
         std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cScsiCommandDescriptor::SIZE_IN_BYTES);
         cScsiCommandDescriptor commandDescriptorVersion1 = cScsiCommandDescriptor::Writer(commandDescriptor);
@@ -168,7 +168,7 @@ namespace Scsi
         return(eErrorCode::None);
     }
 
-    eErrorCode IssueCommand_AtaWriteDma(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data, U32 Lba, U8 Count)
+    eErrorCode IssueCommand_AtaWriteDma(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data, U32 Lba, U32 Count)
     {
         std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cScsiCommandDescriptor::SIZE_IN_BYTES);
         cScsiCommandDescriptor commandDescriptorVersion1 = cScsiCommandDescriptor::Writer(commandDescriptor);

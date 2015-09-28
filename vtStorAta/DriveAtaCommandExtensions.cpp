@@ -50,7 +50,7 @@ eErrorCode IssueCommand_IdentifyDevice( std::shared_ptr<cDriveInterface> Drive, 
 }
 
 
-eErrorCode IssueCommand_ReadDma(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data, U32 Lba, U8 Count)
+eErrorCode IssueCommand_ReadDma(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data, U32 Lba, U32 Count)
 {
     std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cCommandDescriptor1::SIZE_IN_BYTES);
     cCommandDescriptor1 commandDescriptorVersion1 = cCommandDescriptor1::Writer(commandDescriptor);
@@ -74,7 +74,7 @@ eErrorCode IssueCommand_ReadDma(std::shared_ptr<cDriveInterface> Drive, U32 Comm
     return(eErrorCode::None);
 }
 
-eErrorCode IssueCommand_WriteDma(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data, U32 Lba, U8 Count)
+eErrorCode IssueCommand_WriteDma(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data, U32 Lba, U32 Count)
 {
     std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cCommandDescriptor1::SIZE_IN_BYTES);
     cCommandDescriptor1 commandDescriptorVersion1 = cCommandDescriptor1::Writer(commandDescriptor);
