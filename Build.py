@@ -23,9 +23,9 @@ RELEASE_NAME                = "Release"
 DEBUG_NAME                  = "Debug"
 MANAGED_STR                 = "Managed"
 RELEASE_DIR                 = "/{0}/".format( RELEASE_NAME )
-LIB_DIR                     = "/{0}/".format("Lib")
-DLL_DIR                     = "/{0}/".format("Dll")
-SOURCE_DIR                  = "/{0}/".format("Source")
+LIB_DIR                     = "/{0}/".format( "Lib" )
+DLL_DIR                     = "/{0}/".format( "Dll" )
+SOURCE_DIR                  = "/{0}/".format( "Source" )
 
 MS_BUILD                    = "MSBuild"
 #MS_BUILD = "C:\\Program Files (x86)\\MSBuild\\12.0\\Bin\\MSBuild.exe"
@@ -67,17 +67,17 @@ def CopyRequiredFiles( iConfiguration ) :
         CopyLibsAndDlls( iConfiguration, DEBUG_LOCAL_DIR_X64, DEBUG_NAME )
 
 def CopyLibsAndDlls( iConfiguration, iSourceDir, iBuildType ) :
-    for file in os.listdir(iSourceDir) :            
-        if file.endswith(".dll") and not MANAGED_STR in file :
+    for file in os.listdir( iSourceDir ) :            
+        if file.endswith( ".dll" ) and not MANAGED_STR in file :
             destDir = ARCHIVE_TEMP_PATH + PROJECTDIR + DLL_DIR + "/{0}".format( iBuildType ) + "/{0}/".format( iConfiguration )
             if not os.path.exists( destDir ) :
                 os.makedirs(destDir )
-            shutil.copy2( os.path.join(iSourceDir, file),  destDir)
-        elif file.endswith(".lib") and not MANAGED_STR in file :
+            shutil.copy2( os.path.join( iSourceDir, file ),  destDir )
+        elif file.endswith( ".lib" ) and not MANAGED_STR in file :
             destDir = ARCHIVE_TEMP_PATH + PROJECTDIR + LIB_DIR + "/{0}".format( iBuildType ) + "/{0}/".format( iConfiguration )
             if not os.path.exists( destDir ) :
-                os.makedirs(destDir )
-            shutil.copy2( os.path.join(iSourceDir, file),  destDir)
+                os.makedirs( destDir )
+            shutil.copy2( os.path.join( iSourceDir, file ),  destDir )
 
 def BuildAndCopyAllRequiredFiles() :
     # Build via following orders:
@@ -135,23 +135,23 @@ def BuildTreeOfHeaderFiles() :
             if file.endswith(".h") and not MANAGED_STR in file:
                 CopyHeaderFile( os.path.join(path, file) )
     destDir = ARCHIVE_TEMP_PATH + PROJECTDIR + SOURCE_DIR
-    srcDir = "./{0}/".format("Source")
+    srcDir = "./{0}/".format( "Source" )
     if not os.path.exists( destDir ) :
-        os.makedirs(destDir )
-    for item in os.listdir(srcDir):
-        s = os.path.join(srcDir, item)
-        d = os.path.join(destDir, item)
+        os.makedirs( destDir )
+    for item in os.listdir( srcDir ):
+        s = os.path.join( srcDir, item )
+        d = os.path.join( destDir, item )
         if os.path.isdir(s):
-            shutil.copytree(s, d, False, None)
+            shutil.copytree( s, d, False, None )
         else:
-            shutil.copy2(s, d)
-    shutil.rmtree(srcDir)
+            shutil.copy2( s, d )
+    shutil.rmtree( srcDir )
 
 def CopyHeaderFile( iFilePath ) :
-    destDir = os.path.join(os.getcwd(), "Source", os.path.relpath(os.path.dirname(iFilePath), os.getcwd()));
+    destDir = os.path.join( os.getcwd(), "Source", os.path.relpath( os.path.dirname( iFilePath ), os.getcwd() ) );
     if not os.path.exists( destDir ) :
-        os.makedirs(destDir )
-    shutil.copy2(iFilePath,  destDir )
+        os.makedirs( destDir )
+    shutil.copy2( iFilePath,  destDir )
 
 # Main entry point
 if __name__ == "__main__":
