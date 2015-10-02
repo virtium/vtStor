@@ -28,9 +28,6 @@ DLL_DIR                     = "/{0}/".format( "Dll" )
 SOURCE_DIR                  = "/{0}/".format( "Source" )
 
 MS_BUILD                    = "MSBuild"
-#MS_BUILD = "C:\\Program Files (x86)\\MSBuild\\12.0\\Bin\\MSBuild.exe"
-
-#CONFIGURATION_BUILD_TYPE    = "/p:Configuration={0}".format( RELEASE_NAME )
 
 CONFIGURATION_BUILD_TYPE_SET    = { "/p:Configuration={0}".format( RELEASE_NAME ), "/p:Configuration={0}".format( DEBUG_NAME ) } 
 
@@ -67,14 +64,15 @@ def CopyLibsAndDlls( iConfiguration, iBuildType ) :
     for file in os.listdir( sourceDir ) :            
         if file.endswith( ".dll" ) and not MANAGED_STR in file :
             destDir = ARCHIVE_TEMP_PATH + PROJECTDIR + DLL_DIR + "/{0}".format( iBuildType ) + "/{0}/".format( iConfiguration )
-            if not os.path.exists( destDir ) :
-                os.makedirs(destDir )
-            shutil.copy2( os.path.join( sourceDir, file ),  destDir )
+            CopyAFileToADir( sourceDir, file, destDir)
         elif file.endswith( ".lib" ) and not MANAGED_STR in file :
             destDir = ARCHIVE_TEMP_PATH + PROJECTDIR + LIB_DIR + "/{0}".format( iBuildType ) + "/{0}/".format( iConfiguration )
-            if not os.path.exists( destDir ) :
-                os.makedirs( destDir )
-            shutil.copy2( os.path.join( sourceDir, file ),  destDir )
+            CopyAFileToADir( sourceDir, file, destDir)
+
+def CopyAFileToADir( iSourceDir, iFile, iDestDir) :
+    if not os.path.exists( iDestDir ) :
+        os.makedirs(iDestDir )
+    shutil.copy2( os.path.join( iSourceDir, iFile ),  iDestDir )
 
 def BuildAndCopyAllRequiredFiles() :
     # Build via following orders:

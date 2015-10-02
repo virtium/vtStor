@@ -22,8 +22,7 @@ X64                         = "x64"
 RELEASE_NAME                = "Release"
 DEBUG_NAME                  = "Debug"
 MS_BUILD                    = "MSBuild"
-#MS_BUILD = "C:\\Program Files (x86)\\MSBuild\\12.0\\Bin\\MSBuild.exe"
-#CONFIGURATION_BUILD_TYPE    = "/p:Configuration={0}".format( RELEASE_NAME )
+
 CONFIGURATION_BUILD_TYPE_SET    = { "/p:Configuration={0}".format( RELEASE_NAME ), "/p:Configuration={0}".format( DEBUG_NAME ) } 
 BUILD_PLATFORM_X86          = "/p:Platform={0}".format( X86 )
 BUILD_PLATFORM_X64          = "/p:Platform={0}".format( X64 )
@@ -48,22 +47,18 @@ def Build( iBuildPlatform ) :
             return False
     return True
 
-def CopyRequiredFiles( iConfiguration ) :
-    if X86 == iConfiguration :
-        shutil.copytree( RELEASE_LOCAL_DIR_X86, ARCHIVE_TEMP_PATH + projectName + "/{0}".format( RELEASE_NAME ) + "/{0}/".format( iConfiguration ) )
-        shutil.copytree( DEBUG_LOCAL_DIR_X86, ARCHIVE_TEMP_PATH + projectName + "/{0}".format( DEBUG_NAME ) + "/{0}/".format( iConfiguration ) )
-    elif X64 == iConfiguration :
-        shutil.copytree( RELEASE_LOCAL_DIR_X64, ARCHIVE_TEMP_PATH + projectName + "/{0}".format( RELEASE_NAME ) + "/{0}/".format( iConfiguration ) )
-        shutil.copytree( DEBUG_LOCAL_DIR_X64, ARCHIVE_TEMP_PATH + projectName + "/{0}".format( DEBUG_NAME ) + "/{0}/".format( iConfiguration ) )
+def CopyDirForAllModes( iConfiguration ) :
+    shutil.copytree( "./{0}{1}".format( iConfiguration, RELEASE_NAME ), ARCHIVE_TEMP_PATH + projectName + "/{0}".format( RELEASE_NAME ) + "/{0}/".format( iConfiguration ) )
+    shutil.copytree( "./{0}{1}".format( iConfiguration, DEBUG_NAME ), ARCHIVE_TEMP_PATH + projectName + "/{0}".format( DEBUG_NAME ) + "/{0}/".format( iConfiguration ) )
 
 def BuildAndCopyAllRequiredFiles() :
     # Build via following orders:
     if False == Build( BUILD_PLATFORM_X86 ) :
         exit( 1 )
-    CopyRequiredFiles( X86 )
+    CopyDirForAllModes( X86 )
     if False == Build( BUILD_PLATFORM_X64 ) :
         exit( 1 )
-    CopyRequiredFiles( X64 )
+    CopyDirForAllModes( X64 )
 
 def CreateTempDirArchive() :
     if ( True == os.path.exists( ARCHIVE_TEMP_PATH ) ):
