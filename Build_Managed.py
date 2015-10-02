@@ -21,23 +21,14 @@ X86                         = "Win32"
 X64                         = "x64"
 RELEASE_NAME                = "Release"
 DEBUG_NAME                  = "Debug"
-MANAGED_STR                 = "Managed"
-RELEASE_DIR                 = "/{0}/".format( RELEASE_NAME )
-LIB_DIR                     = "/{0}/".format( "Lib" )
-DLL_DIR                     = "/{0}/".format( "Dll" )
-SOURCE_DIR                  = "/{0}/".format( "Source" )
-
 MS_BUILD                    = "MSBuild"
 
 CONFIGURATION_BUILD_TYPE_SET    = { "/p:Configuration={0}".format( RELEASE_NAME ), "/p:Configuration={0}".format( DEBUG_NAME ) } 
-
 BUILD_PLATFORM_X86          = "/p:Platform={0}".format( X86 )
 BUILD_PLATFORM_X64          = "/p:Platform={0}".format( X64 )
 REBUILD_DEFAULT             = "/t:rebuild"
 
-projectName                 = "vtStor"
-#PROJECTDIR                  = "vtStor_Release"
-PROJECTDIR                  = "vtStor"
+projectName                 = "vtStor_Managed"
 RELEASE_LOCAL_DIR_X86       = "./{0}{1}".format( X86, RELEASE_NAME )
 RELEASE_LOCAL_DIR_X64       = "./{0}{1}".format( X64, RELEASE_NAME )
 DEBUG_LOCAL_DIR_X86       = "./{0}{1}".format( X86, DEBUG_NAME )
@@ -45,9 +36,10 @@ DEBUG_LOCAL_DIR_X64       = "./{0}{1}".format( X64, DEBUG_NAME )
 ARCHIVE_TEMP                = "ArchiveTemp"
 ARCHIVE_TEMP_PATH           = "./{0}/".format( ARCHIVE_TEMP )
 
-REMOVE_EXTENSION_SET = { 'exe', 'pdb' }
+REMOVE_EXTENSION_SET = { 'exe', 'lib', 'pdb', 'ilk' }
 
 def Build( iBuildPlatform ) :
+    #status = subprocess.call( [ MS_BUILD, CONFIGURATION_BUILD_TYPE, iBuildPlatform, REBUILD_DEFAULT ] )
     for config in CONFIGURATION_BUILD_TYPE_SET:
         status = subprocess.call( [ MS_BUILD, config, iBuildPlatform, REBUILD_DEFAULT ] )
         if 0 != status :
@@ -55,46 +47,32 @@ def Build( iBuildPlatform ) :
             return False
     return True
 
-def CopyRequireFilesForAllModes ( iConfiguration ) :
-    CopyLibsAndDlls( iConfiguration, RELEASE_NAME )
-    CopyLibsAndDlls( iConfiguration, DEBUG_NAME )
-
-def CopyLibsAndDlls( iConfiguration, iBuildType ) :
-    sourceDir = "./{0}{1}".format( iConfiguration, iBuildType )
-    for file in os.listdir( sourceDir ) :            
-        if file.endswith( ".dll" ) and not MANAGED_STR in file :
-            destDir = ARCHIVE_TEMP_PATH + PROJECTDIR + DLL_DIR + "/{0}".format( iBuildType ) + "/{0}/".format( iConfiguration )
-            CopyAFileToADir( sourceDir, file, destDir)
-        elif file.endswith( ".lib" ) and not MANAGED_STR in file :
-            destDir = ARCHIVE_TEMP_PATH + PROJECTDIR + LIB_DIR + "/{0}".format( iBuildType ) + "/{0}/".format( iConfiguration )
-            CopyAFileToADir( sourceDir, file, destDir)
-
-def CopyAFileToADir( iSourceDir, iFile, iDestDir) :
-    if not os.path.exists( iDestDir ) :
-        os.makedirs(iDestDir )
-    shutil.copy2( os.path.join( iSourceDir, iFile ),  iDestDir )
+def CopyDirForAllModes( iConfiguration ) :
+    shutil.copytree( "./{0}{1}".format( iConfiguration, RELEASE_NAME ), ARCHIVE_TEMP_PATH + projectName + "/{0}".format( RELEASE_NAME ) + "/{0}/".format( iConfiguration ) )
+    shutil.copytree( "./{0}{1}".format( iConfiguration, DEBUG_NAME ), ARCHIVE_TEMP_PATH + projectName + "/{0}".format( DEBUG_NAME ) + "/{0}/".format( iConfiguration ) )
 
 def BuildAndCopyAllRequiredFiles() :
     # Build via following orders:
     if False == Build( BUILD_PLATFORM_X86 ) :
         exit( 1 )
-    CopyRequireFilesForAllModes( X86 )
+    CopyDirForAllModes( X86 )
     if False == Build( BUILD_PLATFORM_X64 ) :
         exit( 1 )
-    CopyRequireFilesForAllModes( X64 )
+    CopyDirForAllModes( X64 )
 
 def CreateTempDirArchive() :
     if ( True == os.path.exists( ARCHIVE_TEMP_PATH ) ):
         shutil.rmtree( ARCHIVE_TEMP_PATH, ignore_errors=True )
     os.makedirs( ARCHIVE_TEMP_PATH )
-    os.makedirs( ARCHIVE_TEMP_PATH + PROJECTDIR )
+    os.makedirs( ARCHIVE_TEMP_PATH + projectName )
 
 def DoArchiveAndRemoveTempDirs() :
+    #archiveFilename = projectName + "_Release.7z"
     archiveFilename = projectName + "_Build.7z"
     if ( True == os.path.exists( archiveFilename ) ):
         os.remove( archiveFilename )
 
-    status = subprocess.call( [ "7z", "a", "-t7z", archiveFilename, ARCHIVE_TEMP_PATH + PROJECTDIR ] )
+    status = subprocess.call( [ "7z", "a", "-t7z", archiveFilename, ARCHIVE_TEMP_PATH + projectName ] )
     if ( 0 != status ):
         print "\nFailed to archive " + archiveFilename
         return False
@@ -108,10 +86,8 @@ def CleanUpRelease() :
 
 def CleanupFiles( iConfiguration ) :
     if X86 == iConfiguration or X64 == iConfiguration :
-        Prune( "/{0}/{1}/{2}/{3}/{4}".format( ARCHIVE_TEMP, PROJECTDIR, LIB_DIR, RELEASE_NAME, iConfiguration ) )
-        Prune( "/{0}/{1}/{2}/{3}/{4}".format( ARCHIVE_TEMP, PROJECTDIR, DLL_DIR, RELEASE_NAME, iConfiguration ) )
-        Prune( "/{0}/{1}/{2}/{3}/{4}".format( ARCHIVE_TEMP, PROJECTDIR, LIB_DIR, DEBUG_NAME, iConfiguration ) )
-        Prune( "/{0}/{1}/{2}/{3}/{4}".format( ARCHIVE_TEMP, PROJECTDIR, DLL_DIR, DEBUG_NAME, iConfiguration ) )
+        Prune( "/{0}/{1}/{2}/{3}".format( ARCHIVE_TEMP, projectName, RELEASE_NAME, iConfiguration ) )
+        Prune( "/{0}/{1}/{2}/{3}".format( ARCHIVE_TEMP, projectName, DEBUG_NAME, iConfiguration ) )
 
 def Prune( iDirPath ) :
     curDir = os.getcwd()
@@ -124,38 +100,11 @@ def Prune( iDirPath ) :
                 os.remove( file )
     os.chdir( curDir )
 
-def BuildTreeOfHeaderFiles() :
-    for path, subdirs, files in os.walk(os.getcwd()):
-        for file in files:
-            if file.endswith(".h") and not MANAGED_STR in file:
-                CopyHeaderFile( os.path.join(path, file) )
-    destDir = ARCHIVE_TEMP_PATH + PROJECTDIR + SOURCE_DIR
-    srcDir = "./{0}/".format( "Source" )
-    if not os.path.exists( destDir ) :
-        os.makedirs( destDir )
-    for item in os.listdir( srcDir ):
-        s = os.path.join( srcDir, item )
-        d = os.path.join( destDir, item )
-        if os.path.isdir(s):
-            shutil.copytree( s, d, False, None )
-        else:
-            shutil.copy2( s, d )
-    shutil.rmtree( srcDir )
-
-def CopyHeaderFile( iFilePath ) :
-    destDir = os.path.join( os.getcwd(), "Source", os.path.relpath( os.path.dirname( iFilePath ), os.getcwd() ) );
-    if not os.path.exists( destDir ) :
-        os.makedirs( destDir )
-    shutil.copy2( iFilePath,  destDir )
-
 # Main entry point
 if __name__ == "__main__":
-    # Step 0: Create temporary directory archive
+    # Step 1: Create temporary directory archive
     CreateTempDirArchive()
-    
-    # Step 1: Copy header files
-    BuildTreeOfHeaderFiles()
-    
+
     # Step 2: Build the project
     BuildAndCopyAllRequiredFiles()
 
@@ -168,5 +117,3 @@ if __name__ == "__main__":
     else :
         print "\nBUILD FAIL"
         exit( 1 )
-
-    
