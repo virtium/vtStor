@@ -59,21 +59,22 @@ def Build( iBuildPlatform ) :
     return True
 
 def CopyRequireFilesForAllModes ( iConfiguration ) :
-    CopyLibsAndDlls( iConfiguration, "./{0}{1}".format( iConfiguration, RELEASE_NAME ), RELEASE_NAME )
-    CopyLibsAndDlls( iConfiguration, "./{0}{1}".format( iConfiguration, DEBUG_NAME ), DEBUG_NAME )
+    CopyLibsAndDlls( iConfiguration, RELEASE_NAME )
+    CopyLibsAndDlls( iConfiguration, DEBUG_NAME )
 
-def CopyLibsAndDlls( iConfiguration, iSourceDir, iBuildType ) :
-    for file in os.listdir( iSourceDir ) :            
+def CopyLibsAndDlls( iConfiguration, iBuildType ) :
+    sourceDir = "./{0}{1}".format( iConfiguration, iBuildType )
+    for file in os.listdir( sourceDir ) :            
         if file.endswith( ".dll" ) and not MANAGED_STR in file :
             destDir = ARCHIVE_TEMP_PATH + PROJECTDIR + DLL_DIR + "/{0}".format( iBuildType ) + "/{0}/".format( iConfiguration )
             if not os.path.exists( destDir ) :
                 os.makedirs(destDir )
-            shutil.copy2( os.path.join( iSourceDir, file ),  destDir )
+            shutil.copy2( os.path.join( sourceDir, file ),  destDir )
         elif file.endswith( ".lib" ) and not MANAGED_STR in file :
             destDir = ARCHIVE_TEMP_PATH + PROJECTDIR + LIB_DIR + "/{0}".format( iBuildType ) + "/{0}/".format( iConfiguration )
             if not os.path.exists( destDir ) :
                 os.makedirs( destDir )
-            shutil.copy2( os.path.join( iSourceDir, file ),  destDir )
+            shutil.copy2( os.path.join( sourceDir, file ),  destDir )
 
 def BuildAndCopyAllRequiredFiles() :
     # Build via following orders:
