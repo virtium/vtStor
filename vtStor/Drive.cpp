@@ -53,4 +53,9 @@ DeviceHandle cDrive::Handle()
     return m_Device->Handle();
 }
 
+void cDrive::DevicePath(tchar*& DevicePath)
+{
+    m_Device->DevicePath(DevicePath);
+}
+
 }

@@ -52,6 +52,11 @@ DeviceHandle cDevice::Handle()
     return deviceHandle;
 }
 
+void cDevice::DevicePath(tchar*& DevicePath)
+{
+    DevicePath = m_DevDetailData->DevicePath;
+}
+
 eErrorCode cDevice::GetStorageDeviceHandle(const String& DevicePath, HANDLE& Handle)
 {
     Handle =

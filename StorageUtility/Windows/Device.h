@@ -40,6 +40,8 @@ public:
 
     virtual DeviceHandle Handle() override;
 
+    virtual void DevicePath(tchar*& DevicePath) override;
+
 private:
     eErrorCode GetStorageDeviceHandle(const String& DevicePath, HANDLE& Handle);
 
