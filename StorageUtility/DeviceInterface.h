@@ -40,6 +40,8 @@ public:
 
     virtual DeviceHandle Handle() = 0;
 
+    virtual void DevicePath(tchar*& DevicePath) = 0;
+
 };
 
 using Vector_Devices = std::vector<std::shared_ptr<cDeviceInterface>>;

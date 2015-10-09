@@ -35,6 +35,8 @@ limitations under the License.
 #include "ProtocolScsiPassThrough.h"
 #include "vtStorScsi.h"
 
+#include "Drive.h"
+
 void main()
 {
 #if 0
@@ -58,6 +60,10 @@ void main()
 
     std::shared_ptr<vtStor::Protocol::cProtocolInterface> protocol = nullptr;
     std::shared_ptr<vtStor::cCommandHandlerInterface> commandHandler = nullptr;
+
+    std::shared_ptr<vtStor::cDrive> drive = std::dynamic_pointer_cast<vtStor::cDrive>(drives[1]);
+    tchar* devicePath;
+    drive->DevicePath(devicePath);
 
     if (vtStor::eBusType::Ata == drives[1]->GetBusType())                         //!!! Warning: be careful with value 1 in drives[1]
     {

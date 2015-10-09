@@ -49,6 +49,7 @@ namespace vtStor
 
         public:
             vtStor::Managed::eBusType GetBusType();
+            System::String^ GetDevicePath();
 
         private:
             vtStor::Managed::cSharedPtr<vtStor::cDriveInterface> m_Drive;
