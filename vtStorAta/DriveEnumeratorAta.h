@@ -21,12 +21,14 @@ limitations under the License.
 #include "vtStorAtaPlatformDefines.h"
 #include "DriveEnumeratorInterface.h"
 
+#include "DeviceInterface.h"
+
 namespace vtStor
 {
     class VT_STOR_ATA_API cDriveEnumeratorAta : public cDriveEnumeratorInterface
     {
     public:
-        virtual eErrorCode EnumerateDrives( Vector_Drives& AddToList, U32& Count ) override;
+        virtual std::shared_ptr<cDriveInterface> EnumerateDrive(const std::shared_ptr<cDeviceInterface>& Device) override;
 
     public:
         virtual ~cDriveEnumeratorAta();

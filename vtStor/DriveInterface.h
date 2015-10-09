@@ -26,6 +26,7 @@ limitations under the License.
 #include "BufferInterface.h"
 #include "CommandHandlerInterface.h"
 #include "vtStorPlatformDefines.h"
+#include "BusType.h"
 
 namespace vtStor
 {
@@ -33,14 +34,24 @@ namespace vtStor
 class VTSTOR_API cDriveInterface
 {
 public:
-    virtual void RegisterComandHandler(U32 CommandType, std::shared_ptr<cCommandHandlerInterface> CommandHandler) = 0;
+    static std::shared_ptr<vtStor::cDriveInterface> ToSharedPtr( void* Object );
+    static void* ToVoidPointer( std::shared_ptr<vtStor::cDriveInterface>& Object );
+
+public:
+    virtual void RegisterCommandHandler(U32 CommandType, std::shared_ptr<cCommandHandlerInterface> CommandHandler) = 0;
 
 public:
     virtual eErrorCode IssueCommand(U32 CommandType, std::shared_ptr<const cBufferInterface> CommandDescriptor, std::shared_ptr<cBufferInterface> Data) = 0;
 
 public:
     virtual ~cDriveInterface();
+
+public:
+    virtual eBusType GetBusType() = 0;
+
 };
+
+VTSTOR_API_EXPORT_IMPL template class VTSTOR_API std::shared_ptr<cDriveInterface>;
 
 using Vector_Drives = std::vector<std::shared_ptr<cDriveInterface>>;
 

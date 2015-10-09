@@ -35,11 +35,11 @@ namespace Microsoft
         namespace CppUnitTestFramework
         {
             template<> static std::wstring ToString<vtStor::U16>( const vtStor::U16& t ) { RETURN_WIDE_STRING( t ); }
-            template<> static std::wstring ToString<vtStor::StorageUtility::Ata::eDeviceReadyFlag>( const vtStor::StorageUtility::Ata::eDeviceReadyFlag& t ) { RETURN_WIDE_STRING( t ); }
-            template<> static std::wstring ToString<vtStor::StorageUtility::Ata::eDataAccess>( const vtStor::StorageUtility::Ata::eDataAccess& t ) { RETURN_WIDE_STRING( t ); }
-            template<> static std::wstring ToString<vtStor::StorageUtility::Ata::eFieldFormatting>( const vtStor::StorageUtility::Ata::eFieldFormatting& t ) { RETURN_WIDE_STRING( t ); }
-            template<> static std::wstring ToString<vtStor::StorageUtility::Ata::eTransferMode>( const vtStor::StorageUtility::Ata::eTransferMode& t ) { RETURN_WIDE_STRING( t ); }
-            template<> static std::wstring ToString<vtStor::StorageUtility::Ata::eMultipleMode>( const vtStor::StorageUtility::Ata::eMultipleMode& t ) { RETURN_WIDE_STRING( t ); }
+            template<> static std::wstring ToString<vtStor::StorageUtility::Ata::eDeviceReadyFlag>( const vtStor::StorageUtility::Ata::eDeviceReadyFlag& t ) { RETURN_WIDE_STRING( static_cast<unsigned int>(t) ); }
+            template<> static std::wstring ToString<vtStor::StorageUtility::Ata::eDataAccess>(const vtStor::StorageUtility::Ata::eDataAccess& t) { RETURN_WIDE_STRING(static_cast<unsigned int>(t)); }
+            template<> static std::wstring ToString<vtStor::StorageUtility::Ata::eFieldFormatting>(const vtStor::StorageUtility::Ata::eFieldFormatting& t) { RETURN_WIDE_STRING(static_cast<unsigned int>(t)); }
+            template<> static std::wstring ToString<vtStor::StorageUtility::Ata::eTransferMode>(const vtStor::StorageUtility::Ata::eTransferMode& t) { RETURN_WIDE_STRING(static_cast<unsigned int>(t)); }
+            template<> static std::wstring ToString<vtStor::StorageUtility::Ata::eMultipleMode>(const vtStor::StorageUtility::Ata::eMultipleMode& t) { RETURN_WIDE_STRING(static_cast<unsigned int>(t)); }
         }
     }
 }
@@ -55,7 +55,7 @@ namespace vtStorTest
         TEST_METHOD( CommandField )
         {
             std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>( 128 );
-            Ata::cCommandDescriptor1 commandDescriptorVersion1( commandDescriptor );
+            Ata::cCommandDescriptor1 commandDescriptorVersion1 = Ata::cCommandDescriptor1::Writer(commandDescriptor);
 
             StorageUtility::Ata::uCommandFields& commandFields = commandDescriptorVersion1.GetCommandFields();
             commandFields.InputFields.Command = Ata::ATA_COMMAND_IDENTIFY_DEVICE;

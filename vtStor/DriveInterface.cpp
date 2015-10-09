@@ -20,6 +20,16 @@ limitations under the License.
 namespace vtStor
 {
 
+std::shared_ptr<vtStor::cDriveInterface> cDriveInterface::ToSharedPtr( void* Object )
+{
+    return( *reinterpret_cast<std::shared_ptr<vtStor::cDriveInterface>*>( Object ) );
+}
+
+void* cDriveInterface::ToVoidPointer( std::shared_ptr<vtStor::cDriveInterface>& Object )
+{
+    return( reinterpret_cast<void*>( &(Object) ) );
+}
+
 cDriveInterface::~cDriveInterface()
 {
 

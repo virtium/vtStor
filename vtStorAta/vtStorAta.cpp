@@ -16,10 +16,16 @@ limitations under the License.
 </License>
 */
 #include "vtStorAta.h"
+#include "DriveEnumeratorAta.h"
+
+using namespace vtStor;
 
 namespace vtStor
 {
 
-U32 cAta::s_DefaultCommandHandlerCommandType = 0;
+}
 
+void vtStorAtaInit(std::shared_ptr<vtStor::cDriveEnumeratorInterface>& DriveEnumerator)
+{
+    DriveEnumerator = std::make_unique<vtStor::cDriveEnumeratorAta>();
 }

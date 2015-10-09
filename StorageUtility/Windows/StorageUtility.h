@@ -24,18 +24,20 @@ limitations under the License.
 #include <Ntddscsi.h>
 #include <setupapi.h>
 
-
 #include "ErrorCodes.h"
 #include "BasicTypes.h"
 #include "vtStorPlatformDefines.h"
 
+#include "DeviceInterface.h"
+
 namespace vtStor
 {
+    eErrorCode GetStorageDevices(std::vector<std::shared_ptr<cDeviceInterface>>& Devices, eOnErrorBehavior OnErrorBehavior);
 
     eErrorCode GetStorageDevicePaths( std::vector<String>& Paths, eOnErrorBehavior OnErrorBehavior );
     eErrorCode GetDevicePaths( std::vector<String>& Paths, const GUID* InterfaceClassGUID, eOnErrorBehavior OnErrorBehavior );
 
-    using EnumerateDevicesCallback = void(*)( void* Data, const HDEVINFO& DevInfoHandle, SP_DEVINFO_DATA& DevInfoData, const PSP_INTERFACE_DEVICE_DETAIL_DATA& DevDetailData, eErrorCode& ErrorCode );
+    using EnumerateDevicesCallback = void(*)(void* Data, const HDEVINFO& DevInfoHandle, SP_DEVINFO_DATA& DevInfoData, SP_DEVICE_INTERFACE_DATA& DevInterfaceData, const PSP_INTERFACE_DEVICE_DETAIL_DATA& DevDetailData, U32 SizeOfDevDetailData, eErrorCode& ErrorCode);
     struct sEnumerateDevicesCallback
     {
         EnumerateDevicesCallback Function;
@@ -46,8 +48,6 @@ namespace vtStor
     //!
     eErrorCode EnumerateDevices( sEnumerateDevicesCallback& Callback, const GUID* InterfaceClassGUID, eOnErrorBehavior OnErrorBehavior );
 
-    eErrorCode GetStorageDeviceHandle( const String& DevicePath, HANDLE& Handle );
-
     struct sStorageAdapterProperty
     {
         U8    BusType;
@@ -57,7 +57,10 @@ namespace vtStor
 
     eErrorCode GetStorageAdapterProperty( HANDLE Handle, sStorageAdapterProperty& AdapterProperty );
 
+    void CloseDeviceHandle(HANDLE& Handle);
+
     bool IsAtaDeviceBus( sStorageAdapterProperty StorageAdapterProperty );
+    bool IsScsiDeviceBus( sStorageAdapterProperty StorageAdapterProperty );
 }
 
 #endif

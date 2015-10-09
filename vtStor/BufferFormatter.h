@@ -21,40 +21,42 @@ limitations under the License.
 
 #include <memory>
 
-#include "vtStorPlatformDefines.h"
 #include "BufferInterface.h"
-
+#include "vtStorPlatformDefines.h"
 
 namespace vtStor
 {
 
-    VTSTOR_API_EXPORT_IMPL template class VTSTOR_API std::shared_ptr<cBufferInterface>;
-
-    class VTSTOR_API cBufferFormatter
+class VTSTOR_API cBufferFormatter
+{
+public:
+    struct Header
     {
-    public:
-        struct Header
-        {
-            U32 Format;
-        };
-
-        static const size_t HEADER_SIZE_IN_BYTES;
-
-    public:
-        cBufferFormatter( std::shared_ptr<cBufferInterface> Buffer );
-        cBufferFormatter( std::shared_ptr<const cBufferInterface> Buffer );
-
-    public:
-        Header& GetHeader();
-        const Header& GetHeader() const;
-
-    protected:
-        static const size_t HEADER_OFFSET;
-        static const size_t DATA_OFFSET;
-
-    protected:
-        std::shared_ptr<cBufferInterface> m_Buffer;
+        U32 Format;
     };
+
+    static const size_t HEADER_SIZE_IN_BYTES;
+
+public:
+    static cBufferFormatter Reader(std::shared_ptr<const cBufferInterface> Buffer);
+
+public:
+    Header& GetHeader();
+    const Header& GetHeader() const;
+
+protected:
+    cBufferFormatter(std::shared_ptr<cBufferInterface> Buffer);
+    cBufferFormatter(std::shared_ptr<cBufferInterface> Buffer, U32 Format);
+    cBufferFormatter(std::shared_ptr<const cBufferInterface> Buffer);
+
+protected:
+    static const size_t HEADER_OFFSET;
+    static const size_t DATA_OFFSET;
+
+protected:
+    std::shared_ptr<cBufferInterface> m_Buffer;
+};
+
 }
 
 #endif

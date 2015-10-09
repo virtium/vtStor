@@ -15,29 +15,42 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
+#include <assert.h>
+
 #include "Drive.h"
 
 namespace vtStor
 {
 
-cDrive::cDrive()
+cDrive::cDrive(std::shared_ptr<vtStor::cDeviceInterface> Device, DeviceHandle DeviceHandle) :
+    m_Device( Device ), m_DeviceHandle( DeviceHandle )
 {
 }
-
 
 cDrive::~cDrive()
 {
+    CloseDeviceHandle(m_DeviceHandle);
     m_CommandHandlers.clear();
 }
 
-void cDrive::RegisterComandHandler( U32 CommandType, std::shared_ptr<cCommandHandlerInterface> CommandHandler )
+void cDrive::RegisterCommandHandler(U32 CommandType, std::shared_ptr<cCommandHandlerInterface> CommandHandler)
 {
     m_CommandHandlers.insert({ CommandType, CommandHandler });
 }
 
 eErrorCode cDrive::IssueCommand( U32 CommandType, std::shared_ptr<const cBufferInterface> CommandDescriptor, std::shared_ptr<cBufferInterface> Data )
 {
-    return( m_CommandHandlers[CommandType]->IssueCommand( CommandDescriptor, Data ) );
+    return(m_CommandHandlers[CommandType]->IssueCommand(m_DeviceHandle, CommandDescriptor, Data));
+}
+
+void cDrive::Data(std::unordered_map<eDeviceDataType, void*>& Data)
+{
+    m_Device->Data(Data);
+}
+
+DeviceHandle cDrive::Handle()
+{
+    return m_Device->Handle();
 }
 
 }

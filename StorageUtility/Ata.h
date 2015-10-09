@@ -58,32 +58,32 @@ union uCommandFields
     sCommandInputFields OutputFields;
 };
 
-enum eDeviceReadyFlag
+enum class eDeviceReadyFlag
 {
     DEVICE_READY_REQUIRED,
     DEVICE_READY_NOT_REQUIRED
 };
 
-enum eDataAccess
+enum class eDataAccess
 {
     NONE,
     READ_FROM_DEVICE,
     WRITE_TO_DEVICE
 };
 
-enum eFieldFormatting
+enum class eFieldFormatting
 {
     COMMAND_28_BIT,
     COMMAND_48_BIT
 };
 
-enum eTransferMode
+enum class eTransferMode
 {
     DMA_PROTOCOL,
     PIO_PROTOCOL
 };
 
-enum eMultipleMode
+enum class eMultipleMode
 {
     MULTIPLE_COMMAND,
     NOT_MULTIPLE_COMMAND

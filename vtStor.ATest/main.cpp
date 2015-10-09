@@ -17,11 +17,23 @@ limitations under the License.
 */
 #include <memory>
 
-#include "DriveEnumeratorAta.h"
+#include "ErrorCodes.h"
+#include "BusType.h"
+
 #include "vtStor.h"
-#include "vtStorAta.h"
 #include "Buffer.h"
+
+#include "CommandHandlerAta.h"
 #include "DriveAtaCommandExtensions.h"
+#include "DriveEnumeratorAta.h"
+#include "ProtocolAtaPassThrough.h"
+#include "vtStorAta.h"
+
+#include "CommandHandlerScsi.h"
+#include "DriveScsiCommandExtensions.h"
+#include "DriveEnumeratorScsi.h"
+#include "ProtocolScsiPassThrough.h"
+#include "vtStorScsi.h"
 
 void main()
 {
@@ -32,18 +44,61 @@ void main()
     driveEnumeratorAta->EnumerateDrives( drives, count );
 #endif
 
-    std::unique_ptr<vtStor::cDriveManagerInterface> driveManager;
+    std::shared_ptr<vtStor::cDriveManagerInterface> driveManager;
     vtStorInit( driveManager );
 
-    vtStor::cAta::s_DefaultCommandHandlerCommandType = 1;
-    std::shared_ptr<vtStor::cDriveEnumeratorInterface> driveEnumeratorAta = std::make_unique<vtStor::cDriveEnumeratorAta>();
-    driveManager->RegisterDriveEnumerator(driveEnumeratorAta);
-    driveManager->EnumerateDrives( vtStor::cDriveManagerInterface::eScanForHardwareChanges::No );
+    driveManager->RegisterDriveEnumerator(std::make_unique<vtStor::cDriveEnumeratorAta>());
+    driveManager->RegisterDriveEnumerator(std::make_unique<vtStor::cDriveEnumeratorScsi>());
+
+    driveManager->EnumerateDrives( vtStor::eScanForHardwareChanges::No );
 
     vtStor::Vector_Drives drives = driveManager->GetDrives();
+    // Create data buffer
     std::shared_ptr<vtStor::cBufferInterface> dataBuffer = std::make_shared<vtStor::cBuffer>(512);
-    vtStor::Ata::IssueCommand_IdentifyDevice(drives[0], 1, dataBuffer);
+
+    std::shared_ptr<vtStor::Protocol::cProtocolInterface> protocol = nullptr;
+    std::shared_ptr<vtStor::cCommandHandlerInterface> commandHandler = nullptr;
+
+    if (vtStor::eBusType::Ata == drives[1]->GetBusType())                         //!!! Warning: be careful with value 1 in drives[1]
+    {
+        protocol = std::make_shared<vtStor::Protocol::cAtaPassThrough>();
+        commandHandler = std::make_shared<vtStor::cCommandHandlerAta>(protocol);
+
+        // Register command handler
+        drives[1]->RegisterCommandHandler(0, commandHandler);
+
+        // Call command
+        vtStor::Ata::IssueCommand_IdentifyDevice(drives[1], 0, dataBuffer);
+
+    } else if (vtStor::eBusType::Scsi == drives[1]->GetBusType())
+    {
+        protocol = std::make_shared<vtStor::Protocol::cScsiPassThrough>();
+        commandHandler = std::make_shared<vtStor::cCommandHandlerScsi>(protocol);
+
+        // Register command handler
+        drives[1]->RegisterCommandHandler(0, commandHandler);
+
+        // Call command
+        vtStor::Scsi::IssueCommand_AtaIdentifyDevice(drives[1], 0, dataBuffer);
+    }
+
     vtStor::U8* data = dataBuffer->ToDataBuffer();
 
+    // dump buffer
+    for (int i = 0; i < 512; i++)
+    {
+        if (i % 16 == 15)
+        {
 
+            printf("%02X\n", *data);
+            data++;
+        }
+        else
+        {
+            printf("%02X ", *data);
+            data++;
+        }
+    }
+
+    getchar();
 }

@@ -20,15 +20,19 @@ limitations under the License.
 namespace vtStor
 {
 
-cDriveAta::cDriveAta(String DevicePath) :
-    m_DevicePath(DevicePath)
+cDriveAta::cDriveAta(std::shared_ptr<vtStor::cDeviceInterface> Device, DeviceHandle DeviceHandle) :
+    cDrive(Device, DeviceHandle)
 {
-
 }
 
 cDriveAta::~cDriveAta()
 {
 
+}
+
+eBusType cDriveAta::GetBusType()
+{
+    return( eBusType::Ata );
 }
 
 }

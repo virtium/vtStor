@@ -18,11 +18,12 @@ limitations under the License.
 #include <memory>
 
 #include "CppUnitTest.h"
-
+#include "DriveAtaCommandExtensions.h"
+#include "DriveEnumeratorAta.h"
+#include "ScanForHardwareChanges.h"
 #include "vtStor.h"
 #include "vtStorAta.h"
-#include "DriveEnumeratorAta.h"
-#include "DriveAtaCommandExtensions.h"
+
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -46,13 +47,12 @@ namespace vtStorTest
 
         void Enumerate()
         {
-            std::unique_ptr<vtStor::cDriveManagerInterface> m_DriveManager;
+            std::shared_ptr<vtStor::cDriveManagerInterface> m_DriveManager;
             vtStorInit( m_DriveManager );
 
-            vtStor::cAta::s_DefaultCommandHandlerCommandType = 1;
             std::shared_ptr<vtStor::cDriveEnumeratorInterface> m_DriveEnumeratorAta = std::make_unique<vtStor::cDriveEnumeratorAta>();
             m_DriveManager->RegisterDriveEnumerator( m_DriveEnumeratorAta );
-            m_DriveManager->EnumerateDrives( vtStor::cDriveManagerInterface::eScanForHardwareChanges::No );
+            m_DriveManager->EnumerateDrives( vtStor::eScanForHardwareChanges::No );
         }
 
     private:

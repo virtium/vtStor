@@ -16,10 +16,28 @@ limitations under the License.
 </License>
 */
 #include <memory>
+
 #include "StorageUtility.h"
+#include "Device.h"
 
 namespace vtStor
 {
+
+eErrorCode GetStorageDevices(std::vector<std::shared_ptr<cDeviceInterface>>& Devices, eOnErrorBehavior OnErrorBehavior)
+{
+    eErrorCode error = eErrorCode::None;
+
+    sEnumerateDevicesCallback callBack;
+    callBack.Data = (void*)&Devices;
+    callBack.Function = [](void* Data, const HDEVINFO& DevInfoHandle, SP_DEVINFO_DATA& DevInfoData, SP_DEVICE_INTERFACE_DATA& DevInterfaceData, const PSP_INTERFACE_DEVICE_DETAIL_DATA& DevDetailData, U32 SizeOfDevDetailData, eErrorCode& ErrorCode)
+    {
+        std::vector<std::shared_ptr<vtStor::cDeviceInterface>>* devices = (std::vector<std::shared_ptr<vtStor::cDeviceInterface>>*)Data;
+        devices->push_back(std::make_shared<cDevice>((SP_DEVINFO_DATA*)&DevInfoData, (SP_DEVICE_INTERFACE_DATA*)&DevInterfaceData, DevDetailData, SizeOfDevDetailData));
+    };
+
+    error = EnumerateDevices(callBack, &GUID_DEVINTERFACE_DISK, OnErrorBehavior);
+    return(error);
+}
 
 eErrorCode GetStorageDevicePaths( std::vector<String>& Paths, eOnErrorBehavior OnErrorBehavior )
 {
@@ -32,7 +50,7 @@ eErrorCode GetDevicePaths( std::vector<String>& Paths, const GUID* InterfaceClas
 
     sEnumerateDevicesCallback callBack;
     callBack.Data = (void*)&Paths;
-    callBack.Function = []( void* Data, const HDEVINFO& DevInfoHandle, SP_DEVINFO_DATA& DevInfoData, const PSP_INTERFACE_DEVICE_DETAIL_DATA& DevDetailData, eErrorCode& ErrorCode )
+    callBack.Function = [](void* Data, const HDEVINFO& DevInfoHandle, SP_DEVINFO_DATA& DevInfoData, SP_DEVICE_INTERFACE_DATA& DevInterfaceData, const PSP_INTERFACE_DEVICE_DETAIL_DATA& DevDetailData, U32 SizeOfDevDetailData, eErrorCode& ErrorCode)
     {
         std::vector<String>* paths = ( std::vector<String>* )Data;
         paths->push_back( DevDetailData->DevicePath );
@@ -93,7 +111,7 @@ eErrorCode EnumerateDevices( sEnumerateDevicesCallback& Callback, const GUID* In
             }
         }
 
-        PSP_INTERFACE_DEVICE_DETAIL_DATA pDevDetailData = (PSP_INTERFACE_DEVICE_DETAIL_DATA)LocalAlloc( LPTR, bufferSize );
+        PSP_INTERFACE_DEVICE_DETAIL_DATA pDevDetailData = (PSP_INTERFACE_DEVICE_DETAIL_DATA)HeapAlloc( GetProcessHeap(), HEAP_GENERATE_EXCEPTIONS, bufferSize );
         if ( NULL == pDevDetailData )
         {
             if ( eOnErrorBehavior::Continue == OnErrorBehavior ) { continue; }
@@ -107,7 +125,7 @@ eErrorCode EnumerateDevices( sEnumerateDevicesCallback& Callback, const GUID* In
             error = GetLastError();
             if ( ERROR_INSUFFICIENT_BUFFER != error )
             {
-                LocalFree( pDevDetailData );
+                HeapFree(GetProcessHeap(), HEAP_NO_SERIALIZE, pDevDetailData);
                 if ( eOnErrorBehavior::Continue == OnErrorBehavior ) { continue; }
                 SetupDiDestroyDeviceInfoList( devInfoHandle );
                 return( eErrorCode::Unknown );
@@ -116,33 +134,12 @@ eErrorCode EnumerateDevices( sEnumerateDevicesCallback& Callback, const GUID* In
 
         eErrorCode errorCode;
         errorCode = eErrorCode::Unknown;
-        Callback.Function( Callback.Data, devInfoHandle, devInfoData, pDevDetailData, errorCode );
+        Callback.Function(Callback.Data, devInfoHandle, devInfoData, devInterfaceData, pDevDetailData, bufferSize, errorCode);
 
-        LocalFree( pDevDetailData );
+        HeapFree(GetProcessHeap(), HEAP_NO_SERIALIZE, pDevDetailData);
     }
 
     SetupDiDestroyDeviceInfoList( devInfoHandle );
-
-    return( eErrorCode::None );
-}
-
-eErrorCode GetStorageDeviceHandle( const String& DevicePath, HANDLE& Handle )
-{
-    Handle =
-        CreateFile(
-                    DevicePath.c_str(),
-                    GENERIC_READ | GENERIC_WRITE,
-                    FILE_SHARE_READ | FILE_SHARE_WRITE,
-                    NULL,
-                    OPEN_EXISTING,
-                    FILE_ATTRIBUTE_NORMAL,
-                    NULL
-                    );
-
-    if ( INVALID_HANDLE_VALUE == Handle )
-    {
-        return( eErrorCode::Io );
-    }
 
     return( eErrorCode::None );
 }
@@ -178,7 +175,7 @@ eErrorCode GetStorageAdapterProperty( HANDLE Handle, sStorageAdapterProperty& Ad
     }
 
     PSTORAGE_ADAPTER_DESCRIPTOR pstorageAdapterDesc = NULL;
-    pstorageAdapterDesc = (PSTORAGE_ADAPTER_DESCRIPTOR)LocalAlloc(LPTR, storageDescHeader.Size);
+    pstorageAdapterDesc = (PSTORAGE_ADAPTER_DESCRIPTOR)HeapAlloc(GetProcessHeap(), HEAP_GENERATE_EXCEPTIONS, storageDescHeader.Size);
 
     ret =
         DeviceIoControl(
@@ -193,7 +190,7 @@ eErrorCode GetStorageAdapterProperty( HANDLE Handle, sStorageAdapterProperty& Ad
                         );
     if (0 == ret)
     {
-        LocalFree( pstorageAdapterDesc );
+        HeapFree(GetProcessHeap(), HEAP_NO_SERIALIZE, pstorageAdapterDesc);
         return( eErrorCode::Io );
     }
 
@@ -201,28 +198,52 @@ eErrorCode GetStorageAdapterProperty( HANDLE Handle, sStorageAdapterProperty& Ad
     //iAdapterProperty.SrbType = pstorageAdapterDesc->SrbType;  TODO check this
     AdapterProperty.AlignmentMask = pstorageAdapterDesc->AlignmentMask;
 
-    LocalFree( pstorageAdapterDesc );
+    HeapFree(GetProcessHeap(), HEAP_NO_SERIALIZE, pstorageAdapterDesc);
 
     return( eErrorCode::None );
 }
 
+void CloseDeviceHandle(HANDLE& Handle)
+{
+    if (FALSE == CloseHandle(Handle))
+    {
+        //! TODO
+        //fprintf(stderr, "\nCloseDeviceHandle was not successful. Error Code: %d", GetLastError());
+    }
+    Handle = INVALID_HANDLE_VALUE;
+}
+
 bool IsAtaDeviceBus( sStorageAdapterProperty StorageDeviceProperty )
 {
-    bool successFlag = false;
     switch ( StorageDeviceProperty.BusType )
     {
     case BusTypeAta:
     case BusTypeSata:
     {
-        successFlag = true;
+        return( true );
     } break;
-
     default:
     {
+        return( false );
     } break;
     }
+}
 
-    return successFlag;
+bool IsScsiDeviceBus(sStorageAdapterProperty StorageDeviceProperty)
+{
+    switch (StorageDeviceProperty.BusType)
+    {
+    case BusTypeScsi:
+    case BusTypeUsb:
+    case BusTypeiScsi:
+    {
+        return( true );
+    } break;
+    default:
+    {
+        return( false );
+    } break;
+    }
 }
 
 }

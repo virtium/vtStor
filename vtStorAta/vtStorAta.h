@@ -20,6 +20,7 @@ limitations under the License.
 #pragma once
 
 #include "BasicTypes.h"
+#include "DriveEnumeratorInterface.h"
 #include "vtStorAtaPlatformDefines.h"
 
 namespace vtStor
@@ -29,12 +30,13 @@ class VT_STOR_ATA_API cAta
 {
 public:
     cAta() = delete;
-
-public:
-    static U32 s_DefaultCommandHandlerCommandType;
 };
 
+}
 
+extern "C"
+{
+    VT_STOR_ATA_API void vtStorAtaInit(std::shared_ptr<vtStor::cDriveEnumeratorInterface>& DriveEnumerator);
 }
 
 #endif

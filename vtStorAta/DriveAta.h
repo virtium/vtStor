@@ -20,18 +20,22 @@ limitations under the License.
 
 #include "Drive.h"
 
+#include "BufferInterface.h"
+#include "CommandDescriptorUtility.h"
+
 namespace vtStor
 {
     class cDriveAta : public cDrive
     {
     public:
-        cDriveAta(String DevicePath);
+        cDriveAta(std::shared_ptr<vtStor::cDeviceInterface> Device, DeviceHandle DeviceHandle);
 
     public:
         virtual ~cDriveAta();
 
-    private:
-        String m_DevicePath;
+    public:
+        virtual eBusType GetBusType() override;
+
     };
 }
 

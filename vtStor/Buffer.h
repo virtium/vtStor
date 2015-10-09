@@ -31,10 +31,19 @@ public:
     virtual ~cBuffer();
 
 public:
-    virtual U8* ToDataBuffer();
+    virtual U8* ToDataBuffer() override;
+    virtual void SetByteAt(U32 Index, U8 Value) override;
+    virtual U8 GetByteAt(U32 Index) override;
+    virtual U32 GetSizeInBytes() override;
 
 protected:
-    U8* m_Memory;
+    U8* m_AlignedBuffer;
+    U8* m_UnalignedBuffer;
+    size_t m_SizeInBytes;
+
+private:
+    static const U8 CACHE_ALIGN_BYTES = 64;
+    static const U16  CACHE_ALIGN_BITMASK = (CACHE_ALIGN_BYTES - 1);
 };
 
 }

@@ -34,6 +34,7 @@ vtStor/Debug/vtStor.tlog/vtStor.lastbuildstate
 *.tlog
 *.idb
 x64/
+obj/
 *.exp
 *.sdf
 *.ilk
@@ -46,3 +47,13 @@ vtStorAta/Win32Debug/
 vtStor.Test/x64Release/Intermediate/vtStor.Test.vcxprojResolveAssemblyReference.cache
 vtStorAta/x64Debug/
 vtStor.Test/x64Debug/
+Common/ErrorCodes.h
+Common/ScanForHardwareChanges.h
+vtStorManaged/ScanForHardwareChangesManaged.h
+vtStorManaged/ErrorCodesManaged.h
+vtStorManaged.ATest/bin/
+vtStorManaged.ATest/obj/
+vtStorManaged.Test/obj/
+vtStor - Copy.opensdf
+Common/BusType.h
+Common/DeviceDataType.h

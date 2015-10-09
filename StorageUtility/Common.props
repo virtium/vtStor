@@ -8,7 +8,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)Common\Platform\x86x64;$(SolutionDir)Common\Platform\x86x64\Windows;$(SolutionDir)vtStor\Platform\Windows;$(SolutionDir)Common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Common\Platform\x86x64;$(SolutionDir)Common\Platform\x86x64\Windows;$(SolutionDir)vtStor\Platform\Windows;$(SolutionDir)Common;$(SolutionDir)StorageUtility;$(SolutionDir)StorageUtility\Windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
@@ -16,6 +16,16 @@
     <Lib>
       <AdditionalDependencies>setupapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
+    <PreBuildEvent>
+      <Command>python $(SolutionDir)GenerateFiles\GenerateFiles.py $(SolutionDir)Common\ErrorCodes.h $(SolutionDir)GenerateFiles\ErrorCodesTemplate.h $(SolutionDir)GenerateFiles\ErrorCodes.xml
+python $(SolutionDir)GenerateFiles\GenerateFiles.py $(SolutionDir)Common\ScanForHardwareChanges.h $(SolutionDir)GenerateFiles\ScanForHardwareChangesTemplate.h $(SolutionDir)GenerateFiles\ScanForHardwareChanges.xml
+python $(SolutionDir)GenerateFiles\GenerateFiles.py $(SolutionDir)Common\BusType.h $(SolutionDir)GenerateFiles\BusTypeTemplate.h $(SolutionDir)GenerateFiles\BusType.xml
+python $(SolutionDir)GenerateFiles\GenerateFiles.py $(SolutionDir)Common\DeviceDataType.h $(SolutionDir)GenerateFiles\DeviceDataTypeTemplate.h $(SolutionDir)GenerateFiles\DeviceDataType.xml</Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>cd $(SolutionDir)
+python Build\BuildEventer.py Build\BuildEventer.xml $(ProjectName) $(Platform) $(Configuration)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup />
 </Project>

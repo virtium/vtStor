@@ -20,6 +20,16 @@ limitations under the License.
 namespace vtStor
 {
 
+std::shared_ptr<vtStor::cCommandHandlerInterface> cCommandHandlerInterface::ToSharedPtr( void* Object )
+{
+    return( *reinterpret_cast<std::shared_ptr<vtStor::cCommandHandlerInterface>* > ( Object ) );
+}
+
+void* cCommandHandlerInterface::ToVoidPointer( std::shared_ptr<vtStor::cCommandHandlerInterface>& Object )
+{
+    return( reinterpret_cast<void*>( &( Object ) ) );
+}
+
 cCommandHandlerInterface::cCommandHandlerInterface( std::shared_ptr<Protocol::cProtocolInterface> Protocol ) :
     m_Protocol( Protocol )
 {

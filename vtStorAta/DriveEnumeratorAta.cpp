@@ -15,14 +15,14 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
-#include "vtStorAta.h"
-#include "CommandHandlerAta.h"
-#include "DriveAta.h"
 #include "StorageUtility.h"
 
+#include "vtStorAta.h"
+#include "DriveAta.h"
 #include "ProtocolAtaPassThrough.h"
 
 #include "DriveEnumeratorAta.h"
+#include "Device.h"
 
 namespace vtStor
 {
@@ -32,46 +32,39 @@ cDriveEnumeratorAta::~cDriveEnumeratorAta()
 
 }
 
-eErrorCode cDriveEnumeratorAta::EnumerateDrives( Vector_Drives& AddToList, U32& Count )
+std::shared_ptr<cDriveInterface> cDriveEnumeratorAta::EnumerateDrive(const std::shared_ptr<cDeviceInterface>& Device)
 {
-    Count = 0;
-
-    std::vector<String> devicePaths;
-    vtStor::GetStorageDevicePaths( devicePaths, eOnErrorBehavior::Continue );
-
-    HANDLE deviceHandle;
+    DeviceHandle deviceHandle;
     eErrorCode errorCode;
-    for ( const auto& devicePath : devicePaths )
+
+    try
     {
-        errorCode = GetStorageDeviceHandle( devicePath, deviceHandle );
-        if ( eErrorCode::None != errorCode )
-        {
-            //TODO: handle error
-            continue;
-        }
-
-        sStorageAdapterProperty storageAdapterProperty;
-        errorCode = GetStorageAdapterProperty( deviceHandle, storageAdapterProperty );
-        if ( eErrorCode::None != errorCode )
-        {
-            CloseHandle(deviceHandle);
-            //TODO: handle error
-            continue;
-        }
-
-        if ( true == IsAtaDeviceBus( storageAdapterProperty ) )
-        {
-            std::shared_ptr<cDriveInterface> drive = std::make_shared<cDriveAta>(devicePath);
-            std::shared_ptr<Protocol::cProtocolInterface> protocol = std::make_shared<Protocol::cAtaPassThrough>( deviceHandle );
-            std::shared_ptr<cCommandHandlerAta> commandHandler = std::make_shared<cCommandHandlerAta>( protocol );
-            drive->RegisterComandHandler( cAta::s_DefaultCommandHandlerCommandType, commandHandler );
-
-            AddToList.push_back( drive );
-            ++Count;
-        }
+        deviceHandle = Device->Handle();
+    }
+    catch (std::exception ex)
+    {
+        //fprintf(stderr, "\nEnumerateDrive was not successful. Exception:%s.", ex.what());
+        //TODO: handle error
+        return( nullptr );
     }
 
-    return( eErrorCode::None );
+    sStorageAdapterProperty storageAdapterProperty;
+    errorCode = GetStorageAdapterProperty( deviceHandle, storageAdapterProperty );
+
+    if ( eErrorCode::None != errorCode )
+    {
+        //TODO: handle error
+        return( nullptr );
+    }
+
+    if ( true == IsAtaDeviceBus( storageAdapterProperty ) )
+    {
+        std::shared_ptr<cDriveInterface> drive = std::make_shared<cDriveAta>(Device, deviceHandle);
+
+        return( drive );
+    }
+
+    return( nullptr );
 }
 
 }

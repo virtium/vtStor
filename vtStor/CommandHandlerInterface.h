@@ -29,16 +29,18 @@ limitations under the License.
 namespace vtStor
 {
 
-VTSTOR_API_EXPORT_IMPL template class VTSTOR_API std::shared_ptr<Protocol::cProtocolInterface>;
-
 class VTSTOR_API cCommandHandlerInterface
 {
+public:
+    static std::shared_ptr<vtStor::cCommandHandlerInterface> ToSharedPtr( void* Object );
+    static void* ToVoidPointer( std::shared_ptr<vtStor::cCommandHandlerInterface>& Object );
+
 public:
     cCommandHandlerInterface( std::shared_ptr<Protocol::cProtocolInterface> Protocol );
     virtual ~cCommandHandlerInterface();
 
 public:
-    virtual eErrorCode IssueCommand( std::shared_ptr<const cBufferInterface> CommandDescriptor, std::shared_ptr<cBufferInterface> Data ) = 0;
+    virtual eErrorCode IssueCommand( const DeviceHandle& Handle, std::shared_ptr<const cBufferInterface> CommandDescriptor, std::shared_ptr<cBufferInterface> Data ) = 0;
 
 protected:
     std::shared_ptr<Protocol::cProtocolInterface>   m_Protocol;

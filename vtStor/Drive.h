@@ -22,28 +22,40 @@ limitations under the License.
 #include <map>
 
 #include "BasicTypes.h"
-#include "DriveInterface.h"
+#include "CommandDescriptor.h"
 #include "CommandHandlerInterface.h"
+#include "DeviceInterface.h"
+#include "DriveInterface.h"
+#include "StorageUtility.h"
 
 VTSTOR_API_EXPORT_IMPL template class VTSTOR_API std::map<vtStor::U32, std::shared_ptr<vtStor::cCommandHandlerInterface>>;
 
 namespace vtStor
 {
 
-class VTSTOR_API cDrive : public cDriveInterface
+class VTSTOR_API cDrive : public cDriveInterface, cDeviceInterface
 {
 public:
-    cDrive();
+    cDrive(std::shared_ptr<vtStor::cDeviceInterface> Device, DeviceHandle DeviceHandle);
     virtual ~cDrive();
 
 public:
-    virtual void RegisterComandHandler( U32 CommandType, std::shared_ptr<cCommandHandlerInterface> CommandHandler ) override;
+    virtual void RegisterCommandHandler(U32 CommandType, std::shared_ptr<cCommandHandlerInterface> CommandHandler) override;
 
 public:
     virtual eErrorCode IssueCommand(U32 CommandType, std::shared_ptr<const cBufferInterface> CommandDescriptor, std::shared_ptr<cBufferInterface> Data) override;
 
+public:
+    virtual void Data(std::unordered_map<eDeviceDataType, void*>& Data) override;
+
+    virtual DeviceHandle Handle() override;
+
 protected:
     std::map<U32, std::shared_ptr<cCommandHandlerInterface>> m_CommandHandlers;
+
+protected:
+    std::shared_ptr<vtStor::cDeviceInterface> m_Device;
+    DeviceHandle m_DeviceHandle;
 };
 
 }
