@@ -26,6 +26,15 @@ namespace vtStor
 {
     namespace Managed
     {
+        cDriveManagerInterface^ cDriveManagerInterface::Instance()
+        {
+            if (nullptr == s_Instance)
+            {
+                s_Instance = gcnew cDriveManagerInterface();
+            }
+            return(s_Instance);
+        }
+
         cDriveManagerInterface::cDriveManagerInterface()
         {
             vtStor::eErrorCode errorCode;
