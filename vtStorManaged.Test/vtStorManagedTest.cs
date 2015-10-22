@@ -38,7 +38,7 @@ namespace vtStorManaged.Test
             eErrorCode errorCode;
 
             // Create an instance for DriveManager
-            driveManager = new cDriveManagerInterface();
+            driveManager = cDriveManagerInterface.Instance();
 
             // Create an instance for DriveEnumeratorAta
             driveEnumeratorAta = new cDriveEnumeratorAta();
