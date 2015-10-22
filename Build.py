@@ -21,7 +21,6 @@ X86                         = "Win32"
 X64                         = "x64"
 RELEASE_NAME                = "Release"
 DEBUG_NAME                  = "Debug"
-MANAGED_STR                 = "Managed"
 RELEASE_DIR                 = "/{0}/".format( RELEASE_NAME )
 LIB_DIR                     = "/{0}/".format( "Lib" )
 DLL_DIR                     = "/{0}/".format( "Dll" )
@@ -36,8 +35,7 @@ BUILD_PLATFORM_X64          = "/p:Platform={0}".format( X64 )
 REBUILD_DEFAULT             = "/t:rebuild"
 
 projectName                 = "vtStor"
-#PROJECTDIR                  = "vtStor_Release"
-PROJECTDIR                  = "vtStor"
+PROJECTDIR                  = "vtStor_Release"
 RELEASE_LOCAL_DIR_X86       = "./{0}{1}".format( X86, RELEASE_NAME )
 RELEASE_LOCAL_DIR_X64       = "./{0}{1}".format( X64, RELEASE_NAME )
 DEBUG_LOCAL_DIR_X86       = "./{0}{1}".format( X86, DEBUG_NAME )
@@ -62,10 +60,10 @@ def CopyRequireFilesForAllModes ( iConfiguration ) :
 def CopyLibsAndDlls( iConfiguration, iBuildType ) :
     sourceDir = "./{0}{1}".format( iConfiguration, iBuildType )
     for file in os.listdir( sourceDir ) :            
-        if file.endswith( ".dll" ) and not MANAGED_STR in file :
+        if file.endswith( ".dll" ) :
             destDir = ARCHIVE_TEMP_PATH + PROJECTDIR + DLL_DIR + "/{0}".format( iBuildType ) + "/{0}/".format( iConfiguration )
             CopyAFileToADir( sourceDir, file, destDir)
-        elif file.endswith( ".lib" ) and not MANAGED_STR in file :
+        elif file.endswith( ".lib" ) :
             destDir = ARCHIVE_TEMP_PATH + PROJECTDIR + LIB_DIR + "/{0}".format( iBuildType ) + "/{0}/".format( iConfiguration )
             CopyAFileToADir( sourceDir, file, destDir)
 
@@ -90,7 +88,7 @@ def CreateTempDirArchive() :
     os.makedirs( ARCHIVE_TEMP_PATH + PROJECTDIR )
 
 def DoArchiveAndRemoveTempDirs() :
-    archiveFilename = projectName + "_Build.7z"
+    archiveFilename = projectName + "_Release.7z"
     if ( True == os.path.exists( archiveFilename ) ):
         os.remove( archiveFilename )
 
@@ -127,7 +125,7 @@ def Prune( iDirPath ) :
 def BuildTreeOfHeaderFiles() :
     for path, subdirs, files in os.walk(os.getcwd()):
         for file in files:
-            if file.endswith(".h") and not MANAGED_STR in file:
+            if file.endswith(".h") :
                 CopyHeaderFile( os.path.join(path, file) )
     destDir = ARCHIVE_TEMP_PATH + PROJECTDIR + SOURCE_DIR
     srcDir = "./{0}/".format( "Source" )
@@ -168,5 +166,3 @@ if __name__ == "__main__":
     else :
         print "\nBUILD FAIL"
         exit( 1 )
-
-    

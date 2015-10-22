@@ -54,6 +54,7 @@ namespace vtStorManaged.ATest
                 {
                     cBufferInterface buffer = new cBufferInterface(512);
                     cDriveInterface drive = driveManager.GetDrive(0);   //!!! Warning: be careful with value 0 in GetDrive(0)
+                    string devicePath = drive.GetDevicePath();
 
                     if (eBusType.Ata == drive.GetBusType())
                     {
