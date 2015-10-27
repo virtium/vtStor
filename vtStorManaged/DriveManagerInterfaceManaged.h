@@ -34,8 +34,16 @@ namespace vtStor
 
         public ref class cDriveManagerInterface
         {
+        private:
+            static cDriveManagerInterface^ s_Instance;
+
         public:
+            static cDriveManagerInterface^ Instance();
+
+        private:
             cDriveManagerInterface();
+
+        protected:
             ~cDriveManagerInterface();
 
         protected:
