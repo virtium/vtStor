@@ -17,6 +17,8 @@ import os
 import shutil
 import subprocess
 
+from Build.AssemblyInfoBuilder import cAssemblyInfoBuilder
+
 X86                         = "Win32"
 X64                         = "x64"
 RELEASE_NAME                = "Release"
@@ -63,6 +65,9 @@ def CopyLibsAndDlls( iConfiguration, iBuildType ) :
         if file.endswith( ".dll" ) :
             destDir = ARCHIVE_TEMP_PATH + PROJECTDIR + DLL_DIR + "/{0}".format( iBuildType ) + "/{0}/".format( iConfiguration )
             CopyAFileToADir( sourceDir, file, destDir)
+
+            # Patch the assembly info to the destination file
+            cAssemblyInfoBuilder.Build( destDir + file )
         elif file.endswith( ".lib" ) :
             destDir = ARCHIVE_TEMP_PATH + PROJECTDIR + LIB_DIR + "/{0}".format( iBuildType ) + "/{0}/".format( iConfiguration )
             CopyAFileToADir( sourceDir, file, destDir)
@@ -148,6 +153,8 @@ def CopyHeaderFile( iFilePath ) :
 
 # Main entry point
 if __name__ == "__main__":
+    cAssemblyInfoBuilder.Initialize()
+
     # Step 0: Create temporary directory archive
     CreateTempDirArchive()
     
