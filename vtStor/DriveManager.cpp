@@ -21,26 +21,15 @@ limitations under the License.
 
 namespace vtStor
 {
-    std::shared_ptr<cDriveManager> cDriveManager::s_Instance = nullptr;
 
 cDriveManager::cDriveManager()
 {
-
 }
 
 cDriveManager::~cDriveManager()
 {
     m_DriveEnumerators.clear();
     m_Drives.clear();
-}
-
-void cDriveManager::GetInstance(std::shared_ptr<cDriveManagerInterface>& DriveManager)
-{
-    if (nullptr == s_Instance)
-    {
-        s_Instance = std::shared_ptr<cDriveManager>(new cDriveManager());
-    }
-    DriveManager = s_Instance;
 }
 
 void cDriveManager::RegisterDriveEnumerator( std::shared_ptr<cDriveEnumeratorInterface> DriveEnumerator )
