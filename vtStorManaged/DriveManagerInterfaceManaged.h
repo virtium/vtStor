@@ -34,13 +34,7 @@ namespace vtStor
 
         public ref class cDriveManagerInterface
         {
-        private:
-            static cDriveManagerInterface^ s_Instance;
-
         public:
-            static cDriveManagerInterface^ Instance();
-
-        private:
             cDriveManagerInterface();
 
         protected:
@@ -58,7 +52,7 @@ namespace vtStor
             cDriveInterface^ GetDrive( U32 DriveIndex );
 
         private:
-            cSharedPtr<vtStor::cDriveManagerInterface> m_DriveManager;
+            cUniquePtr<vtStor::cDriveManagerInterface> m_DriveManager;
         };
     }
 }

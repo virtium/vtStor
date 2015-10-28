@@ -47,7 +47,7 @@ namespace vtStorTest
 
         void Enumerate()
         {
-            std::shared_ptr<vtStor::cDriveManagerInterface> m_DriveManager;
+            std::unique_ptr<vtStor::cDriveManagerInterface> m_DriveManager;
             vtStorInit( m_DriveManager );
 
             std::shared_ptr<vtStor::cDriveEnumeratorInterface> m_DriveEnumeratorAta = std::make_unique<vtStor::cDriveEnumeratorAta>();
