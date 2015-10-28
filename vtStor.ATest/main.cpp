@@ -46,7 +46,7 @@ void main()
     driveEnumeratorAta->EnumerateDrives( drives, count );
 #endif
 
-    std::shared_ptr<vtStor::cDriveManagerInterface> driveManager;
+    std::unique_ptr<vtStor::cDriveManagerInterface> driveManager;
     vtStorInit( driveManager );
 
     driveManager->RegisterDriveEnumerator(std::make_unique<vtStor::cDriveEnumeratorAta>());
