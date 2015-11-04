@@ -36,8 +36,6 @@ namespace vtStor
         {
         public:
             cDriveManagerInterface();
-
-        protected:
             ~cDriveManagerInterface();
 
         protected:
@@ -52,7 +50,7 @@ namespace vtStor
             cDriveInterface^ GetDrive( U32 DriveIndex );
 
         private:
-            cUniquePtr<vtStor::cDriveManagerInterface> m_DriveManager;
+            cSharedPtr<vtStor::cDriveManagerInterface> m_DriveManager;
         };
     }
 }

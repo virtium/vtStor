@@ -1,4 +1,5 @@
 /*
+
 <License>
 Copyright 2015 Virtium Technology
 
@@ -14,7 +15,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 </License>
-*/
+
 #include "Device.h"
 #include "StorageUtility.h"
 
@@ -50,11 +51,6 @@ DeviceHandle cDevice::Handle()
         throw std::exception("Failed to create device handle", GetLastError());
     }
     return deviceHandle;
-}
-
-void cDevice::DevicePath(tchar*& DevicePath)
-{
-    DevicePath = m_DevDetailData->DevicePath;
 }
 
 eErrorCode cDevice::GetStorageDeviceHandle(const String& DevicePath, HANDLE& Handle)
@@ -102,4 +98,4 @@ void cDevice::DeallocateMemories()
     HeapFree(GetProcessHeap(), HEAP_NO_SERIALIZE, m_DevDetailData);
 }
 
-}
+}*/

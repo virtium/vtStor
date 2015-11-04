@@ -29,7 +29,7 @@ cDrive::cDrive(std::shared_ptr<vtStor::cDeviceInterface> Device, DeviceHandle De
 
 cDrive::~cDrive()
 {
-    CloseDeviceHandle(m_DeviceHandle);
+  // CloseDeviceHandle(m_DeviceHandle); // comment by Minh Mai for build
     m_CommandHandlers.clear();
 }
 
@@ -41,6 +41,7 @@ void cDrive::RegisterCommandHandler(U32 CommandType, std::shared_ptr<cCommandHan
 eErrorCode cDrive::IssueCommand( U32 CommandType, std::shared_ptr<const cBufferInterface> CommandDescriptor, std::shared_ptr<cBufferInterface> Data )
 {
     return(m_CommandHandlers[CommandType]->IssueCommand(m_DeviceHandle, CommandDescriptor, Data));
+	return eErrorCode::None;
 }
 
 void cDrive::Data(std::unordered_map<eDeviceDataType, void*>& Data)
@@ -51,11 +52,6 @@ void cDrive::Data(std::unordered_map<eDeviceDataType, void*>& Data)
 DeviceHandle cDrive::Handle()
 {
     return m_Device->Handle();
-}
-
-void cDrive::DevicePath(tchar*& DevicePath)
-{
-    m_Device->DevicePath(DevicePath);
 }
 
 }

@@ -15,6 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
+//#ifdef NO_IMPLICIT_TEMPLATES // add code by Minh Mai for build
 #ifndef __vtStorProtocolInterface_h__
 #define __vtStorProtocolInterface_h__
 
@@ -37,15 +38,22 @@ public:
 public:
     cProtocolInterface();
     virtual ~cProtocolInterface();
+// comment by Minh Mai
+    // can use ioctl to using handle
 
 public:
     virtual eErrorCode IssueCommand( const DeviceHandle& Handle, std::shared_ptr<const cBufferInterface> Essense, std::shared_ptr<cBufferInterface> DataBuffer ) = 0;
+
 };
+} // add for build
+//VTSTOR_API_EXPORT_IMPL template class VTSTOR_API std::shared_ptr<Protocol::cProtocolInterface>;
 
+
+}
+//} // comment for build
+//using namespace vtStor;
 VTSTOR_API_EXPORT_IMPL template class VTSTOR_API std::shared_ptr<Protocol::cProtocolInterface>;
-
-}
-}
-
+//template class VTSTOR_API std::shared_ptr<Protocol::cProtocolInterface>;
 
 #endif
+//#endif

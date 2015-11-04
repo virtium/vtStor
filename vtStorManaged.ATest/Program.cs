@@ -30,14 +30,15 @@ namespace vtStorManaged.ATest
             uint driveCount;
             eErrorCode errorCode;
 
-            cDriveManagerInterface driveManager = new cDriveManagerInterface();
+            cDriveManagerInterface driveManager;
+            driveManager = new cDriveManagerInterface();
 
             // Register drive enumerators
             driveManager.RegisterDriveEnumerator(new cDriveEnumeratorAta());
             driveManager.RegisterDriveEnumerator(new cDriveEnumeratorScsi());
 
             // Enumerate drives
-            errorCode = driveManager.EnumerateDrives(vtStor.Managed.eScanForHardwareChanges.Yes);
+            errorCode = driveManager.EnumerateDrives( vtStor.Managed.eScanForHardwareChanges.Yes );
             if (eErrorCode.None == errorCode)
             {
                 System.Console.WriteLine("Enumerate drive successfully!!!");
@@ -53,7 +54,6 @@ namespace vtStorManaged.ATest
                 {
                     cBufferInterface buffer = new cBufferInterface(512);
                     cDriveInterface drive = driveManager.GetDrive(0);   //!!! Warning: be careful with value 0 in GetDrive(0)
-                    string devicePath = drive.GetDevicePath();
 
                     if (eBusType.Ata == drive.GetBusType())
                     {

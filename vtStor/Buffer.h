@@ -24,7 +24,8 @@ limitations under the License.
 namespace vtStor
 {
 
-class VTSTOR_API cBuffer : public cBufferInterface
+//class VTSTOR_API cBuffer : public cBufferInterface
+class cBuffer : public cBufferInterface
 {
 public:
     cBuffer( size_t SizeInBytes );

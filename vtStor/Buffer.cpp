@@ -18,6 +18,7 @@ limitations under the License.
 #include <assert.h>
 
 #include "Buffer.h"
+#include <inttypes.h>
 
 namespace vtStor
 {
@@ -29,7 +30,7 @@ cBuffer::cBuffer( size_t SizeInBytes ) :
 
     // Allocate enough memory to ensure cache alignment
     m_UnalignedBuffer = new U8[ m_SizeInBytes + CACHE_ALIGN_BYTES ];
-    U16 currentAddress = ((U32)m_UnalignedBuffer & 0x0000FFFF);
+    U16 currentAddress = static_cast<U32>(reinterpret_cast<intptr_t>(m_UnalignedBuffer)) & 0x0000FFFF; // add int16_t to cast type by Minh Mai static_cast<int>(reinterpret_cast<intptr_t>(p))
     U16 nextAlignAddress = ((currentAddress | CACHE_ALIGN_BITMASK) + 1);
     m_AlignedBuffer = (m_UnalignedBuffer + (nextAlignAddress - currentAddress));
 }

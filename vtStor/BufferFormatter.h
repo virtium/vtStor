@@ -27,7 +27,8 @@ limitations under the License.
 namespace vtStor
 {
 
-class VTSTOR_API cBufferFormatter
+//class VTSTOR_API cBufferFormatter // comment by Minh Mai for build
+class cBufferFormatter
 {
 public:
     struct Header

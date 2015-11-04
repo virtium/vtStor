@@ -14,7 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 </License>
-*/
+ */
 #ifndef __vtStorCommandDescriptor_h__
 #define __vtStorCommandDescriptor_h__
 #pragma once
@@ -24,29 +24,32 @@ limitations under the License.
 #include "BufferFormatter.h"
 #include "vtStorPlatformDefines.h"
 
+
 namespace vtStor
 {
-    class VTSTOR_API cCommandDescriptor : public cBufferFormatter
-    {
+class VTSTOR_API cCommandDescriptor : public cBufferFormatter
 
-        static const size_t DEVICE_HANDLE_SIZE_IN_BYTES;
+{
 
-    public:
-        static cCommandDescriptor Reader(std::shared_ptr<const cBufferInterface> Buffer);
-        static cCommandDescriptor Modifier(std::shared_ptr<cBufferInterface> Buffer);
+	static const size_t DEVICE_HANDLE_SIZE_IN_BYTES;
 
-    protected:
-        cCommandDescriptor(std::shared_ptr<cBufferInterface> Buffer);
-        cCommandDescriptor(std::shared_ptr<cBufferInterface> Buffer, U32 Format);
-        cCommandDescriptor(std::shared_ptr<const cBufferInterface> Buffer);
+public:
+	static cCommandDescriptor Reader(std::shared_ptr<const cBufferInterface> Buffer);
+	static cCommandDescriptor Modifier(std::shared_ptr<cBufferInterface> Buffer);
 
-    public:
-        DeviceHandle& GetDeviceHandle();
-        const DeviceHandle& GetDeviceHandle() const;
+protected:
+	cCommandDescriptor(std::shared_ptr<cBufferInterface> Buffer);
+	cCommandDescriptor(std::shared_ptr<cBufferInterface> Buffer, U32 Format);
+	cCommandDescriptor(std::shared_ptr<const cBufferInterface> Buffer);
+	// comment by Minh Mai for Build
+public:
 
-    protected:
-        static const size_t DEVICE_HANDLE_OFFSET;
-    };
+	DeviceHandle& GetDeviceHandle();
+	const DeviceHandle& GetDeviceHandle() const;
+
+protected:
+	static const size_t DEVICE_HANDLE_OFFSET;
+};
 }
 
 #endif

@@ -23,30 +23,35 @@ limitations under the License.
 #include "vtStor.h"
 #include "Buffer.h"
 
+
 #include "CommandHandlerAta.h"
 #include "DriveAtaCommandExtensions.h"
 #include "DriveEnumeratorAta.h"
 #include "ProtocolAtaPassThrough.h"
 #include "vtStorAta.h"
 
+
+/*
 #include "CommandHandlerScsi.h"
 #include "DriveScsiCommandExtensions.h"
 #include "DriveEnumeratorScsi.h"
 #include "ProtocolScsiPassThrough.h"
 #include "vtStorScsi.h"
+*/
 
-#include "Drive.h"
-
-void main()
+int main()
 {
+	printf("DONE BUILD\n");
+/*
 #if 0
     std::unique_ptr<vtStor::cDriveEnumeratorInterface> driveEnumeratorAta = std::make_unique<vtStor::cDriveEnumeratorAta>();
     vtStor::Vector_Drives drives;
     vtStor::U32 count;
     driveEnumeratorAta->EnumerateDrives( drives, count );
 #endif
-
-    std::unique_ptr<vtStor::cDriveManagerInterface> driveManager;
+*/
+/*
+    std::shared_ptr<vtStor::cDriveManagerInterface> driveManager;
     vtStorInit( driveManager );
 
     driveManager->RegisterDriveEnumerator(std::make_unique<vtStor::cDriveEnumeratorAta>());
@@ -60,10 +65,6 @@ void main()
 
     std::shared_ptr<vtStor::Protocol::cProtocolInterface> protocol = nullptr;
     std::shared_ptr<vtStor::cCommandHandlerInterface> commandHandler = nullptr;
-
-    std::shared_ptr<vtStor::cDrive> drive = std::dynamic_pointer_cast<vtStor::cDrive>(drives[1]);
-    tchar* devicePath;
-    drive->DevicePath(devicePath);
 
     if (vtStor::eBusType::Ata == drives[1]->GetBusType())                         //!!! Warning: be careful with value 1 in drives[1]
     {
@@ -106,5 +107,6 @@ void main()
         }
     }
 
-    getchar();
+    getchar();*/
+	return 0;
 }
