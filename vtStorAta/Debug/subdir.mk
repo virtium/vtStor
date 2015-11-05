@@ -32,7 +32,7 @@ CPP_DEPS += \
 %.o: ../%.cpp
 	@echo 'Building file: $<'
 	@echo 'Invoking: GCC C++ Compiler'
-	g++ -std=c++11 -I"/home/minh/workspaceVtStor/vtStorAta" -I"/home/minh/workspaceVtStor/Common" -I"/home/minh/workspaceVtStor/vtStor/Platform/Linux" -I"/home/minh/workspaceVtStor/Common/Platform/x86x64/Linux" -I"/home/minh/workspaceVtStor/Common/Platform/x86x64" -I"/home/minh/workspaceVtStor/StorageUtility" -I"/home/minh/workspaceVtStor/vtStor" -I"/home/minh/workspaceVtStor/vtStorAtaProtocol" -I"/home/minh/workspaceVtStor/vtStorAtaProtocol/Platform/Linux" -I"/home/minh/workspaceVtStor/vtStorAta/Platform/Linux" -I"/home/minh/workspaceVtStor/StorageUtility/Lniux" -O0 -g3 -Wall -c -fmessage-length=0 -fPIC -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
+	g++ -std=c++11 -I"/home/minh/Desktop/VTStor_Linux/vtStorAta" -I"/home/minh/Desktop/VTStor_Linux/Common" -I"/home/minh/Desktop/VTStor_Linux/vtStor/Platform/Linux" -I"/home/minh/Desktop/VTStor_Linux/Common/Platform/x86x64/Linux" -I"/home/minh/Desktop/VTStor_Linux/Common/Platform/x86x64" -I"/home/minh/Desktop/VTStor_Linux/StorageUtility" -I"/home/minh/Desktop/VTStor_Linux/vtStor" -I"/home/minh/Desktop/VTStor_Linux/vtStorAtaProtocol" -I"/home/minh/Desktop/VTStor_Linux/vtStorAtaProtocol/Platform/Linux" -I"/home/minh/Desktop/VTStor_Linux/vtStorAta/Platform/Linux" -I"/home/minh/Desktop/VTStor_Linux/StorageUtility/Lniux" -O0 -g3 -Wall -c -fmessage-length=0 -fPIC -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 

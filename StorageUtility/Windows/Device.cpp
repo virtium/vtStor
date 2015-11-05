@@ -1,5 +1,4 @@
 /*
-
 <License>
 Copyright 2015 Virtium Technology
 
@@ -14,7 +13,7 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-</License>
+</License>*/
 
 #include "Device.h"
 #include "StorageUtility.h"
@@ -98,4 +97,4 @@ void cDevice::DeallocateMemories()
     HeapFree(GetProcessHeap(), HEAP_NO_SERIALIZE, m_DevDetailData);
 }
 
-}*/
+}

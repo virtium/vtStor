@@ -42,6 +42,7 @@ limitations under the License.
 int main()
 {
 	printf("DONE BUILD\n");
+
 /*
 #if 0
     std::unique_ptr<vtStor::cDriveEnumeratorInterface> driveEnumeratorAta = std::make_unique<vtStor::cDriveEnumeratorAta>();
@@ -49,15 +50,13 @@ int main()
     vtStor::U32 count;
     driveEnumeratorAta->EnumerateDrives( drives, count );
 #endif
-*/
-/*
+
     std::shared_ptr<vtStor::cDriveManagerInterface> driveManager;
-    vtStorInit( driveManager );
+    vtStorInit( driveManager );*/
+ //   driveManager->RegisterDriveEnumerator(std::make_unique<vtStor::cDriveEnumeratorAta>());
+   // driveManager->RegisterDriveEnumerator(std::make_unique<vtStor::cDriveEnumeratorScsi>());
 
-    driveManager->RegisterDriveEnumerator(std::make_unique<vtStor::cDriveEnumeratorAta>());
-    driveManager->RegisterDriveEnumerator(std::make_unique<vtStor::cDriveEnumeratorScsi>());
-
-    driveManager->EnumerateDrives( vtStor::eScanForHardwareChanges::No );
+ /*   driveManager->EnumerateDrives( vtStor::eScanForHardwareChanges::No );
 
     vtStor::Vector_Drives drives = driveManager->GetDrives();
     // Create data buffer

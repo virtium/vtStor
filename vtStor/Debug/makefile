@@ -43,7 +43,7 @@ all: libvtStor.so
 libvtStor.so: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C++ Linker'
-	g++ -L"/home/minh/workspaceVtStor/StorageUtility/Debug" -shared -o"libvtStor.so" $(OBJS) $(USER_OBJS) $(LIBS)
+	g++ -L"/home/minh/Desktop/VTStor_Linux/StorageUtility/Debug" -shared -o"libvtStor.so" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 

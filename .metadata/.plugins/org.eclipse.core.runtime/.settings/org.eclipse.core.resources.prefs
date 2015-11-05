@@ -1,3 +1,6 @@
-#Wed Nov 04 14:04:43 ICT 2015
+#Thu Nov 05 16:35:49 ICT 2015
 version=1
 eclipse.preferences.version=1
+description.autobuilding=false
+description.buildorder=Common/StorageUtility/vtStor/vtStorAtaProtocol/vtStorAta/vtStor.ATest
+description.defaultbuildorder=false

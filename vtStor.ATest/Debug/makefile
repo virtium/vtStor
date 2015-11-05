@@ -40,13 +40,13 @@ endif
 all: vtStor.ATest
 
 dependents:
-	-cd /home/minh/workspaceVtStor/vtStor/Debug && $(MAKE) all
+	-cd /home/minh/Desktop/VTStor_Linux/vtStor/Debug && $(MAKE) clean all
 
 # Tool invocations
-vtStor.ATest: $(OBJS) $(USER_OBJS) /home/minh/workspaceVtStor/vtStor/Debug/libvtStor.so
+vtStor.ATest: $(OBJS) $(USER_OBJS) /home/minh/Desktop/VTStor_Linux/vtStor/Debug/libvtStor.so
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C++ Linker'
-	g++ -L"/home/minh/workspaceVtStor/vtStor/Debug" -L"/home/minh/workspaceVtStor/vtStorAtaProtocol/Debug" -L"/home/minh/workspaceVtStor/vtStorAta/Debug" -o"vtStor.ATest" $(OBJS) $(USER_OBJS) $(LIBS)
+	g++ -L"/home/minh/Desktop/VTStor_Linux/vtStor/Debug" -L"/home/minh/Desktop/VTStor_Linux/vtStorAtaProtocol/Debug" -L"/home/minh/Desktop/VTStor_Linux/vtStorAta/Debug" -o"vtStor.ATest" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -57,6 +57,6 @@ clean:
 
 .PHONY: all clean dependents
 .SECONDARY:
-/home/minh/workspaceVtStor/vtStor/Debug/libvtStor.so:
+/home/minh/Desktop/VTStor_Linux/vtStor/Debug/libvtStor.so:
 
 -include ../makefile.targets

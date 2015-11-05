@@ -16,6 +16,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 
+*/
 #ifndef __StorageUtility_h__
 #define __StorageUtility_h__
 
@@ -64,4 +65,4 @@ namespace vtStor
     bool IsScsiDeviceBus( sStorageAdapterProperty StorageAdapterProperty );
 }
 
-#endif*/
+#endif

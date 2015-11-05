@@ -9,7 +9,6 @@ RM := rm -rf
 # All of the sources participating in the build are defined here
 -include sources.mk
 -include subdir.mk
--include Platform/Windows/subdir.mk
 -include Platform/Linux/subdir.mk
 -include objects.mk
 
@@ -45,7 +44,7 @@ all: libvtStorAtaProtocol.so
 libvtStorAtaProtocol.so: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C++ Linker'
-	g++ -L"/home/minh/workspaceVtStor/vtStor/Debug" -L"/home/minh/workspaceVtStor/StorageUtility/Debug" -shared -o"libvtStorAtaProtocol.so" $(OBJS) $(USER_OBJS) $(LIBS)
+	g++ -L"/home/minh/Desktop/VTStor_Linux/vtStor/Debug" -L"/home/minh/Desktop/VTStor_Linux/StorageUtility/Debug" -shared -o"libvtStorAtaProtocol.so" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 

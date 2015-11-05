@@ -43,7 +43,7 @@ all: libvtStorAta.so
 libvtStorAta.so: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C++ Linker'
-	g++ -L"/home/minh/workspaceVtStor/StorageUtility/Debug" -L"/home/minh/workspaceVtStor/vtStorAtaProtocol/Debug" -L"/home/minh/workspaceVtStor/vtStor/Debug" -shared -o"libvtStorAta.so" $(OBJS) $(USER_OBJS) $(LIBS)
+	g++ -L"/home/minh/Desktop/VTStor_Linux/StorageUtility/Debug" -L"/home/minh/Desktop/VTStor_Linux/vtStorAtaProtocol/Debug" -L"/home/minh/Desktop/VTStor_Linux/vtStor/Debug" -shared -o"libvtStorAta.so" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
