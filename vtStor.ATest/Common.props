@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <OutDir>$(ProjectDir)$(Platform)$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)$(Platform)$(Configuration)\Intermediate\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <Link>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)vtStorAtaProtocol\Platform\Windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)vtStor\$(Platform)$(Configuration);$(SolutionDir)vtStorAta\$(Platform)$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)StorageUtility\Windows;$(SolutionDir);$(SolutionDir)vtStorAtaProtocol\Platform\Windows;$(SolutionDir)vtStorScsiProtocol\Platform\Windows;$(SolutionDir)vtStor\Platform\Windows;$(SolutionDir)Common;$(SolutionDir)Common\Platform\x86x64;$(SolutionDir)Common\Platform\x86x64\Windows;$(SolutionDir)vtStor\;$(SolutionDir)vtStorAta\;$(SolutionDir)vtStorScsi\;$(SolutionDir)vtStorAta\Platform\Windows\;$(SolutionDir)vtStorScsi\Platform\Windows\;$(SolutionDir)StorageUtility;</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup />
+</Project>

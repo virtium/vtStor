@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <OutDir>$(ProjectDir)$(Platform)$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)$(Platform)$(Configuration)\Intermediate\</IntDir>
+    <EnableManagedIncrementalBuild>false</EnableManagedIncrementalBuild>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)Common;$(SolutionDir)Common\Platform\x86x64;$(SolutionDir)Common\Platform\x86x64\Windows;$(SolutionDir)vtStor;$(SolutionDir)vtStor\Interfaces;$(SolutionDir)vtStor\Platform\Windows;$(SolutionDir)vtStorScsiProtocol;$(SolutionDir)vtStorManaged;$(SolutionDir)vtStorScsiProtocol\Platform\Windows</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)$(Platform)$(Configuration);$(SolutionDir)StorageUtility\$(Platform)$(Configuration);$(SolutionDir)vtStor\$(Platform)$(Configuration);$(SolutionDir)vtStorScsiProtocol\$(Platform)$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Command>cd $(SolutionDir)
+python Build\BuildEventer.py Build\BuildEventer.xml $(ProjectName) $(Platform) $(Configuration)</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup />
+</Project>
