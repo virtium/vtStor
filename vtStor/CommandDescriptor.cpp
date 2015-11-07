@@ -48,6 +48,7 @@ namespace vtStor
     {
 
     }
+    // comment by Minh Mai
     
     DeviceHandle& cCommandDescriptor::GetDeviceHandle()
     {
@@ -60,5 +61,4 @@ namespace vtStor
         const U8* buffer = m_Buffer->ToDataBuffer();
         return((DeviceHandle&)buffer[DEVICE_HANDLE_OFFSET]);
     }
-
 }

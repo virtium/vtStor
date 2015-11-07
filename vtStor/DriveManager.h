@@ -26,6 +26,9 @@ namespace vtStor
 class cDriveManager : public cDriveManagerInterface
 {
 public:
+    static void GetInstance(std::shared_ptr<cDriveManagerInterface>& DriveManager);
+
+public:
     virtual void RegisterDriveEnumerator( std::shared_ptr<cDriveEnumeratorInterface> DriveEnumerator ) override;
 
     virtual eErrorCode EnumerateDrives( eScanForHardwareChanges ScanForHardwareChanges ) override;
@@ -35,8 +38,11 @@ public:
 
     virtual std::shared_ptr<cDriveInterface> GetDrive(const U32 DriveIndex) override;
 
-public:
+private:
     cDriveManager();
+    static std::shared_ptr<cDriveManager> s_Instance;
+
+public:
     virtual ~cDriveManager();
 
 private:

@@ -28,12 +28,12 @@ limitations under the License.
 #include "DriveInterface.h"
 #include "StorageUtility.h"
 
+VTSTOR_API_EXPORT_IMPL template class VTSTOR_API std::map<vtStor::U32, std::shared_ptr<vtStor::cCommandHandlerInterface>>;
+
 namespace vtStor
 {
 
-VTSTOR_API_EXPORT_IMPL template class VTSTOR_API std::map<vtStor::U32, std::shared_ptr<vtStor::cCommandHandlerInterface>>;
-
-class VTSTOR_API cDrive : public cDriveInterface, public cDeviceInterface
+class VTSTOR_API cDrive : public cDriveInterface, cDeviceInterface
 {
 public:
     cDrive(std::shared_ptr<vtStor::cDeviceInterface> Device, DeviceHandle DeviceHandle);
@@ -49,8 +49,6 @@ public:
     virtual void Data(std::unordered_map<eDeviceDataType, void*>& Data) override;
 
     virtual DeviceHandle Handle() override;
-
-    virtual void DevicePath(tchar*& DevicePath) override;
 
 protected:
     std::map<U32, std::shared_ptr<cCommandHandlerInterface>> m_CommandHandlers;

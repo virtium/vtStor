@@ -22,7 +22,7 @@ namespace vtStor
 {
 namespace Protocol
 {
-const size_t cEssenseAta1::COMMAND_CHARACTERISTICS_OFFSET   = cProtocolEssense::DEVICE_HANDLE_OFFSET + sizeof(DeviceHandle);
+//const size_t cEssenseAta1::COMMAND_CHARACTERISTICS_OFFSET   = cProtocolEssense::DEVICE_HANDLE_OFFSET + sizeof(DeviceHandle);
 const size_t cEssenseAta1::TASK_FILE_OFFSET                 = cEssenseAta1::COMMAND_CHARACTERISTICS_OFFSET + sizeof( StorageUtility::Ata::sCommandCharacteristic );
 const size_t cEssenseAta1::TASK_FILE_EXT_OFFSET             = cEssenseAta1::TASK_FILE_OFFSET + sizeof( StorageUtility::Ata::uTaskFileRegister );
 

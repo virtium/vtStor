@@ -23,7 +23,8 @@ limitations under the License.
 #include "BufferInterface.h"
 #include "CommandDescriptor.h"
 
-#include "StorageUtility/Ata.h"
+//#include "StorageUtility/Ata.h"
+#include "Ata.h"
 #include "vtStorAtaPlatformDefines.h"
 
 namespace vtStor

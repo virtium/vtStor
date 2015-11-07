@@ -1,4 +1,6 @@
+
 /*
+
 <License>
 Copyright 2015 Virtium Technology
 
@@ -15,6 +17,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
+
 #ifndef __Device_h__
 #define __Device_h__
 #pragma once
@@ -39,8 +42,6 @@ public:
     virtual void Data(std::unordered_map<eDeviceDataType, void*>& Data) override;
 
     virtual DeviceHandle Handle() override;
-
-    virtual void DevicePath(tchar*& DevicePath) override;
 
 private:
     eErrorCode GetStorageDeviceHandle(const String& DevicePath, HANDLE& Handle);

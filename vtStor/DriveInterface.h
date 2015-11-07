@@ -15,6 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
+
 #ifndef __DriveInterface_h__
 #define __DriveInterface_h__
 
@@ -50,11 +51,13 @@ public:
     virtual eBusType GetBusType() = 0;
 
 };
-
+using Vector_Drives = std::vector<std::shared_ptr<cDriveInterface>>;
+} // add for build
+using namespace vtStor;
 VTSTOR_API_EXPORT_IMPL template class VTSTOR_API std::shared_ptr<cDriveInterface>;
 
-using Vector_Drives = std::vector<std::shared_ptr<cDriveInterface>>;
+//using Vector_Drives = std::vector<std::shared_ptr<cDriveInterface>>;
 
-}
+//}  // add for build
 
 #endif

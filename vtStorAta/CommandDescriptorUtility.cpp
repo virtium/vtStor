@@ -15,6 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
+// comment by Minh Mai for Build
 #include "CommandDescriptorUtility.h"
 
 namespace vtStor
@@ -22,7 +23,7 @@ namespace vtStor
 namespace Ata
 {
 
-const size_t cCommandDescriptor1::COMMAND_FIELDS_OFFSET = cCommandDescriptor::DEVICE_HANDLE_OFFSET + sizeof(DeviceHandle);
+//const size_t cCommandDescriptor1::COMMAND_FIELDS_OFFSET = cCommandDescriptor::DEVICE_HANDLE_OFFSET + sizeof(DeviceHandle);
 const size_t cCommandDescriptor1::COMMAND_CHARACTERISTICS_OFFSET = cCommandDescriptor1::COMMAND_FIELDS_OFFSET + sizeof(StorageUtility::Ata::uCommandFields);
 
 //! IMPORTANT NOTE: this must be updated to use the very last item

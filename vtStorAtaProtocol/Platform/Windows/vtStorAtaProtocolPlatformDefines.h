@@ -1,4 +1,5 @@
 /*
+
 <License>
 Copyright 2015 Virtium Technology
 
@@ -15,6 +16,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
+
 #ifndef __vtStorAtaProtocolPlatformDefines_h__
 #define __vtStorAtaProtocolPlatformDefines_h__
 
@@ -27,3 +29,4 @@ limitations under the License.
 #endif
 
 #endif
+

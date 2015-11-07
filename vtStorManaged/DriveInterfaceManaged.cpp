@@ -16,7 +16,6 @@ limitations under the License.
 </License>
 */
 
-#include "Drive.h"
 #include "DriveInterfaceManaged.h"
 
 namespace vtStor
@@ -54,18 +53,6 @@ namespace vtStor
         vtStor::Managed::eBusType cDriveInterface::GetBusType()
         {
             return (static_cast<vtStor::Managed::eBusType>(m_Drive->GetBusType()));
-        }
-
-        System::String^ cDriveInterface::GetDevicePath()
-        {
-            // Get Drive instance from the current DriveInterface
-            std::shared_ptr<vtStor::cDrive> drive = std::dynamic_pointer_cast<vtStor::cDrive>(*m_Drive);
-
-            // Retrieve DevicePath from drive
-            tchar* devicePath;
-            drive->DevicePath(devicePath);
-
-            return(gcnew System::String(devicePath));
         }
     }
 }

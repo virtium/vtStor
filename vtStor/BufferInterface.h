@@ -19,14 +19,14 @@ limitations under the License.
 #define __vtStorBufferInterface_h__
 
 #include <memory>
-
 #include "BasicTypes.h"
 #include "vtStorPlatformDefines.h"
 
 namespace vtStor
 {
     
-class VTSTOR_API cBufferInterface
+//class VTSTOR_API cBufferInterface // comment by Minh Mai for Build
+class cBufferInterface
 {
 public:
     static std::shared_ptr<vtStor::cBufferInterface> ToSharedPtr( void* Object );
@@ -43,10 +43,11 @@ public:
     virtual U8 GetByteAt(U32 Index) = 0;
     virtual U32 GetSizeInBytes() = 0;
 };
-
+} // add for build
+using namespace vtStor;
 VTSTOR_API_EXPORT_IMPL template class VTSTOR_API std::shared_ptr<cBufferInterface>;
 VTSTOR_API_EXPORT_IMPL template class VTSTOR_API std::shared_ptr<const cBufferInterface>;
 
-}
+//} coment for build
 
 #endif

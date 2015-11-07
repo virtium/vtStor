@@ -41,8 +41,8 @@ namespace vtStor
         cProtocolEssense(std::shared_ptr<const cBufferInterface> Buffer);
 
     public:
-        DeviceHandle& GetDeviceHandle();
-        const DeviceHandle& GetDeviceHandle() const;
+       DeviceHandle& GetDeviceHandle();
+       const DeviceHandle& GetDeviceHandle() const;
 
     protected:
         static const size_t DEVICE_HANDLE_OFFSET;
