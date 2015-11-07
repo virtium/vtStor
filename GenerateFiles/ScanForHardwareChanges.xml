@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<GenerateFile>
-  <WordPairs>
-    <WordPair Name="No" Value="0x00000000" />
-    <WordPair Name="Yes" Value="0x00000001" />
-  </WordPairs>
-</GenerateFile>
