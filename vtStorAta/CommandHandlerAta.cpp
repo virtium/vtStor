@@ -22,7 +22,7 @@ limitations under the License.
 #include "Buffer.h"
 #include "BufferFormatter.h"
 
-#include "vtStorAtaProtocol/AtaProtocolEssense1.h"
+#include "AtaProtocolEssense1.h"
 
 namespace vtStor
 {

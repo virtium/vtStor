@@ -55,9 +55,9 @@ eErrorCode cDriveManager::EnumerateDrives( eScanForHardwareChanges ScanForHardwa
             if (nullptr != drive)
             {
                 m_Drives.push_back(drive);
-            }      
+            }
         }
-    }    
+    }
 
     return( error );
 }

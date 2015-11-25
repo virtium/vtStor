@@ -21,7 +21,8 @@ limitations under the License.
 #include <memory>
 
 #include "BufferInterface.h"
-#include "StorageUtility/Ata.h"
+#include "Ata.h"
+
 #include "vtStorAtaProtocolPlatformDefines.h"
 #include "ProtocolEssense.h"
 
