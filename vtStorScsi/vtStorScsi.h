@@ -30,6 +30,9 @@ namespace vtStor
 {
 public:
     cScsi() = delete;
+
+public:
+    static const U32 s_DefaultCommandHandlerScsiCommandType = 1;
 };
 
 }
