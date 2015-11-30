@@ -27,5 +27,5 @@ namespace vtStor
 
 void vtStorAtaInit(std::shared_ptr<vtStor::cDriveEnumeratorInterface>& DriveEnumerator)
 {
-    DriveEnumerator = std::make_unique<vtStor::cDriveEnumeratorAta>();
+    DriveEnumerator = std::make_shared<vtStor::cDriveEnumeratorAta>();
 }
