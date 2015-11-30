@@ -37,19 +37,19 @@ namespace Protocol
     const vtStor::U8 COMMAND_REGISTER_OFFSET = 6;
     const vtStor::U8 STATUS_REGISTER_OFFSET = 6;
     const vtStor::U8 RESERVED_REGISTER_OFFSET = 7;
-    
+
    /* eErrorCode cAtaPassThrough::IssueCommand( const DeviceHandle& Handle, std::shared_ptr<const cBufferInterface> Essense, std::shared_ptr<cBufferInterface> DataBuffer )
     {
         eErrorCode errorCode = eErrorCode::None;
 
-        cBufferFormatter bufferFormatter = cBufferFormatter::Reader(Essense);       
-        
+        cBufferFormatter bufferFormatter = cBufferFormatter::Reader(Essense);
+
         switch (bufferFormatter.GetHeader().Format)
         {
             case 1:
             {
                 cEssenseAta1 essense = cEssenseAta1::Reader(Essense);
-                
+
                 InitializePassThroughDirect(
                     essense.GetCommandCharacteristics(),
                     essense.GetTaskFileExt(),
@@ -57,15 +57,15 @@ namespace Protocol
                     DataBuffer,
                     60 //TODO: allow configurable timeout
                     );
-                  
+
                 U32 bytesReturned = 0;
                 errorCode = IssuePassThroughDirectCommand(Handle, bytesReturned);
             } break;
 
             default:
                 errorCode = eErrorCode::FormatNotSupported;
-                break; 
-        }        
+                break;
+        }
 
         return(errorCode);
     }
@@ -147,12 +147,12 @@ namespace Protocol
 
     eErrorCode cAtaPassThrough::IssuePassThroughDirectCommand( const DeviceHandle& Handle, U32& BytesReturned )
     {
-        
+
         assert( INVALID_HANDLE_VALUE != Handle );
 
         eErrorCode error;
         error = eErrorCode::None;
-        
+
         BOOL commandSuccessfulFlag;
         DWORD bytesReturned;
         commandSuccessfulFlag = DeviceIoControl
@@ -171,7 +171,7 @@ namespace Protocol
         if (FALSE == commandSuccessfulFlag)
         {
             error = eErrorCode::Io;
-            
+
             //TODO: report extended error
             //fprintf( stderr, "\nDeviceIoControl was not successful. Error Code: %d", GetLastError() );
         }

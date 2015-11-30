@@ -9,8 +9,6 @@ TEMPLATE = lib
 CONFIG += staticlib
 QMAKE_CXXFLAGS += -std=c++14
 
-LIBS += -ludev
-
 SOURCES += Scsi.cpp \
     DeviceInterface.cpp \
     Ata.cpp \
@@ -31,3 +29,4 @@ unix:!symbian {
     }
     INSTALLS += target
 }
+LIBS += -ludev

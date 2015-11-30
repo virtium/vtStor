@@ -61,3 +61,5 @@ CONFIG(debug, debug|release) {
     DEPENDPATH += $$PWD/../Build_vtStorAta/Debug
 
 }
+
+unix:!macx:!symbian: LIBS += -ludev
