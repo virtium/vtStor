@@ -10,6 +10,9 @@ TEMPLATE = lib
 DEFINES += VTSTOR_LIBRARY
 QMAKE_CXXFLAGS += -std=c++14
 QMAKE_CXXFLAGS += -fpermissive
+
+LIBS += -ludev
+
 SOURCES += \
     vtStor.cpp \
     ProtocolInterface.cpp \

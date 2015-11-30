@@ -33,29 +33,24 @@ namespace vtStor
 class cDevice : public cDeviceInterface
 {
 public:
-//    cDevice(const PSP_DEVINFO_DATA& DevInfoData, const PSP_DEVICE_INTERFACE_DATA& DevInterfaceData, const PSP_INTERFACE_DEVICE_DETAIL_DATA& DevDetailData, U32 SizeOfDevDetailData);
-//    virtual ~cDevice();
+    cDevice();
+    cDevice (String Path);
+    virtual ~cDevice();
 
 public:
-  // virtual void Data(std::unordered_map<eDeviceDataType, void*>& Data) override;
+    virtual void Data(std::unordered_map<eDeviceDataType, void*>& Data) override;
+    virtual DeviceHandle Handle() override;
+    virtual void DevicePath(tchar*& DevicePath) override;
 
-//   virtual DeviceHandle Handle() override;
-
-private:
-   /* eErrorCode GetStorageDeviceHandle(const String& DevicePath, HANDLE& Handle);
-
-
-    void AllocateMemories(const PSP_DEVINFO_DATA& DevInfoData, const PSP_DEVICE_INTERFACE_DATA& DevInterfaceData, const PSP_INTERFACE_DEVICE_DETAIL_DATA& DevDetailData, U32 SizeOfDevDetailData);
-
-    void CopyMemories(const PSP_DEVINFO_DATA& DevInfoData, const PSP_DEVICE_INTERFACE_DATA& DevInterfaceData, const PSP_INTERFACE_DEVICE_DETAIL_DATA& DevDetailData, U32 SizeOfDevDetailData);
-
-    void DeallocateMemories();*/
+    String GetDevicePath();
+    void SetDevicePath (const String DevicePath);
+    DeviceHandle GetDeviceHandle();
+    void SetDeviceHandle (const DeviceHandle Device_Handle);
 
 private:
+    String m_DevicePath;
+    DeviceHandle m_DeviceHandle;
 
-  // PSP_DEVINFO_DATA m_DevInfoData;
-  // PSP_DEVICE_INTERFACE_DATA m_DevInterfaceData;
-  // PSP_INTERFACE_DEVICE_DETAIL_DATA m_DevDetailData;
 };
 
 }
