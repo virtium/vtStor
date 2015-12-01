@@ -19,10 +19,6 @@ limitations under the License.
 #define __Device_h__
 #pragma once
 
-// #include <Windows.h> Comment by Minh Mai for build
-//#include <setupapi.h>
-
-
 #include "DeviceDataType.h"
 #include "DeviceInterface.h"
 #include "ErrorCodes.h"

@@ -17,21 +17,16 @@ limitations under the License.
 */
 
 #include <libudev.h>
-#include <string.h>
-#include <string>
-#include <stdio.h>
-#include <map>
 #include <iostream>
 #include <fcntl.h>
-
+#include <map>
 #include <memory>
 #include <string.h>
-
-#include "StorageUtility.h"
-#include "Device.h"
-
 #include <unistd.h>
-using namespace std; // add by Minh Mai
+
+#include "Device.h"
+#include "StorageUtility.h"
+
 namespace vtStor
 {
 std::map<String, vtStor::sStorageAdapterProperty> s_MappingSystemPathToProperties;
@@ -102,7 +97,6 @@ bool InitStorageAdapterProperty( sStorageAdapterProperty& StorageAdapterProperty
     return true;
 
 }
-
 
 eErrorCode GetStorageDevicePaths( std::vector<String>& ipPaths, eOnErrorBehavior OnErrorBehavior )
 {
@@ -181,6 +175,15 @@ eErrorCode GetStorageAdapterProperty( DeviceHandle iHandle, sStorageAdapterPrope
     }
     iAdapterProperty    = s_MappingSystemPathToProperties[devSys];
     return( eErrorCode::None );
+}
+
+eErrorCode ShowDevicePaths(const std::vector<String> Paths)
+{
+    for (int i = 0; i < Paths.size(); i++)
+    {
+        std::cout<<"Path of device: "<< Paths[i]<<"\n";
+    }
+    return eErrorCode::None;
 }
 
 bool IsScsiDeviceBus(sStorageAdapterProperty StorageDeviceProperty)

@@ -18,12 +18,9 @@ limitations under the License.
 #ifndef __StorageUtility_h__
 #define __StorageUtility_h__
 
-#include <vector>
-
 #include "BasicTypes.h"
 #include "DeviceInterface.h"
 #include "ErrorCodes.h"
-#include "vtStorPlatformDefines.h"
 
 namespace vtStor
 {
@@ -39,15 +36,7 @@ namespace vtStor
         U32   AlignmentMask;
     };
 
-//    struct sStorageAdapterProperty
-//    {
-//        bool AtaBus;
-//        U8    BusType;
-//        U8   HostNum;
-//        U8   Channel;
-//        U8   SCSI_Id;
-//        U8   Lun;
-//    };
+    eErrorCode ShowDevicePaths(const std::vector<String> Paths);
 
     eErrorCode GetStorageAdapterProperty( DeviceHandle Handle, sStorageAdapterProperty& AdapterProperty );
 
