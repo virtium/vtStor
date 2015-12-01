@@ -21,84 +21,61 @@ limitations under the License.
 namespace vtStor
 {
 
-/*
-cDevice::cDevice(const PSP_DEVINFO_DATA& DevInfoData, const PSP_DEVICE_INTERFACE_DATA& DevInterfaceData, const PSP_INTERFACE_DEVICE_DETAIL_DATA& DevDetailData, U32 SizeOfDevDetailData)
+cDevice::cDevice()
 {
-    AllocateMemories(DevInfoData, DevInterfaceData, DevDetailData, SizeOfDevDetailData);
-    CopyMemories(DevInfoData, DevInterfaceData, DevDetailData, SizeOfDevDetailData);
+
 }
-*/
 
-/*cDevice::~cDevice()
+cDevice::~cDevice()
 {
-    DeallocateMemories();
-}*/
 
-/*void cDevice::Data(std::unordered_map<eDeviceDataType, void*>& Data)
+}
+
+cDevice::cDevice (String Path)
 {
-  //  Data.insert({ eDeviceDataType::PSP_DEVINFO_DATA, m_DevInfoData });
-   // Data.insert({ eDeviceDataType::PSP_DEVICE_INTERFACE_DATA, m_DevInterfaceData });
-   // Data.insert({ eDeviceDataType::PSP_INTERFACE_DEVICE_DETAIL_DATA, m_DevDetailData });
-}*/
+    this->m_DevicePath = Path;
+}
 
-/*DeviceHandle cDevice::Handle()
+String cDevice::GetDevicePath()
+{
+    return m_DevicePath;
+}
+
+void cDevice::SetDevicePath(const String DevicePath)
+{
+    m_DevicePath = DevicePath;
+}
+
+DeviceHandle cDevice::GetDeviceHandle()
+{
+    return m_DeviceHandle;
+}
+
+void cDevice::SetDeviceHandle (const DeviceHandle Handle)
+{
+    m_DeviceHandle = Handle;
+}
+void cDevice::Data(std::unordered_map<eDeviceDataType, void*>& Data)
+{
+    // TODO:
+}
+
+void cDevice::DevicePath(tchar*& DevicePath)
+{
+    // TODO:
+}
+
+DeviceHandle cDevice::Handle()
 {
     eErrorCode errorCode;
-    DeviceHandle deviceHandle;
-
-    errorCode = GetStorageDeviceHandle(m_DevDetailData->DevicePath, deviceHandle);
+    DeviceHandle Handle;
+    errorCode = vtStor::GetStorageDeviceHandle(this->m_DevicePath,Handle);
     if (eErrorCode::None != errorCode)
     {
-        throw std::exception("Failed to create device handle", GetLastError());
+        // TODO:
+        // throw std::exception("Failed to create device handle", GetLastError());
     }
-    return deviceHandle;
-}*/
-/*
-
-eErrorCode cDevice::GetStorageDeviceHandle(const String& DevicePath, HANDLE& Handle)
-{
-    Handle =
-        CreateFile(
-        DevicePath.c_str(),
-        GENERIC_READ | GENERIC_WRITE,
-        FILE_SHARE_READ | FILE_SHARE_WRITE,
-        NULL,
-        OPEN_EXISTING,
-        FILE_ATTRIBUTE_NORMAL,
-        NULL
-        );
-
-    if (INVALID_HANDLE_VALUE == Handle)
-    {
-        return(eErrorCode::Io);
-    }
-
-    return(eErrorCode::None);
+    return Handle;
 }
-
-void cDevice::AllocateMemories(const PSP_DEVINFO_DATA& DevInfoData, const PSP_DEVICE_INTERFACE_DATA& DevInterfaceData, const PSP_INTERFACE_DEVICE_DETAIL_DATA& DevDetailData, U32 SizeOfDevDetailData)
-{
-    m_DevInfoData = (PSP_DEVINFO_DATA)HeapAlloc(GetProcessHeap(), HEAP_GENERATE_EXCEPTIONS, DevInfoData->cbSize);
-    m_DevInterfaceData = (PSP_DEVICE_INTERFACE_DATA)HeapAlloc(GetProcessHeap(), HEAP_GENERATE_EXCEPTIONS, DevInterfaceData->cbSize);
-    m_DevDetailData = (PSP_INTERFACE_DEVICE_DETAIL_DATA)HeapAlloc(GetProcessHeap(), HEAP_GENERATE_EXCEPTIONS, SizeOfDevDetailData);
-}
-
-void cDevice::CopyMemories(const PSP_DEVINFO_DATA& DevInfoData, const PSP_DEVICE_INTERFACE_DATA& DevInterfaceData, const PSP_INTERFACE_DEVICE_DETAIL_DATA& DevDetailData, U32 SizeOfDevDetailData)
-{
-    memcpy_s(m_DevInfoData, DevInfoData->cbSize, DevInfoData, DevInfoData->cbSize);
-    memcpy_s(m_DevInterfaceData, DevInfoData->cbSize, DevInterfaceData, DevInterfaceData->cbSize);
-
-    size_t devicePathLength = (tstrlen(DevDetailData->DevicePath) + 1);
-    m_DevDetailData->cbSize = DevDetailData->cbSize;
-    tmemcpy_s(m_DevDetailData->DevicePath, devicePathLength, DevDetailData->DevicePath, devicePathLength);
-}
-
-void cDevice::DeallocateMemories()
-{
-    HeapFree(GetProcessHeap(), HEAP_NO_SERIALIZE, m_DevInfoData);
-    HeapFree(GetProcessHeap(), HEAP_NO_SERIALIZE, m_DevInterfaceData);
-    HeapFree(GetProcessHeap(), HEAP_NO_SERIALIZE, m_DevDetailData);
-}
-*/
 
 }

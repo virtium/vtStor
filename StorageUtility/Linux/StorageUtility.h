@@ -18,51 +18,27 @@ limitations under the License.
 #ifndef __StorageUtility_h__
 #define __StorageUtility_h__
 
-#include <vector>
-
 #include "BasicTypes.h"
 #include "DeviceInterface.h"
 #include "ErrorCodes.h"
-#include "vtStorPlatformDefines.h"
 
 namespace vtStor
 {
     eErrorCode GetStorageDevices(std::vector<std::shared_ptr<cDeviceInterface>>& Devices, eOnErrorBehavior OnErrorBehavior);
-
-
+    eErrorCode GetStorageDeviceHandle( const String& DevicePath, DeviceHandle& Handle );
     eErrorCode GetStorageDevicePaths( std::vector<String>& Paths, eOnErrorBehavior OnErrorBehavior );
-  //  eErrorCode GetDevicePaths( std::vector<String>& Paths, const GUID* InterfaceClassGUID, eOnErrorBehavior OnErrorBehavior );
-
-
-  //  using EnumerateDevicesCallback = void(*)(void* Data, const HDEVINFO& DevInfoHandle, SP_DEVINFO_DATA& DevInfoData, SP_DEVICE_INTERFACE_DATA& DevInterfaceData, const PSP_INTERFACE_DEVICE_DETAIL_DATA& DevDetailData, U32 SizeOfDevDetailData, eErrorCode& ErrorCode);
-    struct sEnumerateDevicesCallback
-    {
-       // EnumerateDevicesCallback Function;
-        void*                    Data;
-    };
-    //! Enumerate all devices that match the interface class
-    //! the iCallback function will be called for each device
-    //!
-  //  eErrorCode EnumerateDevices( sEnumerateDevicesCallback& Callback, const GUID* InterfaceClassGUID, eOnErrorBehavior OnErrorBehavior );
-
-//    struct sStorageAdapterProperty
-//    {
-//        U8    BusType;
-//        U8    SrbType;
-//        U32   AlignmentMask;
-//    };
 
     struct sStorageAdapterProperty
     {
-        //bool AtaBus;
+        bool AtaBus;
         U8    BusType;
-        U8   HostNum;
-        U8   Channel;
-        U8   SCSI_Id;
-        U8   Lun;
+        U8    SrbType;
+        U32   AlignmentMask;
     };
-//using HANDLE = int; add by Minh Mai
-    eErrorCode GetStorageAdapterProperty( HANDLE Handle, sStorageAdapterProperty& AdapterProperty );
+
+    eErrorCode ShowDevicePaths(const std::vector<String> Paths);
+    eErrorCode GetStorageAdapterProperty( DeviceHandle Handle, sStorageAdapterProperty& AdapterProperty );
+
     void CloseDeviceHandle(HANDLE& Handle);
 
     bool IsAtaDeviceBus( sStorageAdapterProperty StorageAdapterProperty );
