@@ -20,6 +20,7 @@ limitations under the License.
 
 #include <string>
 
+#include "BusType.h"
 #include "vtStorPlatformDefines.h"
 
 #ifdef _UNICODE
@@ -36,10 +37,18 @@ using tchar = char;
 using tstring = std::string;
 #endif
 
+#define INVALID_HANDLE_VALUE -1
+
 namespace vtStor
 {
-	using DeviceHandle = int;
-	using HANDLE = int;
+
+struct sDeviceHandle
+{
+    int Handle;
+    eBusType Bus;
+};
+using DeviceHandle = sDeviceHandle;
+
 }
 
 #endif

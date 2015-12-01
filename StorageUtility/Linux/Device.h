@@ -19,10 +19,6 @@ limitations under the License.
 #define __Device_h__
 #pragma once
 
-// #include <Windows.h> Comment by Minh Mai for build
-//#include <setupapi.h>
-
-
 #include "DeviceDataType.h"
 #include "DeviceInterface.h"
 #include "ErrorCodes.h"
@@ -33,8 +29,7 @@ namespace vtStor
 class cDevice : public cDeviceInterface
 {
 public:
-    cDevice();
-    cDevice (String Path);
+    cDevice(String DevicePath, String SysDevicePath);
     virtual ~cDevice();
 
 public:
@@ -42,14 +37,9 @@ public:
     virtual DeviceHandle Handle() override;
     virtual void DevicePath(tchar*& DevicePath) override;
 
-    String GetDevicePath();
-    void SetDevicePath (const String DevicePath);
-    DeviceHandle GetDeviceHandle();
-    void SetDeviceHandle (const DeviceHandle Device_Handle);
-
 private:
     String m_DevicePath;
-    DeviceHandle m_DeviceHandle;
+    String m_SysDevicePath;
 
 };
 

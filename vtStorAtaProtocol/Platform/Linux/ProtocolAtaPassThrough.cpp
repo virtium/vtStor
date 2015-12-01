@@ -17,9 +17,10 @@ limitations under the License.
 */
 
 #include <assert.h>
+#include <cstring>
+#include <sys/ioctl.h>
 
 #include "AtaProtocolEssense1.h"
-
 #include "ProtocolAtaPassThrough.h"
 
 namespace vtStor
@@ -27,164 +28,167 @@ namespace vtStor
 namespace Protocol
 {
 
-    const vtStor::U8 FEATURE_REGISTER_OFFSET = 0;
-    const vtStor::U8 ERROR_REGISTER_OFFSET = 0;
-    const vtStor::U8 COUNT_REGISTER_OFFSET = 1;
-    const vtStor::U8 LBA_LOW_REGISTER_OFFSET = 2;
-    const vtStor::U8 LBA_MID_REGISTER_OFFSET = 3;
-    const vtStor::U8 LBA_HIGH_REGISTER_OFFSET = 4;
-    const vtStor::U8 DEVICE_REGISTER_OFFSET = 5;
-    const vtStor::U8 COMMAND_REGISTER_OFFSET = 6;
-    const vtStor::U8 STATUS_REGISTER_OFFSET = 6;
-    const vtStor::U8 RESERVED_REGISTER_OFFSET = 7;
-    
-   /* eErrorCode cAtaPassThrough::IssueCommand( const DeviceHandle& Handle, std::shared_ptr<const cBufferInterface> Essense, std::shared_ptr<cBufferInterface> DataBuffer )
+eErrorCode cAtaPassThrough::IssueCommand(const DeviceHandle& Handle, std::shared_ptr<const cBufferInterface> Essense, std::shared_ptr<cBufferInterface> DataBuffer)
+{
+    eErrorCode errorCode = eErrorCode::None;
+
+    cBufferFormatter bufferFormatter = cBufferFormatter::Reader(Essense);
+
+    switch (bufferFormatter.GetHeader().Format)
     {
-        eErrorCode errorCode = eErrorCode::None;
-
-        cBufferFormatter bufferFormatter = cBufferFormatter::Reader(Essense);       
-        
-        switch (bufferFormatter.GetHeader().Format)
-        {
-            case 1:
-            {
-                cEssenseAta1 essense = cEssenseAta1::Reader(Essense);
-                
-                InitializePassThroughDirect(
-                    essense.GetCommandCharacteristics(),
-                    essense.GetTaskFileExt(),
-                    essense.GetTaskFile(),
-                    DataBuffer,
-                    60 //TODO: allow configurable timeout
-                    );
-                  
-                U32 bytesReturned = 0;
-                errorCode = IssuePassThroughDirectCommand(Handle, bytesReturned);
-            } break;
-
-            default:
-                errorCode = eErrorCode::FormatNotSupported;
-                break; 
-        }        
-
-        return(errorCode);
-    }
-*/
-   /* void cAtaPassThrough::InitializePassThroughDirect( const StorageUtility::Ata::sCommandCharacteristic& CommandCharacteristics, const StorageUtility::Ata::uTaskFileRegister& PreviousTaskFile, const StorageUtility::Ata::uTaskFileRegister& CurrentTaskFile, std::shared_ptr<cBufferInterface> DataBuffer, U32 TimeoutValueInSeconds )
+    case 1:
     {
-        m_AtaPassThrough.Length = sizeof( ATA_PASS_THROUGH_DIRECT );
-        m_AtaPassThrough.DataTransferLength = CommandCharacteristics.DataTransferLengthInBytes;
-        m_AtaPassThrough.TimeOutValue = TimeoutValueInSeconds;
-        if (nullptr != DataBuffer)
-        {
-            m_AtaPassThrough.DataBuffer = DataBuffer->ToDataBuffer();
-        }
-        m_AtaPassThrough.ReservedAsUchar = 0;
-        m_AtaPassThrough.ReservedAsUlong = 0;
+        cEssenseAta1 essense = cEssenseAta1::Reader(Essense);
 
-        InitializeFlags( CommandCharacteristics );
-        InitializeTaskFileInputRegisters( PreviousTaskFile, CurrentTaskFile );
+        //! TODO: magic code 60
+        InitializePassThroughDirect(essense.GetCommandCharacteristics(), essense.GetTaskFileExt(), essense.GetTaskFile(), DataBuffer, 60);
+
+        errorCode = IssuePassThroughDirectCommand(Handle.Handle);
+    } break;
+
+    default:
+    {
+        errorCode = eErrorCode::FormatNotSupported;
+    } break;
     }
 
-    void cAtaPassThrough::InitializeFlags( const StorageUtility::Ata::sCommandCharacteristic& AtaCommandCharacteristic )
+    return(errorCode);
+}
+
+eErrorCode cAtaPassThrough::IssuePassThroughDirectCommand(const int& FileDescriptor)
+{
+    assert(INVALID_HANDLE_VALUE != FileDescriptor);
+
+    U32 commandSuccessfulFlag = ioctl(FileDescriptor, SG_IO, &m_ATAPassThrough);
+    if (IOCTL_SG_IO_ERROR == commandSuccessfulFlag)
     {
-        // Clear all flags
-        m_AtaPassThrough.AtaFlags = 0;
+        //! ERROR: IOCTL SG_IO was not successful
+        return(eErrorCode::Io);
+    }
 
-        if (StorageUtility::Ata::eDeviceReadyFlag::DEVICE_READY_REQUIRED == AtaCommandCharacteristic.DeviceReadyFlag)
-        {
-            m_AtaPassThrough.AtaFlags |= ATA_FLAGS_DRDY_REQUIRED;
-        }
+    return(eErrorCode::None);
+}
 
-        switch (AtaCommandCharacteristic.DataAccess)
-        {
-        case StorageUtility::Ata::eDataAccess::READ_FROM_DEVICE:
-        {
-            m_AtaPassThrough.AtaFlags |= ATA_FLAGS_DATA_IN;
-        } break;
-        case StorageUtility::Ata::eDataAccess::WRITE_TO_DEVICE:
-        {
-            m_AtaPassThrough.AtaFlags |= ATA_FLAGS_DATA_OUT;
-        } break;
-        }
+void cAtaPassThrough::InitializePassThroughDirect(
+        const StorageUtility::Ata::sCommandCharacteristic& CommandCharacteristics,
+        const StorageUtility::Ata::uTaskFileRegister& PreviousTaskFile,
+        const StorageUtility::Ata::uTaskFileRegister& CurrentTaskFile,
+        std::shared_ptr<cBufferInterface> DataBuffer,
+        U32 TimeoutValueInSeconds
+        )
+{
 
-        if (StorageUtility::Ata::eFieldFormatting::COMMAND_48_BIT == AtaCommandCharacteristic.FieldFormatting)
-        {
-            m_AtaPassThrough.AtaFlags |= ATA_FLAGS_48BIT_COMMAND;
-        }
+    memset(&m_ATAPassThrough, 0, sizeof(m_ATAPassThrough));
+
+    //! TODO: Set up for Sense Data
+
+    m_ATAPassThrough.interface_id     = static_cast<U32>(sSgAtaPassThough16::SgInterfaceId);
+    m_ATAPassThrough.mx_sb_len        = static_cast<U8>(sSgAtaPassThough16::MaxSenseDataLength);
+    m_ATAPassThrough.cmd_len          = static_cast<U8>(sSgAtaPassThough16::SgCdbLengh);
+    m_ATAPassThrough.dxfer_len        = CommandCharacteristics.DataTransferLengthInBytes;
+    m_ATAPassThrough.timeout          = TimeoutValueInSeconds;
+
+    if (nullptr != DataBuffer)
+    {
+        m_ATAPassThrough.dxferp = DataBuffer->ToDataBuffer();
+    }
+
+    InitializeFlags(CommandCharacteristics);
+    InitializeCommandDescBlock16Flags(CommandCharacteristics);
+    InitializeCommandDescBlock16Registers(PreviousTaskFile, CurrentTaskFile);
+
+    m_ATAPassThrough.cmdp = (U8*)&m_CommandDescBlock16;
+}
+
+void cAtaPassThrough::InitializeCommandDescBlock16Flags(const StorageUtility::Ata::sCommandCharacteristic& AtaCommandCharacteristic)
+{
+    if (StorageUtility::Ata::eFieldFormatting::COMMAND_48_BIT == AtaCommandCharacteristic.FieldFormatting)
+    {
+        m_CommandDescBlock16.ExtendProtocol.Extend = SG_ATA_LBA48;
+    }
+    if (StorageUtility::Ata::eDataAccess::NONE != AtaCommandCharacteristic.DataAccess)
+    {
+        m_CommandDescBlock16.Param.TLength = static_cast<U8>(eTLenghValue::TLenSectorCount);
+        m_CommandDescBlock16.Param.BytBlock = static_cast<U8>(eBytBlockBit::TransSectorMode);
 
         if (StorageUtility::Ata::eTransferMode::DMA_PROTOCOL == AtaCommandCharacteristic.TransferMode)
         {
-            m_AtaPassThrough.AtaFlags |= ATA_FLAGS_USE_DMA;
+            m_CommandDescBlock16.ExtendProtocol.Protocol = static_cast<U8>(eATAProtocolField::DMA);
         }
-
-        if (StorageUtility::Ata::eMultipleMode::NOT_MULTIPLE_COMMAND == AtaCommandCharacteristic.MultipleMode)
+        else
         {
-            m_AtaPassThrough.AtaFlags |= ATA_FLAGS_NO_MULTIPLE;
+            if (StorageUtility::Ata::eDataAccess::WRITE_TO_DEVICE == AtaCommandCharacteristic.DataAccess)
+            {
+                m_CommandDescBlock16.ExtendProtocol.Protocol = static_cast<U8>(eATAProtocolField::PIO_Data_Out);
+                m_CommandDescBlock16.Param.TDir = static_cast<U8>(eTDirBit::TransToDevice);
+            }
+            else
+            {
+                //! Read to device
+                m_CommandDescBlock16.ExtendProtocol.Protocol = static_cast<U8>(eATAProtocolField::PIO_Data_In);
+                m_CommandDescBlock16.Param.TDir = static_cast<U8>(eTDirBit::TransFromDevice);
+            }
         }
+        //! TODO: Support other protocols
     }
-
-    void cAtaPassThrough::InitializeTaskFileInputRegisters( const StorageUtility::Ata::uTaskFileRegister& PreviousTaskFile, const StorageUtility::Ata::uTaskFileRegister& CurrentTaskFile )
+    else
     {
-        m_AtaPassThrough.PreviousTaskFile[FEATURE_REGISTER_OFFSET] = PreviousTaskFile.InputRegister.Feature;
-        m_AtaPassThrough.PreviousTaskFile[COUNT_REGISTER_OFFSET] = PreviousTaskFile.InputRegister.Count;
-        m_AtaPassThrough.PreviousTaskFile[LBA_LOW_REGISTER_OFFSET] = PreviousTaskFile.InputRegister.LbaLow;
-        m_AtaPassThrough.PreviousTaskFile[LBA_MID_REGISTER_OFFSET] = PreviousTaskFile.InputRegister.LbaMid;
-        m_AtaPassThrough.PreviousTaskFile[LBA_HIGH_REGISTER_OFFSET] = PreviousTaskFile.InputRegister.LbaHigh;
-        m_AtaPassThrough.PreviousTaskFile[DEVICE_REGISTER_OFFSET] = PreviousTaskFile.InputRegister.Device;
-        m_AtaPassThrough.PreviousTaskFile[COMMAND_REGISTER_OFFSET] = PreviousTaskFile.InputRegister.Command;
-        m_AtaPassThrough.PreviousTaskFile[RESERVED_REGISTER_OFFSET] = PreviousTaskFile.InputRegister.Reserved;
-
-        m_AtaPassThrough.CurrentTaskFile[FEATURE_REGISTER_OFFSET] = CurrentTaskFile.InputRegister.Feature;
-        m_AtaPassThrough.CurrentTaskFile[COUNT_REGISTER_OFFSET] = CurrentTaskFile.InputRegister.Count;
-        m_AtaPassThrough.CurrentTaskFile[LBA_LOW_REGISTER_OFFSET] = CurrentTaskFile.InputRegister.LbaLow;
-        m_AtaPassThrough.CurrentTaskFile[LBA_MID_REGISTER_OFFSET] = CurrentTaskFile.InputRegister.LbaMid;
-        m_AtaPassThrough.CurrentTaskFile[LBA_HIGH_REGISTER_OFFSET] = CurrentTaskFile.InputRegister.LbaHigh;
-        m_AtaPassThrough.CurrentTaskFile[DEVICE_REGISTER_OFFSET] = CurrentTaskFile.InputRegister.Device;
-        m_AtaPassThrough.CurrentTaskFile[COMMAND_REGISTER_OFFSET] = CurrentTaskFile.InputRegister.Command;
-        m_AtaPassThrough.CurrentTaskFile[RESERVED_REGISTER_OFFSET] = CurrentTaskFile.InputRegister.Reserved;
+        m_CommandDescBlock16.ExtendProtocol.Protocol = static_cast<U8>(eATAProtocolField::NonData);
+        m_CommandDescBlock16.Param.CheckCondition = static_cast<U8>(eCheckCondition::CommonTerminate);
     }
+}
 
-    eErrorCode cAtaPassThrough::IssuePassThroughDirectCommand( const DeviceHandle& Handle, U32& BytesReturned )
+void cAtaPassThrough::InitializeFlags(const StorageUtility::Ata::sCommandCharacteristic& AtaCommandCharacteristic)
+{
+    switch (AtaCommandCharacteristic.DataAccess)
     {
-        
-        assert( INVALID_HANDLE_VALUE != Handle );
+    case StorageUtility::Ata::eDataAccess::READ_FROM_DEVICE:
+    {
+        m_ATAPassThrough.dxfer_direction = SG_DXFER_FROM_DEV;
+    } break;
 
-        eErrorCode error;
-        error = eErrorCode::None;
-        
-        BOOL commandSuccessfulFlag;
-        DWORD bytesReturned;
-        commandSuccessfulFlag = DeviceIoControl
-            (
-            Handle,
-            IOCTL_ATA_PASS_THROUGH_DIRECT,
-            &m_AtaPassThrough,
-            m_AtaPassThrough.Length,
-            &m_AtaPassThrough,
-            m_AtaPassThrough.Length,
-            &bytesReturned,
-            NULL
-            );
+    case StorageUtility::Ata::eDataAccess::WRITE_TO_DEVICE:
+    {
+        m_ATAPassThrough.dxfer_direction = SG_DXFER_TO_DEV;
 
-        // If the operation was not successful:
-        if (FALSE == commandSuccessfulFlag)
-        {
-            error = eErrorCode::Io;
-            
-            //TODO: report extended error
-            //fprintf( stderr, "\nDeviceIoControl was not successful. Error Code: %d", GetLastError() );
-        }
+    } break;
 
-        BytesReturned = bytesReturned;
+    case StorageUtility::Ata::eDataAccess::NONE:
+    {
+        m_ATAPassThrough.dxfer_direction = SG_DXFER_NONE;
+        m_ATAPassThrough.dxfer_len = 0;
+    } break;
 
-        return(error);
-    }*/
+    default:
+    {
+        throw std::runtime_error("Format not support\n");
+    } break;
+    }
+}
+
+
+void cAtaPassThrough::InitializeCommandDescBlock16Registers(const StorageUtility::Ata::uTaskFileRegister& PreviousTaskFile, const StorageUtility::Ata::uTaskFileRegister& CurrentTaskFile)
+{
+    m_CommandDescBlock16.Opcode                = static_cast<U8>(sSgAtaPassThough16::SgAtaPassthough);
+    m_CommandDescBlock16.LowDevice             = CurrentTaskFile.InputRegister.Device;
+    m_CommandDescBlock16.LowCommand            = CurrentTaskFile.InputRegister.Command;
+    m_CommandDescBlock16.LowFeature            = CurrentTaskFile.InputRegister.Feature;
+    m_CommandDescBlock16.LowSectorCount        = CurrentTaskFile.InputRegister.Count;
+    m_CommandDescBlock16.LowObLbaLow           = CurrentTaskFile.InputRegister.LbaLow;
+    m_CommandDescBlock16.LowObLbaMid           = CurrentTaskFile.InputRegister.LbaMid;
+    m_CommandDescBlock16.LowObLbaHigh          = CurrentTaskFile.InputRegister.LbaHigh;
+
+    m_CommandDescBlock16.HighFeature           = PreviousTaskFile.InputRegister.Feature;
+    m_CommandDescBlock16.HighSectorCount       = PreviousTaskFile.InputRegister.Count;
+    m_CommandDescBlock16.HighObLbaLow          = PreviousTaskFile.InputRegister.LbaLow;
+    m_CommandDescBlock16.HighObLbaMid          = PreviousTaskFile.InputRegister.LbaMid;
+    m_CommandDescBlock16.HighObLbaHigh         = PreviousTaskFile.InputRegister.LbaHigh;
+}
 
 }
 }
 
 VT_STOR_ATA_PROTOCOL_API void vtStorProtocolAtaPassThroughInit(std::shared_ptr<vtStor::Protocol::cProtocolInterface>& Protocol)
 {
-   // Protocol = std::make_shared<vtStor::Protocol::cAtaPassThrough>();
+    Protocol = std::make_shared<vtStor::Protocol::cAtaPassThrough>();
 }

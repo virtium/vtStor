@@ -15,15 +15,17 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
+
 #include "Device.h"
 #include "StorageUtility.h"
 
 namespace vtStor
 {
 
-cDevice::cDevice()
+cDevice::cDevice(String DevicePath, String SysDevicePath)
 {
-
+    m_DevicePath = DevicePath;
+    m_SysDevicePath = SysDevicePath;
 }
 
 cDevice::~cDevice()
@@ -31,51 +33,22 @@ cDevice::~cDevice()
 
 }
 
- cDevice::cDevice (String Path)
- {
-     this->m_DevicePath = Path;
- }
-
-String cDevice::GetDevicePath()
-{
-    return m_DevicePath;
-}
-
-void cDevice::SetDevicePath(const String DevicePath)
-{
-    m_DevicePath = DevicePath;
-}
-
-DeviceHandle cDevice::GetDeviceHandle()
-{
-    return m_DeviceHandle;
-}
-
-void cDevice::SetDeviceHandle (const DeviceHandle Handle)
-{
-    m_DeviceHandle = Handle;
-}
 void cDevice::Data(std::unordered_map<eDeviceDataType, void*>& Data)
 {
-    // TODO:
+    //! TODO: Get information of device.
 }
 
 void cDevice::DevicePath(tchar*& DevicePath)
 {
-
+    DevicePath = (char*)m_DevicePath.c_str();
 }
 
 DeviceHandle cDevice::Handle()
 {
-    eErrorCode errorCode;
-    DeviceHandle Handle;
-    errorCode = vtStor::GetStorageDeviceHandle(this->m_DevicePath,Handle);
-    if (eErrorCode::None != errorCode)
-    {
-        // TODO:
-       // throw std::exception("Failed to create device handle", GetLastError());
-    }
-    return Handle;
+    DeviceHandle handle;
+    vtStor::GetStorageDeviceHandle(m_DevicePath, m_SysDevicePath, handle);
+
+    return handle;
 }
 
 }

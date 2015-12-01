@@ -17,180 +17,187 @@ limitations under the License.
 */
 
 #include <libudev.h>
-#include <string.h>
-#include <string>
-#include <stdio.h>
-#include <map>
-#include <iostream>
 #include <fcntl.h>
-
+#include <map>
 #include <memory>
 #include <string.h>
-
-#include "StorageUtility.h"
-#include "Device.h"
-
 #include <unistd.h>
-using namespace std; // add by Minh Mai
+
+#include "Device.h"
+#include "StorageUtility.h"
+
 namespace vtStor
 {
-std::map<String, vtStor::sStorageAdapterProperty> s_MappingSystemPathToProperties;
-std::map<DeviceHandle, vtStor::String>  s_MappingDeviceHandleToSysPath;
 
 eErrorCode GetStorageDevices(std::vector<std::shared_ptr<cDeviceInterface>>& Devices, eOnErrorBehavior OnErrorBehavior)
 {
-    std::vector<String> Paths;
-    vtStor::GetStorageDevicePaths(Paths, eOnErrorBehavior::Continue);
-    for (int i = 0; i < Paths.size(); i++)
-    {
-        std::shared_ptr<vtStor::cDevice> Device = std::make_shared<cDevice>(Paths[i]);
-        Devices.push_back(Device);
-    }
-
     eErrorCode error = eErrorCode::None;
+    std::vector<String> devicePaths;
+    std::vector<String> sysDevicePaths;
 
+    error = GetStorageDevicePaths(devicePaths, sysDevicePaths);
+    for (int i = 0; i < devicePaths.size(); ++i)
+    {
+        std::shared_ptr<vtStor::cDevice> device = std::make_shared<cDevice>(devicePaths[i], sysDevicePaths[i]);
+        Devices.push_back(device);
+    }
     return(error);
 }
 
-bool IsStorageDisk(udev_device* Dev)
+bool IsAtaDeviceBus(udev_device* UdevDevice)
 {
-    const char* devt = udev_device_get_devtype(Dev);
-    if(0 == strcmp(devt, "disk"))
+    const char* bus = udev_device_get_property_value(UdevDevice, "ID_BUS");
+
+    if (nullptr != bus && (0 == (strcmp(bus, "ata")) || (0 == strcmp(bus, "sata"))))
     {
         return true;
     }
     return false;
 }
 
-bool IsAtaDeviceBus(udev_device* Dev)
+bool IsScsiDeviceBus(udev_device* UdevDevice)
 {
-    const char* bus = udev_device_get_property_value(Dev, "ID_BUS");
-    if(NULL == bus)
-        return false;
-    if( 0 == strcmp(bus, "ata") || 0 == strcmp(bus, "sata"))
-    {
-        return true;
-    }
-
+    //! TODO Check Disk has Scsi Adapter
     return false;
 }
 
-bool IsAtaDeviceBus( sStorageAdapterProperty StorageAdapterProperty )
+bool IsAtaDeviceBus(sStorageAdapterProperty StorageAdapterProperty)
 {
-    if(StorageAdapterProperty.AtaBus == true)
-        return true;
+    return(StorageAdapterProperty.AtaBus);
+}
+
+bool IsScsiDeviceBus(sStorageAdapterProperty StorageDeviceProperty)
+{
+    //! TODO: Check StorageDeviceProperty is SCSI type
     return false;
 }
 
-bool InitStorageAdapterProperty( sStorageAdapterProperty& StorageAdapterProperty, udev_device* dev )
+bool IsStorageDisk(udev_device* UdevDevice)
 {
-    if( false == IsStorageDisk(dev))
+    const char* udevDeviceType = udev_device_get_devtype(UdevDevice);
+    if (0 == strcmp(udevDeviceType, "disk"))
     {
-        return false;
+        if (true == IsAtaDeviceBus(UdevDevice) || true == IsScsiDeviceBus(UdevDevice))
+        {
+            return true;
+        }
     }
-    if(true == IsAtaDeviceBus(dev))
-    {
-        StorageAdapterProperty.AtaBus = true;
-        return true;
-    }
-    else
-    {
-        // TODO : Check with Scsi
-        StorageAdapterProperty.AtaBus = false;
-        return false;
-    }
-    return true;
-
+    return false;
 }
 
-
-eErrorCode GetStorageDevicePaths( std::vector<String>& ipPaths, eOnErrorBehavior OnErrorBehavior )
+eErrorCode GetStorageDevicePaths(std::vector<String>& DevicePaths, std::vector<String>& SysDevicePaths)
 {
-    struct udev *udev;
+    struct udev *udevObject;
     struct udev_enumerate *enumerate;
-    struct udev_list_entry *devices, *dev_list_entry;
-    struct udev_device *dev;
+    struct udev_list_entry *devices, *udevListEntry;
+    struct udev_device *udevDevice;
 
-    /* Create the udev object */
-    udev = udev_new();
-    if (NULL == udev)
+    //! Create the udev object
+    udevObject = udev_new();
+    if (nullptr == udevObject)
     {
-        printf("ERROR: Can't create udev\n");
-        exit(1);
+        //! ERROR: Can't create udev
+        return(eErrorCode::Memory);
     }
 
-    /* Create a list of the devices in the 'block' subsystem. */
-    enumerate = udev_enumerate_new(udev);
+    //! Create a list of the devices in the 'block' subsystem
+    enumerate = udev_enumerate_new(udevObject);
     udev_enumerate_add_match_subsystem(enumerate, "block");
 
     udev_enumerate_scan_devices(enumerate);
     devices = udev_enumerate_get_list_entry(enumerate);
 
-    s_MappingSystemPathToProperties.clear();
-    udev_list_entry_foreach(dev_list_entry, devices)
+    udev_list_entry_foreach(udevListEntry, devices)
     {
-        const char *path;
+        const char *devicePath;
 
-        /* Get the filename of the /sys entry for the device
-           and create a udev_device object (dev) representing it */
-        path    = udev_list_entry_get_name(dev_list_entry);
-        dev     = udev_device_new_from_syspath(udev, path);
+        devicePath = udev_list_entry_get_name(udevListEntry);
+        udevDevice = udev_device_new_from_syspath(udevObject, devicePath);
+        String udeviceNode = udev_device_get_devnode(udevDevice);
 
-        String devNode = udev_device_get_devnode(dev);
-
-        sStorageAdapterProperty property;
-
-        if( true == InitStorageAdapterProperty(property, dev) )
+        if (true == IsStorageDisk(udevDevice))
         {
-            s_MappingSystemPathToProperties[devNode] = property;
-            ipPaths.push_back( devNode );
+            DevicePaths.push_back(udeviceNode);
+            SysDevicePaths.push_back(devicePath);
         }
 
-        udev_device_unref(dev);
+        udev_device_unref(udevDevice);
     }
-    /* Free the enumerator object */
+    //! Free the enumerator object
     udev_enumerate_unref(enumerate);
 
-    udev_unref(udev);
-    return( eErrorCode::None);
+    udev_unref(udevObject);
+
+    return(eErrorCode::None);
 }
 
-eErrorCode GetStorageDeviceHandle( const String& DevicePath, DeviceHandle& Handle )
+eErrorCode GetAdapterBus(DeviceHandle& Handle, String SysDevicePath)
 {
-    if ((Handle = open(DevicePath.c_str(), O_RDONLY|O_NONBLOCK)) < 0)
+    struct udev *udevObject;
+    struct udev_device *udevDevice;
+
+    udevObject = udev_new();
+    if (nullptr == udevObject)
     {
-        printf("ERROR: Cannot open device %s\n", DevicePath.c_str());
-        return eErrorCode::None;
+        return(eErrorCode::Memory);
     }
-    s_MappingDeviceHandleToSysPath[Handle] = DevicePath;
+    udevDevice = udev_device_new_from_syspath(udevObject, SysDevicePath.c_str());
 
-    return( eErrorCode::None );
-}
-
-eErrorCode GetStorageAdapterProperty( DeviceHandle iHandle, sStorageAdapterProperty& iAdapterProperty )
-{
-    if(s_MappingDeviceHandleToSysPath.find(iHandle) == s_MappingDeviceHandleToSysPath.end())
+    if (true == IsAtaDeviceBus(udevDevice))
     {
-        //ASSERT(0);
+        Handle.Bus = eBusType::Ata;
     }
-    String devSys       = s_MappingDeviceHandleToSysPath[iHandle];
 
-    if(s_MappingSystemPathToProperties.find(devSys) == s_MappingSystemPathToProperties.end())
+    else if (true == IsScsiDeviceBus(udevDevice))
     {
-        // ASSERT(0);
+        //! TODO: Check Bus for Scsi device
     }
-    iAdapterProperty    = s_MappingSystemPathToProperties[devSys];
-    return( eErrorCode::None );
+
+    udev_device_unref(udevDevice);
+    udev_unref(udevObject);
+
+    return(eErrorCode::None);
 }
 
-bool IsScsiDeviceBus(sStorageAdapterProperty StorageDeviceProperty)
+eErrorCode GetStorageDeviceHandle(const String& DevicePath,String SysDevicePath, DeviceHandle& Handle)
 {
-    // TODO:
+    eErrorCode error = eErrorCode::None;
+    Handle.Handle = open(DevicePath.c_str(), O_RDONLY|O_NONBLOCK);
+
+    if (0 > Handle.Handle)
+    {
+        return(eErrorCode::Io);
+    }
+
+    error = GetAdapterBus(Handle, SysDevicePath);
+
+    return(error);
 }
 
-void CloseDeviceHandle(HANDLE& Handle)
+eErrorCode GetStorageAdapterProperty(DeviceHandle Handle, sStorageAdapterProperty& AdapterProperty)
 {
-    close(Handle);
+    if (eBusType::Ata == Handle.Bus)
+    {
+        AdapterProperty.AtaBus = true;
+    }
+    else
+    {
+        AdapterProperty.AtaBus = false;
+    }
+
+    //! TODO: Check for Scsi device
+
+    return(eErrorCode::None);
+}
+
+void CloseDeviceHandle(DeviceHandle& Handle)
+{
+    int closeHandleCode = close(Handle.Handle);
+    if (-1 == closeHandleCode)
+    {
+        //! TODO: Catch error for not close Handle of Device
+        //! throw std::runtime_error("Close DeviceHandle was not successful");
+    }
 }
 
 }

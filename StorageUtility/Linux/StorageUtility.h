@@ -18,43 +18,30 @@ limitations under the License.
 #ifndef __StorageUtility_h__
 #define __StorageUtility_h__
 
-#include <vector>
-
 #include "BasicTypes.h"
 #include "DeviceInterface.h"
 #include "ErrorCodes.h"
-#include "vtStorPlatformDefines.h"
 
 namespace vtStor
 {
-    eErrorCode GetStorageDevices(std::vector<std::shared_ptr<cDeviceInterface>>& Devices, eOnErrorBehavior OnErrorBehavior);
-    eErrorCode GetStorageDeviceHandle( const String& DevicePath, DeviceHandle& Handle );
-    eErrorCode GetStorageDevicePaths( std::vector<String>& Paths, eOnErrorBehavior OnErrorBehavior );
 
-    struct sStorageAdapterProperty
-    {
-        bool AtaBus;
-        U8    BusType;
-        U8    SrbType;
-        U32   AlignmentMask;
-    };
+struct sStorageAdapterProperty
+{
+    bool  AtaBus;
+    U8    BusType;
+    U8    SrbType;
+    U32   AlignmentMask;
+};
 
-//    struct sStorageAdapterProperty
-//    {
-//        bool AtaBus;
-//        U8    BusType;
-//        U8   HostNum;
-//        U8   Channel;
-//        U8   SCSI_Id;
-//        U8   Lun;
-//    };
+eErrorCode GetStorageDevices(std::vector<std::shared_ptr<cDeviceInterface>>& Devices, eOnErrorBehavior OnErrorBehavior);
+eErrorCode GetStorageDeviceHandle(const String& DevicePath, String SysDevicePath, DeviceHandle& Handle);
+eErrorCode GetStorageDevicePaths(std::vector<String>& DevicePaths, std::vector<String>& SysDevicePaths);
+eErrorCode GetStorageAdapterProperty(DeviceHandle Handle, sStorageAdapterProperty& AdapterProperty);
 
-    eErrorCode GetStorageAdapterProperty( DeviceHandle Handle, sStorageAdapterProperty& AdapterProperty );
+void CloseDeviceHandle(DeviceHandle& Handle);
+bool IsAtaDeviceBus(sStorageAdapterProperty StorageAdapterProperty);
+bool IsScsiDeviceBus(sStorageAdapterProperty StorageAdapterProperty);
 
-    void CloseDeviceHandle(HANDLE& Handle);
-
-    bool IsAtaDeviceBus( sStorageAdapterProperty StorageAdapterProperty );
-    bool IsScsiDeviceBus( sStorageAdapterProperty StorageAdapterProperty );
 }
 
 #endif
