@@ -30,9 +30,6 @@ class VT_STOR_ATA_API cAta
 {
 public:
     cAta() = delete;
-
-public:
-    static const U32 s_DefaultCommandHandlerAtaCommandType = 0;
 };
 
 }
