@@ -61,12 +61,14 @@ bool IsAtaDeviceBus(udev_device* Dev)
 {
     const char* bus = udev_device_get_property_value(Dev, "ID_BUS");
     if(NULL == bus)
+    {
+
         return false;
+    }
     if( 0 == strcmp(bus, "ata") || 0 == strcmp(bus, "sata"))
     {
         return true;
     }
-
     return false;
 }
 
@@ -90,12 +92,10 @@ bool InitStorageAdapterProperty( sStorageAdapterProperty& StorageAdapterProperty
     }
     else
     {
-        // TODO : Check with Scsi
         StorageAdapterProperty.AtaBus = false;
         return false;
     }
     return true;
-
 }
 
 eErrorCode GetStorageDevicePaths( std::vector<String>& ipPaths, eOnErrorBehavior OnErrorBehavior )
@@ -129,9 +129,7 @@ eErrorCode GetStorageDevicePaths( std::vector<String>& ipPaths, eOnErrorBehavior
            and create a udev_device object (dev) representing it */
         path    = udev_list_entry_get_name(dev_list_entry);
         dev     = udev_device_new_from_syspath(udev, path);
-
         String devNode = udev_device_get_devnode(dev);
-
         sStorageAdapterProperty property;
 
         if( true == InitStorageAdapterProperty(property, dev) )
@@ -165,13 +163,13 @@ eErrorCode GetStorageAdapterProperty( DeviceHandle iHandle, sStorageAdapterPrope
 {
     if(s_MappingDeviceHandleToSysPath.find(iHandle) == s_MappingDeviceHandleToSysPath.end())
     {
-        //ASSERT(0);
+        // TODO : ASSERT(0);
     }
     String devSys       = s_MappingDeviceHandleToSysPath[iHandle];
 
     if(s_MappingSystemPathToProperties.find(devSys) == s_MappingSystemPathToProperties.end())
     {
-        // ASSERT(0);
+        // TODO : ASSERT(0);
     }
     iAdapterProperty    = s_MappingSystemPathToProperties[devSys];
     return( eErrorCode::None );

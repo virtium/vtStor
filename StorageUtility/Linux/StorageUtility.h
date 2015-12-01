@@ -37,7 +37,6 @@ namespace vtStor
     };
 
     eErrorCode ShowDevicePaths(const std::vector<String> Paths);
-
     eErrorCode GetStorageAdapterProperty( DeviceHandle Handle, sStorageAdapterProperty& AdapterProperty );
 
     void CloseDeviceHandle(HANDLE& Handle);

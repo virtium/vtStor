@@ -31,10 +31,10 @@ cDevice::~cDevice()
 
 }
 
- cDevice::cDevice (String Path)
- {
-     this->m_DevicePath = Path;
- }
+cDevice::cDevice (String Path)
+{
+    this->m_DevicePath = Path;
+}
 
 String cDevice::GetDevicePath()
 {
@@ -62,7 +62,7 @@ void cDevice::Data(std::unordered_map<eDeviceDataType, void*>& Data)
 
 void cDevice::DevicePath(tchar*& DevicePath)
 {
-
+    // TODO:
 }
 
 DeviceHandle cDevice::Handle()
@@ -73,7 +73,7 @@ DeviceHandle cDevice::Handle()
     if (eErrorCode::None != errorCode)
     {
         // TODO:
-       // throw std::exception("Failed to create device handle", GetLastError());
+        // throw std::exception("Failed to create device handle", GetLastError());
     }
     return Handle;
 }
