@@ -62,8 +62,6 @@ eErrorCode cDriveManager::EnumerateDrives( eScanForHardwareChanges ScanForHardwa
     return( error );
 }
 
-
-
 const Vector_Drives& cDriveManager::GetDrives()
 {
     return( m_Drives );
