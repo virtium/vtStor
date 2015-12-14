@@ -30,7 +30,7 @@
     <ClCompile Include="DriveAtaCommandExtensions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CommandDescriptorUtility.cpp">
+    <ClCompile Include="CommandDescriptorAta.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -53,7 +53,7 @@
     <ClInclude Include="DriveAtaCommandExtensions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CommandDescriptorUtility.h">
+    <ClInclude Include="CommandDescriptorAta.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

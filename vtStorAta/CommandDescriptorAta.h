@@ -15,20 +15,20 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
-#ifndef __vtStorScsiCommandDescriptor_h__
-#define __vtStorScsiCommandDescriptor_h__
+#ifndef __vtStorAtaCommandDescriptorUtility_h__
+#define __vtStorAtaCommandDescriptorUtility_h__
 
 #include <memory>
 
 #include "BufferInterface.h"
 #include "CommandDescriptor.h"
 
-#include "StorageUtility/Scsi.h"
-#include "vtStorScsiPlatformDefines.h"
+#include "Ata.h"
+#include "vtStorAtaPlatformDefines.h"
 
 namespace vtStor
 {
-namespace Scsi
+namespace Ata
 {
 
 const size_t COMMAND_DESCRIPTOR_VERSION_OFFSET = 0;
@@ -36,29 +36,29 @@ const size_t COMMAND_DESCRIPTOR_VERSION_SIZE_IN_BYTES = 2;
 const size_t COMMAND_DESCRIPTOR_RESERVED0_OFFSET = COMMAND_DESCRIPTOR_VERSION_OFFSET + COMMAND_DESCRIPTOR_VERSION_SIZE_IN_BYTES;
 const size_t COMMAND_DESCRIPTOR_RESERVED0_SIZE_IN_BYTES = 2;
 
-class VT_STOR_SCSI_API cScsiCommandDescriptor : public cCommandDescriptor
+class VT_STOR_ATA_API cCommandDescriptorAta : public cCommandDescriptor
 {
 public:
     static const size_t SIZE_IN_BYTES;
 
 public:
-    static cScsiCommandDescriptor Reader(std::shared_ptr<const cBufferInterface> Buffer);
-    static cScsiCommandDescriptor Writer(std::shared_ptr<cBufferInterface> Buffer);
-    static cScsiCommandDescriptor Modifier(std::shared_ptr<cBufferInterface> Buffer);
+    static cCommandDescriptorAta Reader(std::shared_ptr<const cBufferInterface> Buffer);
+    static cCommandDescriptorAta Writer(std::shared_ptr<cBufferInterface> Buffer);
+    static cCommandDescriptorAta Modifier(std::shared_ptr<cBufferInterface> Buffer);
 
 protected:
-    cScsiCommandDescriptor(std::shared_ptr<cBufferInterface> Buffer);
-    cScsiCommandDescriptor(std::shared_ptr<cBufferInterface> Buffer, U32 Format);
-    cScsiCommandDescriptor(std::shared_ptr<const cBufferInterface> Buffer);
+    cCommandDescriptorAta(std::shared_ptr<cBufferInterface> Buffer);
+    cCommandDescriptorAta(std::shared_ptr<cBufferInterface> Buffer, U32 Format);
+    cCommandDescriptorAta( std::shared_ptr<const cBufferInterface> Buffer);
 
 public:
-    StorageUtility::Scsi::sCdbFields&               GetCdbFields();
-    const StorageUtility::Scsi::sCdbFields&         GetCdbFields() const;
-    StorageUtility::Scsi::sCommandCharacteristics&       GetCommandCharacteristics();
-    const StorageUtility::Scsi::sCommandCharacteristics& GetCommandCharacteristics() const;
+    StorageUtility::Ata::uCommandFields&               GetCommandFields();
+    const StorageUtility::Ata::uCommandFields&         GetCommandFields() const;
+    StorageUtility::Ata::sCommandCharacteristic&       GetCommandCharacteristics();
+    const StorageUtility::Ata::sCommandCharacteristic& GetCommandCharacteristics() const;
 
 private:
-    static const size_t CDB_FIELDS_OFFSET;
+    static const size_t COMMAND_FIELDS_OFFSET;
     static const size_t COMMAND_CHARACTERISTICS_OFFSET;
 };
 
