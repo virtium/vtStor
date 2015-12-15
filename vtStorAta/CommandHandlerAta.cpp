@@ -16,7 +16,7 @@ limitations under the License.
 </License>
 */
 #include "vtStorAta.h"
-#include "CommandDescriptorUtility.h"
+#include "CommandDescriptorAta.h"
 
 #include "CommandHandlerAta.h"
 #include "Buffer.h"
@@ -46,7 +46,7 @@ eErrorCode cCommandHandlerAta::IssueCommand( const DeviceHandle& Handle, std::sh
     {
         case 1:
         {
-            Ata::cCommandDescriptor1 commandDescriptor = Ata::cCommandDescriptor1::Reader(CommandDescriptor);
+            Ata::cCommandDescriptorAta commandDescriptor = Ata::cCommandDescriptorAta::Reader(CommandDescriptor);
             const StorageUtility::Ata::uCommandFields& commandFields = commandDescriptor.GetCommandFields();
 
             std::shared_ptr<cBufferInterface> buffer = std::make_shared<cBuffer>(vtStor::Protocol::cEssenseAta1::SIZE_IN_BYTES);

@@ -156,7 +156,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ScsiCommandDescriptor.cpp" />
+    <ClCompile Include="CommandDescriptorScsi.cpp" />
     <ClCompile Include="CommandHandlerScsi.cpp" />
     <ClCompile Include="DriveScsi.cpp" />
     <ClCompile Include="DriveScsiCommandExtensions.cpp" />
@@ -164,7 +164,7 @@
     <ClCompile Include="vtStorScsi.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ScsiCommandDescriptor.h" />
+    <ClInclude Include="CommandDescriptorScsi.h" />
     <ClInclude Include="CommandHandlerScsi.h" />
     <ClInclude Include="DriveScsi.h" />
     <ClInclude Include="DriveScsiCommandExtensions.h" />

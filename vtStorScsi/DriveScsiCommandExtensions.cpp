@@ -17,7 +17,7 @@ limitations under the License.
 */
 #include "vtStorScsi.h"
 #include "Buffer.h"
-#include "ScsiCommandDescriptor.h"
+#include "CommandDescriptorScsi.h"
 #include "DriveScsiCommandExtensions.h"
 
 namespace vtStor
@@ -26,8 +26,8 @@ namespace Scsi
 {
     eErrorCode IssueCommand_Inquiry(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data)
     {
-        std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cScsiCommandDescriptor::SIZE_IN_BYTES);
-        cScsiCommandDescriptor commandDescriptorVersion1 = cScsiCommandDescriptor::Writer(commandDescriptor);
+        std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cCommandDescriptorScsi::SIZE_IN_BYTES);
+        cCommandDescriptorScsi commandDescriptorVersion1 = cCommandDescriptorScsi::Writer(commandDescriptor);
 
         StorageUtility::Scsi::sCdbFields& cdbFields = commandDescriptorVersion1.GetCdbFields();
         cdbFields.OpCode = SCSI_COMMAND_INQUIRY;
@@ -45,8 +45,8 @@ namespace Scsi
 
     eErrorCode IssueCommand_Read16(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data, U32 Lba, U16 Count)
     {
-        std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cScsiCommandDescriptor::SIZE_IN_BYTES);
-        cScsiCommandDescriptor commandDescriptorVersion1 = cScsiCommandDescriptor::Writer(commandDescriptor);
+        std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cCommandDescriptorScsi::SIZE_IN_BYTES);
+        cCommandDescriptorScsi commandDescriptorVersion1 = cCommandDescriptorScsi::Writer(commandDescriptor);
 
         StorageUtility::Scsi::sCdbFields& cdbFields = commandDescriptorVersion1.GetCdbFields();
         cdbFields.OpCode = SCSI_COMMAND_READ16;
@@ -65,8 +65,8 @@ namespace Scsi
 
     eErrorCode IssueCommand_Read10(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data, U32 Lba, U16 Count)
     {
-        std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cScsiCommandDescriptor::SIZE_IN_BYTES);
-        cScsiCommandDescriptor commandDescriptorVersion1 = cScsiCommandDescriptor::Writer(commandDescriptor);
+        std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cCommandDescriptorScsi::SIZE_IN_BYTES);
+        cCommandDescriptorScsi commandDescriptorVersion1 = cCommandDescriptorScsi::Writer(commandDescriptor);
 
         StorageUtility::Scsi::sCdbFields& cdbFields = commandDescriptorVersion1.GetCdbFields();
         cdbFields.OpCode = SCSI_COMMAND_READ10;
@@ -85,8 +85,8 @@ namespace Scsi
 
     eErrorCode IssueCommand_Write16(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data, U32 Lba, U16 Count)
     {
-        std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cScsiCommandDescriptor::SIZE_IN_BYTES);
-        cScsiCommandDescriptor commandDescriptorVersion1 = cScsiCommandDescriptor::Writer(commandDescriptor);
+        std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cCommandDescriptorScsi::SIZE_IN_BYTES);
+        cCommandDescriptorScsi commandDescriptorVersion1 = cCommandDescriptorScsi::Writer(commandDescriptor);
 
         StorageUtility::Scsi::sCdbFields& cdbFields = commandDescriptorVersion1.GetCdbFields();
         cdbFields.OpCode = SCSI_COMMAND_WRITE16;
@@ -105,8 +105,8 @@ namespace Scsi
 
     eErrorCode IssueCommand_Write10(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data, U32 Lba, U16 Count)
     {
-        std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cScsiCommandDescriptor::SIZE_IN_BYTES);
-        cScsiCommandDescriptor commandDescriptorVersion1 = cScsiCommandDescriptor::Writer(commandDescriptor);
+        std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cCommandDescriptorScsi::SIZE_IN_BYTES);
+        cCommandDescriptorScsi commandDescriptorVersion1 = cCommandDescriptorScsi::Writer(commandDescriptor);
 
         StorageUtility::Scsi::sCdbFields& cdbFields = commandDescriptorVersion1.GetCdbFields();
         cdbFields.OpCode = SCSI_COMMAND_WRITE10;
@@ -125,8 +125,8 @@ namespace Scsi
 
     eErrorCode IssueCommand_AtaIdentifyDevice(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data)
     {//tested!!!!
-        std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cScsiCommandDescriptor::SIZE_IN_BYTES);
-        cScsiCommandDescriptor commandDescriptorVersion1 = cScsiCommandDescriptor::Writer(commandDescriptor);
+        std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cCommandDescriptorScsi::SIZE_IN_BYTES);
+        cCommandDescriptorScsi commandDescriptorVersion1 = cCommandDescriptorScsi::Writer(commandDescriptor);
 
         StorageUtility::Scsi::sCdbFields& cdbFields = commandDescriptorVersion1.GetCdbFields();
         cdbFields.OpCode = SCSI_COMMAND_ATA_PASS_THROUGH;
@@ -147,8 +147,8 @@ namespace Scsi
     
     eErrorCode IssueCommand_AtaReadDma(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data, U32 Lba, U16 Count)
     {//tested!!!
-        std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cScsiCommandDescriptor::SIZE_IN_BYTES);
-        cScsiCommandDescriptor commandDescriptorVersion1 = cScsiCommandDescriptor::Writer(commandDescriptor);
+        std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cCommandDescriptorScsi::SIZE_IN_BYTES);
+        cCommandDescriptorScsi commandDescriptorVersion1 = cCommandDescriptorScsi::Writer(commandDescriptor);
 
         StorageUtility::Scsi::sCdbFields& cdbFields = commandDescriptorVersion1.GetCdbFields();
         cdbFields.OpCode = SCSI_COMMAND_ATA_PASS_THROUGH;
@@ -170,8 +170,8 @@ namespace Scsi
 
     eErrorCode IssueCommand_AtaWriteDma(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data, U32 Lba, U16 Count)
     {
-        std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cScsiCommandDescriptor::SIZE_IN_BYTES);
-        cScsiCommandDescriptor commandDescriptorVersion1 = cScsiCommandDescriptor::Writer(commandDescriptor);
+        std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cCommandDescriptorScsi::SIZE_IN_BYTES);
+        cCommandDescriptorScsi commandDescriptorVersion1 = cCommandDescriptorScsi::Writer(commandDescriptor);
 
         StorageUtility::Scsi::sCdbFields& cdbFields = commandDescriptorVersion1.GetCdbFields();
         cdbFields.OpCode = SCSI_COMMAND_ATA_PASS_THROUGH;
@@ -193,8 +193,8 @@ namespace Scsi
     
     eErrorCode IssueCommand_AtaReadBuffer(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data)
     {//tested
-        std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cScsiCommandDescriptor::SIZE_IN_BYTES);
-        cScsiCommandDescriptor commandDescriptorVersion1 = cScsiCommandDescriptor::Writer(commandDescriptor);
+        std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cCommandDescriptorScsi::SIZE_IN_BYTES);
+        cCommandDescriptorScsi commandDescriptorVersion1 = cCommandDescriptorScsi::Writer(commandDescriptor);
 
         StorageUtility::Scsi::sCdbFields& cdbFields = commandDescriptorVersion1.GetCdbFields();
         cdbFields.OpCode = SCSI_COMMAND_ATA_PASS_THROUGH;
@@ -215,8 +215,8 @@ namespace Scsi
 
     eErrorCode IssueCommand_AtaWriteBuffer(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data)
     {//tested!!!!
-        std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cScsiCommandDescriptor::SIZE_IN_BYTES);
-        cScsiCommandDescriptor commandDescriptorVersion1 = cScsiCommandDescriptor::Writer(commandDescriptor);
+        std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cCommandDescriptorScsi::SIZE_IN_BYTES);
+        cCommandDescriptorScsi commandDescriptorVersion1 = cCommandDescriptorScsi::Writer(commandDescriptor);
 
         StorageUtility::Scsi::sCdbFields& cdbFields = commandDescriptorVersion1.GetCdbFields();
         cdbFields.OpCode = SCSI_COMMAND_ATA_PASS_THROUGH;
@@ -237,8 +237,8 @@ namespace Scsi
    
     eErrorCode IssueCommand_AtaSmart(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data, U8 SubCommand)
     {
-        std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cScsiCommandDescriptor::SIZE_IN_BYTES);
-        cScsiCommandDescriptor commandDescriptorVersion1 = cScsiCommandDescriptor::Writer(commandDescriptor);
+        std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cCommandDescriptorScsi::SIZE_IN_BYTES);
+        cCommandDescriptorScsi commandDescriptorVersion1 = cCommandDescriptorScsi::Writer(commandDescriptor);
 
         StorageUtility::Scsi::sCdbFields& cdbFields = commandDescriptorVersion1.GetCdbFields();
         cdbFields.OpCode = SCSI_COMMAND_ATA_PASS_THROUGH;
@@ -261,8 +261,8 @@ namespace Scsi
 
     eErrorCode IssueCommand_AtaDownloadMicrocode(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data, U8 SubCommand, U16 BlockCount, U16 BufferOffset)
     {
-        std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cScsiCommandDescriptor::SIZE_IN_BYTES);
-        cScsiCommandDescriptor commandDescriptorVersion1 = cScsiCommandDescriptor::Writer(commandDescriptor);
+        std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cCommandDescriptorScsi::SIZE_IN_BYTES);
+        cCommandDescriptorScsi commandDescriptorVersion1 = cCommandDescriptorScsi::Writer(commandDescriptor);
 
         StorageUtility::Scsi::sCdbFields& cdbFields = commandDescriptorVersion1.GetCdbFields();
         cdbFields.OpCode = SCSI_COMMAND_ATA_PASS_THROUGH;

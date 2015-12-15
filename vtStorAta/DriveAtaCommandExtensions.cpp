@@ -17,7 +17,7 @@ limitations under the License.
 */
 #include "vtStorAta.h"
 #include "Buffer.h"
-#include "CommandDescriptorUtility.h"
+#include "CommandDescriptorAta.h"
 #include "DriveAtaCommandExtensions.h"
 
 namespace vtStor
@@ -28,8 +28,8 @@ namespace Ata
 eErrorCode IssueCommand_IdentifyDevice( std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data )
 {
     
-    std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>( cCommandDescriptor1::SIZE_IN_BYTES );
-    cCommandDescriptor1 commandDescriptorVersion1 = cCommandDescriptor1::Writer(commandDescriptor);
+    std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>( cCommandDescriptorAta::SIZE_IN_BYTES );
+    cCommandDescriptorAta commandDescriptorVersion1 = cCommandDescriptorAta::Writer(commandDescriptor);
 
     StorageUtility::Ata::uCommandFields& commandFields = commandDescriptorVersion1.GetCommandFields();
     commandFields.InputFields.Command = ATA_COMMAND_IDENTIFY_DEVICE;
@@ -52,8 +52,8 @@ eErrorCode IssueCommand_IdentifyDevice( std::shared_ptr<cDriveInterface> Drive, 
 
 eErrorCode IssueCommand_ReadDma(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data, U32 Lba, U16 Count)
 {
-    std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cCommandDescriptor1::SIZE_IN_BYTES);
-    cCommandDescriptor1 commandDescriptorVersion1 = cCommandDescriptor1::Writer(commandDescriptor);
+    std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cCommandDescriptorAta::SIZE_IN_BYTES);
+    cCommandDescriptorAta commandDescriptorVersion1 = cCommandDescriptorAta::Writer(commandDescriptor);
 
     StorageUtility::Ata::uCommandFields& commandFields = commandDescriptorVersion1.GetCommandFields();
     commandFields.InputFields.Command = ATA_COMMAND_READ_DMA;
@@ -76,8 +76,8 @@ eErrorCode IssueCommand_ReadDma(std::shared_ptr<cDriveInterface> Drive, U32 Comm
 
 eErrorCode IssueCommand_WriteDma(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data, U32 Lba, U16 Count)
 {
-    std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cCommandDescriptor1::SIZE_IN_BYTES);
-    cCommandDescriptor1 commandDescriptorVersion1 = cCommandDescriptor1::Writer(commandDescriptor);
+    std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cCommandDescriptorAta::SIZE_IN_BYTES);
+    cCommandDescriptorAta commandDescriptorVersion1 = cCommandDescriptorAta::Writer(commandDescriptor);
 
     StorageUtility::Ata::uCommandFields& commandFields = commandDescriptorVersion1.GetCommandFields();
     commandFields.InputFields.Command = ATA_COMMAND_WRITE_DMA;
@@ -100,8 +100,8 @@ eErrorCode IssueCommand_WriteDma(std::shared_ptr<cDriveInterface> Drive, U32 Com
 
 eErrorCode IssueCommand_ReadBuffer(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data)
 {
-    std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cCommandDescriptor1::SIZE_IN_BYTES);
-    cCommandDescriptor1 commandDescriptorVersion1 = cCommandDescriptor1::Writer(commandDescriptor);
+    std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cCommandDescriptorAta::SIZE_IN_BYTES);
+    cCommandDescriptorAta commandDescriptorVersion1 = cCommandDescriptorAta::Writer(commandDescriptor);
 
     StorageUtility::Ata::uCommandFields& commandFields = commandDescriptorVersion1.GetCommandFields();
     commandFields.InputFields.Command = ATA_COMMAND_READ_BUFFER;
@@ -121,8 +121,8 @@ eErrorCode IssueCommand_ReadBuffer(std::shared_ptr<cDriveInterface> Drive, U32 C
 
 eErrorCode IssueCommand_WriteBuffer(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data)
 {
-    std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cCommandDescriptor1::SIZE_IN_BYTES);
-    cCommandDescriptor1 commandDescriptorVersion1 = cCommandDescriptor1::Writer(commandDescriptor);
+    std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cCommandDescriptorAta::SIZE_IN_BYTES);
+    cCommandDescriptorAta commandDescriptorVersion1 = cCommandDescriptorAta::Writer(commandDescriptor);
 
     StorageUtility::Ata::uCommandFields& commandFields = commandDescriptorVersion1.GetCommandFields();
     commandFields.InputFields.Command = ATA_COMMAND_WRITE_BUFFER;
@@ -142,8 +142,8 @@ eErrorCode IssueCommand_WriteBuffer(std::shared_ptr<cDriveInterface> Drive, U32 
 
 eErrorCode IssueCommand_Smart(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data, U8 SubCommand)
 {
-    std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cCommandDescriptor1::SIZE_IN_BYTES);
-    cCommandDescriptor1 commandDescriptorVersion1 = cCommandDescriptor1::Writer(commandDescriptor);
+    std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cCommandDescriptorAta::SIZE_IN_BYTES);
+    cCommandDescriptorAta commandDescriptorVersion1 = cCommandDescriptorAta::Writer(commandDescriptor);
 
     StorageUtility::Ata::uCommandFields& commandFields = commandDescriptorVersion1.GetCommandFields();
     commandFields.InputFields.Command = ATA_COMMAND_SMART;
@@ -165,8 +165,8 @@ eErrorCode IssueCommand_Smart(std::shared_ptr<cDriveInterface> Drive, U32 Comman
 
 eErrorCode IssueCommand_DownloadMicrocode(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data, U8 SubCommand, U16 BlockCount, U16 BufferOffset)
 {
-    std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cCommandDescriptor1::SIZE_IN_BYTES);
-    cCommandDescriptor1 commandDescriptorVersion1 = cCommandDescriptor1::Writer(commandDescriptor);
+    std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cCommandDescriptorAta::SIZE_IN_BYTES);
+    cCommandDescriptorAta commandDescriptorVersion1 = cCommandDescriptorAta::Writer(commandDescriptor);
 
     StorageUtility::Ata::uCommandFields& commandFields = commandDescriptorVersion1.GetCommandFields();
     commandFields.InputFields.Command = ATA_COMMAND_DOWNLOADMICROCODE;
@@ -192,8 +192,8 @@ eErrorCode IssueCommand_DownloadMicrocode(std::shared_ptr<cDriveInterface> Drive
 
 eErrorCode IssueCommand_DownloadMicrocodeDma(std::shared_ptr<cDriveInterface> Drive, U32 CommandType, std::shared_ptr<cBufferInterface> Data, U8 SubCommand, U16 BlockCount, U16 BufferOffset)
 {
-    std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cCommandDescriptor1::SIZE_IN_BYTES);
-    cCommandDescriptor1 commandDescriptorVersion1 = cCommandDescriptor1::Writer(commandDescriptor);
+    std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>(cCommandDescriptorAta::SIZE_IN_BYTES);
+    cCommandDescriptorAta commandDescriptorVersion1 = cCommandDescriptorAta::Writer(commandDescriptor);
 
     StorageUtility::Ata::uCommandFields& commandFields = commandDescriptorVersion1.GetCommandFields();
     commandFields.InputFields.Command = ATA_COMMAND_DOWNLOADMICROCODE_DMA;

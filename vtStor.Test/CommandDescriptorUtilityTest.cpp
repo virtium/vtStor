@@ -24,7 +24,7 @@ limitations under the License.
 #include "DriveEnumeratorAta.h"
 #include "DriveAtaCommandExtensions.h"
 #include "Buffer.h"
-#include "CommandDescriptorUtility.h"
+#include "CommandDescriptorAta.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -55,7 +55,7 @@ namespace vtStorTest
         TEST_METHOD( CommandField )
         {
             std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>( 128 );
-            Ata::cCommandDescriptor1 commandDescriptorVersion1 = Ata::cCommandDescriptor1::Writer(commandDescriptor);
+            Ata::cCommandDescriptorAta commandDescriptorVersion1 = Ata::cCommandDescriptorAta::Writer(commandDescriptor);
 
             StorageUtility::Ata::uCommandFields& commandFields = commandDescriptorVersion1.GetCommandFields();
             commandFields.InputFields.Command = Ata::ATA_COMMAND_IDENTIFY_DEVICE;

@@ -21,7 +21,7 @@ limitations under the License.
 #include "Drive.h"
 
 #include "BufferInterface.h"
-#include "ScsiCommandDescriptor.h"
+#include "CommandDescriptorScsi.h"
 
 namespace vtStor
 {
