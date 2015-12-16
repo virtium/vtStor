@@ -15,8 +15,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
-#include "DriveManager.h"
 
+#include "DriveManager.h"
 #include "StorageUtility.h"
 
 namespace vtStor
