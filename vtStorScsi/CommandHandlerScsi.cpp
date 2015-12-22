@@ -22,7 +22,7 @@ limitations under the License.
 #include "Buffer.h"
 #include "BufferFormatter.h"
 
-#include "vtStorScsiProtocol/ScsiProtocolEssense1.h"
+#include "ScsiProtocolEssense1.h"
 
 namespace vtStor
 {

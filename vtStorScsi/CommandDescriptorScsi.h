@@ -23,7 +23,7 @@ limitations under the License.
 #include "BufferInterface.h"
 #include "CommandDescriptor.h"
 
-#include "StorageUtility/Scsi.h"
+#include "Scsi.h"
 #include "vtStorScsiPlatformDefines.h"
 
 namespace vtStor

@@ -19,7 +19,7 @@ limitations under the License.
 #define __vtStorCommandHandlerScsi_h__
 #pragma once
 
-#include "StorageUtility/Scsi.h"
+#include "Scsi.h"
 #include "CommandHandlerInterface.h"
 #include "vtStorScsiPlatformDefines.h"
 

@@ -20,14 +20,6 @@ limitations under the License.
 
 #include <string>
 
-//#ifdef VTSTOR_DLL_EXPORTS
-//#define VTSTOR_API __attribute__((visibility("default")))
-//#define VTSTOR_API_EXPORT_IMPL
-//#else
-//#define VTSTOR_API __attribute__ ((visibility ("hidden")))
-//#define VTSTOR_API_EXPORT_IMPL extern
-//#endif
-
 #ifdef VTSTOR_DLL_EXPORTS
 #define VTSTOR_API
 #define VTSTOR_API_EXPORT_IMPL
