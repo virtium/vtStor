@@ -29,32 +29,29 @@ const size_t cEssenseScsi1::SIZE_IN_BYTES = cEssenseScsi1::COMMAND_CHARACTERISTI
                             + sizeof(StorageUtility::Scsi::sCommandCharacteristics)
                             + sizeof(StorageUtility::Scsi::sCdbRegisters);
 
-cEssenseScsi1 cEssenseScsi1::Reader(std::shared_ptr<const cBufferInterface> Buffer)
+cEssenseScsi1 cEssenseScsi1::Reader(std::shared_ptr<const IBuffer> Buffer)
 {
     return(cEssenseScsi1(Buffer));
 }
 
-cEssenseScsi1 cEssenseScsi1::Writer(std::shared_ptr<cBufferInterface> Buffer)
+cEssenseScsi1 cEssenseScsi1::Writer(std::shared_ptr<IBuffer> Buffer)
 {
     return(cEssenseScsi1(Buffer, 1));
 }
 
-cEssenseScsi1::cEssenseScsi1(std::shared_ptr<cBufferInterface> Buffer) :
+cEssenseScsi1::cEssenseScsi1(std::shared_ptr<IBuffer> Buffer) :
 cProtocolEssense(Buffer)
 {
-
 }
 
-cEssenseScsi1::cEssenseScsi1(std::shared_ptr<cBufferInterface> Buffer, U32 Format) :
+cEssenseScsi1::cEssenseScsi1(std::shared_ptr<IBuffer> Buffer, U32 Format) :
 cProtocolEssense(Buffer, Format)
 {
-
 }
 
-cEssenseScsi1::cEssenseScsi1(std::shared_ptr<const cBufferInterface> Buffer) :
+cEssenseScsi1::cEssenseScsi1(std::shared_ptr<const IBuffer> Buffer) :
 cProtocolEssense(Buffer)
 {
-
 }
 
 StorageUtility::Scsi::sCommandCharacteristics& cEssenseScsi1::GetCommandCharacteristics()
@@ -63,7 +60,7 @@ StorageUtility::Scsi::sCommandCharacteristics& cEssenseScsi1::GetCommandCharacte
     return((StorageUtility::Scsi::sCommandCharacteristics&)buffer[COMMAND_CHARACTERISTICS_OFFSET]);
 
 }
-        
+
 const StorageUtility::Scsi::sCommandCharacteristics& cEssenseScsi1::GetCommandCharacteristics() const
 {
     const U8* buffer = m_Buffer->ToDataBuffer();
@@ -83,4 +80,3 @@ const StorageUtility::Scsi::sCdbRegisters& cEssenseScsi1::GetCdbRegister() const
 }
 }
 }
-

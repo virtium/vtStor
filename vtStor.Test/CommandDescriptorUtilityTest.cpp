@@ -19,10 +19,8 @@ limitations under the License.
 
 #include "CppUnitTest.h"
 
-#include "vtStor.h"
-#include "vtStorAta.h"
 #include "DriveEnumeratorAta.h"
-#include "DriveAtaCommandExtensions.h"
+#include "AtaCommandExtensions.h"
 #include "Buffer.h"
 #include "CommandDescriptorUtility.h"
 
@@ -51,10 +49,9 @@ namespace vtStorTest
     TEST_CLASS( cAtaCommandDescriptorUtilityTest )
     {
     public:
-
         TEST_METHOD( CommandField )
         {
-            std::shared_ptr<cBufferInterface> commandDescriptor = std::make_shared<cBuffer>( 128 );
+            std::shared_ptr<IBuffer> commandDescriptor = std::make_shared<cBuffer>( 128 );
             Ata::cCommandDescriptor1 commandDescriptorVersion1 = Ata::cCommandDescriptor1::Writer(commandDescriptor);
 
             StorageUtility::Ata::uCommandFields& commandFields = commandDescriptorVersion1.GetCommandFields();
@@ -95,8 +92,5 @@ namespace vtStorTest
             Assert::AreEqual( StorageUtility::Ata::eMultipleMode::NOT_MULTIPLE_COMMAND, commandCharacteristics2.MultipleMode, L"Command descriptor characteristic <MultipleMode> does not match.", LINE_INFO() );
             Assert::AreEqual( StorageUtility::Ata::SECTOR_SIZE_IN_BYTES, commandCharacteristics2.DataTransferLengthInBytes, L"Command descriptor characteristic <DataTransferLengthInBytes> does not match.", LINE_INFO() );
         }
-
-        
-
     };
 }

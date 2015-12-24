@@ -15,29 +15,29 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
-#include "vtStorAta.h"
 #include "CommandDescriptorUtility.h"
-
-#include "CommandHandlerAta.h"
+#include "AtaProtocolEssense1.h"
 #include "Buffer.h"
 #include "BufferFormatter.h"
+#include "CommandHandlerAta.h"
 
-#include "AtaProtocolEssense1.h"
+void cCommandHandlerAta_GetCommandHandler(std::shared_ptr<vtStor::ICommandHandler>& CommandHandler, std::shared_ptr<vtStor::IProtocol> Protocol)
+{
+    CommandHandler = std::shared_ptr<vtStor::ICommandHandler>(new vtStor::cCommandHandlerAta(Protocol));
+}
 
 namespace vtStor
 {
 
-cCommandHandlerAta::cCommandHandlerAta( std::shared_ptr<Protocol::cProtocolInterface> Protocol ):
-    cCommandHandlerInterface( Protocol )
+cCommandHandlerAta::cCommandHandlerAta(std::shared_ptr<IProtocol> Protocol) : m_Protocol(Protocol)
 {
 }
-
 
 cCommandHandlerAta::~cCommandHandlerAta()
 {
 }
 
-eErrorCode cCommandHandlerAta::IssueCommand( const DeviceHandle& Handle, std::shared_ptr<const cBufferInterface> CommandDescriptor, std::shared_ptr<cBufferInterface> Data )
+eErrorCode cCommandHandlerAta::IssueCommand( const DeviceHandle& Handle, std::shared_ptr<const IBuffer> CommandDescriptor, std::shared_ptr<IBuffer> Data )
 {
     eErrorCode errorCode = eErrorCode::None;
 
@@ -49,7 +49,7 @@ eErrorCode cCommandHandlerAta::IssueCommand( const DeviceHandle& Handle, std::sh
             Ata::cCommandDescriptor1 commandDescriptor = Ata::cCommandDescriptor1::Reader(CommandDescriptor);
             const StorageUtility::Ata::uCommandFields& commandFields = commandDescriptor.GetCommandFields();
 
-            std::shared_ptr<cBufferInterface> buffer = std::make_shared<cBuffer>(vtStor::Protocol::cEssenseAta1::SIZE_IN_BYTES);
+            std::shared_ptr<IBuffer> buffer = std::make_shared<cBuffer>(vtStor::Protocol::cEssenseAta1::SIZE_IN_BYTES);
             Protocol::cEssenseAta1 essense = Protocol::cEssenseAta1::Writer(buffer);
 
             StorageUtility::Ata::sCommandCharacteristic& commandCharacteristics = essense.GetCommandCharacteristics();
@@ -146,9 +146,4 @@ void cCommandHandlerAta::PrepareTaskFileRegisters( const StorageUtility::Ata::sC
     }
 }
 
-}
-
-VT_STOR_ATA_API void vtStorCommandHandlerAtaInit( std::shared_ptr<vtStor::cCommandHandlerInterface>& CommandHandler, std::shared_ptr<vtStor::Protocol::cProtocolInterface> Protocol )
-{
-    CommandHandler = std::make_shared<vtStor::cCommandHandlerAta>( Protocol );
 }

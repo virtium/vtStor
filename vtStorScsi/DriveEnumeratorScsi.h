@@ -18,15 +18,14 @@ limitations under the License.
 #ifndef __DriveEnumeratorScsi_h__
 #define __DriveEnumeratorScsi_h__
 
-#include "vtStorScsiPlatformDefines.h"
-#include "DriveEnumeratorInterface.h"
+#include "IDriveEnumerator.h"
 
 namespace vtStor
 {
-    class VT_STOR_SCSI_API cDriveEnumeratorScsi : public cDriveEnumeratorInterface
+    class VT_STOR_SCSI_API cDriveEnumeratorScsi : public IDriveEnumerator
     {
     public:
-        virtual std::shared_ptr<cDriveInterface> EnumerateDrive(const std::shared_ptr<cDeviceInterface>& Device) override;
+        virtual std::shared_ptr<IDrive> EnumerateDrive(const std::shared_ptr<IDevice>& Device) override;
 
     public:
         virtual ~cDriveEnumeratorScsi();

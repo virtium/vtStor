@@ -22,14 +22,13 @@ limitations under the License.
 #include <Windows.h>
 #include <setupapi.h>
 
-#include "DeviceDataType.h"
-#include "DeviceInterface.h"
 #include "ErrorCodes.h"
+#include "IDevice.h"
 
 namespace vtStor
 {
 
-class cDevice : public cDeviceInterface
+class cDevice : public IDevice
 {
 public:
     cDevice(const PSP_DEVINFO_DATA& DevInfoData, const PSP_DEVICE_INTERFACE_DATA& DevInterfaceData, const PSP_INTERFACE_DEVICE_DETAIL_DATA& DevDetailData, U32 SizeOfDevDetailData);
@@ -37,18 +36,13 @@ public:
 
 public:
     virtual void Data(std::unordered_map<eDeviceDataType, void*>& Data) override;
-
     virtual DeviceHandle Handle() override;
-
     virtual void DevicePath(tchar*& DevicePath) override;
 
 private:
     eErrorCode GetStorageDeviceHandle(const String& DevicePath, HANDLE& Handle);
-
     void AllocateMemories(const PSP_DEVINFO_DATA& DevInfoData, const PSP_DEVICE_INTERFACE_DATA& DevInterfaceData, const PSP_INTERFACE_DEVICE_DETAIL_DATA& DevDetailData, U32 SizeOfDevDetailData);
-
     void CopyMemories(const PSP_DEVINFO_DATA& DevInfoData, const PSP_DEVICE_INTERFACE_DATA& DevInterfaceData, const PSP_INTERFACE_DEVICE_DETAIL_DATA& DevDetailData, U32 SizeOfDevDetailData);
-
     void DeallocateMemories();
 
 private:

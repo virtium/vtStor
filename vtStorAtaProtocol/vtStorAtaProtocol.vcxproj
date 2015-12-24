@@ -162,7 +162,6 @@
   <ItemGroup>
     <ClInclude Include="AtaProtocolEssense1.h" />
     <ClInclude Include="Platform\Windows\ProtocolAtaPassThrough.h" />
-    <ClInclude Include="Platform\Windows\vtStorAtaProtocolPlatformDefines.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\StorageUtility\StorageUtility.vcxproj">

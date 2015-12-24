@@ -8,7 +8,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)vtStorScsiProtocol\Platform\Windows;$(SolutionDir);$(ProjectDir);$(ProjectDir)Platform\Windows\;$(SolutionDir)StorageUtility;$(SolutionDir)StorageUtility\Windows;$(SolutionDir)Common;$(SolutionDir)Common\Platform\x86x64;$(SolutionDir)Common\Platform\x86x64\Windows;$(SolutionDir)vtStor;$(SolutionDir)vtStor\Platform\Windows</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)vtStorScsiProtocol\Platform\Windows;$(SolutionDir);$(ProjectDir);$(ProjectDir)Platform\Windows\;$(SolutionDir)StorageUtility;$(SolutionDir)StorageUtility\Windows;$(SolutionDir)Common;$(SolutionDir)Common\Platform\x86x64;$(SolutionDir)Common\Platform\x86x64\Windows;$(SolutionDir)vtStor;$(SolutionDir)vtStor\Platform\Windows;$(SolutionDir)Extern;</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>VT_STOR_SCSI_DLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>

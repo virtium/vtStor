@@ -26,9 +26,10 @@ namespace vtStor
     {
         namespace Managed
         {
-            cProtocolScsiPassThrough::cProtocolScsiPassThrough()
+            cProtocolScsiPassThrough::cProtocolScsiPassThrough(vtStor::Managed::IRunTimeDll^ RunTimeDll)
             {
-                vtStorProtocolScsiPassThroughInit( *m_Protocol );
+                GetProtocolDelegate getProtocolDelegate = (GetProtocolDelegate)RunTimeDll->GetFunction("cScsiPassThrough_GetProtocol");
+                getProtocolDelegate(*m_Protocol);
             }
 
             cProtocolScsiPassThrough::~cProtocolScsiPassThrough()
@@ -41,7 +42,7 @@ namespace vtStor
 
             cProtocolScsiPassThrough::operator void*()
             {
-                return( vtStor::Protocol::cProtocolInterface::ToVoidPointer( *m_Protocol ) );
+                return(reinterpret_cast<void*>(&(*m_Protocol)));
             }
         }
     }

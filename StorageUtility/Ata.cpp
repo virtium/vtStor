@@ -20,16 +20,13 @@ limitations under the License.
 
 namespace vtStor
 {
-namespace StorageUtility
-{
-namespace Ata
-{
-
-const U32 SECTOR_SIZE_IN_BYTES = 512;
-
-const U8  DEVICE_REGISTER_DEFAULT = 0xE0;
-const U8  DEVICE_REGISTER_CHSMODE_DEFAULT = 0xA0;
-
-}
-}
+    namespace StorageUtility
+    {
+        namespace Ata
+        {
+            const U32 SECTOR_SIZE_IN_BYTES = 512;
+            const U8  DEVICE_REGISTER_DEFAULT = 0xE0;
+            const U8  DEVICE_REGISTER_CHSMODE_DEFAULT = 0xA0;
+        }
+    }
 }

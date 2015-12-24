@@ -20,49 +20,44 @@ limitations under the License.
 
 #include <memory>
 
-#include "BufferInterface.h"
 #include "CommandDescriptor.h"
-
 #include "StorageUtility/Scsi.h"
-#include "vtStorScsiPlatformDefines.h"
 
 namespace vtStor
 {
-namespace Scsi
-{
+    namespace Scsi
+    {
+        const size_t COMMAND_DESCRIPTOR_VERSION_OFFSET = 0;
+        const size_t COMMAND_DESCRIPTOR_VERSION_SIZE_IN_BYTES = 2;
+        const size_t COMMAND_DESCRIPTOR_RESERVED0_OFFSET = COMMAND_DESCRIPTOR_VERSION_OFFSET + COMMAND_DESCRIPTOR_VERSION_SIZE_IN_BYTES;
+        const size_t COMMAND_DESCRIPTOR_RESERVED0_SIZE_IN_BYTES = 2;
 
-const size_t COMMAND_DESCRIPTOR_VERSION_OFFSET = 0;
-const size_t COMMAND_DESCRIPTOR_VERSION_SIZE_IN_BYTES = 2;
-const size_t COMMAND_DESCRIPTOR_RESERVED0_OFFSET = COMMAND_DESCRIPTOR_VERSION_OFFSET + COMMAND_DESCRIPTOR_VERSION_SIZE_IN_BYTES;
-const size_t COMMAND_DESCRIPTOR_RESERVED0_SIZE_IN_BYTES = 2;
+        class VT_STOR_SCSI_API cScsiCommandDescriptor : public cCommandDescriptor
+        {
+        public:
+            static const size_t SIZE_IN_BYTES;
 
-class VT_STOR_SCSI_API cScsiCommandDescriptor : public cCommandDescriptor
-{
-public:
-    static const size_t SIZE_IN_BYTES;
+        public:
+            static cScsiCommandDescriptor Reader(std::shared_ptr<const IBuffer> Buffer);
+            static cScsiCommandDescriptor Writer(std::shared_ptr<IBuffer> Buffer);
+            static cScsiCommandDescriptor Modifier(std::shared_ptr<IBuffer> Buffer);
 
-public:
-    static cScsiCommandDescriptor Reader(std::shared_ptr<const cBufferInterface> Buffer);
-    static cScsiCommandDescriptor Writer(std::shared_ptr<cBufferInterface> Buffer);
-    static cScsiCommandDescriptor Modifier(std::shared_ptr<cBufferInterface> Buffer);
+        protected:
+            cScsiCommandDescriptor(std::shared_ptr<IBuffer> Buffer);
+            cScsiCommandDescriptor(std::shared_ptr<IBuffer> Buffer, U32 Format);
+            cScsiCommandDescriptor(std::shared_ptr<const IBuffer> Buffer);
 
-protected:
-    cScsiCommandDescriptor(std::shared_ptr<cBufferInterface> Buffer);
-    cScsiCommandDescriptor(std::shared_ptr<cBufferInterface> Buffer, U32 Format);
-    cScsiCommandDescriptor(std::shared_ptr<const cBufferInterface> Buffer);
+        public:
+            StorageUtility::Scsi::sCdbFields& GetCdbFields();
+            const StorageUtility::Scsi::sCdbFields& GetCdbFields() const;
+            StorageUtility::Scsi::sCommandCharacteristics& GetCommandCharacteristics();
+            const StorageUtility::Scsi::sCommandCharacteristics& GetCommandCharacteristics() const;
 
-public:
-    StorageUtility::Scsi::sCdbFields&               GetCdbFields();
-    const StorageUtility::Scsi::sCdbFields&         GetCdbFields() const;
-    StorageUtility::Scsi::sCommandCharacteristics&       GetCommandCharacteristics();
-    const StorageUtility::Scsi::sCommandCharacteristics& GetCommandCharacteristics() const;
-
-private:
-    static const size_t CDB_FIELDS_OFFSET;
-    static const size_t COMMAND_CHARACTERISTICS_OFFSET;
-};
-
-}
+        private:
+            static const size_t CDB_FIELDS_OFFSET;
+            static const size_t COMMAND_CHARACTERISTICS_OFFSET;
+        };
+    }
 }
 
 #endif

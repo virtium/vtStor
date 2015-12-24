@@ -94,7 +94,6 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;VTSTOR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)StorageUtility\Windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -109,7 +108,6 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;VTSTOR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)StorageUtility\Windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -126,7 +124,6 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;VTSTOR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)StorageUtility\Windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -145,7 +142,6 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;VTSTOR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)StorageUtility\Windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -159,35 +155,29 @@
     <ClInclude Include="..\Common\ErrorCodes.h" />
     <ClInclude Include="..\Common\Platform\x86x64\BasicTypes.h" />
     <ClInclude Include="..\Common\Platform\x86x64\Windows\PlatformDefines.h" />
+    <ClInclude Include="..\extern\IAtaCommandExtensions.h" />
+    <ClInclude Include="..\extern\IBuffer.h" />
+    <ClInclude Include="..\extern\ICommandHandler.h" />
+    <ClInclude Include="..\extern\IDevice.h" />
+    <ClInclude Include="..\extern\IDrive.h" />
+    <ClInclude Include="..\extern\IDriveEnumerator.h" />
+    <ClInclude Include="..\extern\IDriveManager.h" />
+    <ClInclude Include="..\extern\IProtocol.h" />
+    <ClInclude Include="..\extern\IScsiCommandExtensions.h" />
     <ClInclude Include="Buffer.h" />
     <ClInclude Include="BufferFormatter.h" />
-    <ClInclude Include="BufferInterface.h" />
     <ClInclude Include="CommandDescriptor.h" />
-    <ClInclude Include="CommandHandlerInterface.h" />
     <ClInclude Include="Drive.h" />
-    <ClInclude Include="DriveEnumeratorInterface.h" />
-    <ClInclude Include="DriveInterface.h" />
     <ClInclude Include="DriveManager.h" />
-    <ClInclude Include="DriveManagerInterface.h" />
-    <ClInclude Include="Platform\Windows\vtStorPlatformDefines.h" />
     <ClInclude Include="ProtocolEssense.h" />
-    <ClInclude Include="ProtocolInterface.h" />
-    <ClInclude Include="vtStor.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Buffer.cpp" />
     <ClCompile Include="BufferFormatter.cpp" />
-    <ClCompile Include="BufferInterface.cpp" />
     <ClCompile Include="CommandDescriptor.cpp" />
-    <ClCompile Include="CommandHandlerInterface.cpp" />
     <ClCompile Include="Drive.cpp" />
-    <ClCompile Include="DriveEnumeratorInterface.cpp" />
-    <ClCompile Include="DriveInterface.cpp" />
     <ClCompile Include="DriveManager.cpp" />
-    <ClCompile Include="DriveManagerInterface.cpp" />
     <ClCompile Include="ProtocolEssense.cpp" />
-    <ClCompile Include="ProtocolInterface.cpp" />
-    <ClCompile Include="vtStor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\StorageUtility\StorageUtility.vcxproj">

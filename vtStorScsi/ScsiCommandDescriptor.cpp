@@ -19,71 +19,66 @@ limitations under the License.
 
 namespace vtStor
 {
-namespace Scsi
-{
+    namespace Scsi
+    {
+        const size_t cScsiCommandDescriptor::CDB_FIELDS_OFFSET = cCommandDescriptor::DATA_OFFSET;
+        const size_t cScsiCommandDescriptor::COMMAND_CHARACTERISTICS_OFFSET = cScsiCommandDescriptor::CDB_FIELDS_OFFSET + sizeof(StorageUtility::Scsi::sCdbFields);
 
-    const size_t cScsiCommandDescriptor::CDB_FIELDS_OFFSET = cCommandDescriptor::DATA_OFFSET;
-    const size_t cScsiCommandDescriptor::COMMAND_CHARACTERISTICS_OFFSET = cScsiCommandDescriptor::CDB_FIELDS_OFFSET + sizeof(StorageUtility::Scsi::sCdbFields);
+        //! IMPORTANT NOTE: this must be updated to use the very last item
+        const size_t cScsiCommandDescriptor::SIZE_IN_BYTES = COMMAND_CHARACTERISTICS_OFFSET + sizeof(StorageUtility::Scsi::sCommandCharacteristics);
 
-//! IMPORTANT NOTE: this must be updated to use the very last item
-    const size_t cScsiCommandDescriptor::SIZE_IN_BYTES = COMMAND_CHARACTERISTICS_OFFSET + sizeof(StorageUtility::Scsi::sCommandCharacteristics);
+        cScsiCommandDescriptor cScsiCommandDescriptor::Reader(std::shared_ptr<const IBuffer> Buffer)
+        {
+            return(cScsiCommandDescriptor(Buffer));
+        }
 
-    cScsiCommandDescriptor cScsiCommandDescriptor::Reader(std::shared_ptr<const cBufferInterface> Buffer)
-{
-        return(cScsiCommandDescriptor(Buffer));
-}
+        cScsiCommandDescriptor cScsiCommandDescriptor::Writer(std::shared_ptr<IBuffer> Buffer)
+        {
+            return(cScsiCommandDescriptor(Buffer, 1));
+        }
 
-    cScsiCommandDescriptor cScsiCommandDescriptor::Writer(std::shared_ptr<cBufferInterface> Buffer)
-{
-        return(cScsiCommandDescriptor(Buffer, 1));
-}
+        cScsiCommandDescriptor cScsiCommandDescriptor::Modifier(std::shared_ptr<IBuffer> Buffer)
+        {
+            return(cScsiCommandDescriptor(Buffer));
+        }
 
-    cScsiCommandDescriptor cScsiCommandDescriptor::Modifier(std::shared_ptr<cBufferInterface> Buffer)
-{
-        return(cScsiCommandDescriptor(Buffer));
-}
+        cScsiCommandDescriptor::cScsiCommandDescriptor(std::shared_ptr<IBuffer> Buffer) :
+            cCommandDescriptor(Buffer)
+        {
+        }
 
-    cScsiCommandDescriptor::cScsiCommandDescriptor(std::shared_ptr<cBufferInterface> Buffer) :
-cCommandDescriptor(Buffer)
-{
+        cScsiCommandDescriptor::cScsiCommandDescriptor(std::shared_ptr<IBuffer> Buffer, U32 Format) :
+            cCommandDescriptor(Buffer, Format)
+        {
+        }
 
-}
+        cScsiCommandDescriptor::cScsiCommandDescriptor(std::shared_ptr<const IBuffer> Buffer) :
+            cCommandDescriptor(Buffer)
+        {
+        }
 
-    cScsiCommandDescriptor::cScsiCommandDescriptor(std::shared_ptr<cBufferInterface> Buffer, U32 Format) :
-cCommandDescriptor(Buffer, Format)
-{
-    
-}
+        StorageUtility::Scsi::sCdbFields& cScsiCommandDescriptor::GetCdbFields()
+        {
+            U8* buffer = m_Buffer->ToDataBuffer();
+            return((StorageUtility::Scsi::sCdbFields&)buffer[CDB_FIELDS_OFFSET]);
+        }
 
-    cScsiCommandDescriptor::cScsiCommandDescriptor(std::shared_ptr<const cBufferInterface> Buffer) :
-cCommandDescriptor(Buffer)
-{
-    
-}
+        const StorageUtility::Scsi::sCdbFields& cScsiCommandDescriptor::GetCdbFields() const
+        {
+            const U8* buffer = m_Buffer->ToDataBuffer();
+            return((StorageUtility::Scsi::sCdbFields&)buffer[CDB_FIELDS_OFFSET]);
+        }
 
-    StorageUtility::Scsi::sCdbFields& cScsiCommandDescriptor::GetCdbFields()
-{
-    U8* buffer = m_Buffer->ToDataBuffer();
-    return( (StorageUtility::Scsi::sCdbFields&)buffer[CDB_FIELDS_OFFSET] );
-}
+        StorageUtility::Scsi::sCommandCharacteristics& cScsiCommandDescriptor::GetCommandCharacteristics()
+        {
+            U8* buffer = m_Buffer->ToDataBuffer();
+            return((StorageUtility::Scsi::sCommandCharacteristics&)buffer[COMMAND_CHARACTERISTICS_OFFSET]);
+        }
 
-    const StorageUtility::Scsi::sCdbFields& cScsiCommandDescriptor::GetCdbFields() const
-{
-    const U8* buffer = m_Buffer->ToDataBuffer();
-    return((StorageUtility::Scsi::sCdbFields&)buffer[CDB_FIELDS_OFFSET]);
-}
-
-    StorageUtility::Scsi::sCommandCharacteristics& cScsiCommandDescriptor::GetCommandCharacteristics()
-{
-    U8* buffer = m_Buffer->ToDataBuffer();
-    return( (StorageUtility::Scsi::sCommandCharacteristics&)buffer[COMMAND_CHARACTERISTICS_OFFSET] );
-}
-
-    const StorageUtility::Scsi::sCommandCharacteristics& cScsiCommandDescriptor::GetCommandCharacteristics() const
-{
-    const U8* buffer = m_Buffer->ToDataBuffer();
-    return((StorageUtility::Scsi::sCommandCharacteristics&)buffer[COMMAND_CHARACTERISTICS_OFFSET]);
-}
-
-}
+        const StorageUtility::Scsi::sCommandCharacteristics& cScsiCommandDescriptor::GetCommandCharacteristics() const
+        {
+            const U8* buffer = m_Buffer->ToDataBuffer();
+            return((StorageUtility::Scsi::sCommandCharacteristics&)buffer[COMMAND_CHARACTERISTICS_OFFSET]);
+        }
+    }
 }
