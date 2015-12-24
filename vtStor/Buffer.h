@@ -19,12 +19,12 @@ limitations under the License.
 #define __vtStorBuffer_h__
 #pragma once
 
-#include "BufferInterface.h"
+#include "IBuffer.h"
 
 namespace vtStor
 {
 
-class VTSTOR_API cBuffer : public cBufferInterface
+class VTSTOR_API cBuffer : public IBuffer
 {
 public:
     cBuffer( size_t SizeInBytes );

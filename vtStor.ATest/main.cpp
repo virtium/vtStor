@@ -19,23 +19,17 @@ limitations under the License.
 
 #include "ErrorCodes.h"
 #include "BusType.h"
-
-#include "vtStor.h"
 #include "Buffer.h"
-
 #include "CommandHandlerAta.h"
-#include "DriveAtaCommandExtensions.h"
+#include "AtaCommandExtensions.h"
 #include "DriveEnumeratorAta.h"
 #include "ProtocolAtaPassThrough.h"
-#include "vtStorAta.h"
-
 #include "CommandHandlerScsi.h"
-#include "DriveScsiCommandExtensions.h"
+#include "ScsiCommandExtensions.h"
 #include "DriveEnumeratorScsi.h"
 #include "ProtocolScsiPassThrough.h"
-#include "vtStorScsi.h"
-
 #include "Drive.h"
+#include "IDriveManager.h"
 
 void main()
 {
@@ -49,8 +43,10 @@ void main()
     const vtStor::U32 sDefaultCommandHandlerAtaCommandType = 0;
     const vtStor::U32 sDefaultCommandHandlerScsiCommandType = 1;
 
-    std::unique_ptr<vtStor::cDriveManagerInterface> driveManager;
-    vtStorInit( driveManager );
+    std::unique_ptr<vtStor::IDriveManager> driveManager;
+    std::unique_ptr<vtStor::IAtaCommandExtensions> ataCommandExtensions(new vtStor::Ata::cAtaCommandExtensions);
+    std::unique_ptr<vtStor::IScsiCommandExtensions> scsiCommandExtensions(new vtStor::Scsi::cScsiCommandExtensions);
+    cDriveManager_GetDriveManager(driveManager);
 
     driveManager->RegisterDriveEnumerator(std::make_shared<vtStor::cDriveEnumeratorAta>());
     driveManager->RegisterDriveEnumerator(std::make_shared<vtStor::cDriveEnumeratorScsi>());
@@ -59,12 +55,12 @@ void main()
 
     vtStor::Vector_Drives drives = driveManager->GetDrives();
     // Create data buffer
-    std::shared_ptr<vtStor::cBufferInterface> dataBuffer = std::make_shared<vtStor::cBuffer>(512);
+    std::shared_ptr<vtStor::IBuffer> dataBuffer = std::make_shared<vtStor::cBuffer>(512);
 
-    std::shared_ptr<vtStor::Protocol::cProtocolInterface> protocol = nullptr;
-    std::shared_ptr<vtStor::cCommandHandlerInterface> commandHandler = nullptr;
+    std::shared_ptr<vtStor::IProtocol> protocol = nullptr;
+    std::shared_ptr<vtStor::ICommandHandler> commandHandler = nullptr;
 
-    std::shared_ptr<vtStor::cDrive> drive = std::dynamic_pointer_cast<vtStor::cDrive>(drives[1]);
+    std::shared_ptr<vtStor::IDevice> drive = std::dynamic_pointer_cast<vtStor::IDevice>(drives[1]);
     tchar* devicePath;
     drive->DevicePath(devicePath);
 
@@ -77,7 +73,7 @@ void main()
         drives[1]->RegisterCommandHandler(sDefaultCommandHandlerAtaCommandType, commandHandler);
 
         // Call command
-        vtStor::Ata::IssueCommand_IdentifyDevice(drives[1], sDefaultCommandHandlerAtaCommandType, dataBuffer);
+        ataCommandExtensions->IssueCommand_IdentifyDevice(drives[1], sDefaultCommandHandlerAtaCommandType, dataBuffer);
 
     } else if (vtStor::eBusType::Scsi == drives[1]->GetBusType())
     {
@@ -88,7 +84,7 @@ void main()
         drives[1]->RegisterCommandHandler(sDefaultCommandHandlerScsiCommandType, commandHandler);
 
         // Call command
-        vtStor::Scsi::IssueCommand_AtaIdentifyDevice(drives[1], sDefaultCommandHandlerScsiCommandType, dataBuffer);
+        scsiCommandExtensions->IssueCommand_AtaIdentifyDevice(drives[1], sDefaultCommandHandlerScsiCommandType, dataBuffer);
     }
 
     vtStor::U8* data = dataBuffer->ToDataBuffer();
@@ -98,7 +94,6 @@ void main()
     {
         if (i % 16 == 15)
         {
-
             printf("%02X\n", *data);
             data++;
         }

@@ -31,41 +31,37 @@ const size_t cEssenseAta1::SIZE_IN_BYTES    = cEssenseAta1::COMMAND_CHARACTERIST
                                             + sizeof( StorageUtility::Ata::uTaskFileRegister )
                                             + sizeof( StorageUtility::Ata::uTaskFileRegister );
 
-cEssenseAta1 cEssenseAta1::Reader(std::shared_ptr<const cBufferInterface> Buffer)
+cEssenseAta1 cEssenseAta1::Reader(std::shared_ptr<const IBuffer> Buffer)
 {
     return(cEssenseAta1(Buffer));
 }
 
-cEssenseAta1 cEssenseAta1::Writer(std::shared_ptr<cBufferInterface> Buffer)
+cEssenseAta1 cEssenseAta1::Writer(std::shared_ptr<IBuffer> Buffer)
 {
     return(cEssenseAta1(Buffer, 1));
 }
 
-cEssenseAta1::cEssenseAta1(std::shared_ptr<cBufferInterface> Buffer) :
+cEssenseAta1::cEssenseAta1(std::shared_ptr<IBuffer> Buffer) :
 cProtocolEssense(Buffer)
 {
-
 }
 
-cEssenseAta1::cEssenseAta1(std::shared_ptr<cBufferInterface> Buffer, U32 Format) :
+cEssenseAta1::cEssenseAta1(std::shared_ptr<IBuffer> Buffer, U32 Format) :
 cProtocolEssense(Buffer, Format)
 {
-
 }
 
-cEssenseAta1::cEssenseAta1(std::shared_ptr<const cBufferInterface> Buffer) :
+cEssenseAta1::cEssenseAta1(std::shared_ptr<const IBuffer> Buffer) :
 cProtocolEssense(Buffer)
 {
-
 }
 
 StorageUtility::Ata::sCommandCharacteristic& cEssenseAta1::GetCommandCharacteristics()
 {
     U8* buffer = m_Buffer->ToDataBuffer();
     return( (StorageUtility::Ata::sCommandCharacteristic&)buffer[ COMMAND_CHARACTERISTICS_OFFSET ] );
-
 }
-        
+
 const StorageUtility::Ata::sCommandCharacteristic& cEssenseAta1::GetCommandCharacteristics() const
 {
     const U8* buffer = m_Buffer->ToDataBuffer();
@@ -89,13 +85,11 @@ StorageUtility::Ata::uTaskFileRegister& cEssenseAta1::GetTaskFileExt()
     U8* buffer = m_Buffer->ToDataBuffer();
     return( (StorageUtility::Ata::uTaskFileRegister&)buffer[ TASK_FILE_EXT_OFFSET ] );
 }
-        
+
 const StorageUtility::Ata::uTaskFileRegister& cEssenseAta1::GetTaskFileExt() const
 {
     const U8* buffer = m_Buffer->ToDataBuffer();
     return( (StorageUtility::Ata::uTaskFileRegister&)buffer[ TASK_FILE_EXT_OFFSET ] );
 }
-            
 }
 }
-

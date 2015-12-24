@@ -22,6 +22,11 @@ limitations under the License.
 
 #include "ProtocolAtaPassThrough.h"
 
+void cAtaPassThrough_GetProtocol(std::shared_ptr<vtStor::IProtocol>& Protocol)
+{
+    Protocol = std::shared_ptr<vtStor::IProtocol>(new vtStor::Protocol::cAtaPassThrough());
+}
+
 namespace vtStor
 {
 namespace Protocol
@@ -38,11 +43,11 @@ namespace Protocol
     const vtStor::U8 STATUS_REGISTER_OFFSET = 6;
     const vtStor::U8 RESERVED_REGISTER_OFFSET = 7;
     
-    eErrorCode cAtaPassThrough::IssueCommand( const DeviceHandle& Handle, std::shared_ptr<const cBufferInterface> Essense, std::shared_ptr<cBufferInterface> DataBuffer )
+    eErrorCode cAtaPassThrough::IssueCommand( const DeviceHandle& Handle, std::shared_ptr<const IBuffer> Essense, std::shared_ptr<IBuffer> DataBuffer )
     {
         eErrorCode errorCode = eErrorCode::None;
 
-        cBufferFormatter bufferFormatter = cBufferFormatter::Reader(Essense);       
+        cBufferFormatter bufferFormatter = cBufferFormatter::Reader(Essense);
         
         switch (bufferFormatter.GetHeader().Format)
         {
@@ -70,7 +75,7 @@ namespace Protocol
         return(errorCode);
     }
 
-    void cAtaPassThrough::InitializePassThroughDirect( const StorageUtility::Ata::sCommandCharacteristic& CommandCharacteristics, const StorageUtility::Ata::uTaskFileRegister& PreviousTaskFile, const StorageUtility::Ata::uTaskFileRegister& CurrentTaskFile, std::shared_ptr<cBufferInterface> DataBuffer, U32 TimeoutValueInSeconds )
+    void cAtaPassThrough::InitializePassThroughDirect( const StorageUtility::Ata::sCommandCharacteristic& CommandCharacteristics, const StorageUtility::Ata::uTaskFileRegister& PreviousTaskFile, const StorageUtility::Ata::uTaskFileRegister& CurrentTaskFile, std::shared_ptr<IBuffer> DataBuffer, U32 TimeoutValueInSeconds )
     {
         m_AtaPassThrough.Length = sizeof( ATA_PASS_THROUGH_DIRECT );
         m_AtaPassThrough.DataTransferLength = CommandCharacteristics.DataTransferLengthInBytes;
@@ -182,9 +187,4 @@ namespace Protocol
     }
 
 }
-}
-
-VT_STOR_ATA_PROTOCOL_API void vtStorProtocolAtaPassThroughInit(std::shared_ptr<vtStor::Protocol::cProtocolInterface>& Protocol)
-{
-    Protocol = std::make_shared<vtStor::Protocol::cAtaPassThrough>();
 }

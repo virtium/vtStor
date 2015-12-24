@@ -20,7 +20,7 @@ limitations under the License.
 #define __vtStorAtaDriveEnumeratorAtaManaged_h__
 #pragma once
 
-#include "DriveEnumeratorInterface.h"
+#include "IDriveEnumerator.h"
 #include "SharedPtrManaged.h"
 
 using namespace vtStor;
@@ -33,7 +33,7 @@ namespace vtStor
         public ref class cDriveEnumeratorAta : public cDriveEnumeratorInterface
         {
         public:
-            cDriveEnumeratorAta();
+            cDriveEnumeratorAta(IRunTimeDll^ RunTimeDll);
             virtual ~cDriveEnumeratorAta();
 
         protected:
@@ -43,7 +43,7 @@ namespace vtStor
             virtual operator void*() override;
 
         private:
-            cSharedPtr<vtStor::cDriveEnumeratorInterface> m_DriveEnumerator;
+            cSharedPtr<vtStor::IDriveEnumerator> m_DriveEnumerator;
         };
     }
 }

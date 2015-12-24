@@ -21,11 +21,11 @@ limitations under the License.
 
 #include <memory>
 
-#include "BufferInterface.h"
-#include "vtStorPlatformDefines.h"
+#include "IBuffer.h"
 
 namespace vtStor
 {
+VTSTOR_API_EXPORT_IMPL template class VTSTOR_API std::shared_ptr<IBuffer>;
 
 class VTSTOR_API cBufferFormatter
 {
@@ -38,23 +38,23 @@ public:
     static const size_t HEADER_SIZE_IN_BYTES;
 
 public:
-    static cBufferFormatter Reader(std::shared_ptr<const cBufferInterface> Buffer);
+    static cBufferFormatter Reader(std::shared_ptr<const IBuffer> Buffer);
 
 public:
     Header& GetHeader();
     const Header& GetHeader() const;
 
 protected:
-    cBufferFormatter(std::shared_ptr<cBufferInterface> Buffer);
-    cBufferFormatter(std::shared_ptr<cBufferInterface> Buffer, U32 Format);
-    cBufferFormatter(std::shared_ptr<const cBufferInterface> Buffer);
+    cBufferFormatter(std::shared_ptr<IBuffer> Buffer);
+    cBufferFormatter(std::shared_ptr<IBuffer> Buffer, U32 Format);
+    cBufferFormatter(std::shared_ptr<const IBuffer> Buffer);
 
 protected:
     static const size_t HEADER_OFFSET;
     static const size_t DATA_OFFSET;
 
 protected:
-    std::shared_ptr<cBufferInterface> m_Buffer;
+    std::shared_ptr<IBuffer> m_Buffer;
 };
 
 }

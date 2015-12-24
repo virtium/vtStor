@@ -16,14 +16,14 @@ limitations under the License.
 </License>
 */
 
-#include "Drive.h"
+#include "IDevice.h"
 #include "DriveInterfaceManaged.h"
 
 namespace vtStor
 {
     namespace Managed
     {
-        cDriveInterface::cDriveInterface( std::shared_ptr<vtStor::cDriveInterface> Drive )
+        cDriveInterface::cDriveInterface( std::shared_ptr<vtStor::IDrive> Drive )
         {
             m_Drive = Drive;
         }
@@ -38,17 +38,17 @@ namespace vtStor
 
         cDriveInterface::operator void*()
         {
-            return( vtStor::cDriveInterface::ToVoidPointer( *m_Drive ) );
+            return(reinterpret_cast<void*>(&(*m_Drive)));
         }
 
         void cDriveInterface::RegisterCommandHandler(U32 CommandType, vtStor::Managed::cCommandHandlerInterface^ CommandHandler)
         {
-            m_Drive->RegisterCommandHandler(CommandType, vtStor::cCommandHandlerInterface::ToSharedPtr(*CommandHandler));
+            m_Drive->RegisterCommandHandler(CommandType, *reinterpret_cast<std::shared_ptr<vtStor::ICommandHandler>* > ((void*)*CommandHandler));
         }
 
         eErrorCode cDriveInterface::IssueCommand(U32 CommandType, vtStor::Managed::cBufferInterface^ CommandDescriptor, vtStor::Managed::cBufferInterface^ Data)
         {
-            return( m_Drive->IssueCommand( CommandType, vtStor::cBufferInterface::ToSharedPtr( *CommandDescriptor ), vtStor::cBufferInterface::ToSharedPtr( *Data ) ) );
+            return(m_Drive->IssueCommand(CommandType, *reinterpret_cast<std::shared_ptr<vtStor::IBuffer>*>((void*)*CommandDescriptor), *reinterpret_cast<std::shared_ptr<vtStor::IBuffer>*>((void*)*Data)));
         }
 
         vtStor::Managed::eBusType cDriveInterface::GetBusType()
@@ -59,7 +59,7 @@ namespace vtStor
         System::String^ cDriveInterface::GetDevicePath()
         {
             // Get Drive instance from the current DriveInterface
-            std::shared_ptr<vtStor::cDrive> drive = std::dynamic_pointer_cast<vtStor::cDrive>(*m_Drive);
+            std::shared_ptr<vtStor::IDevice> drive = std::dynamic_pointer_cast<vtStor::IDevice>(*m_Drive);
 
             // Retrieve DevicePath from drive
             tchar* devicePath;

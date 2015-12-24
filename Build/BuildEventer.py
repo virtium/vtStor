@@ -14,7 +14,7 @@
 # </License>
 # */
 
-### Python 
+### Python
 ### Project Name: Post Build Copy
 
 from xml.dom import minidom
@@ -37,10 +37,10 @@ def CopyFolder( iSource, iDest ):
         if os.path.isfile( s ):
             shutil.copyfile( s, d )
             print("\t+Successful Copy(\"%s\" to \"%s\")" %( s, d ) )
-                     
+
 def PostBuildCopy( iSource, iDest ):
     try:
-        if os.path.isdir( iSource ):   
+        if os.path.isdir( iSource ):
             print "\n...Copying " + iSource + " ..to.. " + iDest
             basename = os.path.basename( iSource )
             newDest = os.path.join( iDest, basename )
@@ -72,7 +72,7 @@ class cReplaceStrError( Exception ):
 if __name__ == "__main__":
     print "\nRunning PostBuildCopy..."
     print ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Start >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
-    
+
     # Check nember of argv from command line
     if( 2 > len( sys.argv ) ):
         print "\nNot enough information provided."
@@ -87,7 +87,7 @@ if __name__ == "__main__":
     # Check second argv is there a xml file or no?
     if fnmatch.fnmatch( pathToXml, '*.xml' ) == False:
         print "\n\tPlease check second argv in command line. It should be: path of xml file."
-        print "\n----------------------------------------------------------------------------------"  
+        print "\n----------------------------------------------------------------------------------"
         exit( 1 )
 
     print "\nConfiguration file path: " + pathToXml
@@ -117,8 +117,8 @@ if __name__ == "__main__":
     # Get new list parameter
     strParameterValues = [ ]
     for i in range( 2, len( sys.argv ) ):
-        strParameterValues.append( sys.argv[ i ] ) 
-            
+        strParameterValues.append( sys.argv[ i ] )
+
     # Get destinations and sources in every Copy
     for copy in copies:
         # Get a destination from xml
@@ -129,7 +129,7 @@ if __name__ == "__main__":
         except cReplaceStrError as e:
             print ("Parameter names and parameter values are not match.")
             break
-            
+
         #Get all sources from xml
         listSources = copy.getElementsByTagName( "Source" )
         for sourcePath in listSources:
@@ -146,15 +146,3 @@ if __name__ == "__main__":
                 print "Exception a Get Sourse from xml"
 
     print "\n---------------------------------------- END -------------------------------------"
-
-
-
-
-
-
-
-
-
-
-
-

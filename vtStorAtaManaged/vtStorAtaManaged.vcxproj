@@ -95,7 +95,6 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader />
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -110,7 +109,6 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader />
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -123,7 +121,6 @@
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader />
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -134,33 +131,24 @@
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader />
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="AtaManaged.h" />
     <ClInclude Include="CommandHandlerAtaManaged.h" />
-    <ClInclude Include="DriveAtaCommandExtensionsManaged.h" />
+    <ClInclude Include="AtaCommandExtensionsManaged.h" />
     <ClInclude Include="DriveEnumeratorAtaManaged.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\vtStorAta\vtStorAta.vcxproj">
-      <Project>{81528cdf-976a-4f09-b1f8-1976a92fb19a}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\vtStorManaged\vtStorManaged.vcxproj">
       <Project>{131076b3-3784-43d5-8f57-e6277de39de8}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\vtStor\vtStor.vcxproj">
-      <Project>{2595ae3d-ff40-47c4-b050-55d450843934}</Project>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AtaManaged.cpp" />
     <ClCompile Include="CommandHandlerInterfaceManaged.cpp" />
-    <ClCompile Include="DriveAtaCommandExtensionsManaged.cpp" />
+    <ClCompile Include="AtaCommandExtensionsManaged.cpp" />
     <ClCompile Include="DriveEnumeratorAtaManaged.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

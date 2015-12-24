@@ -22,11 +22,16 @@ limitations under the License.
 
 #include "ProtocolScsiPassThrough.h"
 
+void cScsiPassThrough_GetProtocol(std::shared_ptr<vtStor::IProtocol>& Protocol)
+{
+    Protocol = std::shared_ptr<vtStor::IProtocol>(new vtStor::Protocol::cScsiPassThrough());
+}
+
 namespace vtStor
 {
 namespace Protocol
 {
-    eErrorCode cScsiPassThrough::IssueCommand(const DeviceHandle& Handle, std::shared_ptr<const cBufferInterface> Essense, std::shared_ptr<cBufferInterface> DataBuffer)
+    eErrorCode cScsiPassThrough::IssueCommand(const DeviceHandle& Handle, std::shared_ptr<const IBuffer> Essense, std::shared_ptr<IBuffer> DataBuffer)
     {
         eErrorCode errorCode = eErrorCode::None;
 
@@ -60,7 +65,7 @@ namespace Protocol
         return(errorCode);
     }
 
-    void cScsiPassThrough::InitializePassThroughDirect( const StorageUtility::Scsi::sCommandCharacteristics& CommandCharacteristics, const StorageUtility::Scsi::sCdbRegisters& CdbRegister, std::shared_ptr<cBufferInterface> DataBuffer, U32 TimeoutValueInSeconds )
+    void cScsiPassThrough::InitializePassThroughDirect( const StorageUtility::Scsi::sCommandCharacteristics& CommandCharacteristics, const StorageUtility::Scsi::sCdbRegisters& CdbRegister, std::shared_ptr<IBuffer> DataBuffer, U32 TimeoutValueInSeconds )
     {
         m_ScsiPassThrough.Length = sizeof( SCSI_PASS_THROUGH_DIRECT );
         m_ScsiPassThrough.PathId = 0;
@@ -164,9 +169,4 @@ namespace Protocol
     }
 
 }
-}
-
-VT_STOR_SCSI_PROTOCOL_API void vtStorProtocolScsiPassThroughInit(std::shared_ptr<vtStor::Protocol::cProtocolInterface>& Protocol)
-{
-    Protocol = std::make_shared<vtStor::Protocol::cScsiPassThrough>();
 }

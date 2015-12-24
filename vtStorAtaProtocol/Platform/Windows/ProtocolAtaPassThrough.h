@@ -22,31 +22,28 @@ limitations under the License.
 #include <Ntddscsi.h>
 
 #include "ErrorCodes.h"
-#include "BufferInterface.h"
-#include "ProtocolInterface.h"
+#include "IBuffer.h"
+#include "IProtocol.h"
 
 #include "StorageUtility/Ata.h"
-
-#include "vtStorAtaProtocolPlatformDefines.h"
-
 
 namespace vtStor
 {
 namespace Protocol
 {
 
-class VT_STOR_ATA_PROTOCOL_API cAtaPassThrough : public cProtocolInterface
+class VT_STOR_ATA_PROTOCOL_API cAtaPassThrough : public IProtocol
 {
 
 public:
-    virtual eErrorCode IssueCommand( const DeviceHandle& Handle, std::shared_ptr<const cBufferInterface> Essense, std::shared_ptr<cBufferInterface> DataBuffer ) override;
+    virtual eErrorCode IssueCommand( const DeviceHandle& Handle, std::shared_ptr<const IBuffer> Essense, std::shared_ptr<IBuffer> DataBuffer ) override;
 
 private:
     void InitializePassThroughDirect(
         const StorageUtility::Ata::sCommandCharacteristic& CommandCharacteristics,
         const StorageUtility::Ata::uTaskFileRegister& PreviousTaskFile,
         const StorageUtility::Ata::uTaskFileRegister& CurrentTaskFile,
-        std::shared_ptr<cBufferInterface> DataBuffer,
+        std::shared_ptr<IBuffer> DataBuffer,
         U32 TimeoutValueInSeconds
         );
 
@@ -65,9 +62,4 @@ private:
 };
 
 }
-}
-
-extern "C"
-{
-    VT_STOR_ATA_PROTOCOL_API void vtStorProtocolAtaPassThroughInit(std::shared_ptr<vtStor::Protocol::cProtocolInterface>& Protocol);
 }
