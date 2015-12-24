@@ -24,10 +24,10 @@
     <ClCompile Include="DriveScsi.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="vtStorScsi.cpp">
+    <ClCompile Include="ScsiCommandDescriptor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DriveScsiCommandExtensions.cpp">
+    <ClCompile Include="ScsiCommandExtensions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CommandDescriptorScsi.cpp">
@@ -44,14 +44,12 @@
     <ClInclude Include="DriveScsi.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Platform\Windows\vtStorScsiPlatformDefines.h">
+    <ClInclude Include="ScsiCommandDescriptor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="vtStorScsi.h">
+    <ClInclude Include="ScsiCommandExtensions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DriveScsiCommandExtensions.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CommandDescriptorScsi.h">
       <Filter>Header Files</Filter>

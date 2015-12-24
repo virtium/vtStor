@@ -18,34 +18,32 @@ limitations under the License.
 #ifndef __DriveManager_h__
 #define __DriveManager_h__
 
-#include "DriveManagerInterface.h"
+#include "IDriveManager.h"
 
 namespace vtStor
 {
 
-class cDriveManager : public cDriveManagerInterface
+class cDriveManager : public IDriveManager
 {
 public:
-    virtual void RegisterDriveEnumerator( std::shared_ptr<cDriveEnumeratorInterface> DriveEnumerator ) override;
-
+    virtual void RegisterDriveEnumerator( std::shared_ptr<IDriveEnumerator> DriveEnumerator ) override;
     virtual eErrorCode EnumerateDrives( eScanForHardwareChanges ScanForHardwareChanges ) override;
 
 public:
     virtual const Vector_Drives& GetDrives() override;
-
-    virtual std::shared_ptr<cDriveInterface> GetDrive(const U32 DriveIndex) override;
+    virtual std::shared_ptr<IDrive> GetDrive(const U32 DriveIndex) override;
 
 public:
     cDriveManager();
     virtual ~cDriveManager();
 
 private:
-    using Vector_DriveEnumerator = std::vector<std::shared_ptr<cDriveEnumeratorInterface>>;
+    using Vector_DriveEnumerator = std::vector<std::shared_ptr<IDriveEnumerator>>;
     Vector_DriveEnumerator m_DriveEnumerators;
 
 private:
     Vector_Drives   m_Drives;
-    std::vector<std::shared_ptr<cDeviceInterface>> m_Devices;
+    std::vector<std::shared_ptr<IDevice>> m_Devices;
 };
 
 }

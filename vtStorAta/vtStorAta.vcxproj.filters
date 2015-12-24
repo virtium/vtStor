@@ -24,10 +24,10 @@
     <ClCompile Include="DriveAta.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="vtStorAta.cpp">
+    <ClCompile Include="CommandDescriptorUtility.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DriveAtaCommandExtensions.cpp">
+    <ClCompile Include="AtaCommandExtensionscpp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CommandDescriptorAta.cpp">
@@ -44,14 +44,12 @@
     <ClInclude Include="DriveAta.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Platform\Windows\vtStorAtaPlatformDefines.h">
+    <ClInclude Include="CommandDescriptorUtility.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="vtStorAta.h">
+    <ClInclude Include="AtaCommandExtensions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DriveAtaCommandExtensions.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CommandDescriptorAta.h">
       <Filter>Header Files</Filter>

@@ -16,17 +16,16 @@ limitations under the License.
 </License>
 */
 
-#include "Buffer.h"
 #include "BufferInterfaceManaged.h"
 
 namespace vtStor
 {
     namespace Managed
     {
-        cBufferInterface::cBufferInterface( U32 SizeInByte )
+        cBufferInterface::cBufferInterface( IRunTimeDll^ RunTimeDll, U32 SizeInByte )
         {
-            std::shared_ptr<vtStor::cBufferInterface> dataBuffer = std::make_shared<vtStor::cBuffer>( SizeInByte );
-            m_Buffer = dataBuffer;
+            GetBufferDelegate getBufferDelegate = (GetBufferDelegate)RunTimeDll->GetFunction("cBuffer_GetBuffer");
+            getBufferDelegate(*m_Buffer, SizeInByte);
         }
 
         cBufferInterface::~cBufferInterface()
@@ -39,7 +38,7 @@ namespace vtStor
 
         cBufferInterface::operator void*()
         {
-            return( vtStor::cBufferInterface::ToVoidPointer( *m_Buffer ) );
+            return(reinterpret_cast<void*>(&(*m_Buffer)));
         }
 
         void cBufferInterface::SetByteAt( U32 Index, U8 Value )

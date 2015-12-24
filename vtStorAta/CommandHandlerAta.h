@@ -20,30 +20,28 @@ limitations under the License.
 #pragma once
 
 #include "Ata.h"
-#include "CommandHandlerInterface.h"
-#include "vtStorAtaPlatformDefines.h"
+#include "ICommandHandler.h"
+#include "IProtocol.h"
 
 namespace vtStor
 {
 
-class VT_STOR_ATA_API cCommandHandlerAta : public cCommandHandlerInterface
+class VT_STOR_ATA_API cCommandHandlerAta : public ICommandHandler
 {
 public:
-    cCommandHandlerAta( std::shared_ptr<Protocol::cProtocolInterface> Protocol );
+    cCommandHandlerAta(std::shared_ptr<IProtocol> Protocol);
     virtual ~cCommandHandlerAta();
 
 public:
-    virtual eErrorCode IssueCommand( const DeviceHandle& Handle, std::shared_ptr<const cBufferInterface> CommandDescriptor, std::shared_ptr<cBufferInterface> Data ) override;
+    virtual eErrorCode IssueCommand(const DeviceHandle& Handle, std::shared_ptr<const IBuffer> CommandDescriptor, std::shared_ptr<IBuffer> Data) override;
 
 private:
-    void PrepareTaskFileRegisters( const StorageUtility::Ata::sCommandCharacteristic& AtaCommandCharacteristics, const StorageUtility::Ata::uCommandFields& CommandFields, StorageUtility::Ata::uTaskFileRegister& TaskFileRegister, StorageUtility::Ata::uTaskFileRegister& TaskFileRegisterExt );
+    void PrepareTaskFileRegisters(const StorageUtility::Ata::sCommandCharacteristic& AtaCommandCharacteristics, const StorageUtility::Ata::uCommandFields& CommandFields, StorageUtility::Ata::uTaskFileRegister& TaskFileRegister, StorageUtility::Ata::uTaskFileRegister& TaskFileRegisterExt);
+
+private:
+    std::shared_ptr<IProtocol> m_Protocol;
 };
 
-}
-
-extern "C"
-{
-    VT_STOR_ATA_API void vtStorCommandHandlerAtaInit( std::shared_ptr<vtStor::cCommandHandlerInterface>& CommandHandler, std::shared_ptr<vtStor::Protocol::cProtocolInterface> Protocol );
 }
 
 #endif

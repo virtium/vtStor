@@ -20,7 +20,7 @@ limitations under the License.
 #define __vtStorProtocolAtaPassthroughManaged_h__
 #pragma once
 
-#include "ProtocolInterface.h"
+#include "IProtocol.h"
 #include "SharedPtrManaged.h"
 
 namespace vtStor
@@ -32,7 +32,7 @@ namespace vtStor
             public ref class cProtocolAtaPassThrough : public vtStor::Managed::cProtocolInterface
             {
             public:
-                cProtocolAtaPassThrough();
+                cProtocolAtaPassThrough(vtStor::Managed::IRunTimeDll^ RunTimeDll);
                 virtual ~cProtocolAtaPassThrough();
 
             protected:
@@ -42,7 +42,7 @@ namespace vtStor
                 virtual operator void*() override;
 
             private:
-                vtStor::Managed::cSharedPtr<vtStor::Protocol::cProtocolInterface> m_Protocol;
+                vtStor::Managed::cSharedPtr<vtStor::IProtocol> m_Protocol;
             };
         }
     }

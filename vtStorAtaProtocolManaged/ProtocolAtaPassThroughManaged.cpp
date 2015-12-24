@@ -26,9 +26,10 @@ namespace vtStor
     {
         namespace Managed
         {
-            cProtocolAtaPassThrough::cProtocolAtaPassThrough()
+            cProtocolAtaPassThrough::cProtocolAtaPassThrough(vtStor::Managed::IRunTimeDll^ RunTimeDll)
             {
-                vtStorProtocolAtaPassThroughInit( *m_Protocol );
+                GetProtocolDelegate getProtocolDelegate = (GetProtocolDelegate)RunTimeDll->GetFunction("cAtaPassThrough_GetProtocol");
+                getProtocolDelegate(*m_Protocol);
             }
 
             cProtocolAtaPassThrough::~cProtocolAtaPassThrough()
@@ -41,7 +42,7 @@ namespace vtStor
 
             cProtocolAtaPassThrough::operator void*()
             {
-                return( vtStor::Protocol::cProtocolInterface::ToVoidPointer( *m_Protocol ) );
+                return(reinterpret_cast<void*>(&(*m_Protocol)));
             }
         }
     }

@@ -19,21 +19,17 @@ limitations under the License.
 
 namespace vtStor
 {
+    cDriveScsi::cDriveScsi(std::shared_ptr<vtStor::IDevice> Device, DeviceHandle DeviceHandle) :
+        cDrive(Device, DeviceHandle)
+    {
+    }
 
-cDriveScsi::cDriveScsi(std::shared_ptr<vtStor::cDeviceInterface> Device, DeviceHandle DeviceHandle) :
-    cDrive(Device, DeviceHandle)
-{
+    cDriveScsi::~cDriveScsi()
+    {
+    }
 
-}
-
-cDriveScsi::~cDriveScsi()
-{
-
-}
-
-eBusType cDriveScsi::GetBusType()
-{
-    return( eBusType::Scsi );
-}
-
+    eBusType cDriveScsi::GetBusType()
+    {
+        return(eBusType::Scsi);
+    }
 }

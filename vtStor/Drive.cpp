@@ -22,7 +22,7 @@ limitations under the License.
 namespace vtStor
 {
 
-cDrive::cDrive(std::shared_ptr<vtStor::cDeviceInterface> Device, DeviceHandle DeviceHandle) :
+cDrive::cDrive(std::shared_ptr<vtStor::IDevice> Device, DeviceHandle DeviceHandle) :
     m_Device( Device ), m_DeviceHandle( DeviceHandle )
 {
 }
@@ -33,12 +33,12 @@ cDrive::~cDrive()
     m_CommandHandlers.clear();
 }
 
-void cDrive::RegisterCommandHandler(U32 CommandType, std::shared_ptr<cCommandHandlerInterface> CommandHandler)
+void cDrive::RegisterCommandHandler(U32 CommandType, std::shared_ptr<ICommandHandler> CommandHandler)
 {
     m_CommandHandlers.insert({ CommandType, CommandHandler });
 }
 
-eErrorCode cDrive::IssueCommand( U32 CommandType, std::shared_ptr<const cBufferInterface> CommandDescriptor, std::shared_ptr<cBufferInterface> Data )
+eErrorCode cDrive::IssueCommand( U32 CommandType, std::shared_ptr<const IBuffer> CommandDescriptor, std::shared_ptr<IBuffer> Data )
 {
     return(m_CommandHandlers[CommandType]->IssueCommand(m_DeviceHandle, CommandDescriptor, Data));
 }

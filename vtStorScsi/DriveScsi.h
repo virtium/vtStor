@@ -19,8 +19,6 @@ limitations under the License.
 #define __DriveScsi_h__
 
 #include "Drive.h"
-
-#include "BufferInterface.h"
 #include "CommandDescriptorScsi.h"
 
 namespace vtStor
@@ -28,7 +26,7 @@ namespace vtStor
     class cDriveScsi : public cDrive
     {
     public:
-        cDriveScsi(std::shared_ptr<vtStor::cDeviceInterface> Device, DeviceHandle DeviceHandle);
+        cDriveScsi(std::shared_ptr<vtStor::IDevice> Device, DeviceHandle DeviceHandle);
 
     public:
         virtual ~cDriveScsi();

@@ -17,52 +17,54 @@ limitations under the License.
 */
 #include "StorageUtility.h"
 
-#include "vtStorScsi.h"
 #include "DriveScsi.h"
 #include "ProtocolScsiPassThrough.h"
 
 #include "DriveEnumeratorScsi.h"
 
+void cDriveEnumeratorScsi_GetDriveEnumerator(std::shared_ptr<vtStor::IDriveEnumerator>& DriveEnumerator)
+{
+    DriveEnumerator = std::shared_ptr<vtStor::IDriveEnumerator>(new vtStor::cDriveEnumeratorScsi());
+}
+
 namespace vtStor
-{ 
-cDriveEnumeratorScsi::~cDriveEnumeratorScsi()
 {
-
-}
-
-std::shared_ptr<cDriveInterface> cDriveEnumeratorScsi::EnumerateDrive(const std::shared_ptr<cDeviceInterface>& Device)
-{
-    DeviceHandle deviceHandle;
-    eErrorCode errorCode;
-
-    try
+    cDriveEnumeratorScsi::~cDriveEnumeratorScsi()
     {
-        deviceHandle = Device->Handle();
     }
-    catch (std::exception ex)
+
+    std::shared_ptr<IDrive> cDriveEnumeratorScsi::EnumerateDrive(const std::shared_ptr<IDevice>& Device)
     {
-        //fprintf(stderr, "\nEnumerateDrive was not successful. Exception:%s.", ex.what());
-        //TODO: handle error
+        DeviceHandle deviceHandle;
+        eErrorCode errorCode;
+
+        try
+        {
+            deviceHandle = Device->Handle();
+        }
+        catch (std::exception ex)
+        {
+            //fprintf(stderr, "\nEnumerateDrive was not successful. Exception:%s.", ex.what());
+            //TODO: handle error
+            return(nullptr);
+        }
+
+        sStorageAdapterProperty storageAdapterProperty;
+        errorCode = GetStorageAdapterProperty(deviceHandle, storageAdapterProperty);
+
+        if (eErrorCode::None != errorCode)
+        {
+            //TODO: handle error
+            return(nullptr);
+        }
+
+        if (true == IsScsiDeviceBus(storageAdapterProperty))
+        {
+            std::shared_ptr<IDrive> drive = std::make_shared<cDriveScsi>(Device, deviceHandle);
+
+            return(drive);
+        }
+
         return(nullptr);
     }
-
-    sStorageAdapterProperty storageAdapterProperty;
-    errorCode = GetStorageAdapterProperty(deviceHandle, storageAdapterProperty);
-
-    if (eErrorCode::None != errorCode)
-    {
-        //TODO: handle error
-        return(nullptr);
-    }
-
-    if (true == IsScsiDeviceBus(storageAdapterProperty))
-    {
-        std::shared_ptr<cDriveInterface> drive = std::make_shared<cDriveScsi>(Device, deviceHandle);
-
-        return(drive);
-    }
-
-    return(nullptr);
-}
-
 }

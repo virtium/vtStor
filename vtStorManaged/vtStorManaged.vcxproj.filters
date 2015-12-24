@@ -16,6 +16,9 @@
     <Filter Include="Header Files\Common">
       <UniqueIdentifier>{632a6666-5165-49d8-9859-08f449c37c9e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Interfaces">
+      <UniqueIdentifier>{443a6a43-4dcb-41cd-a0c5-57ad7c1ca5b4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LockManaged.h">
@@ -45,6 +48,18 @@
     <ClInclude Include="CommandHandlerInterfaceManaged.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ILoadRunTimeDll.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadRunTimeDll.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IRunTimeDll.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="RunTimeDll.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BufferInterfaceManaged.cpp">
@@ -63,6 +78,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CommandHandlerInterfaceManaged.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadRunTimeDll.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RunTimeDll.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -125,14 +125,8 @@
     <ClCompile Include="ProtocolScsiPassThroughManaged.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\vtStorScsiProtocol\vtStorScsiProtocol.vcxproj">
-      <Project>{1f24edf0-ef6d-46f8-b0c8-964120e50963}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\vtStorManaged\vtStorManaged.vcxproj">
       <Project>{131076b3-3784-43d5-8f57-e6277de39de8}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\vtStor\vtStor.vcxproj">
-      <Project>{2595ae3d-ff40-47c4-b050-55d450843934}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

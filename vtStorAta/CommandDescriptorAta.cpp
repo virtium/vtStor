@@ -28,34 +28,34 @@ const size_t cCommandDescriptorAta::COMMAND_CHARACTERISTICS_OFFSET = cCommandDes
 //! IMPORTANT NOTE: this must be updated to use the very last item
 const size_t cCommandDescriptorAta::SIZE_IN_BYTES = COMMAND_CHARACTERISTICS_OFFSET + sizeof(StorageUtility::Ata::sCommandCharacteristic);
 
-cCommandDescriptorAta cCommandDescriptorAta::Reader(std::shared_ptr<const cBufferInterface> Buffer)
+cCommandDescriptorAta cCommandDescriptorAta::Reader(std::shared_ptr<const IBuffer> Buffer)
 {
     return(cCommandDescriptorAta(Buffer));
 }
 
-cCommandDescriptorAta cCommandDescriptorAta::Writer(std::shared_ptr<cBufferInterface> Buffer)
+cCommandDescriptorAta cCommandDescriptorAta::Writer(std::shared_ptr<IBuffer> Buffer)
 {
     return(cCommandDescriptorAta(Buffer, 1));
 }
 
-cCommandDescriptorAta cCommandDescriptorAta::Modifier(std::shared_ptr<cBufferInterface> Buffer)
+cCommandDescriptorAta cCommandDescriptorAta::Modifier(std::shared_ptr<IBuffer> Buffer)
 {
     return(cCommandDescriptorAta(Buffer));
 }
 
-cCommandDescriptorAta::cCommandDescriptorAta(std::shared_ptr<cBufferInterface> Buffer) :
+cCommandDescriptorAta::cCommandDescriptorAta(std::shared_ptr<IBuffer> Buffer) :
 cCommandDescriptor(Buffer)
 {
 
 }
 
-cCommandDescriptorAta::cCommandDescriptorAta(std::shared_ptr<cBufferInterface> Buffer, U32 Format) :
+cCommandDescriptorAta::cCommandDescriptorAta(std::shared_ptr<IBuffer> Buffer, U32 Format) :
 cCommandDescriptor(Buffer, Format)
 {
     
 }
 
-cCommandDescriptorAta::cCommandDescriptorAta( std::shared_ptr<const cBufferInterface> Buffer ) :
+cCommandDescriptorAta::cCommandDescriptorAta( std::shared_ptr<const IBuffer> Buffer ) :
 cCommandDescriptor(Buffer)
 {
     
