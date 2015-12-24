@@ -15,6 +15,10 @@
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)$(Platform)$(Configuration);$(SolutionDir)StorageUtility\$(Platform)$(Configuration);$(SolutionDir)vtStor\$(Platform)$(Configuration);$(SolutionDir)vtStorScsiProtocol\$(Platform)$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent>
+      <Command>cd $(SolutionDir)
+python Build\BuildEventer.py Build\BuildEventer.xml $(ProjectName) $(Platform) $(Configuration)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup />
 </Project>

@@ -21,7 +21,7 @@ limitations under the License.
 #include <memory>
 
 #include "BufferInterface.h"
-#include "StorageUtility/Scsi.h"
+#include "Scsi.h"
 #include "vtStorScsiProtocolPlatformDefines.h"
 #include "ProtocolEssense.h"
 

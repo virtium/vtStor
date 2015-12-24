@@ -15,17 +15,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
-#include "vtStorScsi.h"
-#include "DriveEnumeratorScsi.h"
+#ifndef __vtStorScsiPlatformDefines_h__
+#define __vtStorScsiPlatformDefines_h__
 
-using namespace vtStor;
+#ifdef VT_STOR_SCSI_DLL_EXPORTS
+#define VT_STOR_SCSI_API
+#else
+#define VT_STOR_SCSI_API
+#endif
 
-namespace vtStor
-{
-
-}
-
-void vtStorScsiInit(std::shared_ptr<vtStor::cDriveEnumeratorInterface>& DriveEnumerator)
-{
-    DriveEnumerator = std::make_shared<vtStor::cDriveEnumeratorScsi>();
-}
+#endif

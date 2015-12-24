@@ -16,13 +16,13 @@ limitations under the License.
 </License>
 */
 #include "vtStorScsi.h"
-#include "ScsiCommandDescriptor.h"
+#include "CommandDescriptorScsi.h"
 
 #include "CommandHandlerScsi.h"
 #include "Buffer.h"
 #include "BufferFormatter.h"
 
-#include "vtStorScsiProtocol/ScsiProtocolEssense1.h"
+#include "ScsiProtocolEssense1.h"
 
 namespace vtStor
 {
@@ -46,7 +46,7 @@ namespace vtStor
     {
         case 1:
         {
-            Scsi::cScsiCommandDescriptor commandDescriptor = Scsi::cScsiCommandDescriptor::Reader(CommandDescriptor);
+            Scsi::cCommandDescriptorScsi commandDescriptor = Scsi::cCommandDescriptorScsi::Reader(CommandDescriptor);
             const StorageUtility::Scsi::sCdbFields& cdbFields = commandDescriptor.GetCdbFields();
 
             std::shared_ptr<cBufferInterface> buffer = std::make_shared<cBuffer>(vtStor::Protocol::cEssenseScsi1::SIZE_IN_BYTES);

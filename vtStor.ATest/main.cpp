@@ -46,11 +46,14 @@ void main()
     driveEnumeratorAta->EnumerateDrives( drives, count );
 #endif
 
+    const vtStor::U32 sDefaultCommandHandlerAtaCommandType = 0;
+    const vtStor::U32 sDefaultCommandHandlerScsiCommandType = 1;
+
     std::unique_ptr<vtStor::cDriveManagerInterface> driveManager;
     vtStorInit( driveManager );
 
-    driveManager->RegisterDriveEnumerator(std::make_unique<vtStor::cDriveEnumeratorAta>());
-    driveManager->RegisterDriveEnumerator(std::make_unique<vtStor::cDriveEnumeratorScsi>());
+    driveManager->RegisterDriveEnumerator(std::make_shared<vtStor::cDriveEnumeratorAta>());
+    driveManager->RegisterDriveEnumerator(std::make_shared<vtStor::cDriveEnumeratorScsi>());
 
     driveManager->EnumerateDrives( vtStor::eScanForHardwareChanges::No );
 
@@ -71,10 +74,10 @@ void main()
         commandHandler = std::make_shared<vtStor::cCommandHandlerAta>(protocol);
 
         // Register command handler
-        drives[1]->RegisterCommandHandler(0, commandHandler);
+        drives[1]->RegisterCommandHandler(sDefaultCommandHandlerAtaCommandType, commandHandler);
 
         // Call command
-        vtStor::Ata::IssueCommand_IdentifyDevice(drives[1], 0, dataBuffer);
+        vtStor::Ata::IssueCommand_IdentifyDevice(drives[1], sDefaultCommandHandlerAtaCommandType, dataBuffer);
 
     } else if (vtStor::eBusType::Scsi == drives[1]->GetBusType())
     {
@@ -82,10 +85,10 @@ void main()
         commandHandler = std::make_shared<vtStor::cCommandHandlerScsi>(protocol);
 
         // Register command handler
-        drives[1]->RegisterCommandHandler(0, commandHandler);
+        drives[1]->RegisterCommandHandler(sDefaultCommandHandlerScsiCommandType, commandHandler);
 
         // Call command
-        vtStor::Scsi::IssueCommand_AtaIdentifyDevice(drives[1], 0, dataBuffer);
+        vtStor::Scsi::IssueCommand_AtaIdentifyDevice(drives[1], sDefaultCommandHandlerScsiCommandType, dataBuffer);
     }
 
     vtStor::U8* data = dataBuffer->ToDataBuffer();
