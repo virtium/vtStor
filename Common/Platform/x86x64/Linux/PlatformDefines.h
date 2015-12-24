@@ -37,6 +37,9 @@ using tchar = char;
 using tstring = std::string;
 #endif
 
+#define INVALID_FILE_DESCRIPTOR -1
+#define IOCTL_SG_IO_ERROR -1
+
 namespace vtStor
 {
 

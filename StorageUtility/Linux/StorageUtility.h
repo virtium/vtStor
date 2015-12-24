@@ -27,10 +27,9 @@ namespace vtStor
 
 struct sStorageAdapterProperty
 {
+    //! TODO: Define adapter buses using BusType
     bool  AtaBus;
-    U8    BusType;
-    U8    SrbType;
-    U32   AlignmentMask;
+    bool  ScsiBus;
 };
 
 eErrorCode GetStorageDevices(std::vector<std::shared_ptr<cDeviceInterface>>& Devices, eOnErrorBehavior OnErrorBehavior);

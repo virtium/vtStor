@@ -57,7 +57,12 @@ bool IsAtaDeviceBus(udev_device* UdevDevice)
 
 bool IsScsiDeviceBus(udev_device* UdevDevice)
 {
-    //! TODO Check Disk has Scsi Adapter
+    const char* bus = udev_device_get_property_value(UdevDevice, "ID_BUS");
+
+    if (nullptr != bus && (0 == (strcmp(bus, "usb"))))
+    {
+        return true;
+    }
     return false;
 }
 
@@ -66,10 +71,9 @@ bool IsAtaDeviceBus(sStorageAdapterProperty StorageAdapterProperty)
     return(StorageAdapterProperty.AtaBus);
 }
 
-bool IsScsiDeviceBus(sStorageAdapterProperty StorageDeviceProperty)
+bool IsScsiDeviceBus(sStorageAdapterProperty StorageAdapterProperty)
 {
-    //! TODO: Check StorageDeviceProperty is SCSI type
-    return false;
+    return(StorageAdapterProperty.ScsiBus);
 }
 
 bool IsStorageDisk(udev_device* UdevDevice)
@@ -149,7 +153,7 @@ eErrorCode GetAdapterBus(DeviceHandle& Handle, String SysDevicePath)
     }
     else if (true == IsScsiDeviceBus(udevDevice))
     {
-        //! TODO: Check Bus for Scsi device
+        Handle.Bus = eBusType::Scsi;
     }
     else
     {
@@ -183,13 +187,15 @@ eErrorCode GetStorageAdapterProperty(DeviceHandle Handle, sStorageAdapterPropert
     if (eBusType::Ata == Handle.Bus)
     {
         AdapterProperty.AtaBus = true;
+        AdapterProperty.ScsiBus = false;
     }
-    else
+    else if (eBusType::Scsi == Handle.Bus)
     {
+        AdapterProperty.ScsiBus = true;
         AdapterProperty.AtaBus = false;
     }
 
-    //! TODO: Check for Scsi device
+    //! TODO: Support for others adapter property.
 
     return(eErrorCode::None);
 }
