@@ -20,16 +20,15 @@ limitations under the License.
 
 #include "DriveInterfaceManaged.h"
 #include "DriveManagerInterfaceManaged.h"
-#include "vtStor.h"
 
 namespace vtStor
 {
     namespace Managed
     {
-        cDriveManagerInterface::cDriveManagerInterface()
+        cDriveManagerInterface::cDriveManagerInterface(IRunTimeDll^ RunTimeDll)
         {
-            vtStor::eErrorCode errorCode;
-            errorCode = vtStorInit( *m_DriveManager );
+            GetDriveManagerDelegate getDriveManagerDelegate = (GetDriveManagerDelegate)RunTimeDll->GetFunction("cDriveManager_GetDriveManager");
+            getDriveManagerDelegate(*m_DriveManager);
         }
 
         cDriveManagerInterface::~cDriveManagerInterface()
@@ -42,7 +41,7 @@ namespace vtStor
 
         void cDriveManagerInterface::RegisterDriveEnumerator( cDriveEnumeratorInterface^ DriveEnumerator )
         {
-            std::shared_ptr<vtStor::cDriveEnumeratorInterface> driveEnumerator = vtStor::cDriveEnumeratorInterface::ToSharedPtr( DriveEnumerator );
+            std::shared_ptr<vtStor::IDriveEnumerator> driveEnumerator = *reinterpret_cast<std::shared_ptr<vtStor::IDriveEnumerator>*>((void*)DriveEnumerator);
             m_DriveManager->RegisterDriveEnumerator( driveEnumerator );
         }
 
@@ -72,7 +71,7 @@ namespace vtStor
             cDriveInterface^ drive = nullptr;
             if (nullptr != *m_DriveManager)
             {
-                std::shared_ptr<vtStor::cDriveInterface> driveInterface;
+                std::shared_ptr<vtStor::IDrive> driveInterface;
                 driveInterface = m_DriveManager->GetDrive( DriveIndex );
 
                 if (nullptr != driveInterface)

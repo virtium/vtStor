@@ -19,6 +19,11 @@ limitations under the License.
 
 #include "Buffer.h"
 
+void cBuffer_GetBuffer(std::shared_ptr<vtStor::IBuffer>& Buffer, vtStor::U32 SizeInByte)
+{
+    Buffer = std::shared_ptr<vtStor::IBuffer>(new vtStor::cBuffer(SizeInByte));
+}
+
 namespace vtStor
 {
 
@@ -61,7 +66,7 @@ U8 cBuffer::GetByteAt( U32 Index )
 
 U32 cBuffer::GetSizeInBytes()
 {
-    return( m_SizeInBytes );
+    return( (U32)m_SizeInBytes );
 }
 
 }

@@ -20,7 +20,7 @@ limitations under the License.
 #define __vtStorCommandHandlerAtaManaged_h__
 #pragma once
 
-#include "CommandHandlerInterface.h"
+#include "ICommandHandler.h"
 #include "SharedPtrManaged.h"
 
 namespace vtStor
@@ -30,7 +30,7 @@ namespace vtStor
         public ref class cCommandHandlerAta : public cCommandHandlerInterface
         {
         public:
-            cCommandHandlerAta( cProtocolInterface^ Protocol );
+            cCommandHandlerAta(IRunTimeDll^ RunTimeDll, cProtocolInterface^ Protocol);
             virtual ~cCommandHandlerAta();
 
         protected:
@@ -40,7 +40,7 @@ namespace vtStor
             virtual operator void*() override;
 
         private:
-            cSharedPtr<vtStor::cCommandHandlerInterface> m_CommandHandler;
+            cSharedPtr<vtStor::ICommandHandler> m_CommandHandler;
         };
     }
 }

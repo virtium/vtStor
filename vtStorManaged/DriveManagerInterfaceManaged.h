@@ -20,11 +20,12 @@ limitations under the License.
 #define __vtStorDriveManagerInterfaceManaged_h__
 #pragma once
 
-#include "DriveManagerInterface.h"
 #include "DriveEnumeratorInterfaceManaged.h"
 #include "ErrorCodesManaged.h"
 #include "ScanForHardwareChangesManaged.h"
 #include "UniquePtrManaged.h"
+#include "IDriveManager.h"
+#include "IRunTimeDll.h"
 
 namespace vtStor
 {
@@ -35,7 +36,7 @@ namespace vtStor
         public ref class cDriveManagerInterface
         {
         public:
-            cDriveManagerInterface();
+            cDriveManagerInterface(IRunTimeDll^ RunTimeDll);
 
         protected:
             ~cDriveManagerInterface();
@@ -52,7 +53,7 @@ namespace vtStor
             cDriveInterface^ GetDrive( U32 DriveIndex );
 
         private:
-            cUniquePtr<vtStor::cDriveManagerInterface> m_DriveManager;
+            cUniquePtr<vtStor::IDriveManager> m_DriveManager;
         };
     }
 }

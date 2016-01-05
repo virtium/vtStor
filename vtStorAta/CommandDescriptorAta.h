@@ -20,11 +20,9 @@ limitations under the License.
 
 #include <memory>
 
-#include "BufferInterface.h"
-#include "CommandDescriptor.h"
-
 #include "Ata.h"
-#include "vtStorAtaPlatformDefines.h"
+#include "IBuffer.h"
+#include "CommandDescriptor.h"
 
 namespace vtStor
 {
@@ -42,14 +40,14 @@ public:
     static const size_t SIZE_IN_BYTES;
 
 public:
-    static cCommandDescriptorAta Reader(std::shared_ptr<const cBufferInterface> Buffer);
-    static cCommandDescriptorAta Writer(std::shared_ptr<cBufferInterface> Buffer);
-    static cCommandDescriptorAta Modifier(std::shared_ptr<cBufferInterface> Buffer);
+    static cCommandDescriptorAta Reader(std::shared_ptr<const IBuffer> Buffer);
+    static cCommandDescriptorAta Writer(std::shared_ptr<IBuffer> Buffer);
+    static cCommandDescriptorAta Modifier(std::shared_ptr<IBuffer> Buffer);
 
 protected:
-    cCommandDescriptorAta(std::shared_ptr<cBufferInterface> Buffer);
-    cCommandDescriptorAta(std::shared_ptr<cBufferInterface> Buffer, U32 Format);
-    cCommandDescriptorAta( std::shared_ptr<const cBufferInterface> Buffer);
+    cCommandDescriptorAta(std::shared_ptr<IBuffer> Buffer);
+    cCommandDescriptorAta(std::shared_ptr<IBuffer> Buffer, U32 Format);
+    cCommandDescriptorAta( std::shared_ptr<const IBuffer> Buffer);
 
 public:
     StorageUtility::Ata::uCommandFields&               GetCommandFields();

@@ -20,9 +20,7 @@ limitations under the License.
 
 #include <memory>
 
-#include "BufferInterface.h"
 #include "Scsi.h"
-#include "vtStorScsiProtocolPlatformDefines.h"
 #include "ProtocolEssense.h"
 
 namespace vtStor
@@ -36,13 +34,13 @@ public:
     static const size_t SIZE_IN_BYTES;
     
 public:
-    static cEssenseScsi1 Reader(std::shared_ptr<const cBufferInterface> Buffer);
-    static cEssenseScsi1 Writer(std::shared_ptr<cBufferInterface> Buffer);
+    static cEssenseScsi1 Reader(std::shared_ptr<const IBuffer> Buffer);
+    static cEssenseScsi1 Writer(std::shared_ptr<IBuffer> Buffer);
 
 protected:
-    cEssenseScsi1(std::shared_ptr<cBufferInterface> Buffer);
-    cEssenseScsi1(std::shared_ptr<cBufferInterface> Buffer, U32 Format);
-    cEssenseScsi1(std::shared_ptr<const cBufferInterface> Buffer);
+    cEssenseScsi1(std::shared_ptr<IBuffer> Buffer);
+    cEssenseScsi1(std::shared_ptr<IBuffer> Buffer, U32 Format);
+    cEssenseScsi1(std::shared_ptr<const IBuffer> Buffer);
 
 public:
     StorageUtility::Scsi::sCommandCharacteristics&       GetCommandCharacteristics();

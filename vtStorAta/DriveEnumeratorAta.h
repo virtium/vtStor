@@ -18,17 +18,15 @@ limitations under the License.
 #ifndef __DriveEnumeratorAta_h__
 #define __DriveEnumeratorAta_h__
 
-#include "vtStorAtaPlatformDefines.h"
-#include "DriveEnumeratorInterface.h"
-
-#include "DeviceInterface.h"
+#include "IDevice.h"
+#include "IDriveEnumerator.h"
 
 namespace vtStor
 {
-    class VT_STOR_ATA_API cDriveEnumeratorAta : public cDriveEnumeratorInterface
+    class VT_STOR_ATA_API cDriveEnumeratorAta : public IDriveEnumerator
     {
     public:
-        virtual std::shared_ptr<cDriveInterface> EnumerateDrive(const std::shared_ptr<cDeviceInterface>& Device) override;
+        virtual std::shared_ptr<IDrive> EnumerateDrive(const std::shared_ptr<IDevice>& Device) override;
 
     public:
         virtual ~cDriveEnumeratorAta();

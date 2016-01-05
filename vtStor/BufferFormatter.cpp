@@ -25,28 +25,26 @@ const size_t cBufferFormatter::HEADER_OFFSET            = 0;
 const size_t cBufferFormatter::HEADER_SIZE_IN_BYTES     = sizeof( cBufferFormatter::Header );
 const size_t cBufferFormatter::DATA_OFFSET              = cBufferFormatter::HEADER_OFFSET + cBufferFormatter::HEADER_SIZE_IN_BYTES;
 
-cBufferFormatter cBufferFormatter::Reader(std::shared_ptr<const cBufferInterface> Buffer)
+cBufferFormatter cBufferFormatter::Reader(std::shared_ptr<const IBuffer> Buffer)
 {
     return(cBufferFormatter(Buffer));
 }
 
-cBufferFormatter::cBufferFormatter(std::shared_ptr<cBufferInterface> Buffer) :
+cBufferFormatter::cBufferFormatter(std::shared_ptr<IBuffer> Buffer) :
 m_Buffer(Buffer)
 {
-
 }
 
-cBufferFormatter::cBufferFormatter( std::shared_ptr<cBufferInterface> Buffer, U32 Format ) :
+cBufferFormatter::cBufferFormatter( std::shared_ptr<IBuffer> Buffer, U32 Format ) :
 m_Buffer( Buffer )
 {
     Header& header = GetHeader();
     header.Format = Format;
 }
 
-cBufferFormatter::cBufferFormatter( std::shared_ptr<const cBufferInterface> Buffer ) :
-m_Buffer( std::const_pointer_cast<cBufferInterface>(Buffer) )
+cBufferFormatter::cBufferFormatter( std::shared_ptr<const IBuffer> Buffer ) :
+m_Buffer( std::const_pointer_cast<IBuffer>(Buffer) )
 {
-
 }
 
 cBufferFormatter::Header& cBufferFormatter::GetHeader()

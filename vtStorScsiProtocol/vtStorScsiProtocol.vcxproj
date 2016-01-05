@@ -160,7 +160,6 @@
     <ClCompile Include="Platform\Windows\ProtocolScsiPassThrough.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Platform\Windows\vtStorScsiProtocolPlatformDefines.h" />
     <ClInclude Include="ScsiProtocolEssense1.h" />
     <ClInclude Include="Platform\Windows\ProtocolScsiPassThrough.h" />
   </ItemGroup>

@@ -28,7 +28,7 @@ namespace vtStor
         namespace Scsi
         {
             extern const U32 SCSI_SECTOR_SIZE_IN_BYTES;
-                                    
+
             struct sCdbFields
             {
                 U8  OpCode;
@@ -75,7 +75,7 @@ namespace vtStor
                 COMMAND_12,
                 COMMAND_16
             };
-                        
+
             struct sCommandCharacteristics
             {
                 eDataAccess          DataAccess;
