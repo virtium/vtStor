@@ -28,6 +28,7 @@ namespace vtStor
 {
     struct IScsiCommandExtensions
     {
+        virtual ~IScsiCommandExtensions() {}
         virtual eErrorCode IssueCommand_AtaIdentifyDevice(std::shared_ptr<IDrive> Drive, U32 CommandType, std::shared_ptr<IBuffer> Data) = 0;
         virtual eErrorCode IssueCommand_AtaReadDma(std::shared_ptr<IDrive> Drive, U32 CommandType, std::shared_ptr<IBuffer> Data, U32 Lba, U16 Count) = 0;
         virtual eErrorCode IssueCommand_AtaWriteDma(std::shared_ptr<IDrive> Drive, U32 CommandType, std::shared_ptr<IBuffer> Data, U32 Lba, U16 Count) = 0;

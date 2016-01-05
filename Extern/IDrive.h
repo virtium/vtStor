@@ -30,6 +30,7 @@ namespace vtStor
 {
     struct IDrive : public IDevice
     {
+        virtual ~IDrive() {}
         virtual void RegisterCommandHandler(U32 CommandType, std::shared_ptr<ICommandHandler> CommandHandler) = 0;
         virtual eErrorCode IssueCommand(U32 CommandType, std::shared_ptr<const IBuffer> CommandDescriptor, std::shared_ptr<IBuffer> Data) = 0;
         virtual eBusType GetBusType() = 0;

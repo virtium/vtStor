@@ -28,6 +28,7 @@ namespace vtStor
 {
     struct IDriveEnumerator
     {
+        virtual ~IDriveEnumerator() {}
         virtual std::shared_ptr<IDrive> EnumerateDrive(const std::shared_ptr<IDevice>& Device) = 0;
     };
 }

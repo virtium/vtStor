@@ -29,6 +29,7 @@ namespace vtStor
 {
     struct ICommandHandler
     {
+        virtual ~ICommandHandler() {}
         virtual eErrorCode IssueCommand(const DeviceHandle& Handle, std::shared_ptr<const IBuffer> CommandDescriptor, std::shared_ptr<IBuffer> Data) = 0;
     };
 }

@@ -27,6 +27,7 @@ namespace vtStor
 {
     struct IBuffer
     {
+        virtual ~IBuffer() {}
         virtual U8* ToDataBuffer() = 0;
         virtual void SetByteAt(U32 Index, U8 Value) = 0;
         virtual U8 GetByteAt(U32 Index) = 0;

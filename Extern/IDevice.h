@@ -27,6 +27,7 @@ namespace vtStor
 {
     struct IDevice
     {
+        virtual ~IDevice() {}
         virtual void Data(std::unordered_map<eDeviceDataType, void*>& Data) = 0;
         virtual DeviceHandle Handle() = 0;
         virtual void DevicePath(tchar*& DevicePath) = 0;

@@ -28,6 +28,7 @@ namespace vtStor
 {
     struct IDriveManager
     {
+        virtual ~IDriveManager() {}
         virtual void RegisterDriveEnumerator(std::shared_ptr<IDriveEnumerator> DriveEnumerator) = 0;
         virtual eErrorCode EnumerateDrives(eScanForHardwareChanges ScanForHardwareChanges) = 0;
         virtual const Vector_Drives& GetDrives() = 0;
