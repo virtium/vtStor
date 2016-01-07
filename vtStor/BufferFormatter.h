@@ -25,7 +25,6 @@ limitations under the License.
 
 namespace vtStor
 {
-VTSTOR_API_EXPORT_IMPL template class VTSTOR_API std::shared_ptr<IBuffer>;
 
 class VTSTOR_API cBufferFormatter
 {
