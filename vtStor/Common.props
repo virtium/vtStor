@@ -8,7 +8,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)Common;$(SolutionDir)Common\Platform\x86x64;$(SolutionDir)Common\Platform\x86x64\Windows;$(ProjectDir)Platform\Windows;$(SolutionDir)StorageUtility</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Common;$(SolutionDir)Common\Platform\x86x64;$(SolutionDir)Common\Platform\x86x64\Windows;$(ProjectDir)Platform\Windows;$(SolutionDir)StorageUtility;$(SolutionDir)StorageUtility\Windows;$(SolutionDir)Extern;</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>VTSTOR_DLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <PostBuildEvent>

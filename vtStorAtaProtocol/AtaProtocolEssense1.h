@@ -20,30 +20,28 @@ limitations under the License.
 
 #include <memory>
 
-#include "BufferInterface.h"
+#include "IBuffer.h"
 #include "Ata.h"
 
-#include "vtStorAtaProtocolPlatformDefines.h"
 #include "ProtocolEssense.h"
 
 namespace vtStor
 {
 namespace Protocol
 {
-
 class VT_STOR_ATA_PROTOCOL_API cEssenseAta1 : public cProtocolEssense
 {
 public:
     static const size_t SIZE_IN_BYTES;
-    
+
 public:
-    static cEssenseAta1 Reader(std::shared_ptr<const cBufferInterface> Buffer);
-    static cEssenseAta1 Writer(std::shared_ptr<cBufferInterface> Buffer);
+    static cEssenseAta1 Reader(std::shared_ptr<const IBuffer> Buffer);
+    static cEssenseAta1 Writer(std::shared_ptr<IBuffer> Buffer);
 
 protected:
-    cEssenseAta1(std::shared_ptr<cBufferInterface> Buffer);
-    cEssenseAta1(std::shared_ptr<cBufferInterface> Buffer, U32 Format);
-    cEssenseAta1(std::shared_ptr<const cBufferInterface> Buffer);
+    cEssenseAta1(std::shared_ptr<IBuffer> Buffer);
+    cEssenseAta1(std::shared_ptr<IBuffer> Buffer, U32 Format);
+    cEssenseAta1(std::shared_ptr<const IBuffer> Buffer);
 
 public:
 
@@ -61,7 +59,6 @@ protected:
     static const size_t TASK_FILE_OFFSET;
     static const size_t TASK_FILE_EXT_OFFSET;
 };
-
 }
 }
 

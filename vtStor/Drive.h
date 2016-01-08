@@ -23,27 +23,27 @@ limitations under the License.
 
 #include "BasicTypes.h"
 #include "CommandDescriptor.h"
-#include "CommandHandlerInterface.h"
-#include "DeviceInterface.h"
-#include "DriveInterface.h"
 #include "StorageUtility.h"
+#include "IBuffer.h"
+#include "ICommandHandler.h"
+#include "IDrive.h"
 
 namespace vtStor
 {
 
-VTSTOR_API_EXPORT_IMPL template class VTSTOR_API std::map<vtStor::U32, std::shared_ptr<vtStor::cCommandHandlerInterface>>;
+VTSTOR_API_EXPORT_IMPL template class VTSTOR_API std::map<vtStor::U32, std::shared_ptr<vtStor::ICommandHandler>>;
 
-class VTSTOR_API cDrive : public cDriveInterface, public cDeviceInterface
+class VTSTOR_API cDrive : public IDrive
 {
 public:
-    cDrive(std::shared_ptr<vtStor::cDeviceInterface> Device, DeviceHandle DeviceHandle);
+    cDrive(std::shared_ptr<vtStor::IDevice> Device, DeviceHandle DeviceHandle);
     virtual ~cDrive();
 
 public:
-    virtual void RegisterCommandHandler(U32 CommandType, std::shared_ptr<cCommandHandlerInterface> CommandHandler) override;
+    virtual void RegisterCommandHandler(U32 CommandType, std::shared_ptr<ICommandHandler> CommandHandler) override;
 
 public:
-    virtual eErrorCode IssueCommand(U32 CommandType, std::shared_ptr<const cBufferInterface> CommandDescriptor, std::shared_ptr<cBufferInterface> Data) override;
+    virtual eErrorCode IssueCommand(U32 CommandType, std::shared_ptr<const IBuffer> CommandDescriptor, std::shared_ptr<IBuffer> Data) override;
 
 public:
     virtual void Data(std::unordered_map<eDeviceDataType, void*>& Data) override;
@@ -53,10 +53,10 @@ public:
     virtual void DevicePath(tchar*& DevicePath) override;
 
 protected:
-    std::map<U32, std::shared_ptr<cCommandHandlerInterface>> m_CommandHandlers;
+    std::map<U32, std::shared_ptr<ICommandHandler>> m_CommandHandlers;
 
 protected:
-    std::shared_ptr<vtStor::cDeviceInterface> m_Device;
+    std::shared_ptr<vtStor::IDevice> m_Device;
     DeviceHandle m_DeviceHandle;
 };
 

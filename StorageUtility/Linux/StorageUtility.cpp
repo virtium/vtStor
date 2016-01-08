@@ -17,11 +17,14 @@ limitations under the License.
 */
 
 #include <libudev.h>
+#include <fcntl.h>
+#include <map>
 #include <memory>
 #include <string.h>
+#include <unistd.h>
 
-#include "StorageUtility.h"
 #include "Device.h"
+#include "StorageUtility.h"
 
 namespace vtStor
 {
@@ -29,239 +32,182 @@ namespace vtStor
 eErrorCode GetStorageDevices(std::vector<std::shared_ptr<cDeviceInterface>>& Devices, eOnErrorBehavior OnErrorBehavior)
 {
     eErrorCode error = eErrorCode::None;
+    std::vector<String> devicePaths;
+    std::vector<String> sysDevicePaths;
 
-    sEnumerateDevicesCallback callBack;
-    callBack.Data = (void*)&Devices;
-
-//    callBack.Function = [](void* Data, const HDEVINFO& DevInfoHandle, SP_DEVINFO_DATA& DevInfoData, SP_DEVICE_INTERFACE_DATA& DevInterfaceData, const PSP_INTERFACE_DEVICE_DETAIL_DATA& DevDetailData, U32 SizeOfDevDetailData, eErrorCode& ErrorCode)
-//    {
-//        std::vector<std::shared_ptr<vtStor::cDeviceInterface>>* devices = (std::vector<std::shared_ptr<vtStor::cDeviceInterface>>*)Data;
-//        devices->push_back(std::make_shared<cDevice>((SP_DEVINFO_DATA*)&DevInfoData, (SP_DEVICE_INTERFACE_DATA*)&DevInterfaceData, DevDetailData, SizeOfDevDetailData));
-//    };
-
-//    error = EnumerateDevices(callBack, &GUID_DEVINTERFACE_DISK, OnErrorBehavior);
+    error = GetStorageDevicePaths(devicePaths, sysDevicePaths);
+    for (int i = 0; i < devicePaths.size(); ++i)
+    {
+        std::shared_ptr<vtStor::cDevice> device = std::make_shared<cDevice>(devicePaths[i], sysDevicePaths[i]);
+        Devices.push_back(device);
+    }
     return(error);
 }
 
-
-/*
-eErrorCode GetStorageDevicePaths( std::vector<String>& Paths, eOnErrorBehavior OnErrorBehavior )
+bool IsAtaDeviceBus(udev_device* UdevDevice)
 {
-    return( GetDevicePaths( Paths, &GUID_DEVINTERFACE_DISK, OnErrorBehavior ) );
-}
-*/
+    const char* bus = udev_device_get_property_value(UdevDevice, "ID_BUS");
 
-/*eErrorCode GetDevicePaths( std::vector<String>& Paths, const GUID* InterfaceClassGUID, eOnErrorBehavior OnErrorBehavior )
-{
-    eErrorCode error = eErrorCode::None;
-
-    sEnumerateDevicesCallback callBack;
-    callBack.Data = (void*)&Paths;
-    callBack.Function = [](void* Data, const HDEVINFO& DevInfoHandle, SP_DEVINFO_DATA& DevInfoData, SP_DEVICE_INTERFACE_DATA& DevInterfaceData, const PSP_INTERFACE_DEVICE_DETAIL_DATA& DevDetailData, U32 SizeOfDevDetailData, eErrorCode& ErrorCode)
-    {
-        std::vector<String>* paths = ( std::vector<String>* )Data;
-        paths->push_back( DevDetailData->DevicePath );
-    };
-
-    error = EnumerateDevices( callBack, InterfaceClassGUID, OnErrorBehavior );
-    return( error );
-}*/
-
-/*eErrorCode EnumerateDevices( sEnumerateDevicesCallback& Callback, const GUID* InterfaceClassGUID, eOnErrorBehavior OnErrorBehavior )
-{
-    HDEVINFO devInfoHandle =
-        SetupDiGetClassDevs
-        (
-        InterfaceClassGUID,
-        NULL,
-        NULL,
-        DIGCF_PRESENT | DIGCF_DEVICEINTERFACE
-        );
-    if ( INVALID_HANDLE_VALUE == devInfoHandle )
-    {
-        return( eErrorCode::Unknown );
-    }
-
-    DWORD error = 0;
-    DWORD memberIndex = 0;
-    while ( true == true )
-    {
-        SP_DEVICE_INTERFACE_DATA devInterfaceData;
-        devInterfaceData.cbSize = sizeof( devInterfaceData );
-        if ( SetupDiEnumDeviceInterfaces( devInfoHandle, NULL, InterfaceClassGUID, memberIndex++, &devInterfaceData ) == FALSE )
-        {
-            error = GetLastError();
-            if ( ERROR_NO_MORE_ITEMS == error )
-            {
-                break;
-            }
-            else
-            {
-                SetupDiDestroyDeviceInfoList( devInfoHandle );
-                return( eErrorCode::Unknown );
-            }
-        }
-
-        DWORD bufferSize = 0;
-        SP_DEVINFO_DATA devInfoData;
-        devInfoData.cbSize = sizeof( devInfoData );
-
-        // Get buffer size
-        if ( SetupDiGetDeviceInterfaceDetail( devInfoHandle, &devInterfaceData, NULL, 0, &bufferSize, &devInfoData ) == FALSE )
-        {
-            error = GetLastError();
-            if ( ERROR_INSUFFICIENT_BUFFER != error )
-            {
-                if ( eOnErrorBehavior::Continue == OnErrorBehavior ) { continue; }
-                SetupDiDestroyDeviceInfoList( devInfoHandle );
-                return( eErrorCode::Unknown );
-            }
-        }
-
-        PSP_INTERFACE_DEVICE_DETAIL_DATA pDevDetailData = (PSP_INTERFACE_DEVICE_DETAIL_DATA)HeapAlloc( GetProcessHeap(), HEAP_GENERATE_EXCEPTIONS, bufferSize );
-        if ( NULL == pDevDetailData )
-        {
-            if ( eOnErrorBehavior::Continue == OnErrorBehavior ) { continue; }
-            SetupDiDestroyDeviceInfoList( devInfoHandle );
-            return( eErrorCode::Memory );
-        }
-        pDevDetailData->cbSize = sizeof( SP_INTERFACE_DEVICE_DETAIL_DATA );
-
-        if ( SetupDiGetDeviceInterfaceDetail( devInfoHandle, &devInterfaceData, pDevDetailData, bufferSize, NULL, NULL ) == FALSE )
-        {
-            error = GetLastError();
-            if ( ERROR_INSUFFICIENT_BUFFER != error )
-            {
-                HeapFree(GetProcessHeap(), HEAP_NO_SERIALIZE, pDevDetailData);
-                if ( eOnErrorBehavior::Continue == OnErrorBehavior ) { continue; }
-                SetupDiDestroyDeviceInfoList( devInfoHandle );
-                return( eErrorCode::Unknown );
-            }
-        }
-
-        eErrorCode errorCode;
-        errorCode = eErrorCode::Unknown;
-        Callback.Function(Callback.Data, devInfoHandle, devInfoData, devInterfaceData, pDevDetailData, bufferSize, errorCode);
-
-        HeapFree(GetProcessHeap(), HEAP_NO_SERIALIZE, pDevDetailData);
-    }
-
-    SetupDiDestroyDeviceInfoList( devInfoHandle );
-
-    return( eErrorCode::None );
-}*/
-
-eErrorCode GetStorageAdapterProperty( HANDLE Handle, sStorageAdapterProperty& AdapterProperty )
-{
-   /* STORAGE_DESCRIPTOR_HEADER storageDescHeader;
-
-    STORAGE_PROPERTY_QUERY StorageProperty;
-    StorageProperty.PropertyId = StorageAdapterProperty;
-    StorageProperty.QueryType = PropertyStandardQuery;
-
-    DWORD bytesReturned;
-    DWORD ret =
-        DeviceIoControl(
-                        Handle,
-                        IOCTL_STORAGE_QUERY_PROPERTY,
-                        &StorageProperty,
-                        sizeof(STORAGE_PROPERTY_QUERY),
-                        &storageDescHeader,
-                        sizeof(STORAGE_DESCRIPTOR_HEADER),
-                        &bytesReturned,
-                        NULL
-                        );
-    if ( 0 == ret )
-    {
-        return( eErrorCode::Io );
-    }
-
-    if ( 0 == storageDescHeader.Size )
-    {
-        return( eErrorCode::Io );   //TODO: replace with more descriptive error
-    }
-
-    PSTORAGE_ADAPTER_DESCRIPTOR pstorageAdapterDesc = NULL;
-    pstorageAdapterDesc = (PSTORAGE_ADAPTER_DESCRIPTOR)HeapAlloc(GetProcessHeap(), HEAP_GENERATE_EXCEPTIONS, storageDescHeader.Size);
-
-    ret =
-        DeviceIoControl(
-                        Handle,
-                        IOCTL_STORAGE_QUERY_PROPERTY,
-                        &StorageProperty,
-                        sizeof(STORAGE_PROPERTY_QUERY),
-                        pstorageAdapterDesc,
-                        storageDescHeader.Size,
-                        &bytesReturned,
-                        NULL
-                        );
-    if (0 == ret)
-    {
-        HeapFree(GetProcessHeap(), HEAP_NO_SERIALIZE, pstorageAdapterDesc);
-        return( eErrorCode::Io );
-    }
-
-    AdapterProperty.BusType = pstorageAdapterDesc->BusType;
-    //iAdapterProperty.SrbType = pstorageAdapterDesc->SrbType;  TODO check this
-    AdapterProperty.AlignmentMask = pstorageAdapterDesc->AlignmentMask;
-
-    HeapFree(GetProcessHeap(), HEAP_NO_SERIALIZE, pstorageAdapterDesc);
-*/
-    return( eErrorCode::None );
-}
-
-void CloseDeviceHandle(HANDLE& Handle)
-{
-//    if (FALSE == CloseHandle(Handle))
-//    {
-//        //! TODO
-//        //fprintf(stderr, "\nCloseDeviceHandle was not successful. Error Code: %d", GetLastError());
-//    }
-//    Handle = INVALID_HANDLE_VALUE;
-}
-
-bool IsAtaDeviceBus(udev_device* Dev)
-{
-   const char* bus = udev_device_get_property_value(Dev, "ID_BUS");
-    if( 0 == strcmp(bus, "ata") || 0 == strcmp(bus, "sata"))
+    if (nullptr != bus && (0 == (strcmp(bus, "ata")) || (0 == strcmp(bus, "sata"))))
     {
         return true;
     }
-
     return false;
 }
 
-bool IsAtaDeviceBus( sStorageAdapterProperty StorageDeviceProperty )
+bool IsScsiDeviceBus(udev_device* UdevDevice)
 {
-  /*  switch ( StorageDeviceProperty.BusType )
+    const char* bus = udev_device_get_property_value(UdevDevice, "ID_BUS");
+
+    if (nullptr != bus && (0 == (strcmp(bus, "usb"))))
     {
-    case BusTypeAta:
-    case BusTypeSata:
-    {
-        return( true );
-    } break;
-    default:
-    {
-        return( false );
-    } break;0
-    }*/
+        return true;
+    }
+    return false;
 }
 
-bool IsScsiDeviceBus(sStorageAdapterProperty StorageDeviceProperty)
+bool IsAtaDeviceBus(sStorageAdapterProperty StorageAdapterProperty)
 {
-   /* switch (StorageDeviceProperty.BusType)
+    return(StorageAdapterProperty.AtaBus);
+}
+
+bool IsScsiDeviceBus(sStorageAdapterProperty StorageAdapterProperty)
+{
+    return(StorageAdapterProperty.ScsiBus);
+}
+
+bool IsStorageDisk(udev_device* UdevDevice)
+{
+    const char* udevDeviceType = udev_device_get_devtype(UdevDevice);
+    if (0 == strcmp(udevDeviceType, "disk"))
     {
-    case BusTypeScsi:
-    case BusTypeUsb:
-    case BusTypeiScsi:
+        if (true == IsAtaDeviceBus(UdevDevice) || true == IsScsiDeviceBus(UdevDevice))
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+eErrorCode GetStorageDevicePaths(std::vector<String>& DevicePaths, std::vector<String>& SysDevicePaths)
+{
+    struct udev *udevObject;
+    struct udev_enumerate *enumerate;
+    struct udev_list_entry *devices, *udevListEntry;
+    struct udev_device *udevDevice;
+
+    //! Create the udev object
+    udevObject = udev_new();
+    if (nullptr == udevObject)
     {
-        return( true );
-    } break;
-    default:
+        //! ERROR: Can't create udev
+        return(eErrorCode::Memory);
+    }
+
+    //! Create a list of the devices in the 'block' subsystem
+    enumerate = udev_enumerate_new(udevObject);
+    udev_enumerate_add_match_subsystem(enumerate, "block");
+
+    udev_enumerate_scan_devices(enumerate);
+    devices = udev_enumerate_get_list_entry(enumerate);
+
+    udev_list_entry_foreach(udevListEntry, devices)
     {
-        return( false );
-    } break;
-    }*/
+        const char *devicePath;
+
+        devicePath = udev_list_entry_get_name(udevListEntry);
+        udevDevice = udev_device_new_from_syspath(udevObject, devicePath);
+        String udeviceNode = udev_device_get_devnode(udevDevice);
+
+        if (true == IsStorageDisk(udevDevice))
+        {
+            DevicePaths.push_back(udeviceNode);
+            SysDevicePaths.push_back(devicePath);
+        }
+
+        udev_device_unref(udevDevice);
+    }
+    //! Free the enumerator object
+    udev_enumerate_unref(enumerate);
+
+    udev_unref(udevObject);
+
+    return(eErrorCode::None);
+}
+
+eErrorCode GetAdapterBus(DeviceHandle& Handle, String SysDevicePath)
+{
+    struct udev *udevObject;
+    struct udev_device *udevDevice;
+
+    udevObject = udev_new();
+    if (nullptr == udevObject)
+    {
+        return(eErrorCode::Memory);
+    }
+    udevDevice = udev_device_new_from_syspath(udevObject, SysDevicePath.c_str());
+
+    if (true == IsAtaDeviceBus(udevDevice))
+    {
+        Handle.Bus = eBusType::Ata;
+    }
+    else if (true == IsScsiDeviceBus(udevDevice))
+    {
+        Handle.Bus = eBusType::Scsi;
+    }
+    else
+    {
+        //! Adapter Property is not Ata or Scsi
+        return(eErrorCode::FormatNotSupported);
+    }
+
+    udev_device_unref(udevDevice);
+    udev_unref(udevObject);
+
+    return(eErrorCode::None);
+}
+
+eErrorCode GetStorageDeviceHandle(const String& DevicePath,String SysDevicePath, DeviceHandle& Handle)
+{
+    eErrorCode error = eErrorCode::None;
+    Handle.Handle = open(DevicePath.c_str(), O_RDONLY|O_NONBLOCK);
+
+    if (0 > Handle.Handle)
+    {
+        return(eErrorCode::Io);
+    }
+
+    error = GetAdapterBus(Handle, SysDevicePath);
+
+    return(error);
+}
+
+eErrorCode GetStorageAdapterProperty(DeviceHandle Handle, sStorageAdapterProperty& AdapterProperty)
+{
+    if (eBusType::Ata == Handle.Bus)
+    {
+        AdapterProperty.AtaBus = true;
+        AdapterProperty.ScsiBus = false;
+    }
+    else if (eBusType::Scsi == Handle.Bus)
+    {
+        AdapterProperty.ScsiBus = true;
+        AdapterProperty.AtaBus = false;
+    }
+
+    //! TODO: Support for others adapter property.
+
+    return(eErrorCode::None);
+}
+
+void CloseDeviceHandle(DeviceHandle& Handle)
+{
+    int closeHandleCode = close(Handle.Handle);
+    if (-1 == closeHandleCode)
+    {
+        //! TODO: Catch error for not close Handle of Device
+        //! throw std::runtime_error("Close DeviceHandle was not successful");
+    }
 }
 
 }

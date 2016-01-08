@@ -23,8 +23,8 @@ limitations under the License.
 #include "BufferInterfaceManaged.h"
 #include "CommandHandlerInterfaceManaged.h"
 #include "BusTypeManaged.h"
-#include "DriveInterface.h"
 #include "SharedPtrManaged.h"
+#include "IDrive.h"
 
 namespace vtStor
 {
@@ -33,7 +33,7 @@ namespace vtStor
         public ref class cDriveInterface
         {
         public:
-            cDriveInterface( std::shared_ptr<vtStor::cDriveInterface> Drive );
+            cDriveInterface( std::shared_ptr<vtStor::IDrive> Drive );
             ~cDriveInterface();
 
         protected:
@@ -52,7 +52,7 @@ namespace vtStor
             System::String^ GetDevicePath();
 
         private:
-            vtStor::Managed::cSharedPtr<vtStor::cDriveInterface> m_Drive;
+            vtStor::Managed::cSharedPtr<vtStor::IDrive> m_Drive;
         };
     }
 }

@@ -15,13 +15,17 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
-#include "DriveManager.h"
 
+#include "DriveManager.h"
 #include "StorageUtility.h"
+
+void cDriveManager_GetDriveManager(std::unique_ptr<vtStor::IDriveManager>& DriveManager)
+{
+    DriveManager = std::unique_ptr<vtStor::cDriveManager>(new vtStor::cDriveManager());
+}
 
 namespace vtStor
 {
-
 cDriveManager::cDriveManager()
 {
 }
@@ -32,7 +36,7 @@ cDriveManager::~cDriveManager()
     m_Drives.clear();
 }
 
-void cDriveManager::RegisterDriveEnumerator( std::shared_ptr<cDriveEnumeratorInterface> DriveEnumerator )
+void cDriveManager::RegisterDriveEnumerator( std::shared_ptr<IDriveEnumerator> DriveEnumerator )
 {
     m_DriveEnumerators.push_back( DriveEnumerator );
 }
@@ -67,9 +71,9 @@ const Vector_Drives& cDriveManager::GetDrives()
     return( m_Drives );
 }
 
-std::shared_ptr<cDriveInterface> cDriveManager::GetDrive(const U32 DriveIndex)
+std::shared_ptr<IDrive> cDriveManager::GetDrive(const U32 DriveIndex)
 {
-    std::shared_ptr<cDriveInterface> driveInterface = nullptr;
+    std::shared_ptr<IDrive> driveInterface = nullptr;
     if (m_Drives.size() > DriveIndex)
     {
         driveInterface = m_Drives[DriveIndex];

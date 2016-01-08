@@ -14,7 +14,7 @@ SOURCES += DriveEnumeratorAta.cpp \
     DriveAtaCommandExtensions.cpp \
     DriveAta.cpp \
     CommandHandlerAta.cpp \
-    CommandDescriptorUtility.cpp \
+    CommandDescriptorAta.cpp \
     vtStorAta.cpp
 
 HEADERS +=  vtStorAta.h \
@@ -22,7 +22,7 @@ HEADERS +=  vtStorAta.h \
     DriveAtaCommandExtensions.h \
     DriveAta.h \
     CommandHandlerAta.h \
-    CommandDescriptorUtility.h \
+    CommandDescriptorAta.h \
     Platform/Linux/vtStorAtaPlatformDefines.h
 
 symbian {
@@ -45,7 +45,6 @@ unix:!symbian {
 }
 
 INCLUDEPATH += "../../vtStorAtaProtocol" "../../vtStorAtaProtocol/Platform/Linux" "../../vtStorAta/Platform/Linux" "../../Common" "../../Common/Platform/x86x64" "../../Common/Platform/x86x64/Linux" "../../StorageUtility" "../../StorageUtility/Linux" "../../vtStor" "../../vtStor/Platform/Linux"
-
 
 CONFIG(release, debug|release) {
 

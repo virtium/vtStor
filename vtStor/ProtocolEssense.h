@@ -22,23 +22,22 @@ limitations under the License.
 #include <memory>
 
 #include "BufferFormatter.h"
-#include "vtStorPlatformDefines.h"
 
 namespace vtStor
 {
     class VTSTOR_API cProtocolEssense : public cBufferFormatter
     {
-
+    public:
         static const size_t DEVICE_HANDLE_SIZE_IN_BYTES;
 
     public:
-        static cProtocolEssense Reader(std::shared_ptr<const cBufferInterface> Buffer);
-        static cProtocolEssense Modifier(std::shared_ptr<cBufferInterface> Buffer);
+        static cProtocolEssense Reader(std::shared_ptr<const IBuffer> Buffer);
+        static cProtocolEssense Modifier(std::shared_ptr<IBuffer> Buffer);
 
     protected:
-        cProtocolEssense(std::shared_ptr<cBufferInterface> Buffer);
-        cProtocolEssense(std::shared_ptr<cBufferInterface> Buffer, U32 Format);
-        cProtocolEssense(std::shared_ptr<const cBufferInterface> Buffer);
+        cProtocolEssense(std::shared_ptr<IBuffer> Buffer);
+        cProtocolEssense(std::shared_ptr<IBuffer> Buffer, U32 Format);
+        cProtocolEssense(std::shared_ptr<const IBuffer> Buffer);
 
     public:
         DeviceHandle& GetDeviceHandle();

@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Object>
-
   <Actions>
     <Copy>
       <Destination>$(Platform)$(Configuration)</Destination>
@@ -10,7 +9,6 @@
       </Sources>
     </Copy>
   </Actions>
-
   <Parameters>
     <Parameter>$(ProjectName)</Parameter>
     <Parameter>$(Platform)</Parameter>

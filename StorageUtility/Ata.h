@@ -23,114 +23,111 @@ limitations under the License.
 
 namespace vtStor
 {
-namespace StorageUtility
-{
-namespace Ata
-{
+    namespace StorageUtility
+    {
+        namespace Ata
+        {
+            extern const U32 SECTOR_SIZE_IN_BYTES;
+            extern const U8  DEVICE_REGISTER_DEFAULT;
+            extern const U8  DEVICE_REGISTER_CHSMODE_DEFAULT;
 
-extern const U32 SECTOR_SIZE_IN_BYTES;
+            struct sCommandInputFields
+            {
+                U16  Feature;
+                U32  Count;
+                U64  Lba;
+                U8   Device;
+                U8   Command;
+                bool ChsMode;
+            };
 
-extern const U8  DEVICE_REGISTER_DEFAULT;
-extern const U8  DEVICE_REGISTER_CHSMODE_DEFAULT;
+            struct sCommandOutputFields
+            {
+                U16 Error;
+                U32 Count;
+                U64 Lba;
+                U8  Device;
+                U8  Status;
+            };
 
-struct sCommandInputFields
-{
-    U16  Feature;
-    U32  Count;
-    U64  Lba;
-    U8   Device;
-    U8   Command;
-    bool ChsMode;
-};
+            union uCommandFields
+            {
+                sCommandInputFields  InputFields;
+                sCommandInputFields OutputFields;
+            };
 
-struct sCommandOutputFields
-{
-    U16 Error;
-    U32 Count;
-    U64 Lba;
-    U8  Device;
-    U8  Status;
-};
+            enum class eDeviceReadyFlag
+            {
+                DEVICE_READY_REQUIRED,
+                DEVICE_READY_NOT_REQUIRED
+            };
 
-union uCommandFields
-{
-    sCommandInputFields  InputFields;
-    sCommandInputFields OutputFields;
-};
+            enum class eDataAccess
+            {
+                NONE,
+                READ_FROM_DEVICE,
+                WRITE_TO_DEVICE
+            };
 
-enum class eDeviceReadyFlag
-{
-    DEVICE_READY_REQUIRED,
-    DEVICE_READY_NOT_REQUIRED
-};
+            enum class eFieldFormatting
+            {
+                COMMAND_28_BIT,
+                COMMAND_48_BIT
+            };
 
-enum class eDataAccess
-{
-    NONE,
-    READ_FROM_DEVICE,
-    WRITE_TO_DEVICE
-};
+            enum class eTransferMode
+            {
+                DMA_PROTOCOL,
+                PIO_PROTOCOL
+            };
 
-enum class eFieldFormatting
-{
-    COMMAND_28_BIT,
-    COMMAND_48_BIT
-};
+            enum class eMultipleMode
+            {
+                MULTIPLE_COMMAND,
+                NOT_MULTIPLE_COMMAND
+            };
 
-enum class eTransferMode
-{
-    DMA_PROTOCOL,
-    PIO_PROTOCOL
-};
+            struct sCommandCharacteristic
+            {
+                eDeviceReadyFlag     DeviceReadyFlag;
+                eDataAccess          DataAccess;
+                eFieldFormatting     FieldFormatting;
+                eTransferMode        TransferMode;
+                eMultipleMode        MultipleMode;
+                U32                  DataTransferLengthInBytes;
+            };
 
-enum class eMultipleMode
-{
-    MULTIPLE_COMMAND,
-    NOT_MULTIPLE_COMMAND
-};
+            struct sTaskFileInputRegister
+            {
+                U8 Feature;
+                U8 Count;
+                U8 LbaLow;
+                U8 LbaMid;
+                U8 LbaHigh;
+                U8 Device;
+                U8 Command;
+                U8 Reserved;
+            };
 
-struct sCommandCharacteristic
-{
-    eDeviceReadyFlag     DeviceReadyFlag;
-    eDataAccess          DataAccess;
-    eFieldFormatting     FieldFormatting;
-    eTransferMode        TransferMode;
-    eMultipleMode        MultipleMode;
-    U32                  DataTransferLengthInBytes;
-};
+            struct sTaskFileOutputRegister
+            {
+                U8 Error;
+                U8 Count;
+                U8 LbaLow;
+                U8 LbaMid;
+                U8 LbaHigh;
+                U8 Device;
+                U8 Status;
+                U8 Reserved;
+            };
 
-struct sTaskFileInputRegister
-{
-    U8 Feature;
-    U8 Count;
-    U8 LbaLow;
-    U8 LbaMid;
-    U8 LbaHigh;
-    U8 Device;
-    U8 Command;
-    U8 Reserved;
-};
-
-struct sTaskFileOutputRegister
-{
-    U8 Error;
-    U8 Count;
-    U8 LbaLow;
-    U8 LbaMid;
-    U8 LbaHigh;
-    U8 Device;
-    U8 Status;
-    U8 Reserved;
-};
-
-union uTaskFileRegister
-{
-    sTaskFileInputRegister  InputRegister;
-    sTaskFileOutputRegister OutputRegister;
-};
-
-}
-}
+            union uTaskFileRegister
+            {
+                sTaskFileInputRegister  InputRegister;
+                sTaskFileOutputRegister OutputRegister;
+            };
+        }
+    }
 }
 
 #endif
