@@ -1,6 +1,6 @@
 /*
 <License>
-Copyright 2015 Virtium Technology
+Copyright 2016 Virtium Technology
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -20,8 +20,11 @@ limitations under the License.
 #define __vtStorDriveAtaCommandExtensionManaged_h__
 #pragma once
 
+#include "DataCommandStructureManaged.h"
 #include "IAtaCommandExtensions.h"
 #include "UniquePtrManaged.h"
+
+using namespace System::Collections::Generic;
 
 namespace vtStor
 {
@@ -49,6 +52,7 @@ namespace vtStor
                 vtStor::Managed::eErrorCode IssueCommand_Smart(vtStor::Managed::cDriveInterface^ Drive, U32 CommandType, vtStor::Managed::cBufferInterface^ Data, U8 SubCommand);
                 vtStor::Managed::eErrorCode IssueCommand_DownloadMicrocode(vtStor::Managed::cDriveInterface^ Drive, U32 CommandType, vtStor::Managed::cBufferInterface^ Data, U8 SubCommand, U16 BlockCount, U16 BufferOffset);
                 vtStor::Managed::eErrorCode IssueCommand_DownloadMicrocodeDma(vtStor::Managed::cDriveInterface^ Drive, U32 CommandType, vtStor::Managed::cBufferInterface^ Data, U8 SubCommand, U16 BlockCount, U16 BufferOffset);
+                vtStor::Managed::eErrorCode IssueCommand_ATATrim(vtStor::Managed::cDriveInterface^ Drive, U32 CommandType, vtStor::Managed::cBufferInterface^ Data, List<vtStor::Managed::sLbaRangeEntryManaged^>^ LbaRangeEntries);
 
             private:
                 vtStor::Managed::cUniquePtr<vtStor::IAtaCommandExtensions> m_AtaCommandExtensions;

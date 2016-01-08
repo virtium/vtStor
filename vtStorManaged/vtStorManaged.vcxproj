@@ -146,6 +146,7 @@
   <ItemGroup>
     <ClInclude Include="BufferInterfaceManaged.h" />
     <ClInclude Include="CommandHandlerInterfaceManaged.h" />
+    <ClInclude Include="DataCommandStructureManaged.h" />
     <ClInclude Include="DriveEnumeratorInterfaceManaged.h" />
     <ClInclude Include="DriveInterfaceManaged.h" />
     <ClInclude Include="DriveManagerInterfaceManaged.h" />

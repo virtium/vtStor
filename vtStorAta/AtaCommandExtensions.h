@@ -1,6 +1,6 @@
 /*
 <License>
-Copyright 2015 Virtium Technology
+Copyright 2016 Virtium Technology
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -20,8 +20,8 @@ limitations under the License.
 #pragma once
 
 #include "ErrorCodes.h"
-#include "IDrive.h"
 #include "IAtaCommandExtensions.h"
+#include "IDrive.h"
 
 //! These are like "extension methods"
 
@@ -38,6 +38,7 @@ namespace vtStor
         const U32 ATA_SMART_IDENTIFIER = 0xC24F00;
         const U8 ATA_COMMAND_DOWNLOADMICROCODE = 0x92;
         const U8 ATA_COMMAND_DOWNLOADMICROCODE_DMA = 0x93;
+        const U8 ATA_COMMAND_TRIM = 0x06;
 
         class VT_STOR_ATA_API cAtaCommandExtensions : public IAtaCommandExtensions
         {
@@ -54,6 +55,7 @@ namespace vtStor
             virtual eErrorCode IssueCommand_Smart(std::shared_ptr<IDrive> Drive, U32 CommandType, std::shared_ptr<IBuffer> Data, U8 SubCommand) override;
             virtual eErrorCode IssueCommand_DownloadMicrocode(std::shared_ptr<IDrive> Drive, U32 CommandType, std::shared_ptr<IBuffer> Data, U8 SubCommand, U16 BlockCount, U16 BufferOffset) override;
             virtual eErrorCode IssueCommand_DownloadMicrocodeDma(std::shared_ptr<IDrive> Drive, U32 CommandType, std::shared_ptr<IBuffer> Data, U8 SubCommand, U16 BlockCount, U16 BufferOffset) override;
+            virtual eErrorCode IssueCommand_ATATrim(std::shared_ptr<IDrive> Drive, U32 CommandType, std::shared_ptr<IBuffer> Data, std::vector<sLbaRangeEntry> LbaRangeEntries) override;
         };
     }
 }
