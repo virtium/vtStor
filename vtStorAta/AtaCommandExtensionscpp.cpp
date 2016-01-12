@@ -1,6 +1,6 @@
 /*
 <License>
-Copyright 2015 Virtium Technology
+Copyright 2016 Virtium Technology
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -15,9 +15,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
+
+#include "AtaCommandExtensions.h"
 #include "Buffer.h"
 #include "CommandDescriptorAta.h"
-#include "AtaCommandExtensions.h"
+#include "TrimBufferFormater.h"
 
 void cAtaCommandExtensions_GetAtaCommandExtensions(std::unique_ptr<vtStor::IAtaCommandExtensions>& AtaCommandExtensions)
 {
@@ -203,6 +205,32 @@ namespace vtStor
             commandCharacteristics.TransferMode = StorageUtility::Ata::eTransferMode::DMA_PROTOCOL;
             commandCharacteristics.MultipleMode = StorageUtility::Ata::eMultipleMode::NOT_MULTIPLE_COMMAND;
             commandCharacteristics.DataTransferLengthInBytes = BlockCount * StorageUtility::Ata::SECTOR_SIZE_IN_BYTES;
+
+            return(Drive->IssueCommand(CommandType, commandDescriptor, Data));
+        }
+
+        eErrorCode cAtaCommandExtensions::IssueCommand_ATATrim(std::shared_ptr<IDrive> Drive, U32 CommandType, std::shared_ptr<IBuffer> Data, std::vector<sLbaRangeEntry> LbaRangeEntries)
+        {
+            std::shared_ptr<IBuffer> commandDescriptor = std::make_shared<cBuffer>(cCommandDescriptorAta::SIZE_IN_BYTES);
+            cCommandDescriptorAta commandDescriptorVersion1 = cCommandDescriptorAta::Writer(commandDescriptor);
+            U32 sectorCount = cTrimBufferFormater::CalculateSectorCountInput(LbaRangeEntries);
+
+            StorageUtility::Ata::uCommandFields& commandFields = commandDescriptorVersion1.GetCommandFields();
+            commandFields.InputFields.Command = ATA_COMMAND_TRIM;
+            commandFields.InputFields.Count = sectorCount;
+            commandFields.InputFields.ChsMode = 0;
+            commandFields.InputFields.Feature = 1;
+
+            StorageUtility::Ata::sCommandCharacteristic& commandCharacteristics = commandDescriptorVersion1.GetCommandCharacteristics();
+
+            commandCharacteristics.DeviceReadyFlag = StorageUtility::Ata::eDeviceReadyFlag::DEVICE_READY_REQUIRED;
+            commandCharacteristics.DataAccess = StorageUtility::Ata::eDataAccess::WRITE_TO_DEVICE;
+            commandCharacteristics.FieldFormatting = StorageUtility::Ata::eFieldFormatting::COMMAND_48_BIT;
+            commandCharacteristics.TransferMode = StorageUtility::Ata::eTransferMode::DMA_PROTOCOL;
+            commandCharacteristics.MultipleMode = StorageUtility::Ata::eMultipleMode::NOT_MULTIPLE_COMMAND;
+            commandCharacteristics.DataTransferLengthInBytes = sectorCount * StorageUtility::Ata::SECTOR_SIZE_IN_BYTES;
+
+            cTrimBufferFormater::FillWriteBufferWithLbaEntriesRange(Data, LbaRangeEntries);
 
             return(Drive->IssueCommand(CommandType, commandDescriptor, Data));
         }

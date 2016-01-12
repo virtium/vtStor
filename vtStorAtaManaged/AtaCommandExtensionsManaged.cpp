@@ -1,6 +1,6 @@
 /*
 <License>
-Copyright 2015 Virtium Technology
+Copyright 2016 Virtium Technology
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -18,9 +18,9 @@ limitations under the License.
 
 #include <memory>
 
-#include "IDrive.h"
-#include "IBuffer.h"
 #include "AtaCommandExtensionsManaged.h"
+#include "IBuffer.h"
+#include "IDrive.h"
 
 namespace vtStor
 {
@@ -111,6 +111,27 @@ namespace vtStor
                 std::shared_ptr<vtStor::IDrive> spDriveInterface = *reinterpret_cast<std::shared_ptr<vtStor::IDrive>*>((void*)Drive);
                 std::shared_ptr<vtStor::IBuffer> spBuffferInterface = *reinterpret_cast<std::shared_ptr<vtStor::IBuffer>*>((void*)Data);
                 errorCode = static_cast<vtStor::Managed::eErrorCode>(m_AtaCommandExtensions->IssueCommand_DownloadMicrocodeDma(spDriveInterface, CommandType, spBuffferInterface, SubCommand, BlockCount, BufferOffset));
+                return(errorCode);
+            }
+
+            vtStor::Managed::eErrorCode cAtaCommandExtensions::IssueCommand_ATATrim(vtStor::Managed::cDriveInterface^ Drive, U32 CommandType, vtStor::Managed::cBufferInterface^ Data, List<vtStor::Managed::sLbaRangeEntryManaged^>^ LbaRangeEntries)
+            {
+                vtStor::Managed::eErrorCode errorCode;
+                std::shared_ptr<vtStor::IDrive> spDriveInterface = *reinterpret_cast<std::shared_ptr<vtStor::IDrive>*>((void*)Drive);
+                std::shared_ptr<vtStor::IBuffer> spBuffferInterface = *reinterpret_cast<std::shared_ptr<vtStor::IBuffer>*>((void*)Data);
+
+                std::vector<vtStor::sLbaRangeEntry> lbaRangeEntries;
+
+                for each (vtStor::Managed::sLbaRangeEntryManaged^ entry in LbaRangeEntries)
+                {
+                    vtStor::sLbaRangeEntry lbaRangeEntry;
+                    lbaRangeEntry.Lba = entry->Lba;
+                    lbaRangeEntry.SectorCount = entry->SectorCount;
+
+                    lbaRangeEntries.push_back(lbaRangeEntry);
+                }
+
+                errorCode = static_cast<vtStor::Managed::eErrorCode>(m_AtaCommandExtensions->IssueCommand_ATATrim(spDriveInterface, CommandType, spBuffferInterface, lbaRangeEntries));
                 return(errorCode);
             }
         }

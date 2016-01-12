@@ -15,32 +15,22 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
-#ifndef __vtStorIBuffer_h__
-#define __vtStorIBuffer_h__
 
-#include <memory>
+#ifndef __DataCommandStructure_h__
+#define __DataCommandStructure_h__
+#pragma once
+
+#include <vector>
 
 #include "BasicTypes.h"
-#include "PlatformDefines.h"
 
 namespace vtStor
 {
-    struct IBuffer
+    struct sLbaRangeEntry
     {
-        virtual ~IBuffer() {}
-        virtual U8* ToDataBuffer() = 0;
-        virtual void SetByteAt(U32 Index, U8 Value) = 0;
-        virtual U8 GetByteAt(U32 Index) = 0;
-        virtual U32 GetSizeInBytes() = 0;
-        virtual void MemsetBuffer(U8 Value) = 0;
+        U64 Lba;
+        U16 SectorCount;
     };
 }
 
-extern "C"
-{
-    VTSTOR_API void cBuffer_GetBuffer(std::shared_ptr<vtStor::IBuffer>& Buffer, vtStor::U32 SizeInByte);
-}
-
-typedef void (WINAPIV * GetBufferDelegate) (std::shared_ptr<vtStor::IBuffer>&, vtStor::U32);
-
-#endif // end __vtStorIBuffer_h__
+#endif
