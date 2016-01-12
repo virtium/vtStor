@@ -25,13 +25,12 @@ limitations under the License.
 
 #include "DataCommandStructure.h"
 #include "IBuffer.h"
-#include "TrimBufferFormater.h"
 
 namespace vtStor
 {
     namespace Ata
     {
-        class cTrimBufferFormater
+        class VT_STOR_ATA_API cTrimBufferFormater
         {
         public:
             cTrimBufferFormater();

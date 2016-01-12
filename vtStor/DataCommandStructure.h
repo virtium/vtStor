@@ -26,7 +26,7 @@ limitations under the License.
 
 namespace vtStor
 {
-    struct sLbaRangeEntry
+    struct VTSTOR_API sLbaRangeEntry
     {
         U64 Lba;
         U16 SectorCount;
