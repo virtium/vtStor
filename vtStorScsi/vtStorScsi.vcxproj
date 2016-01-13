@@ -159,18 +159,15 @@
     <ClCompile Include="CommandDescriptorScsi.cpp" />
     <ClCompile Include="CommandHandlerScsi.cpp" />
     <ClCompile Include="DriveScsi.cpp" />
-    <ClCompile Include="DriveScsiCommandExtensions.cpp" />
     <ClCompile Include="DriveEnumeratorScsi.cpp" />
-    <ClCompile Include="vtStorScsi.cpp" />
+    <ClCompile Include="ScsiCommandExtensions.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommandDescriptorScsi.h" />
     <ClInclude Include="CommandHandlerScsi.h" />
     <ClInclude Include="DriveScsi.h" />
-    <ClInclude Include="DriveScsiCommandExtensions.h" />
     <ClInclude Include="DriveEnumeratorScsi.h" />
-    <ClInclude Include="Platform\Windows\vtStorScsiPlatformDefines.h" />
-    <ClInclude Include="vtStorScsi.h" />
+    <ClInclude Include="ScsiCommandExtensions.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\StorageUtility\StorageUtility.vcxproj">

@@ -18,22 +18,20 @@ limitations under the License.
 #ifndef __StorageUtility_h__
 #define __StorageUtility_h__
 
+#include <memory>
 #include <vector>
 
 #include <Windows.h>
 #include <Ntddscsi.h>
 #include <setupapi.h>
 
-#include "ErrorCodes.h"
 #include "BasicTypes.h"
-#include "vtStorPlatformDefines.h"
-
-#include "DeviceInterface.h"
+#include "ErrorCodes.h"
+#include "IDevice.h"
 
 namespace vtStor
 {
-    eErrorCode GetStorageDevices(std::vector<std::shared_ptr<cDeviceInterface>>& Devices, eOnErrorBehavior OnErrorBehavior);
-
+    eErrorCode GetStorageDevices(std::vector<std::shared_ptr<IDevice>>& Devices, eOnErrorBehavior OnErrorBehavior);
     eErrorCode GetStorageDevicePaths( std::vector<String>& Paths, eOnErrorBehavior OnErrorBehavior );
     eErrorCode GetDevicePaths( std::vector<String>& Paths, const GUID* InterfaceClassGUID, eOnErrorBehavior OnErrorBehavior );
 

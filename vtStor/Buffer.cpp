@@ -1,6 +1,6 @@
 /*
 <License>
-Copyright 2015 Virtium Technology
+Copyright 2016 Virtium Technology
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -18,6 +18,11 @@ limitations under the License.
 #include <assert.h>
 
 #include "Buffer.h"
+
+void cBuffer_GetBuffer(std::shared_ptr<vtStor::IBuffer>& Buffer, vtStor::U32 SizeInByte)
+{
+    Buffer = std::shared_ptr<vtStor::IBuffer>(new vtStor::cBuffer(SizeInByte));
+}
 
 namespace vtStor
 {
@@ -61,7 +66,12 @@ U8 cBuffer::GetByteAt( U32 Index )
 
 U32 cBuffer::GetSizeInBytes()
 {
-    return( m_SizeInBytes );
+    return( (U32)m_SizeInBytes );
+}
+
+void cBuffer::MemsetBuffer(U8 Value)
+{
+    memset(m_AlignedBuffer, Value, m_SizeInBytes);
 }
 
 }

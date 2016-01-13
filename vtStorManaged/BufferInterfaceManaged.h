@@ -20,7 +20,8 @@ limitations under the License.
 #define __vtStorBufferInterfaceManaged_h__
 #pragma once
 
-#include "BufferInterface.h"
+#include "IBuffer.h"
+#include "IRunTimeDll.h"
 #include "SharedPtrManaged.h"
 
 namespace vtStor
@@ -30,7 +31,7 @@ namespace vtStor
         public ref class cBufferInterface
         {
         public:
-            cBufferInterface( U32 SizeInByte );
+            cBufferInterface( IRunTimeDll^ RunTimeDll, U32 SizeInByte);
             ~cBufferInterface();
 
         protected:
@@ -41,9 +42,10 @@ namespace vtStor
             void SetByteAt( U32 Index, U8 value );
             U8 GetByteAt( U32 Index );
             U32 GetSizeInBytes();
+            void MemsetBuffer(U8 Value);
 
         private:
-            cSharedPtr<vtStor::cBufferInterface> m_Buffer;
+            cSharedPtr<vtStor::IBuffer> m_Buffer;
         };
     }
 }

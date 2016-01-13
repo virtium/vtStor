@@ -20,30 +20,26 @@ limitations under the License.
 #pragma once
 
 #include "Scsi.h"
-#include "CommandHandlerInterface.h"
-#include "vtStorScsiPlatformDefines.h"
+#include "ICommandHandler.h"
+#include "IProtocol.h"
 
 namespace vtStor
 {
-    class VT_STOR_SCSI_API cCommandHandlerScsi : public cCommandHandlerInterface
-{
-public:
-    cCommandHandlerScsi(std::shared_ptr<Protocol::cProtocolInterface> Protocol);
-    virtual ~cCommandHandlerScsi();
+    class VT_STOR_SCSI_API cCommandHandlerScsi : public ICommandHandler
+    {
+    public:
+        cCommandHandlerScsi(std::shared_ptr<IProtocol> Protocol);
+        virtual ~cCommandHandlerScsi();
 
-public:
-    virtual eErrorCode IssueCommand( const DeviceHandle& Handle, std::shared_ptr<const cBufferInterface> CommandDescriptor, std::shared_ptr<cBufferInterface> Data ) override;
+    public:
+        virtual eErrorCode IssueCommand(const DeviceHandle& Handle, std::shared_ptr<const IBuffer> CommandDescriptor, std::shared_ptr<IBuffer> Data) override;
 
-private:
-    void cCommandHandlerScsi::PrepareCdbRegister(const StorageUtility::Scsi::sCommandCharacteristics& ScsiCommandCharacteristics, const StorageUtility::Scsi::sCdbFields& CommandFields, StorageUtility::Scsi::sCdbRegisters& CdbRegister);
+    private:
+        void cCommandHandlerScsi::PrepareCdbRegister(const StorageUtility::Scsi::sCommandCharacteristics& ScsiCommandCharacteristics, const StorageUtility::Scsi::sCdbFields& CommandFields, StorageUtility::Scsi::sCdbRegisters& CdbRegister);
 
-};
-
-}
-
-extern "C"
-{
-    VT_STOR_SCSI_API void vtStorCommandHandlerScsiInit( std::shared_ptr<vtStor::cCommandHandlerInterface>& CommandHandler, std::shared_ptr<vtStor::Protocol::cProtocolInterface> Protocol );
+    private:
+        std::shared_ptr<IProtocol> m_Protocol;
+    };
 }
 
 #endif

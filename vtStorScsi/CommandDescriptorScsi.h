@@ -20,11 +20,9 @@ limitations under the License.
 
 #include <memory>
 
-#include "BufferInterface.h"
+#include "IBuffer.h"
 #include "CommandDescriptor.h"
-
 #include "Scsi.h"
-#include "vtStorScsiPlatformDefines.h"
 
 namespace vtStor
 {
@@ -42,19 +40,19 @@ public:
     static const size_t SIZE_IN_BYTES;
 
 public:
-    static cCommandDescriptorScsi Reader(std::shared_ptr<const cBufferInterface> Buffer);
-    static cCommandDescriptorScsi Writer(std::shared_ptr<cBufferInterface> Buffer);
-    static cCommandDescriptorScsi Modifier(std::shared_ptr<cBufferInterface> Buffer);
+    static cCommandDescriptorScsi Reader(std::shared_ptr<const IBuffer> Buffer);
+    static cCommandDescriptorScsi Writer(std::shared_ptr<IBuffer> Buffer);
+    static cCommandDescriptorScsi Modifier(std::shared_ptr<IBuffer> Buffer);
 
 protected:
-    cCommandDescriptorScsi(std::shared_ptr<cBufferInterface> Buffer);
-    cCommandDescriptorScsi(std::shared_ptr<cBufferInterface> Buffer, U32 Format);
-    cCommandDescriptorScsi(std::shared_ptr<const cBufferInterface> Buffer);
+    cCommandDescriptorScsi(std::shared_ptr<IBuffer> Buffer);
+    cCommandDescriptorScsi(std::shared_ptr<IBuffer> Buffer, U32 Format);
+    cCommandDescriptorScsi(std::shared_ptr<const IBuffer> Buffer);
 
 public:
-    StorageUtility::Scsi::sCdbFields&               GetCdbFields();
-    const StorageUtility::Scsi::sCdbFields&         GetCdbFields() const;
-    StorageUtility::Scsi::sCommandCharacteristics&       GetCommandCharacteristics();
+    StorageUtility::Scsi::sCdbFields& GetCdbFields();
+    const StorageUtility::Scsi::sCdbFields& GetCdbFields() const;
+    StorageUtility::Scsi::sCommandCharacteristics& GetCommandCharacteristics();
     const StorageUtility::Scsi::sCommandCharacteristics& GetCommandCharacteristics() const;
 
 private:

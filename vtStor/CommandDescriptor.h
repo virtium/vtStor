@@ -22,7 +22,6 @@ limitations under the License.
 #include <memory>
 
 #include "BufferFormatter.h"
-#include "vtStorPlatformDefines.h"
 
 namespace vtStor
 {
@@ -32,13 +31,13 @@ namespace vtStor
         static const size_t DEVICE_HANDLE_SIZE_IN_BYTES;
 
     public:
-        static cCommandDescriptor Reader(std::shared_ptr<const cBufferInterface> Buffer);
-        static cCommandDescriptor Modifier(std::shared_ptr<cBufferInterface> Buffer);
+        static cCommandDescriptor Reader(std::shared_ptr<const IBuffer> Buffer);
+        static cCommandDescriptor Modifier(std::shared_ptr<IBuffer> Buffer);
 
     protected:
-        cCommandDescriptor(std::shared_ptr<cBufferInterface> Buffer);
-        cCommandDescriptor(std::shared_ptr<cBufferInterface> Buffer, U32 Format);
-        cCommandDescriptor(std::shared_ptr<const cBufferInterface> Buffer);
+        cCommandDescriptor(std::shared_ptr<IBuffer> Buffer);
+        cCommandDescriptor(std::shared_ptr<IBuffer> Buffer, U32 Format);
+        cCommandDescriptor(std::shared_ptr<const IBuffer> Buffer);
 
     public:
         DeviceHandle& GetDeviceHandle();

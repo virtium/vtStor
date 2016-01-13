@@ -16,7 +16,6 @@ limitations under the License.
 </License>
 */
 
-using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using vtStor.Managed;
 
@@ -36,18 +35,22 @@ namespace vtStorManaged.Test
             cDriveManagerInterface driveManager;
             cDriveEnumeratorInterface driveEnumeratorAta;
             eErrorCode errorCode;
+            ILoadRunTimeDll vtStorDll = new cLoadRunTimeDll("vtStor.dll");
+            ILoadRunTimeDll vtStorAtaDll = new cLoadRunTimeDll("vtStorAta.dll");
+            IRunTimeDll vtStorModule = vtStorDll.Load();
+            IRunTimeDll vtStorAtaModule = vtStorAtaDll.Load();
 
             // Create an instance for DriveManager
-            driveManager = new cDriveManagerInterface();
+            driveManager = new cDriveManagerInterface(vtStorModule);
 
             // Create an instance for DriveEnumeratorAta
-            driveEnumeratorAta = new cDriveEnumeratorAta();
+            driveEnumeratorAta = new cDriveEnumeratorAta(vtStorAtaModule);
 
             // Register drive enumerator Ata
             driveManager.RegisterDriveEnumerator(driveEnumeratorAta);
 
             // Enumerate drives
-            errorCode = driveManager.EnumerateDrives( eScanForHardwareChanges.Yes );
+            errorCode = driveManager.EnumerateDrives(eScanForHardwareChanges.Yes);
         }
     }
 }

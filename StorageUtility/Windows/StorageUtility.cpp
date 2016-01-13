@@ -17,13 +17,13 @@ limitations under the License.
 */
 #include <memory>
 
-#include "StorageUtility.h"
 #include "Device.h"
+#include "StorageUtility.h"
 
 namespace vtStor
 {
 
-eErrorCode GetStorageDevices(std::vector<std::shared_ptr<cDeviceInterface>>& Devices, eOnErrorBehavior OnErrorBehavior)
+eErrorCode GetStorageDevices(std::vector<std::shared_ptr<IDevice>>& Devices, eOnErrorBehavior OnErrorBehavior)
 {
     eErrorCode error = eErrorCode::None;
 
@@ -31,7 +31,7 @@ eErrorCode GetStorageDevices(std::vector<std::shared_ptr<cDeviceInterface>>& Dev
     callBack.Data = (void*)&Devices;
     callBack.Function = [](void* Data, const HDEVINFO& DevInfoHandle, SP_DEVINFO_DATA& DevInfoData, SP_DEVICE_INTERFACE_DATA& DevInterfaceData, const PSP_INTERFACE_DEVICE_DETAIL_DATA& DevDetailData, U32 SizeOfDevDetailData, eErrorCode& ErrorCode)
     {
-        std::vector<std::shared_ptr<vtStor::cDeviceInterface>>* devices = (std::vector<std::shared_ptr<vtStor::cDeviceInterface>>*)Data;
+        std::vector<std::shared_ptr<vtStor::IDevice>>* devices = (std::vector<std::shared_ptr<vtStor::IDevice>>*)Data;
         devices->push_back(std::make_shared<cDevice>((SP_DEVINFO_DATA*)&DevInfoData, (SP_DEVICE_INTERFACE_DATA*)&DevInterfaceData, DevDetailData, SizeOfDevDetailData));
     };
 
@@ -217,15 +217,15 @@ bool IsAtaDeviceBus( sStorageAdapterProperty StorageDeviceProperty )
 {
     switch ( StorageDeviceProperty.BusType )
     {
-    case BusTypeAta:
-    case BusTypeSata:
-    {
-        return( true );
-    } break;
-    default:
-    {
-        return( false );
-    } break;
+        case BusTypeAta:
+        case BusTypeSata:
+        {
+            return( true );
+        } break;
+        default:
+        {
+            return( false );
+        } break;
     }
 }
 
@@ -233,16 +233,16 @@ bool IsScsiDeviceBus(sStorageAdapterProperty StorageDeviceProperty)
 {
     switch (StorageDeviceProperty.BusType)
     {
-    case BusTypeScsi:
-    case BusTypeUsb:
-    case BusTypeiScsi:
-    {
-        return( true );
-    } break;
-    default:
-    {
-        return( false );
-    } break;
+        case BusTypeScsi:
+        case BusTypeUsb:
+        case BusTypeiScsi:
+        {
+            return( true );
+        } break;
+        default:
+        {
+            return( false );
+        } break;
     }
 }
 

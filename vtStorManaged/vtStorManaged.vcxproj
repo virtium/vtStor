@@ -100,7 +100,6 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile />
     </ClCompile>
     <Link>
@@ -114,7 +113,6 @@
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile />
     </ClCompile>
     <Link>
@@ -125,7 +123,6 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile />
@@ -137,7 +134,6 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile />
@@ -150,11 +146,16 @@
   <ItemGroup>
     <ClInclude Include="BufferInterfaceManaged.h" />
     <ClInclude Include="CommandHandlerInterfaceManaged.h" />
+    <ClInclude Include="DataCommandStructureManaged.h" />
     <ClInclude Include="DriveEnumeratorInterfaceManaged.h" />
     <ClInclude Include="DriveInterfaceManaged.h" />
     <ClInclude Include="DriveManagerInterfaceManaged.h" />
+    <ClInclude Include="ILoadRunTimeDll.h" />
+    <ClInclude Include="IRunTimeDll.h" />
+    <ClInclude Include="LoadRunTimeDll.h" />
     <ClInclude Include="LockManaged.h" />
     <ClInclude Include="ProtocolInterfaceManaged.h" />
+    <ClInclude Include="RunTimeDll.h" />
     <ClInclude Include="SharedPtrManaged.h" />
     <ClInclude Include="UniquePtrManaged.h" />
   </ItemGroup>
@@ -173,12 +174,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="LoadRunTimeDll.cpp" />
     <ClCompile Include="ProtocolInterfaceManaged.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\vtStor\vtStor.vcxproj">
-      <Project>{2595ae3d-ff40-47c4-b050-55d450843934}</Project>
-    </ProjectReference>
+    <ClCompile Include="RunTimeDll.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
