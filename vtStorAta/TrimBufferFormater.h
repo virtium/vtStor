@@ -30,7 +30,7 @@ namespace vtStor
 {
     namespace Ata
     {
-        class VT_STOR_ATA_API cTrimBufferFormater
+        class cTrimBufferFormater
         {
         public:
             cTrimBufferFormater();
