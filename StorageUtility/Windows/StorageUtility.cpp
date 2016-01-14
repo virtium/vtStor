@@ -1,6 +1,6 @@
 /*
 <License>
-Copyright 2015 Virtium Technology
+Copyright 2016 Virtium Technology
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -201,6 +201,30 @@ eErrorCode GetStorageAdapterProperty( HANDLE Handle, sStorageAdapterProperty& Ad
     HeapFree(GetProcessHeap(), HEAP_NO_SERIALIZE, pstorageAdapterDesc);
 
     return( eErrorCode::None );
+}
+
+eErrorCode GetPhysicalDiskNumber(HANDLE Handle, U32& PhysicalDiskNumber)
+{
+    STORAGE_DEVICE_NUMBER storageDevice = { 0 };
+    DWORD bytesReturned;
+    DWORD ret =
+        DeviceIoControl(
+                        Handle,
+                        IOCTL_STORAGE_GET_DEVICE_NUMBER,
+                        NULL,
+                        0,
+                        &storageDevice,
+                        sizeof(storageDevice),
+                        &bytesReturned,
+                        NULL
+                        );
+    if (0 == ret)
+    {
+        return(eErrorCode::Io);
+    }
+
+    PhysicalDiskNumber = storageDevice.DeviceNumber;
+    return(eErrorCode::None);
 }
 
 void CloseDeviceHandle(HANDLE& Handle)
