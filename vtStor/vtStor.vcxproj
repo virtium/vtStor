@@ -168,7 +168,6 @@
     <ClInclude Include="Buffer.h" />
     <ClInclude Include="BufferFormatter.h" />
     <ClInclude Include="CommandDescriptor.h" />
-    <ClInclude Include="DataCommandStructure.h" />
     <ClInclude Include="Drive.h" />
     <ClInclude Include="DriveManager.h" />
     <ClInclude Include="ProtocolEssense.h" />

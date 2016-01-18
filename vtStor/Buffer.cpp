@@ -15,6 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
+
 #include <assert.h>
 
 #include "Buffer.h"
@@ -69,7 +70,7 @@ U32 cBuffer::GetSizeInBytes()
     return( (U32)m_SizeInBytes );
 }
 
-void cBuffer::MemsetBuffer(U8 Value)
+void cBuffer::Memset(U8 Value)
 {
     memset(m_AlignedBuffer, Value, m_SizeInBytes);
 }

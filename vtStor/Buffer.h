@@ -36,7 +36,7 @@ public:
     virtual void SetByteAt(U32 Index, U8 Value) override;
     virtual U8 GetByteAt(U32 Index) override;
     virtual U32 GetSizeInBytes() override;
-    virtual void MemsetBuffer(U8 value) override;
+    virtual void Memset(U8 value) override;
 
 protected:
     U8* m_AlignedBuffer;
