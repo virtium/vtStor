@@ -16,21 +16,22 @@ limitations under the License.
 </License>
 */
 
-#ifndef __DataCommandStructure_h__
-#define __DataCommandStructure_h__
+#ifndef __DrivePropertiesManaged_h__
+#define __DrivePropertiesManaged_h__
 #pragma once
-
-#include <vector>
-
-#include "BasicTypes.h"
 
 namespace vtStor
 {
-    struct sLbaRangeEntry
+    namespace Managed
     {
-        U64 Lba;
-        U16 SectorCount;
-    };
+        public ref struct DriveProperties
+        {
+        public:
+            System::UInt32 PhysicalDiskNumber;
+            System::String^ DevicePath;
+        };
+
+    }
 }
 
-#endif
+#endif // __DrivePropertiesManaged_h__

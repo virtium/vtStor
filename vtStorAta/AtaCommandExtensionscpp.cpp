@@ -19,7 +19,7 @@ limitations under the License.
 #include "AtaCommandExtensions.h"
 #include "Buffer.h"
 #include "CommandDescriptorAta.h"
-#include "TrimBufferFormater.h"
+#include "TrimBufferFormatter.h"
 
 void cAtaCommandExtensions_GetAtaCommandExtensions(std::unique_ptr<vtStor::IAtaCommandExtensions>& AtaCommandExtensions)
 {
@@ -209,11 +209,11 @@ namespace vtStor
             return(Drive->IssueCommand(CommandType, commandDescriptor, Data));
         }
 
-        eErrorCode cAtaCommandExtensions::IssueCommand_ATATrim(std::shared_ptr<IDrive> Drive, U32 CommandType, std::shared_ptr<IBuffer> Data, std::vector<sLbaRangeEntry> LbaRangeEntries)
+        eErrorCode cAtaCommandExtensions::IssueCommand_Trim(std::shared_ptr<IDrive> Drive, U32 CommandType, std::shared_ptr<IBuffer> Data, const std::vector<StorageUtility::Ata::sLbaRangeEntry>& LbaRangeEntries)
         {
             std::shared_ptr<IBuffer> commandDescriptor = std::make_shared<cBuffer>(cCommandDescriptorAta::SIZE_IN_BYTES);
             cCommandDescriptorAta commandDescriptorVersion1 = cCommandDescriptorAta::Writer(commandDescriptor);
-            U32 sectorCount = cTrimBufferFormater::CalculateSectorCountInput(LbaRangeEntries);
+            U32 sectorCount = cTrimBufferFormatter::CalculateSectorCountInput(LbaRangeEntries);
 
             StorageUtility::Ata::uCommandFields& commandFields = commandDescriptorVersion1.GetCommandFields();
             commandFields.InputFields.Command = ATA_COMMAND_TRIM;
@@ -230,7 +230,7 @@ namespace vtStor
             commandCharacteristics.MultipleMode = StorageUtility::Ata::eMultipleMode::NOT_MULTIPLE_COMMAND;
             commandCharacteristics.DataTransferLengthInBytes = sectorCount * StorageUtility::Ata::SECTOR_SIZE_IN_BYTES;
 
-            cTrimBufferFormater::FillWriteBufferWithLbaEntriesRange(Data, LbaRangeEntries);
+            cTrimBufferFormatter::FillBufferWithLbaRangeEntries(Data, LbaRangeEntries);
 
             return(Drive->IssueCommand(CommandType, commandDescriptor, Data));
         }

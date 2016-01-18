@@ -16,31 +16,30 @@ limitations under the License.
 </License>
 */
 
-#ifndef __TrimBufferFormater_h__
-#define __TrimBufferFormater_h__
+#ifndef __TrimBufferFormatter_h__
+#define __TrimBufferFormatter_h__
 #pragma once
 
 #include <memory>
 #include <vector>
 
-#include "DataCommandStructure.h"
+#include "Ata.h"
 #include "IBuffer.h"
-#include "TrimBufferFormater.h"
 
 namespace vtStor
 {
     namespace Ata
     {
-        class VT_STOR_ATA_API cTrimBufferFormater
+        class cTrimBufferFormatter
         {
         public:
-            cTrimBufferFormater();
-            ~cTrimBufferFormater();
+            cTrimBufferFormatter();
+            ~cTrimBufferFormatter();
 
         public:
-            static void AddLbaRangeEntryToWriteBuffer(std::shared_ptr<IBuffer>& DataBuffer, U64 StartLba, U16 SectorCount, U32 LbaRangeEntryOffset);
-            static void FillWriteBufferWithLbaEntriesRange(std::shared_ptr<IBuffer>& DataBuffer, std::vector<sLbaRangeEntry> LbaRangeEntries);
-            static U32  CalculateSectorCountInput(std::vector<sLbaRangeEntry> LbaRangeEntries);
+            static void AddLbaRangeEntryToBuffer(std::shared_ptr<IBuffer>& DataBuffer, U64 StartLba, U16 SectorCount, U32 LbaRangeEntryOffset);
+            static void FillBufferWithLbaRangeEntries(std::shared_ptr<IBuffer>& DataBuffer, const std::vector<StorageUtility::Ata::sLbaRangeEntry>& LbaRangeEntries);
+            static U32  CalculateSectorCountInput(const std::vector<StorageUtility::Ata::sLbaRangeEntry>& LbaRangeEntries);
 
         private:
             static const U32 LBA_SIZE_IN_BYTE = 6;

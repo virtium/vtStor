@@ -150,6 +150,7 @@
     <ClInclude Include="DriveEnumeratorInterfaceManaged.h" />
     <ClInclude Include="DriveInterfaceManaged.h" />
     <ClInclude Include="DriveManagerInterfaceManaged.h" />
+    <ClInclude Include="DrivePropertiesManaged.h" />
     <ClInclude Include="ILoadRunTimeDll.h" />
     <ClInclude Include="IRunTimeDll.h" />
     <ClInclude Include="LoadRunTimeDll.h" />

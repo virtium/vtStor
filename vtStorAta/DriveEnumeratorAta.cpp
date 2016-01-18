@@ -1,6 +1,6 @@
 /*
 <License>
-Copyright 2015 Virtium Technology
+Copyright 2016 Virtium Technology
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -33,6 +33,7 @@ cDriveEnumeratorAta::~cDriveEnumeratorAta()
 {
 }
 
+// TODO: remove duplicated code on DriveEnumerateAta and DriveEnumerateScsi
 std::shared_ptr<IDrive> cDriveEnumeratorAta::EnumerateDrive(const std::shared_ptr<IDevice>& Device)
 {
     DeviceHandle deviceHandle;
@@ -58,9 +59,25 @@ std::shared_ptr<IDrive> cDriveEnumeratorAta::EnumerateDrive(const std::shared_pt
         return( nullptr );
     }
 
+    U32 physicalDiskNumber;
+    errorCode = GetPhysicalDiskNumber(deviceHandle, physicalDiskNumber);
+    if (eErrorCode::None != errorCode)
+    {
+        //TODO: handle error
+        return(nullptr);
+    }
+
+    tchar* devicePath;
+    Device->DevicePath(devicePath);
+
+    // Add drive propeties to the container
+    std::shared_ptr<vtStor::sDriveProperties> driveProperties = std::make_shared<vtStor::sDriveProperties>();
+    driveProperties->PhysicalDiskNumber = physicalDiskNumber;
+    driveProperties->DevicePath = devicePath;
+
     if ( true == IsAtaDeviceBus( storageAdapterProperty ) )
     {
-        std::shared_ptr<IDrive> drive = std::make_shared<cDriveAta>(Device, deviceHandle);
+        std::shared_ptr<IDrive> drive = std::make_shared<cDriveAta>(Device, deviceHandle, driveProperties);
 
         return( drive );
     }

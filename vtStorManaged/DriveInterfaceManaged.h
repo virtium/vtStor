@@ -1,6 +1,6 @@
 /*
 <License>
-Copyright 2015 Virtium Technology
+Copyright 2016 Virtium Technology
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -21,10 +21,11 @@ limitations under the License.
 #pragma once
 
 #include "BufferInterfaceManaged.h"
-#include "CommandHandlerInterfaceManaged.h"
 #include "BusTypeManaged.h"
-#include "SharedPtrManaged.h"
+#include "CommandHandlerInterfaceManaged.h"
+#include "DrivePropertiesManaged.h"
 #include "IDrive.h"
+#include "SharedPtrManaged.h"
 
 namespace vtStor
 {
@@ -49,7 +50,7 @@ namespace vtStor
 
         public:
             vtStor::Managed::eBusType GetBusType();
-            System::String^ GetDevicePath();
+            DriveProperties^ GetDriveProperties();
 
         private:
             vtStor::Managed::cSharedPtr<vtStor::IDrive> m_Drive;

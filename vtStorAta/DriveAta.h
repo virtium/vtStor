@@ -1,6 +1,6 @@
 /*
 <License>
-Copyright 2015 Virtium Technology
+Copyright 2016 Virtium Technology
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -18,15 +18,15 @@ limitations under the License.
 #ifndef __DriveAta_h__
 #define __DriveAta_h__
 
-#include "Drive.h"
 #include "CommandDescriptorAta.h"
+#include "Drive.h"
 
 namespace vtStor
 {
     class cDriveAta : public cDrive
     {
     public:
-        cDriveAta(std::shared_ptr<vtStor::IDevice> Device, DeviceHandle DeviceHandle);
+        cDriveAta(std::shared_ptr<vtStor::IDevice> Device, DeviceHandle DeviceHandle, std::shared_ptr<vtStor::sDriveProperties> DriveProperties);
 
     public:
         virtual ~cDriveAta();
@@ -36,4 +36,4 @@ namespace vtStor
     };
 }
 
-#endif
+#endif // __DriveAta_h__
