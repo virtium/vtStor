@@ -25,7 +25,6 @@ limitations under the License.
 
 #include "DataCommandStructure.h"
 #include "IBuffer.h"
-#include "TrimBufferFormater.h"
 
 namespace vtStor
 {
