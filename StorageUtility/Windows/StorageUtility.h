@@ -1,6 +1,6 @@
 /*
 <License>
-Copyright 2015 Virtium Technology
+Copyright 2016 Virtium Technology
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -54,6 +54,7 @@ namespace vtStor
     };
 
     eErrorCode GetStorageAdapterProperty( HANDLE Handle, sStorageAdapterProperty& AdapterProperty );
+    eErrorCode GetPhysicalDiskNumber(HANDLE Handle, U32& PhysicalDiskNumber);
 
     void CloseDeviceHandle(HANDLE& Handle);
 

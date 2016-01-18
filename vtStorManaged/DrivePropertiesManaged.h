@@ -15,23 +15,23 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
-#include "DriveAta.h"
+
+#ifndef __DrivePropertiesManaged_h__
+#define __DrivePropertiesManaged_h__
+#pragma once
 
 namespace vtStor
 {
+    namespace Managed
+    {
+        public ref struct DriveProperties
+        {
+        public:
+            System::UInt32 PhysicalDiskNumber;
+            System::String^ DevicePath;
+        };
 
-cDriveAta::cDriveAta(std::shared_ptr<vtStor::IDevice> Device, DeviceHandle DeviceHandle, std::shared_ptr<vtStor::sDriveProperties> DriveProperties) :
-    cDrive(Device, DeviceHandle, DriveProperties)
-{
+    }
 }
 
-cDriveAta::~cDriveAta()
-{
-}
-
-eBusType cDriveAta::GetBusType()
-{
-    return( eBusType::Ata );
-}
-
-}
+#endif // __DrivePropertiesManaged_h__

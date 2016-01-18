@@ -1,6 +1,6 @@
 /*
 <License>
-Copyright 2015 Virtium Technology
+Copyright 2016 Virtium Technology
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -36,7 +36,7 @@ VTSTOR_API_EXPORT_IMPL template class VTSTOR_API std::map<vtStor::U32, std::shar
 class VTSTOR_API cDrive : public IDrive
 {
 public:
-    cDrive(std::shared_ptr<vtStor::IDevice> Device, DeviceHandle DeviceHandle);
+    cDrive(std::shared_ptr<vtStor::IDevice> Device, DeviceHandle DeviceHandle, std::shared_ptr<vtStor::sDriveProperties> DriveProperties);
     virtual ~cDrive();
 
 public:
@@ -52,12 +52,16 @@ public:
 
     virtual void DevicePath(tchar*& DevicePath) override;
 
+public:
+    virtual std::shared_ptr<vtStor::sDriveProperties> GetDriveProperties() override;
+
 protected:
     std::map<U32, std::shared_ptr<ICommandHandler>> m_CommandHandlers;
 
 protected:
     std::shared_ptr<vtStor::IDevice> m_Device;
     DeviceHandle m_DeviceHandle;
+    std::shared_ptr<vtStor::sDriveProperties> m_DriveProperties;
 };
 
 }

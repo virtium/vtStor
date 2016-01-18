@@ -1,6 +1,6 @@
 /*
 <License>
-Copyright 2015 Virtium Technology
+Copyright 2016 Virtium Technology
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -22,8 +22,8 @@ limitations under the License.
 namespace vtStor
 {
 
-cDrive::cDrive(std::shared_ptr<vtStor::IDevice> Device, DeviceHandle DeviceHandle) :
-    m_Device( Device ), m_DeviceHandle( DeviceHandle )
+cDrive::cDrive(std::shared_ptr<vtStor::IDevice> Device, DeviceHandle DeviceHandle, std::shared_ptr<vtStor::sDriveProperties> DriveProperties) :
+    m_Device(Device), m_DeviceHandle(DeviceHandle), m_DriveProperties(DriveProperties)
 {
 }
 
@@ -56,6 +56,11 @@ DeviceHandle cDrive::Handle()
 void cDrive::DevicePath(tchar*& DevicePath)
 {
     m_Device->DevicePath(DevicePath);
+}
+
+std::shared_ptr<vtStor::sDriveProperties> cDrive::GetDriveProperties()
+{
+    return(m_DriveProperties);
 }
 
 }
