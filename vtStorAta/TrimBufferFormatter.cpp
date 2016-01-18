@@ -17,21 +17,21 @@ limitations under the License.
 */
 
 #include "Buffer.h"
-#include "TrimBufferFormater.h"
+#include "TrimBufferFormatter.h"
 
 namespace vtStor
 {
     namespace Ata
     {
-        cTrimBufferFormater::cTrimBufferFormater()
+        cTrimBufferFormatter::cTrimBufferFormatter()
         {
         }
 
-        cTrimBufferFormater::~cTrimBufferFormater()
+        cTrimBufferFormatter::~cTrimBufferFormatter()
         {
         }
 
-        void cTrimBufferFormater::AddLbaRangeEntryToWriteBuffer(std::shared_ptr<IBuffer>& DataBuffer, U64 StartLba, U16 SectorCount, U32 LbaRangeEntryOffset)
+        void cTrimBufferFormatter::AddLbaRangeEntryToBuffer(std::shared_ptr<IBuffer>& DataBuffer, U64 StartLba, U16 SectorCount, U32 LbaRangeEntryOffset)
         {
             U32 byteOffset = LbaRangeEntryOffset * LBA_RANGE_ENTRY_SIZE_IN_BYTE;
             for (U32 i = 0; i < LBA_SIZE_IN_BYTE; ++i)
@@ -45,20 +45,20 @@ namespace vtStor
             }
         }
 
-        void cTrimBufferFormater::FillWriteBufferWithLbaEntriesRange(std::shared_ptr<IBuffer>& DataBuffer, std::vector<sLbaRangeEntry> LbaRangeEntries)
+        void cTrimBufferFormatter::FillBufferWithLbaRangeEntries(std::shared_ptr<IBuffer>& DataBuffer, const std::vector<StorageUtility::Ata::sLbaRangeEntry>& LbaRangeEntries)
         {
-            DataBuffer->MemsetBuffer(0);
+            DataBuffer->Memset(0);
             for (U32 i = 0; i < LbaRangeEntries.size(); ++i)
             {
                 U64 currentLba = LbaRangeEntries[i].Lba;
                 U16 currentSectorCount = LbaRangeEntries[i].SectorCount;
 
-                AddLbaRangeEntryToWriteBuffer(DataBuffer, currentLba, currentSectorCount, i);
+                AddLbaRangeEntryToBuffer(DataBuffer, currentLba, currentSectorCount, i);
             }
 
         }
 
-        U32 cTrimBufferFormater::CalculateSectorCountInput(std::vector<sLbaRangeEntry> LBARangeEntries)
+        U32 cTrimBufferFormatter::CalculateSectorCountInput(const std::vector<StorageUtility::Ata::sLbaRangeEntry>& LBARangeEntries)
         {
             return ((LBARangeEntries.size() / MAX_LBA_RANGE_ENTRIES_PER_512_BYTE_BLOCK) + 1);
         }

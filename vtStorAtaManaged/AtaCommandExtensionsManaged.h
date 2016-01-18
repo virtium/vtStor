@@ -52,7 +52,7 @@ namespace vtStor
                 vtStor::Managed::eErrorCode IssueCommand_Smart(vtStor::Managed::cDriveInterface^ Drive, U32 CommandType, vtStor::Managed::cBufferInterface^ Data, U8 SubCommand);
                 vtStor::Managed::eErrorCode IssueCommand_DownloadMicrocode(vtStor::Managed::cDriveInterface^ Drive, U32 CommandType, vtStor::Managed::cBufferInterface^ Data, U8 SubCommand, U16 BlockCount, U16 BufferOffset);
                 vtStor::Managed::eErrorCode IssueCommand_DownloadMicrocodeDma(vtStor::Managed::cDriveInterface^ Drive, U32 CommandType, vtStor::Managed::cBufferInterface^ Data, U8 SubCommand, U16 BlockCount, U16 BufferOffset);
-                vtStor::Managed::eErrorCode IssueCommand_ATATrim(vtStor::Managed::cDriveInterface^ Drive, U32 CommandType, vtStor::Managed::cBufferInterface^ Data, List<vtStor::Managed::sLbaRangeEntryManaged^>^ LbaRangeEntries);
+                vtStor::Managed::eErrorCode IssueCommand_Trim(vtStor::Managed::cDriveInterface^ Drive, U32 CommandType, vtStor::Managed::cBufferInterface^ Data, List<vtStor::Managed::sLbaRangeEntryManaged^>^ LbaRangeEntries);
 
             private:
                 vtStor::Managed::cUniquePtr<vtStor::IAtaCommandExtensions> m_AtaCommandExtensions;

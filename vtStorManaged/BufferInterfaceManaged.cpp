@@ -56,9 +56,9 @@ namespace vtStor
             return( m_Buffer->GetSizeInBytes() );
         }
 
-        void cBufferInterface::MemsetBuffer(U8 Value)
+        void cBufferInterface::Memset(U8 Value)
         {
-            m_Buffer->MemsetBuffer(Value);
+            m_Buffer->Memset(Value);
         }
     }
 }
