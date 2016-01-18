@@ -1,6 +1,6 @@
 /*
 <License>
-Copyright 2015 Virtium Technology
+Copyright 2016 Virtium Technology
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -58,9 +58,25 @@ namespace vtStor
             return(nullptr);
         }
 
+        U32 physicalDiskNumber;
+        errorCode = GetPhysicalDiskNumber(deviceHandle, physicalDiskNumber);
+        if (eErrorCode::None != errorCode)
+        {
+            //TODO: handle error
+            return(nullptr);
+        }
+
+        tchar* devicePath;
+        Device->DevicePath(devicePath);
+
+        // Add drive propeties to the container
+        std::shared_ptr<vtStor::sDriveProperties> driveProperties = std::make_shared<vtStor::sDriveProperties>();
+        driveProperties->PhysicalDiskNumber = physicalDiskNumber;
+        driveProperties->DevicePath = devicePath;
+
         if (true == IsScsiDeviceBus(storageAdapterProperty))
         {
-            std::shared_ptr<IDrive> drive = std::make_shared<cDriveScsi>(Device, deviceHandle);
+            std::shared_ptr<IDrive> drive = std::make_shared<cDriveScsi>(Device, deviceHandle, driveProperties);
 
             return(drive);
         }

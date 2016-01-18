@@ -1,6 +1,6 @@
 ﻿/*
 <License>
-Copyright 2015 Virtium Technology
+Copyright 2016 Virtium Technology
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -64,7 +64,8 @@ namespace vtStorManaged.ATest
                 {
                     cBufferInterface buffer = new cBufferInterface(vtStorModule, 512);
                     cDriveInterface drive = driveManager.GetDrive(0);   //!!! Warning: be careful with value 0 in GetDrive(0)
-                    string devicePath = drive.GetDevicePath();
+                    string devicePath = drive.GetDriveProperties().DevicePath;
+                    uint physicalDiskNumber = drive.GetDriveProperties().PhysicalDiskNumber;
 
                     if (eBusType.Ata == drive.GetBusType())
                     {
