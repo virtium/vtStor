@@ -26,8 +26,9 @@ limitations under the License.
 
 namespace vtStor
 {
-    struct IDriveManager
+    class IDriveManager
     {
+    public:
         virtual ~IDriveManager() {}
         virtual void RegisterDriveEnumerator(std::shared_ptr<IDriveEnumerator> DriveEnumerator) = 0;
         virtual eErrorCode EnumerateDrives(eScanForHardwareChanges ScanForHardwareChanges) = 0;
