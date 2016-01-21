@@ -126,6 +126,12 @@ namespace vtStor
                 sTaskFileInputRegister  InputRegister;
                 sTaskFileOutputRegister OutputRegister;
             };
+
+            struct sLbaRangeEntry
+            {
+                U64 Lba;
+                U16 SectorCount;
+            };
         }
     }
 }

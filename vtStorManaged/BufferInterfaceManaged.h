@@ -42,6 +42,7 @@ namespace vtStor
             void SetByteAt( U32 Index, U8 value );
             U8 GetByteAt( U32 Index );
             U32 GetSizeInBytes();
+            void Memset(U8 Value);
 
         private:
             cSharedPtr<vtStor::IBuffer> m_Buffer;

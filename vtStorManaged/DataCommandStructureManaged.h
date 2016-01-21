@@ -1,3 +1,4 @@
+
 /*
 <License>
 Copyright 2016 Virtium Technology
@@ -15,23 +16,25 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
-#include "DriveAta.h"
+
+#ifndef __DataCommandStructureManaged_h__
+#define __DataCommandStructureManaged_h__
+#pragma once
+
+#include "BasicTypes.h"
 
 namespace vtStor
 {
+    namespace Managed
+    {
+        public ref struct sLbaRangeEntryManaged
+        {
+        public:
+            U64 Lba;
+            U16 SectorCount;
+        };
 
-cDriveAta::cDriveAta(std::shared_ptr<vtStor::IDevice> Device, DeviceHandle DeviceHandle, std::shared_ptr<vtStor::sDriveProperties> DriveProperties) :
-    cDrive(Device, DeviceHandle, DriveProperties)
-{
+    }
 }
 
-cDriveAta::~cDriveAta()
-{
-}
-
-eBusType cDriveAta::GetBusType()
-{
-    return( eBusType::Ata );
-}
-
-}
+#endif

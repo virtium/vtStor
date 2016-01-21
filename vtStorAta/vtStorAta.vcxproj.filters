@@ -16,6 +16,9 @@
     <ClCompile Include="DriveEnumeratorAta.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TrimBufferFormatter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AtaCommandExtensions.h">
@@ -31,6 +34,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DriveEnumeratorAta.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TrimBufferFormatter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

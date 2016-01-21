@@ -1,6 +1,6 @@
 /*
 <License>
-Copyright 2015 Virtium Technology
+Copyright 2016 Virtium Technology
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -56,16 +56,15 @@ namespace vtStor
             return (static_cast<vtStor::Managed::eBusType>(m_Drive->GetBusType()));
         }
 
-        System::String^ cDriveInterface::GetDevicePath()
+        DriveProperties^ cDriveInterface::GetDriveProperties()
         {
-            // Get Drive instance from the current DriveInterface
-            std::shared_ptr<vtStor::IDevice> drive = std::dynamic_pointer_cast<vtStor::IDevice>(*m_Drive);
+            std::shared_ptr<vtStor::sDriveProperties> driveProperties = m_Drive->GetDriveProperties();
 
-            // Retrieve DevicePath from drive
-            tchar* devicePath;
-            drive->DevicePath(devicePath);
+            DriveProperties^ drivePropertiesReturn = gcnew DriveProperties();
+            drivePropertiesReturn->PhysicalDiskNumber = driveProperties->PhysicalDiskNumber;
+            drivePropertiesReturn->DevicePath = gcnew System::String(driveProperties->DevicePath);
 
-            return(gcnew System::String(devicePath));
+            return(drivePropertiesReturn);
         }
     }
 }

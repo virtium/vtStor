@@ -81,6 +81,12 @@
     <ClInclude Include="..\extern\IScsiCommandExtensions.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
+    <ClInclude Include="..\Common\DriveProperties.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\DriveProperties.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DriveManager.cpp">

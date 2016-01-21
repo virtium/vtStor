@@ -1,6 +1,6 @@
 /*
 <License>
-Copyright 2015 Virtium Technology
+Copyright 2016 Virtium Technology
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
+
 #include <assert.h>
 
 #include "Buffer.h"
@@ -67,6 +68,11 @@ U8 cBuffer::GetByteAt( U32 Index )
 U32 cBuffer::GetSizeInBytes()
 {
     return( (U32)m_SizeInBytes );
+}
+
+void cBuffer::Memset(U8 Value)
+{
+    memset(m_AlignedBuffer, Value, m_SizeInBytes);
 }
 
 }

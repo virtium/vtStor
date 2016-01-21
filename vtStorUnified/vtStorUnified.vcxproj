@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{2595AE3D-FF40-47C4-B050-55D450843934}</ProjectGuid>
+    <ProjectGuid>{F70FC4A6-9901-454D-A7BA-AD3472667A45}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>vtStor</RootNamespace>
+    <RootNamespace>vtStorUnified</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -72,19 +72,15 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(ProjectDir)$(Platform)$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(ProjectDir)$(Platform)$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(ProjectDir)$(Platform)$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(ProjectDir)$(Platform)$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -92,13 +88,16 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;VTSTOR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;VTSTORUNIFIED_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Manifest>
+      <AssemblyIdentity>Virtium.vtStor.vtStorUnified, version=1.0.0.0, type=win32</AssemblyIdentity>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -106,13 +105,16 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;VTSTOR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;VTSTORUNIFIED_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Manifest>
+      <AssemblyIdentity>Virtium.vtStor.vtStorUnified, version=1.0.0.0, type=win32</AssemblyIdentity>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -122,7 +124,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;VTSTOR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;VTSTORUNIFIED_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -131,6 +133,9 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <Manifest>
+      <AssemblyIdentity>Virtium.vtStor.vtStorUnified, version=1.0.0.0, type=win32</AssemblyIdentity>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -140,7 +145,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;VTSTOR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;VTSTORUNIFIED_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -149,41 +154,76 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <Manifest>
+      <AssemblyIdentity>Virtium.vtStor.vtStorUnified, version=1.0.0.0, type=win32</AssemblyIdentity>
+    </Manifest>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="..\Common\DeviceDataType.h" />
-    <ClInclude Include="..\Common\DriveProperties.h" />
-    <ClInclude Include="..\Common\ErrorCodes.h" />
-    <ClInclude Include="..\Common\Platform\x86x64\BasicTypes.h" />
-    <ClInclude Include="..\Common\Platform\x86x64\Windows\PlatformDefines.h" />
-    <ClInclude Include="..\extern\IAtaCommandExtensions.h" />
-    <ClInclude Include="..\extern\IBuffer.h" />
-    <ClInclude Include="..\extern\ICommandHandler.h" />
-    <ClInclude Include="..\extern\IDevice.h" />
-    <ClInclude Include="..\extern\IDrive.h" />
-    <ClInclude Include="..\extern\IDriveEnumerator.h" />
-    <ClInclude Include="..\extern\IDriveManager.h" />
-    <ClInclude Include="..\extern\IProtocol.h" />
-    <ClInclude Include="..\extern\IScsiCommandExtensions.h" />
-    <ClInclude Include="Buffer.h" />
-    <ClInclude Include="BufferFormatter.h" />
-    <ClInclude Include="CommandDescriptor.h" />
-    <ClInclude Include="Drive.h" />
-    <ClInclude Include="DriveManager.h" />
-    <ClInclude Include="ProtocolEssense.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Buffer.cpp" />
-    <ClCompile Include="BufferFormatter.cpp" />
-    <ClCompile Include="CommandDescriptor.cpp" />
-    <ClCompile Include="Drive.cpp" />
-    <ClCompile Include="DriveManager.cpp" />
-    <ClCompile Include="ProtocolEssense.cpp" />
-  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\StorageUtility\StorageUtility.vcxproj">
       <Project>{0da52eb3-5f61-4919-8b1a-0dc1b50b619f}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\vtStorAtaProtocol\AtaProtocolEssense1.cpp" />
+    <ClCompile Include="..\vtStorAtaProtocol\Platform\Windows\ProtocolAtaPassThrough.cpp" />
+    <ClCompile Include="..\vtStorAta\AtaCommandExtensionscpp.cpp" />
+    <ClCompile Include="..\vtStorAta\CommandDescriptorAta.cpp" />
+    <ClCompile Include="..\vtStorAta\CommandHandlerAta.cpp" />
+    <ClCompile Include="..\vtStorAta\DriveAta.cpp" />
+    <ClCompile Include="..\vtStorAta\DriveEnumeratorAta.cpp" />
+    <ClCompile Include="..\vtStorAta\TrimBufferFormater.cpp" />
+    <ClCompile Include="..\vtStorScsiProtocol\Platform\Windows\ProtocolScsiPassThrough.cpp" />
+    <ClCompile Include="..\vtStorScsiProtocol\ScsiProtocolEssense1.cpp" />
+    <ClCompile Include="..\vtStorScsi\CommandDescriptorScsi.cpp" />
+    <ClCompile Include="..\vtStorScsi\CommandHandlerScsi.cpp" />
+    <ClCompile Include="..\vtStorScsi\DriveEnumeratorScsi.cpp" />
+    <ClCompile Include="..\vtStorScsi\DriveScsi.cpp" />
+    <ClCompile Include="..\vtStorScsi\ScsiCommandExtensions.cpp" />
+    <ClCompile Include="..\vtStor\Buffer.cpp" />
+    <ClCompile Include="..\vtStor\BufferFormatter.cpp" />
+    <ClCompile Include="..\vtStor\CommandDescriptor.cpp" />
+    <ClCompile Include="..\vtStor\Drive.cpp" />
+    <ClCompile Include="..\vtStor\DriveManager.cpp" />
+    <ClCompile Include="..\vtStor\ProtocolEssense.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Common\BusType.h" />
+    <ClInclude Include="..\Common\DeviceDataType.h" />
+    <ClInclude Include="..\Common\ErrorCodes.h" />
+    <ClInclude Include="..\Common\Platform\x86x64\BasicTypes.h" />
+    <ClInclude Include="..\Common\Platform\x86x64\Windows\PlatformDefines.h" />
+    <ClInclude Include="..\Common\ScanForHardwareChanges.h" />
+    <ClInclude Include="..\Extern\IAtaCommandExtensions.h" />
+    <ClInclude Include="..\Extern\IBuffer.h" />
+    <ClInclude Include="..\Extern\ICommandHandler.h" />
+    <ClInclude Include="..\Extern\IDevice.h" />
+    <ClInclude Include="..\Extern\IDrive.h" />
+    <ClInclude Include="..\Extern\IDriveEnumerator.h" />
+    <ClInclude Include="..\Extern\IDriveManager.h" />
+    <ClInclude Include="..\Extern\IProtocol.h" />
+    <ClInclude Include="..\Extern\IScsiCommandExtensions.h" />
+    <ClInclude Include="..\vtStorAtaProtocol\AtaProtocolEssense1.h" />
+    <ClInclude Include="..\vtStorAtaProtocol\Platform\Windows\ProtocolAtaPassThrough.h" />
+    <ClInclude Include="..\vtStorAta\AtaCommandExtensions.h" />
+    <ClInclude Include="..\vtStorAta\CommandDescriptorAta.h" />
+    <ClInclude Include="..\vtStorAta\CommandHandlerAta.h" />
+    <ClInclude Include="..\vtStorAta\DriveAta.h" />
+    <ClInclude Include="..\vtStorAta\DriveEnumeratorAta.h" />
+    <ClInclude Include="..\vtStorAta\TrimBufferFormater.h" />
+    <ClInclude Include="..\vtStorScsiProtocol\Platform\Windows\ProtocolScsiPassThrough.h" />
+    <ClInclude Include="..\vtStorScsiProtocol\ScsiProtocolEssense1.h" />
+    <ClInclude Include="..\vtStorScsi\CommandDescriptorScsi.h" />
+    <ClInclude Include="..\vtStorScsi\CommandHandlerScsi.h" />
+    <ClInclude Include="..\vtStorScsi\DriveEnumeratorScsi.h" />
+    <ClInclude Include="..\vtStorScsi\DriveScsi.h" />
+    <ClInclude Include="..\vtStorScsi\ScsiCommandExtensions.h" />
+    <ClInclude Include="..\vtStor\Buffer.h" />
+    <ClInclude Include="..\vtStor\BufferFormatter.h" />
+    <ClInclude Include="..\vtStor\CommandDescriptor.h" />
+    <ClInclude Include="..\vtStor\DataCommandStructure.h" />
+    <ClInclude Include="..\vtStor\Drive.h" />
+    <ClInclude Include="..\vtStor\DriveManager.h" />
+    <ClInclude Include="..\vtStor\ProtocolEssense.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

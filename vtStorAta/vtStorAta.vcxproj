@@ -161,6 +161,7 @@
     <ClCompile Include="CommandHandlerAta.cpp" />
     <ClCompile Include="DriveAta.cpp" />
     <ClCompile Include="DriveEnumeratorAta.cpp" />
+    <ClCompile Include="TrimBufferFormatter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommandDescriptorAta.h" />
@@ -168,6 +169,7 @@
     <ClInclude Include="CommandHandlerAta.h" />
     <ClInclude Include="DriveAta.h" />
     <ClInclude Include="DriveEnumeratorAta.h" />
+    <ClInclude Include="TrimBufferFormatter.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\StorageUtility\StorageUtility.vcxproj">
