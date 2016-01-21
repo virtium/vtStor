@@ -48,7 +48,7 @@ namespace vtStor
             {
                 throw gcnew System::Exception(System::String::Format("Failed to load '{0}'. Error code 0x{1:x}.", m_ModulePath, GetLastError()));
             }
-            return gcnew cRunTimeDll(module);
+            return gcnew cRunTimeDll(module, m_ModulePath);
         }
     }
 }

@@ -22,17 +22,23 @@ namespace vtStor
 {
     namespace Managed
     {
-        cRunTimeDll::cRunTimeDll(HMODULE Module)
+        cRunTimeDll::cRunTimeDll(HMODULE Module, System::String^ ModulePath)
         {
             m_Module = Module;
+            m_ModulePath = ModulePath;
         }
 
         cRunTimeDll::~cRunTimeDll()
         {
+            this->!cRunTimeDll();
         }
 
         cRunTimeDll::!cRunTimeDll()
         {
+            if (!FreeLibrary(m_Module))
+            {
+                throw gcnew System::Exception(System::String::Format("FreeLibrary failed to free '{0}'. Error code 0x{1:x}.", m_ModulePath, GetLastError()));
+            }
         }
 
         FARPROC cRunTimeDll::GetFunction(LPCSTR name)
