@@ -29,8 +29,9 @@ limitations under the License.
 
 namespace vtStor
 {
-    struct IDrive : public IDevice
+    class IDrive : public IDevice
     {
+    public:
         virtual ~IDrive() {}
         virtual void RegisterCommandHandler(U32 CommandType, std::shared_ptr<ICommandHandler> CommandHandler) = 0;
         virtual eErrorCode IssueCommand(U32 CommandType, std::shared_ptr<const IBuffer> CommandDescriptor, std::shared_ptr<IBuffer> Data) = 0;

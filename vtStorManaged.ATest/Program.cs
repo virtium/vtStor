@@ -30,22 +30,14 @@ namespace vtStorManaged.ATest
             uint driveCount;
             eErrorCode errorCode;
             string path = System.AppDomain.CurrentDomain.BaseDirectory;
-            ILoadRunTimeDll vtStorDll = new cLoadRunTimeDll("vtStor.dll");
-            ILoadRunTimeDll vtStorAtaDll = new cLoadRunTimeDll("vtStorAta.dll");
-            ILoadRunTimeDll vtStorScsiDll = new cLoadRunTimeDll("vtStorScsi.dll");
-            ILoadRunTimeDll vtStorAtaProtocolDll = new cLoadRunTimeDll("vtStorAtaProtocol.dll");
-            ILoadRunTimeDll vtStorScsiProtocolDll = new cLoadRunTimeDll("vtStorScsiProtocol.dll");
-            IRunTimeDll vtStorModule = vtStorDll.Load();
-            IRunTimeDll vtStorAtaModule = vtStorAtaDll.Load();
-            IRunTimeDll vtStorScsiModule = vtStorScsiDll.Load();
-            IRunTimeDll vtStorAtaProtocolModule = vtStorAtaProtocolDll.Load();
-            IRunTimeDll vtStorScsiProtocolModule = vtStorScsiProtocolDll.Load();
+            ILoadRunTimeDll vtStorUnifiedDll = new cLoadRunTimeDll("vtStorUnified.dll");
+            IRunTimeDll vtStorUnifiedModule = vtStorUnifiedDll.Load();
 
-            cDriveManagerInterface driveManager = new cDriveManagerInterface(vtStorModule);
+            cDriveManagerInterface driveManager = new cDriveManagerInterface(vtStorUnifiedModule);
 
             // Register drive enumerators
-            driveManager.RegisterDriveEnumerator(new cDriveEnumeratorAta(vtStorAtaModule));
-            driveManager.RegisterDriveEnumerator(new cDriveEnumeratorScsi(vtStorScsiModule));
+            driveManager.RegisterDriveEnumerator(new cDriveEnumeratorAta(vtStorUnifiedModule));
+            driveManager.RegisterDriveEnumerator(new cDriveEnumeratorScsi(vtStorUnifiedModule));
 
             // Enumerate drives
             errorCode = driveManager.EnumerateDrives(vtStor.Managed.eScanForHardwareChanges.Yes);
@@ -62,32 +54,32 @@ namespace vtStorManaged.ATest
 
                 if (0 < driveCount)
                 {
-                    cBufferInterface buffer = new cBufferInterface(vtStorModule, 512);
+                    cBufferInterface buffer = new cBufferInterface(vtStorUnifiedModule, 512);
                     cDriveInterface drive = driveManager.GetDrive(0);   //!!! Warning: be careful with value 0 in GetDrive(0)
                     string devicePath = drive.GetDriveProperties().DevicePath;
                     uint physicalDiskNumber = drive.GetDriveProperties().PhysicalDiskNumber;
 
                     if (eBusType.Ata == drive.GetBusType())
                     {
-                        protocol = new cProtocolAtaPassThrough(vtStorAtaProtocolModule);
-                        commandHandler = new cCommandHandlerAta(vtStorAtaModule, protocol);
+                        protocol = new cProtocolAtaPassThrough(vtStorUnifiedModule);
+                        commandHandler = new cCommandHandlerAta(vtStorUnifiedModule, protocol);
 
                         // Register command handler to drive
                         drive.RegisterCommandHandler(0, commandHandler);
 
-                        cAtaCommandExtensions ataCommandExtensions = new cAtaCommandExtensions(vtStorAtaModule);
+                        cAtaCommandExtensions ataCommandExtensions = new cAtaCommandExtensions(vtStorUnifiedModule);
 
                         errorCode = ataCommandExtensions.IssueCommand_IdentifyDevice(drive, 0, buffer);
                     }
                     else if (eBusType.Scsi == drive.GetBusType())
                     {
-                        protocol = new cProtocolScsiPassThrough(vtStorScsiProtocolModule);
-                        commandHandler = new cCommandHandlerScsi(vtStorScsiModule, protocol);
+                        protocol = new cProtocolScsiPassThrough(vtStorUnifiedModule);
+                        commandHandler = new cCommandHandlerScsi(vtStorUnifiedModule, protocol);
 
                         // Register command handler to drive
                         drive.RegisterCommandHandler(0, commandHandler);
 
-                        cScsiCommandExtensions scsiCommandExtensions = new cScsiCommandExtensions(vtStorScsiModule);
+                        cScsiCommandExtensions scsiCommandExtensions = new cScsiCommandExtensions(vtStorUnifiedModule);
 
                         errorCode = scsiCommandExtensions.IssueCommand_AtaIdentifyDevice(drive, 0, buffer);
                     }
