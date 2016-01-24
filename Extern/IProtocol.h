@@ -26,8 +26,9 @@ limitations under the License.
 
 namespace vtStor
 {
-    struct IProtocol
+    class IProtocol
     {
+    public:
         virtual ~IProtocol() {}
         virtual eErrorCode IssueCommand(const DeviceHandle& Handle, std::shared_ptr<const IBuffer> Essense, std::shared_ptr<IBuffer> DataBuffer) = 0;
     };
