@@ -1,6 +1,6 @@
 /*
 <License>
-Copyright 2015 Virtium Technology
+Copyright 2016 Virtium Technology
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -21,19 +21,22 @@ limitations under the License.
 #include <memory>
 #include <vector>
 
-#include "ICommandHandler.h"
-#include "IBuffer.h"
-#include "IDevice.h"
 #include "BusType.h"
+#include "DriveProperties.h"
+#include "IBuffer.h"
+#include "ICommandHandler.h"
+#include "IDevice.h"
 
 namespace vtStor
 {
-    struct IDrive : public IDevice
+    class IDrive : public IDevice
     {
+    public:
         virtual ~IDrive() {}
         virtual void RegisterCommandHandler(U32 CommandType, std::shared_ptr<ICommandHandler> CommandHandler) = 0;
         virtual eErrorCode IssueCommand(U32 CommandType, std::shared_ptr<const IBuffer> CommandDescriptor, std::shared_ptr<IBuffer> Data) = 0;
         virtual eBusType GetBusType() = 0;
+        virtual std::shared_ptr<vtStor::sDriveProperties> GetDriveProperties() = 0;
     };
 
     using Vector_Drives = std::vector<std::shared_ptr<IDrive>>;

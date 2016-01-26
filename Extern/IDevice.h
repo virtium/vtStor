@@ -25,8 +25,9 @@ limitations under the License.
 
 namespace vtStor
 {
-    struct IDevice
+    class IDevice
     {
+    public:
         virtual ~IDevice() {}
         virtual void Data(std::unordered_map<eDeviceDataType, void*>& Data) = 0;
         virtual DeviceHandle Handle() = 0;

@@ -1,6 +1,6 @@
 /*
 <License>
-Copyright 2015 Virtium Technology
+Copyright 2016 Virtium Technology
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -15,34 +15,19 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
-
-#ifndef __vtStorRunTimeDll_h__
-#define __vtStorRunTimeDll_h__
+#ifndef __DriveProperties_h__
+#define __DriveProperties_h__
 #pragma once
 
-#include "IRunTimeDll.h"
+#include "BasicTypes.h"
 
 namespace vtStor
 {
-    namespace Managed
+    struct sDriveProperties
     {
-        public ref class cRunTimeDll : public IRunTimeDll
-        {
-        public:
-            cRunTimeDll(HMODULE Module, System::String^ ModulePath);
-            ~cRunTimeDll();
-
-        protected:
-            !cRunTimeDll();
-
-        public:
-            virtual FARPROC GetFunction(LPCSTR name);
-
-        private:
-            HMODULE m_Module;
-            System::String^ m_ModulePath;
-        };
-    }
+        tchar*      DevicePath;
+        vtStor::U32 PhysicalDiskNumber;
+    };
 }
 
-#endif // end __vtStorRunTimeDll_h__
+#endif __DriveProperties_h__

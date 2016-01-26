@@ -25,14 +25,15 @@ limitations under the License.
 
 namespace vtStor
 {
-    struct IBuffer
+    class IBuffer
     {
+    public:
         virtual ~IBuffer() {}
         virtual U8* ToDataBuffer() = 0;
         virtual void SetByteAt(U32 Index, U8 Value) = 0;
         virtual U8 GetByteAt(U32 Index) = 0;
         virtual U32 GetSizeInBytes() = 0;
-        virtual void MemsetBuffer(U8 Value) = 0;
+        virtual void Memset(U8 Value) = 0;
     };
 }
 

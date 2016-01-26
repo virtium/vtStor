@@ -55,7 +55,7 @@ namespace vtStor
             virtual eErrorCode IssueCommand_Smart(std::shared_ptr<IDrive> Drive, U32 CommandType, std::shared_ptr<IBuffer> Data, U8 SubCommand) override;
             virtual eErrorCode IssueCommand_DownloadMicrocode(std::shared_ptr<IDrive> Drive, U32 CommandType, std::shared_ptr<IBuffer> Data, U8 SubCommand, U16 BlockCount, U16 BufferOffset) override;
             virtual eErrorCode IssueCommand_DownloadMicrocodeDma(std::shared_ptr<IDrive> Drive, U32 CommandType, std::shared_ptr<IBuffer> Data, U8 SubCommand, U16 BlockCount, U16 BufferOffset) override;
-            virtual eErrorCode IssueCommand_ATATrim(std::shared_ptr<IDrive> Drive, U32 CommandType, std::shared_ptr<IBuffer> Data, std::vector<sLbaRangeEntry> LbaRangeEntries) override;
+            virtual eErrorCode IssueCommand_Trim(std::shared_ptr<IDrive> Drive, U32 CommandType, std::shared_ptr<IBuffer> Data, const std::vector<StorageUtility::Ata::sLbaRangeEntry>& LbaRangeEntries) override;
         };
     }
 }

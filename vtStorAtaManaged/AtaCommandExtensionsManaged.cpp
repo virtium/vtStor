@@ -114,24 +114,24 @@ namespace vtStor
                 return(errorCode);
             }
 
-            vtStor::Managed::eErrorCode cAtaCommandExtensions::IssueCommand_ATATrim(vtStor::Managed::cDriveInterface^ Drive, U32 CommandType, vtStor::Managed::cBufferInterface^ Data, List<vtStor::Managed::sLbaRangeEntryManaged^>^ LbaRangeEntries)
+            vtStor::Managed::eErrorCode cAtaCommandExtensions::IssueCommand_Trim(vtStor::Managed::cDriveInterface^ Drive, U32 CommandType, vtStor::Managed::cBufferInterface^ Data, List<vtStor::Managed::sLbaRangeEntryManaged^>^ LbaRangeEntries)
             {
                 vtStor::Managed::eErrorCode errorCode;
                 std::shared_ptr<vtStor::IDrive> spDriveInterface = *reinterpret_cast<std::shared_ptr<vtStor::IDrive>*>((void*)Drive);
                 std::shared_ptr<vtStor::IBuffer> spBuffferInterface = *reinterpret_cast<std::shared_ptr<vtStor::IBuffer>*>((void*)Data);
 
-                std::vector<vtStor::sLbaRangeEntry> lbaRangeEntries;
+                std::vector<StorageUtility::Ata::sLbaRangeEntry> lbaRangeEntries;
 
                 for each (vtStor::Managed::sLbaRangeEntryManaged^ entry in LbaRangeEntries)
                 {
-                    vtStor::sLbaRangeEntry lbaRangeEntry;
+                    StorageUtility::Ata::sLbaRangeEntry lbaRangeEntry;
                     lbaRangeEntry.Lba = entry->Lba;
                     lbaRangeEntry.SectorCount = entry->SectorCount;
 
                     lbaRangeEntries.push_back(lbaRangeEntry);
                 }
 
-                errorCode = static_cast<vtStor::Managed::eErrorCode>(m_AtaCommandExtensions->IssueCommand_ATATrim(spDriveInterface, CommandType, spBuffferInterface, lbaRangeEntries));
+                errorCode = static_cast<vtStor::Managed::eErrorCode>(m_AtaCommandExtensions->IssueCommand_Trim(spDriveInterface, CommandType, spBuffferInterface, lbaRangeEntries));
                 return(errorCode);
             }
         }

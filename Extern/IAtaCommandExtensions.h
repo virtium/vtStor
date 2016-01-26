@@ -19,18 +19,18 @@ limitations under the License.
 #ifndef __vtStorIAtaCommandExtensions_h__
 #define __vtStorIAtaCommandExtensions_h__
 
-#include <memory>
 #include <vector>
 
-#include "DataCommandStructure.h"
+#include "Ata.h"
 #include "ErrorCodes.h"
 #include "IDrive.h"
 #include "PlatformDefines.h"
 
 namespace vtStor
 {
-    struct IAtaCommandExtensions
+    class IAtaCommandExtensions
     {
+    public:
         virtual ~IAtaCommandExtensions() {}
         virtual eErrorCode IssueCommand_IdentifyDevice(std::shared_ptr<IDrive> Drive, U32 CommandType, std::shared_ptr<IBuffer> Data) = 0;
         virtual eErrorCode IssueCommand_ReadDma(std::shared_ptr<IDrive> Drive, U32 CommandType, std::shared_ptr<IBuffer> Data, U32 Lba, U16 Count) = 0;
@@ -40,7 +40,7 @@ namespace vtStor
         virtual eErrorCode IssueCommand_Smart(std::shared_ptr<IDrive> Drive, U32 CommandType, std::shared_ptr<IBuffer> Data, U8 SubCommand) = 0;
         virtual eErrorCode IssueCommand_DownloadMicrocode(std::shared_ptr<IDrive> Drive, U32 CommandType, std::shared_ptr<IBuffer> Data, U8 SubCommand, U16 BlockCount, U16 BufferOffset) = 0;
         virtual eErrorCode IssueCommand_DownloadMicrocodeDma(std::shared_ptr<IDrive> Drive, U32 CommandType, std::shared_ptr<IBuffer> Data, U8 SubCommand, U16 BlockCount, U16 BufferOffset) = 0;
-        virtual eErrorCode IssueCommand_ATATrim(std::shared_ptr<IDrive> Drive, U32 CommandType, std::shared_ptr<IBuffer> Data, std::vector<sLbaRangeEntry> LbaRangeEntries) = 0;
+        virtual eErrorCode IssueCommand_Trim(std::shared_ptr<IDrive> Drive, U32 CommandType, std::shared_ptr<IBuffer> Data, const std::vector<StorageUtility::Ata::sLbaRangeEntry>& LbaRangeEntries) = 0;
     };
 }
 

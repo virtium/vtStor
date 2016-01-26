@@ -1,6 +1,6 @@
 /*
 <License>
-Copyright 2015 Virtium Technology
+Copyright 2016 Virtium Technology
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -17,19 +17,20 @@ limitations under the License.
 */
 #include <memory>
 
-#include "ErrorCodes.h"
-#include "BusType.h"
-#include "Buffer.h"
-#include "CommandHandlerAta.h"
 #include "AtaCommandExtensions.h"
-#include "DriveEnumeratorAta.h"
-#include "ProtocolAtaPassThrough.h"
+#include "Buffer.h"
+#include "BusType.h"
+#include "CommandHandlerAta.h"
 #include "CommandHandlerScsi.h"
-#include "ScsiCommandExtensions.h"
-#include "DriveEnumeratorScsi.h"
-#include "ProtocolScsiPassThrough.h"
 #include "Drive.h"
+#include "DriveEnumeratorAta.h"
+#include "DriveEnumeratorScsi.h"
+#include "DriveProperties.h"
+#include "ErrorCodes.h"
 #include "IDriveManager.h"
+#include "ProtocolAtaPassThrough.h"
+#include "ProtocolScsiPassThrough.h"
+#include "ScsiCommandExtensions.h"
 
 void main()
 {
@@ -54,37 +55,40 @@ void main()
     driveManager->EnumerateDrives( vtStor::eScanForHardwareChanges::No );
 
     vtStor::Vector_Drives drives = driveManager->GetDrives();
+    std::shared_ptr<vtStor::IDrive> selectedDrive = drives[0];                         //!!! Warning: be careful with value 0 in drives[1]
+
     // Create data buffer
     std::shared_ptr<vtStor::IBuffer> dataBuffer = std::make_shared<vtStor::cBuffer>(512);
 
     std::shared_ptr<vtStor::IProtocol> protocol = nullptr;
     std::shared_ptr<vtStor::ICommandHandler> commandHandler = nullptr;
 
-    std::shared_ptr<vtStor::IDevice> drive = std::dynamic_pointer_cast<vtStor::IDevice>(drives[1]);
-    tchar* devicePath;
-    drive->DevicePath(devicePath);
+    std::shared_ptr<vtStor::sDriveProperties> driveProperties = selectedDrive->GetDriveProperties();
+    vtStor::U32 physicalDiskNumber = driveProperties->PhysicalDiskNumber;
+    tchar* devicePath = driveProperties->DevicePath;
 
-    if (vtStor::eBusType::Ata == drives[1]->GetBusType())                         //!!! Warning: be careful with value 1 in drives[1]
+    if (vtStor::eBusType::Ata == selectedDrive->GetBusType())
     {
         protocol = std::make_shared<vtStor::Protocol::cAtaPassThrough>();
         commandHandler = std::make_shared<vtStor::cCommandHandlerAta>(protocol);
 
         // Register command handler
-        drives[1]->RegisterCommandHandler(sDefaultCommandHandlerAtaCommandType, commandHandler);
+        selectedDrive->RegisterCommandHandler(sDefaultCommandHandlerAtaCommandType, commandHandler);
 
         // Call command
-        ataCommandExtensions->IssueCommand_IdentifyDevice(drives[1], sDefaultCommandHandlerAtaCommandType, dataBuffer);
+        ataCommandExtensions->IssueCommand_IdentifyDevice(selectedDrive, sDefaultCommandHandlerAtaCommandType, dataBuffer);
 
-    } else if (vtStor::eBusType::Scsi == drives[1]->GetBusType())
+    }
+    else if (vtStor::eBusType::Scsi == selectedDrive->GetBusType())
     {
         protocol = std::make_shared<vtStor::Protocol::cScsiPassThrough>();
         commandHandler = std::make_shared<vtStor::cCommandHandlerScsi>(protocol);
 
         // Register command handler
-        drives[1]->RegisterCommandHandler(sDefaultCommandHandlerScsiCommandType, commandHandler);
+        selectedDrive->RegisterCommandHandler(sDefaultCommandHandlerScsiCommandType, commandHandler);
 
         // Call command
-        scsiCommandExtensions->IssueCommand_AtaIdentifyDevice(drives[1], sDefaultCommandHandlerScsiCommandType, dataBuffer);
+        scsiCommandExtensions->IssueCommand_AtaIdentifyDevice(selectedDrive, sDefaultCommandHandlerScsiCommandType, dataBuffer);
     }
 
     vtStor::U8* data = dataBuffer->ToDataBuffer();

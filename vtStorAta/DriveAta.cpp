@@ -1,6 +1,6 @@
 /*
 <License>
-Copyright 2015 Virtium Technology
+Copyright 2016 Virtium Technology
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -20,8 +20,8 @@ limitations under the License.
 namespace vtStor
 {
 
-cDriveAta::cDriveAta(std::shared_ptr<vtStor::IDevice> Device, DeviceHandle DeviceHandle) :
-    cDrive(Device, DeviceHandle)
+cDriveAta::cDriveAta(std::shared_ptr<vtStor::IDevice> Device, DeviceHandle DeviceHandle, std::shared_ptr<vtStor::sDriveProperties> DriveProperties) :
+    cDrive(Device, DeviceHandle, DriveProperties)
 {
 }
 
