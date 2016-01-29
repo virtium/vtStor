@@ -170,9 +170,6 @@
     <ClInclude Include="ScsiCommandExtensions.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\StorageUtility\StorageUtility.vcxproj">
-      <Project>{0da52eb3-5f61-4919-8b1a-0dc1b50b619f}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\vtStorScsiProtocol\vtStorScsiProtocol.vcxproj">
       <Project>{90d0e9b4-dbc7-4d85-9740-59f0efbd3c0d}</Project>
     </ProjectReference>

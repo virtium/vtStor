@@ -19,6 +19,12 @@
     <Filter Include="Header Files\Common">
       <UniqueIdentifier>{8a57ef9a-8e91-40d2-b03d-9a112ba17319}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\StorageUtility">
+      <UniqueIdentifier>{0d172c93-f080-4611-99fd-f2e6a3ca461e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\StorageUtility">
+      <UniqueIdentifier>{812e500e-f5df-41ec-810d-3427e551a974}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\vtStor\Buffer.cpp">
@@ -83,6 +89,18 @@
     </ClCompile>
     <ClCompile Include="..\vtStorAta\TrimBufferFormatter.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\StorageUtility\Ata.cpp">
+      <Filter>Source Files\StorageUtility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\StorageUtility\Scsi.cpp">
+      <Filter>Source Files\StorageUtility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\StorageUtility\Windows\Device.cpp">
+      <Filter>Source Files\StorageUtility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\StorageUtility\Windows\StorageUtility.cpp">
+      <Filter>Source Files\StorageUtility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -196,6 +214,18 @@
     </ClInclude>
     <ClInclude Include="..\vtStorScsi\ScsiCommandExtensions.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\StorageUtility\Windows\Device.h">
+      <Filter>Header Files\StorageUtility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\StorageUtility\Windows\StorageUtility.h">
+      <Filter>Header Files\StorageUtility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\StorageUtility\Ata.h">
+      <Filter>Header Files\StorageUtility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\StorageUtility\Scsi.h">
+      <Filter>Header Files\StorageUtility</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
