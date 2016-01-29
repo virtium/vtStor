@@ -27,7 +27,7 @@ limitations under the License.
 
 namespace vtStor
 {
-    class ICommandHandler
+    class VTSTOR_API ICommandHandler
     {
     public:
         virtual ~ICommandHandler() {}

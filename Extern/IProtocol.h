@@ -26,7 +26,7 @@ limitations under the License.
 
 namespace vtStor
 {
-    class IProtocol
+    class VTSTOR_API IProtocol
     {
     public:
         virtual ~IProtocol() {}

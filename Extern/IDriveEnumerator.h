@@ -26,7 +26,7 @@ limitations under the License.
 
 namespace vtStor
 {
-    class IDriveEnumerator
+    class VTSTOR_API IDriveEnumerator
     {
     public:
         virtual ~IDriveEnumerator() {}

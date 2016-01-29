@@ -25,7 +25,7 @@ limitations under the License.
 
 namespace vtStor
 {
-    class IDevice
+    class VTSTOR_API IDevice
     {
     public:
         virtual ~IDevice() {}

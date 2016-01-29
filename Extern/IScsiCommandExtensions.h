@@ -26,7 +26,7 @@ limitations under the License.
 
 namespace vtStor
 {
-    class IScsiCommandExtensions
+    class VT_STOR_SCSI_API IScsiCommandExtensions
     {
     public:
         virtual ~IScsiCommandExtensions() {}

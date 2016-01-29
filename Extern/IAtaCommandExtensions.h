@@ -28,7 +28,7 @@ limitations under the License.
 
 namespace vtStor
 {
-    class IAtaCommandExtensions
+    class VT_STOR_ATA_API IAtaCommandExtensions
     {
     public:
         virtual ~IAtaCommandExtensions() {}
