@@ -34,79 +34,71 @@ limitations under the License.
 
 void main()
 {
-#if 0
-    std::unique_ptr<vtStor::cDriveEnumeratorInterface> driveEnumeratorAta = std::make_unique<vtStor::cDriveEnumeratorAta>();
-    vtStor::Vector_Drives drives;
-    vtStor::U32 count;
-    driveEnumeratorAta->EnumerateDrives( drives, count );
-#endif
-
-    const vtStor::U32 sDefaultCommandHandlerAtaCommandType = 0;
-    const vtStor::U32 sDefaultCommandHandlerScsiCommandType = 1;
-
+    //The drive manager allows us to enumerate drives
     std::unique_ptr<vtStor::IDriveManager> driveManager;
-    std::unique_ptr<vtStor::IAtaCommandExtensions> ataCommandExtensions(new vtStor::Ata::cAtaCommandExtensions);
-    std::unique_ptr<vtStor::IScsiCommandExtensions> scsiCommandExtensions(new vtStor::Scsi::cScsiCommandExtensions);
     cDriveManager_GetDriveManager(driveManager);
 
+    //Here we indicate the type of drives we want to enumerate by registering drive enumerators
     driveManager->RegisterDriveEnumerator(std::make_shared<vtStor::cDriveEnumeratorAta>());
     driveManager->RegisterDriveEnumerator(std::make_shared<vtStor::cDriveEnumeratorScsi>());
-
-    driveManager->EnumerateDrives( vtStor::eScanForHardwareChanges::No );
-
+    
+    //Enumerate drives
+    driveManager->EnumerateDrives(vtStor::eScanForHardwareChanges::No);
+    //Get all the drives enumerated
     vtStor::Vector_Drives drives = driveManager->GetDrives();
-    std::shared_ptr<vtStor::IDrive> selectedDrive = drives[0];                         //!!! Warning: be careful with value 0 in drives[1]
 
-    // Create data buffer
-    std::shared_ptr<vtStor::IBuffer> dataBuffer = std::make_shared<vtStor::cBuffer>(512);
+    //Now let's select a drive so we could do something fun
+    //Be careful not to do anything destructive
+    std::shared_ptr<vtStor::IDrive> selectedDrive = drives[0];
 
-    std::shared_ptr<vtStor::IProtocol> protocol = nullptr;
-    std::shared_ptr<vtStor::ICommandHandler> commandHandler = nullptr;
-
+    //We can obtain some information about the drive
     std::shared_ptr<vtStor::sDriveProperties> driveProperties = selectedDrive->GetDriveProperties();
     vtStor::U32 physicalDiskNumber = driveProperties->PhysicalDiskNumber;
     tchar* devicePath = driveProperties->DevicePath;
 
+    //Create a data buffer so we can use when sending commands to a drive
+    std::shared_ptr<vtStor::IBuffer> dataBuffer = std::make_shared<vtStor::cBuffer>(512);
+
+    //To send commands to a drive, we need to know several things
+    //  What type of drive and protocol of the drive helps us determine which command set to use.
+    std::shared_ptr<vtStor::IProtocol> protocol = nullptr;
+    std::shared_ptr<vtStor::ICommandHandler> commandHandler = nullptr;
+    
+    //We can defind some default values for command types to represent different command handler
+    const vtStor::U32 sDefaultCommandHandlerAtaCommandType = 0;
+    const vtStor::U32 sDefaultCommandHandlerScsiCommandType = 1;
+
+    //Command extensions help us to easily setup parameters for particular commands
+    std::unique_ptr<vtStor::IAtaCommandExtensions> ataCommandExtensions(new vtStor::Ata::cAtaCommandExtensions);
+    std::unique_ptr<vtStor::IScsiCommandExtensions> scsiCommandExtensions(new vtStor::Scsi::cScsiCommandExtensions);
+
+    //Determine the bus type
     if (vtStor::eBusType::Ata == selectedDrive->GetBusType())
     {
+        //Use ATA
         protocol = std::make_shared<vtStor::Protocol::cAtaPassThrough>();
         cCommandHandlerAta_GetCommandHandler(commandHandler, protocol);
 
-        // Register command handler
+        //Register command handler
         selectedDrive->RegisterCommandHandler(sDefaultCommandHandlerAtaCommandType, commandHandler);
 
-        // Call command
+        //Issue command
         ataCommandExtensions->IssueCommand_IdentifyDevice(selectedDrive, sDefaultCommandHandlerAtaCommandType, dataBuffer);
 
     }
     else if (vtStor::eBusType::Scsi == selectedDrive->GetBusType())
     {
+        //Use SCSI
         protocol = std::make_shared<vtStor::Protocol::cScsiPassThrough>();
         cCommandHandlerScsi_GetCommandHandler(commandHandler, protocol);
 
-        // Register command handler
+        //Register command handler
         selectedDrive->RegisterCommandHandler(sDefaultCommandHandlerScsiCommandType, commandHandler);
 
-        // Call command
+        //Issue command
         scsiCommandExtensions->IssueCommand_AtaIdentifyDevice(selectedDrive, sDefaultCommandHandlerScsiCommandType, dataBuffer);
     }
 
     vtStor::U8* data = dataBuffer->ToDataBuffer();
-
-    // dump buffer
-    for (int i = 0; i < 512; i++)
-    {
-        if (i % 16 == 15)
-        {
-            printf("%02X\n", *data);
-            data++;
-        }
-        else
-        {
-            printf("%02X ", *data);
-            data++;
-        }
-    }
-
-    getchar();
+    //Now have fun with the data
 }
