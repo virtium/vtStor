@@ -70,7 +70,7 @@ void main()
     if (vtStor::eBusType::Ata == selectedDrive->GetBusType())
     {
         protocol = std::make_shared<vtStor::Protocol::cAtaPassThrough>();
-        commandHandler = std::make_shared<vtStor::cCommandHandlerAta>(protocol);
+        cCommandHandlerAta_GetCommandHandler(commandHandler, protocol);
 
         // Register command handler
         selectedDrive->RegisterCommandHandler(sDefaultCommandHandlerAtaCommandType, commandHandler);
@@ -82,7 +82,7 @@ void main()
     else if (vtStor::eBusType::Scsi == selectedDrive->GetBusType())
     {
         protocol = std::make_shared<vtStor::Protocol::cScsiPassThrough>();
-        commandHandler = std::make_shared<vtStor::cCommandHandlerScsi>(protocol);
+        cCommandHandlerScsi_GetCommandHandler(commandHandler, protocol);
 
         // Register command handler
         selectedDrive->RegisterCommandHandler(sDefaultCommandHandlerScsiCommandType, commandHandler);
