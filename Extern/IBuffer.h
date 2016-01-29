@@ -25,7 +25,7 @@ limitations under the License.
 
 namespace vtStor
 {
-    class IBuffer
+    class VTSTOR_API IBuffer
     {
     public:
         virtual ~IBuffer() {}
@@ -35,6 +35,8 @@ namespace vtStor
         virtual U32 GetSizeInBytes() = 0;
         virtual void Memset(U8 Value) = 0;
     };
+
+    VTSTOR_DLL_STL_IMPL(VTSTOR_API_EXPORT_IMPL template class VTSTOR_API std::shared_ptr<IBuffer>);
 }
 
 extern "C"

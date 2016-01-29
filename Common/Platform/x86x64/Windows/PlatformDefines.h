@@ -35,6 +35,12 @@ using tchar = char;
 using tstring = std::string;
 #endif
 
+#if defined( VTSTOR_MANAGED_CPP )
+#define VTSTOR_DLL_STL_IMPL(x)
+#else
+#define VTSTOR_DLL_STL_IMPL(x)  x
+#endif
+
 #ifdef VTSTOR_DLL_EXPORTS
 #define VTSTOR_API _declspec( dllexport )
 #define VTSTOR_API_EXPORT_IMPL
