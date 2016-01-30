@@ -18,6 +18,12 @@ python Build\BuildEventer.py Build\BuildEventer.xml $(ProjectName) $(Platform) $
     <Link>
       <AdditionalDependencies>setupapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>python $(SolutionDir)GenerateFiles\GenerateFiles.py $(SolutionDir)Common\ErrorCodes.h $(SolutionDir)GenerateFiles\ErrorCodesTemplate.h $(SolutionDir)GenerateFiles\ErrorCodes.xml
+python $(SolutionDir)GenerateFiles\GenerateFiles.py $(SolutionDir)Common\ScanForHardwareChanges.h $(SolutionDir)GenerateFiles\ScanForHardwareChangesTemplate.h $(SolutionDir)GenerateFiles\ScanForHardwareChanges.xml
+python $(SolutionDir)GenerateFiles\GenerateFiles.py $(SolutionDir)Common\BusType.h $(SolutionDir)GenerateFiles\BusTypeTemplate.h $(SolutionDir)GenerateFiles\BusType.xml
+python $(SolutionDir)GenerateFiles\GenerateFiles.py $(SolutionDir)Common\DeviceDataType.h $(SolutionDir)GenerateFiles\DeviceDataTypeTemplate.h $(SolutionDir)GenerateFiles\DeviceDataType.xml</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup />
 </Project>
