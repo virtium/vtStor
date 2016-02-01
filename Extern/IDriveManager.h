@@ -42,6 +42,6 @@ extern "C"
     VTSTOR_API void cDriveManager_GetDriveManager(std::unique_ptr<vtStor::IDriveManager>& DriveManager);
 }
 
-typedef void (WINAPIV * GetDriveManagerDelegate) (std::unique_ptr<vtStor::IDriveManager>&);
+typedef void (OS_API * GetDriveManagerDelegate) (std::unique_ptr<vtStor::IDriveManager>&);
 
 #endif // end __vtStorIDriveManager_h__

@@ -44,6 +44,6 @@ extern "C"
     VTSTOR_API void cBuffer_GetBuffer(std::shared_ptr<vtStor::IBuffer>& Buffer, vtStor::U32 SizeInByte);
 }
 
-typedef void (WINAPIV * GetBufferDelegate) (std::shared_ptr<vtStor::IBuffer>&, vtStor::U32);
+typedef void (OS_API * GetBufferDelegate) (std::shared_ptr<vtStor::IBuffer>&, vtStor::U32);
 
 #endif // end __vtStorIBuffer_h__

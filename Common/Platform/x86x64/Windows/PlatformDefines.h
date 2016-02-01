@@ -35,6 +35,8 @@ using tchar = char;
 using tstring = std::string;
 #endif
 
+#define OS_API WINAPIV
+
 #if defined( VTSTOR_MANAGED_CPP )
 #define VTSTOR_DLL_STL_IMPL(x)
 #else

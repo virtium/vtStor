@@ -1,3 +1,4 @@
+
 #-------------------------------------------------
 #
 # Project created by QtCreator 2015-12-22T17:30:33
@@ -17,12 +18,14 @@ SOURCES += \
 
 HEADERS += \
     ScsiProtocolEssense1.h \
-    Platform/Linux/vtStorScsiProtocolPlatformDefines.h \
     Platform/Linux/ProtocolScsiPassThrough.h
 
-INCLUDEPATH += "../../vtStorScsiProtocol/Platform/Linux" "../../Common" "../../Common/Platform/x86x64" "../../Common/Platform/x86x64/Linux" "../../StorageUtility" "../../StorageUtility/Linux" "../../vtStor" "../../vtStor/Platform/Linux"
+INCLUDEPATH +=  "../Extern" "../vtStorScsiProtocol/Platform/Linux" "../Common" "../Common/Platform/x86x64" "../Common/Platform/x86x64/Linux" "../StorageUtility" "../StorageUtility/Linux" "../vtStor" "../vtStor/Platform/Linux"
 
 CONFIG(debug, debug|release) {
+
+    DESTDIR = ../Build_vtStorScsiProtocol/Debug
+    OBJECTS_DIR = ../Build_vtStorScsiProtocol/Debug
 
     unix:!macx:!symbian: LIBS += -L$$PWD/../Build_StorageUtility/Debug/ -lStorageUtility
 
@@ -38,6 +41,9 @@ CONFIG(debug, debug|release) {
 }
 
 CONFIG(release, debug|release) {
+
+    DESTDIR = ../Build_vtStorScsiProtocol/Release
+    OBJECTS_DIR = ../Build_vtStorScsiProtocol/Release
 
     unix:!macx:!symbian: LIBS += -L$$PWD/../Build_StorageUtility/Release/ -lStorageUtility
 

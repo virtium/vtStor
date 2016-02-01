@@ -1,6 +1,6 @@
 /*
 <License>
-Copyright 2015 Virtium Technology
+Copyright 2016 Virtium Technology
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -18,9 +18,12 @@ limitations under the License.
 #ifndef __StorageUtility_h__
 #define __StorageUtility_h__
 
+#include <memory>
+#include <vector>
+
 #include "BasicTypes.h"
-#include "DeviceInterface.h"
 #include "ErrorCodes.h"
+#include "IDevice.h"
 
 namespace vtStor
 {
@@ -32,10 +35,11 @@ struct sStorageAdapterProperty
     bool  ScsiBus;
 };
 
-eErrorCode GetStorageDevices(std::vector<std::shared_ptr<cDeviceInterface>>& Devices, eOnErrorBehavior OnErrorBehavior);
+eErrorCode GetStorageDevices(std::vector<std::shared_ptr<IDevice>>& Devices, eOnErrorBehavior OnErrorBehavior);
 eErrorCode GetStorageDeviceHandle(const String& DevicePath, String SysDevicePath, DeviceHandle& Handle);
 eErrorCode GetStorageDevicePaths(std::vector<String>& DevicePaths, std::vector<String>& SysDevicePaths);
 eErrorCode GetStorageAdapterProperty(DeviceHandle Handle, sStorageAdapterProperty& AdapterProperty);
+eErrorCode GetPhysicalDiskNumber(DeviceHandle Handle, U32& PhysicalDiskNumber);
 
 void CloseDeviceHandle(DeviceHandle& Handle);
 bool IsAtaDeviceBus(sStorageAdapterProperty StorageAdapterProperty);
