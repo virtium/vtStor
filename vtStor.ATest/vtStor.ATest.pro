@@ -8,9 +8,7 @@ TEMPLATE = app
 
 SOURCES += main.cpp
 
-INCLUDEPATH += "../../vtStorAta" "../../vtStorAta/Platform/Linux" "../../vtStorAtaProtocol" "../../vtStorAtaProtocol/Platform/Linux" "../../vtStorAta/Platform/Linux" "../../vtStorScsi" "../../vtStorScsi/Platform/Linux" "../../vtStorScsiProtocol" "../../vtStorScsiProtocol/Platform/Linux" "../../vtStorScsi/Platform/Linux" "../../Common" "../../Common/Platform/x86x64" "../../Common/Platform/x86x64/Linux" "../../StorageUtility" "../../StorageUtility/Linux" "../../vtStor" "../../vtStor/Platform/Linux"
-
-
+INCLUDEPATH += "../Extern" "../../vtStorAta" "../../vtStorAta/Platform/Linux" "../../vtStorAtaProtocol" "../../vtStorAtaProtocol/Platform/Linux" "../../vtStorAta/Platform/Linux" "../../vtStorScsi" "../../vtStorScsi/Platform/Linux" "../../vtStorScsiProtocol" "../../vtStorScsiProtocol/Platform/Linux" "../../vtStorScsi/Platform/Linux" "../../Common" "../../Common/Platform/x86x64" "../../Common/Platform/x86x64/Linux" "../StorageUtility" "../StorageUtility/Linux" "../../vtStor" "../../vtStor/Platform/Linux"
 
 CONFIG(release, debug|release) {
     unix:!macx:!symbian: LIBS += -L$$PWD/../Build_StorageUtility/Release/ -lStorageUtility

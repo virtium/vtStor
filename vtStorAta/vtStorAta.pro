@@ -11,19 +11,18 @@ DEFINES += VTSTORATA_LIBRARY
 QMAKE_CXXFLAGS += -fpermissive
 
 SOURCES += DriveEnumeratorAta.cpp \
-    DriveAtaCommandExtensions.cpp \
     DriveAta.cpp \
     CommandHandlerAta.cpp \
     CommandDescriptorAta.cpp \
-    vtStorAta.cpp
+    AtaCommandExtensionscpp.cpp \
+    TrimBufferFormatter.cpp
 
-HEADERS +=  vtStorAta.h \
-    DriveEnumeratorAta.h \
-    DriveAtaCommandExtensions.h \
+HEADERS += DriveEnumeratorAta.h \
     DriveAta.h \
     CommandHandlerAta.h \
     CommandDescriptorAta.h \
-    Platform/Linux/vtStorAtaPlatformDefines.h
+    AtaCommandExtensions.h \
+    TrimBufferFormatter.h
 
 symbian {
     MMP_RULES += EXPORTUNFROZEN
@@ -44,7 +43,7 @@ unix:!symbian {
     INSTALLS += target
 }
 
-INCLUDEPATH += "../../vtStorAtaProtocol" "../../vtStorAtaProtocol/Platform/Linux" "../../vtStorAta/Platform/Linux" "../../Common" "../../Common/Platform/x86x64" "../../Common/Platform/x86x64/Linux" "../../StorageUtility" "../../StorageUtility/Linux" "../../vtStor" "../../vtStor/Platform/Linux"
+INCLUDEPATH += "../Extern" "../../vtStorAtaProtocol" "../../vtStorAtaProtocol/Platform/Linux" "../../vtStorAta/Platform/Linux" "../../Common" "../../Common/Platform/x86x64" "../../Common/Platform/x86x64/Linux" "../../StorageUtility" "../../StorageUtility/Linux" "../../vtStor" "../../vtStor/Platform/Linux"
 
 CONFIG(release, debug|release) {
 
@@ -85,3 +84,6 @@ CONFIG(debug, debug|release) {
     INCLUDEPATH += $$PWD/../Build_vtStorAtaProtocol/Debug
     DEPENDPATH += $$PWD/../Build_vtStorAtaProtocol/Debug
 }
+
+OTHER_FILES += \
+    Common.props

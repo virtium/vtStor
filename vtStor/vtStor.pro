@@ -14,35 +14,20 @@ QMAKE_CXXFLAGS += -fpermissive
 LIBS += -ludev
 
 SOURCES += \
-    vtStor.cpp \
-    ProtocolInterface.cpp \
     ProtocolEssense.cpp \
-    DriveManagerInterface.cpp \
     DriveManager.cpp \
-    DriveInterface.cpp \
-    DriveEnumeratorInterface.cpp \
     Drive.cpp \
-    CommandHandlerInterface.cpp \
     CommandDescriptor.cpp \
-    BufferInterface.cpp \
     BufferFormatter.cpp \
     Buffer.cpp
 
 HEADERS += \
-    vtStor.h \
-    ProtocolInterface.h \
     ProtocolEssense.h \
-    DriveManagerInterface.h \
     DriveManager.h \
-    DriveInterface.h \
-    DriveEnumeratorInterface.h \
     Drive.h \
-    CommandHandlerInterface.h \
     CommandDescriptor.h \
-    BufferInterface.h \
     BufferFormatter.h \
-    Buffer.h \
-    Platform/Linux/vtStorPlatformDefines.h
+    Buffer.h
 
 symbian {
     MMP_RULES += EXPORTUNFROZEN
@@ -63,7 +48,7 @@ unix:!symbian {
     INSTALLS += target
 }
 
-    INCLUDEPATH += "../../StorageUtility/Linux" "../../Common" "../../Common/Platform/x86x64" "../../Common/Platform/x86x64/Linux" "../../vtStor/Platform/Linux" "../../StorageUtility"
+    INCLUDEPATH += "../../StorageUtility/Linux" "../../Common" "../Extern" "../../Common/Platform/x86x64" "../../Common/Platform/x86x64/Linux" "../../vtStor/Platform/Linux" "../../StorageUtility"
 
     INCLUDEPATH += $$PWD/
     DEPENDPATH += $$PWD/
@@ -87,3 +72,6 @@ CONFIG(debug, debug|release) {
 
     unix:!macx:!symbian: PRE_TARGETDEPS += $$PWD/../Build_StorageUtility/Debug/libStorageUtility.a
 }
+
+OTHER_FILES += \
+    Common.props

@@ -28,7 +28,7 @@ namespace vtStor
 namespace Protocol
 {
 
-eErrorCode cAtaPassThrough::IssueCommand(const DeviceHandle& Handle, std::shared_ptr<const cBufferInterface> Essense, std::shared_ptr<cBufferInterface> DataBuffer)
+eErrorCode cAtaPassThrough::IssueCommand(const DeviceHandle& Handle, std::shared_ptr<const IBuffer> Essense, std::shared_ptr<IBuffer> DataBuffer)
 {
     eErrorCode errorCode = eErrorCode::None;
 
@@ -72,7 +72,7 @@ eErrorCode cAtaPassThrough::IssuePassThroughDirectCommand(const U32& FileDescrip
 void cAtaPassThrough::InitializePassThroughDirect(const StorageUtility::Ata::sCommandCharacteristic& CommandCharacteristics,
         const StorageUtility::Ata::uTaskFileRegister& PreviousTaskFile,
         const StorageUtility::Ata::uTaskFileRegister& CurrentTaskFile,
-        std::shared_ptr<cBufferInterface> DataBuffer,
+        std::shared_ptr<IBuffer> DataBuffer,
         U32 TimeoutValueInSeconds)
 {
     memset(&m_ATAPassThrough, 0, sizeof(m_ATAPassThrough));
@@ -184,9 +184,4 @@ void cAtaPassThrough::InitializeCommandDescBlock16Registers(const StorageUtility
 }
 
 }
-}
-
-VT_STOR_ATA_PROTOCOL_API void vtStorProtocolAtaPassThroughInit(std::shared_ptr<vtStor::Protocol::cProtocolInterface>& Protocol)
-{
-    Protocol = std::make_shared<vtStor::Protocol::cAtaPassThrough>();
 }

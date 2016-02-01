@@ -19,11 +19,10 @@ limitations under the License.
 #include <memory>
 #include <scsi/sg.h>
 
-#include "BufferInterface.h"
 #include "ErrorCodes.h"
-#include "ProtocolInterface.h"
+#include "IBuffer.h"
+#include "IProtocol.h"
 #include "Scsi.h"
-#include "vtStorScsiProtocolPlatformDefines.h"
 
 namespace vtStor
 {
@@ -38,17 +37,17 @@ enum class eSgScsi
     MaxSenseDataLength              = 32,   // Max of Sense Data Length
 };
 
-class VT_STOR_SCSI_PROTOCOL_API cScsiPassThrough : public cProtocolInterface
+class VT_STOR_SCSI_PROTOCOL_API cScsiPassThrough : public IProtocol
 {
 
 public:
-    virtual eErrorCode IssueCommand(const DeviceHandle& Handle, std::shared_ptr<const cBufferInterface> Essense, std::shared_ptr<cBufferInterface> DataBuffer) override;
+    virtual eErrorCode IssueCommand(const DeviceHandle& Handle, std::shared_ptr<const IBuffer> Essense, std::shared_ptr<IBuffer> DataBuffer) override;
 
 private:
     void InitializePassThroughDirect(
             const StorageUtility::Scsi::sCommandCharacteristics& CommandCharacteristics,
             const StorageUtility::Scsi::sCdbRegisters& CdbRegister,
-            std::shared_ptr<cBufferInterface> DataBuffer,
+            std::shared_ptr<IBuffer> DataBuffer,
             U32 TimeoutValueInSeconds
             );
 
@@ -64,9 +63,4 @@ private:
 };
 
 }
-}
-
-extern "C"
-{
-    VT_STOR_SCSI_PROTOCOL_API void vtStorProtocolAtaPassThroughInit(std::shared_ptr<vtStor::Protocol::cProtocolInterface>& Protocol);
 }
