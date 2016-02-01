@@ -19,8 +19,8 @@ limitations under the License.
 #define __Device_h__
 #pragma once
 
-#include "DeviceDataType.h"
 #include "IDevice.h"
+#include "DeviceDataType.h"
 #include "ErrorCodes.h"
 
 namespace vtStor

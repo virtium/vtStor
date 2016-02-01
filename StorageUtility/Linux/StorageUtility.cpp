@@ -212,7 +212,7 @@ void CloseDeviceHandle(DeviceHandle& Handle)
 
 eErrorCode GetPhysicalDiskNumber(DeviceHandle Handle, U32& PhysicalDiskNumber)
 {
-    //! TODO Use Device path on Linux Os instead PhysicalDiskNumber
+    //! TODO Use Device path on Linux system instead PhysicalDiskNumber
 
     return(eErrorCode::None);
 }

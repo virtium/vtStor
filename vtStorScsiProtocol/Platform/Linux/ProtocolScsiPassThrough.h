@@ -19,8 +19,8 @@ limitations under the License.
 #include <memory>
 #include <scsi/sg.h>
 
-#include "IBuffer.h"
 #include "ErrorCodes.h"
+#include "IBuffer.h"
 #include "IProtocol.h"
 #include "Scsi.h"
 

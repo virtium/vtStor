@@ -20,8 +20,8 @@ limitations under the License.
 #include <scsi/sg.h>
 
 #include "Ata.h"
-#include "IBuffer.h"
 #include "ErrorCodes.h"
+#include "IBuffer.h"
 #include "IProtocol.h"
 #include "vtStorAtaProtocolPlatformDefines.h"
 
