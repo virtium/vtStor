@@ -28,7 +28,7 @@ namespace vtStor
 namespace Protocol
 {
 
-eErrorCode cScsiPassThrough::IssueCommand(const DeviceHandle& Handle, std::shared_ptr<const cBufferInterface> Essense, std::shared_ptr<cBufferInterface> DataBuffer)
+eErrorCode cScsiPassThrough::IssueCommand(const DeviceHandle& Handle, std::shared_ptr<const IBuffer> Essense, std::shared_ptr<IBuffer> DataBuffer)
 {
     eErrorCode errorCode = eErrorCode::None;
 
@@ -76,7 +76,7 @@ eErrorCode cScsiPassThrough::IssuePassThroughDirectCommand(const U32& FileDescri
     return(eErrorCode::None);
 }
 
-void cScsiPassThrough::InitializePassThroughDirect(const StorageUtility::Scsi::sCommandCharacteristics& CommandCharacteristics, const StorageUtility::Scsi::sCdbRegisters& CdbRegister, std::shared_ptr<cBufferInterface> DataBuffer, U32 TimeoutValueInSeconds)
+void cScsiPassThrough::InitializePassThroughDirect(const StorageUtility::Scsi::sCommandCharacteristics& CommandCharacteristics, const StorageUtility::Scsi::sCdbRegisters& CdbRegister, std::shared_ptr<IBuffer> DataBuffer, U32 TimeoutValueInSeconds)
 {
     //! TODO: Set up for Sense Data
 
@@ -164,9 +164,4 @@ void cScsiPassThrough::InitializeCdbRegister(const StorageUtility::Scsi::sCdbReg
 }
 
 }
-}
-
-VT_STOR_SCSI_PROTOCOL_API void vtStorProtocolScsiPassThroughInit(std::shared_ptr<vtStor::Protocol::cProtocolInterface>& Protocol)
-{
-    Protocol = std::make_shared<vtStor::Protocol::cScsiPassThrough>();
 }

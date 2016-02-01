@@ -19,9 +19,9 @@ limitations under the License.
 #define __vtStorCommonPlatformDefines_h__
 
 #include <string>
+#include <cstring>
 
 #include "BusType.h"
-#include "vtStorPlatformDefines.h"
 
 #ifdef _UNICODE
 #define    __STORAPITEXT( s ) L##s
@@ -35,6 +35,40 @@ using tstring = std::wstring;
 #define tmemcpy_s memcpy_s
 using tchar = char;
 using tstring = std::string;
+#endif
+
+#define WINAPIV
+
+#ifdef VTSTOR_DLL_EXPORTS
+#define VTSTOR_API
+#define VTSTOR_API_EXPORT_IMPL
+#else
+#define VTSTOR_API
+#define VTSTOR_API_EXPORT_IMPL
+#endif
+
+#ifdef VT_STOR_ATA_DLL_EXPORTS
+#define VT_STOR_ATA_API
+#else
+#define VT_STOR_ATA_API
+#endif
+
+#ifdef VT_STOR_ATA_PROTOCOL_DLL_EXPORTS
+#define VT_STOR_ATA_PROTOCOL_API
+#else
+#define VT_STOR_ATA_PROTOCOL_API
+#endif
+
+#ifdef VT_STOR_SCSI_DLL_EXPORTS
+#define VT_STOR_SCSI_API
+#else
+#define VT_STOR_SCSI_API
+#endif
+
+#ifdef VT_STOR_SCSI_PROTOCOL_DLL_EXPORTS
+#define VT_STOR_SCSI_PROTOCOL_API
+#else
+#define VT_STOR_SCSI_PROTOCOL_API
 #endif
 
 #define INVALID_FILE_DESCRIPTOR -1

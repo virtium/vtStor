@@ -20,13 +20,13 @@ limitations under the License.
 #pragma once
 
 #include "DeviceDataType.h"
-#include "DeviceInterface.h"
+#include "IDevice.h"
 #include "ErrorCodes.h"
 
 namespace vtStor
 {
 
-class cDevice : public cDeviceInterface
+class cDevice : public IDevice
 {
 public:
     cDevice(String DevicePath, String SysDevicePath);

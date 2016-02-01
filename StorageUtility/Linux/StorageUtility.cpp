@@ -29,7 +29,7 @@ limitations under the License.
 namespace vtStor
 {
 
-eErrorCode GetStorageDevices(std::vector<std::shared_ptr<cDeviceInterface>>& Devices, eOnErrorBehavior OnErrorBehavior)
+eErrorCode GetStorageDevices(std::vector<std::shared_ptr<IDevice>>& Devices, eOnErrorBehavior OnErrorBehavior)
 {
     eErrorCode error = eErrorCode::None;
     std::vector<String> devicePaths;
@@ -208,6 +208,13 @@ void CloseDeviceHandle(DeviceHandle& Handle)
         //! TODO: Catch error for not close Handle of Device
         //! throw std::runtime_error("Close DeviceHandle was not successful");
     }
+}
+
+eErrorCode GetPhysicalDiskNumber(DeviceHandle Handle, U32& PhysicalDiskNumber)
+{
+    //! TODO Use Device path on Linux Os instead PhysicalDiskNumber
+
+    return(eErrorCode::None);
 }
 
 }
