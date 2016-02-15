@@ -1,6 +1,6 @@
 /*
 <License>
-Copyright 2015 Virtium Technology
+Copyright 2016 Virtium Technology
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@ limitations under the License.
 </License>
 */
 
+
 #include <libudev.h>
 #include <fcntl.h>
 #include <map>
@@ -29,7 +30,7 @@ limitations under the License.
 namespace vtStor
 {
 
-eErrorCode GetStorageDevices(std::vector<std::shared_ptr<cDeviceInterface>>& Devices, eOnErrorBehavior OnErrorBehavior)
+eErrorCode GetStorageDevices(std::vector<std::shared_ptr<IDevice>>& Devices, eOnErrorBehavior OnErrorBehavior)
 {
     eErrorCode error = eErrorCode::None;
     std::vector<String> devicePaths;
@@ -208,6 +209,14 @@ void CloseDeviceHandle(DeviceHandle& Handle)
         //! TODO: Catch error for not close Handle of Device
         //! throw std::runtime_error("Close DeviceHandle was not successful");
     }
+}
+
+eErrorCode GetPhysicalDiskNumber(DeviceHandle Handle, U32& PhysicalDiskNumber)
+{
+    //! TODO Use Device path on Linux system instead PhysicalDiskNumber
+
+    PhysicalDiskNumber = INVALID_PHYSICAL_DISC_NUMBER;
+    return(eErrorCode::None);
 }
 
 }

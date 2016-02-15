@@ -40,6 +40,6 @@ extern "C"
     VT_STOR_SCSI_API void cDriveEnumeratorScsi_GetDriveEnumerator(std::shared_ptr<vtStor::IDriveEnumerator>& DriveEnumerator);
 }
 
-typedef void (WINAPIV * GetDriveEnumeratorDelegate) (std::shared_ptr<vtStor::IDriveEnumerator>&);
+typedef void (OS_API * GetDriveEnumeratorDelegate) (std::shared_ptr<vtStor::IDriveEnumerator>&);
 
 #endif // end __vtStorIDriveEnumerator_h__

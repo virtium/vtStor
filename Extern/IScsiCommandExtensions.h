@@ -51,6 +51,6 @@ extern "C"
     VT_STOR_SCSI_API void cScsiCommandExtensions_GetScsiCommandExtensions(std::unique_ptr<vtStor::IScsiCommandExtensions>& AtaCommandExtensions);
 }
 
-typedef void (WINAPIV * GetScsiCommandExtensionsDelegate) (std::unique_ptr<vtStor::IScsiCommandExtensions>&);
+typedef void (OS_API * GetScsiCommandExtensionsDelegate) (std::unique_ptr<vtStor::IScsiCommandExtensions>&);
 
 #endif // end __vtStorIScsiCommandExtensions_h__

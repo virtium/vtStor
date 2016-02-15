@@ -1,6 +1,6 @@
 /*
 <License>
-Copyright 2015 Virtium Technology
+Copyright 2016 Virtium Technology
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -18,10 +18,10 @@ limitations under the License.
 #ifndef __vtStorCommonPlatformDefines_h__
 #define __vtStorCommonPlatformDefines_h__
 
+#include <cstring>
 #include <string>
 
 #include "BusType.h"
-#include "vtStorPlatformDefines.h"
 
 #ifdef _UNICODE
 #define    __STORAPITEXT( s ) L##s
@@ -37,8 +37,19 @@ using tchar = char;
 using tstring = std::string;
 #endif
 
+#define OS_API
+
+#define VTSTOR_DLL_STL_IMPL(x)
+#define VTSTOR_API
+#define VTSTOR_API_EXPORT_IMPL
+#define VT_STOR_ATA_API
+#define VT_STOR_ATA_PROTOCOL_API
+#define VT_STOR_SCSI_API
+#define VT_STOR_SCSI_PROTOCOL_API
+
 #define INVALID_FILE_DESCRIPTOR -1
 #define IOCTL_SG_IO_ERROR -1
+#define INVALID_PHYSICAL_DISC_NUMBER 0
 
 namespace vtStor
 {
