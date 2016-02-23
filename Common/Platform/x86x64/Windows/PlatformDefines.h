@@ -1,6 +1,6 @@
 /*
 <License>
-Copyright 2015 Virtium Technology
+Copyright 2016 Virtium Technology
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -20,6 +20,8 @@ limitations under the License.
 
 #include <string>
 #include <Windows.h>
+
+#include "BusType.h"
 
 #ifdef _UNICODE
 #define    __STORAPITEXT( s ) L##s
@@ -77,7 +79,12 @@ using tstring = std::string;
 
 namespace vtStor
 {
-    using DeviceHandle = HANDLE;
+    struct sDeviceHandle
+    {
+        HANDLE Handle;
+        eBusType Bus;
+    };
+    using DeviceHandle = sDeviceHandle;
 }
 
 #endif

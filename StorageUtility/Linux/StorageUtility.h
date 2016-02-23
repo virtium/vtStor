@@ -36,14 +36,14 @@ struct sStorageAdapterProperty
 };
 
 eErrorCode GetStorageDevices(std::vector<std::shared_ptr<IDevice>>& Devices, eOnErrorBehavior OnErrorBehavior);
-eErrorCode GetStorageDeviceHandle(const String& DevicePath, String SysDevicePath, DeviceHandle& Handle);
+eErrorCode GetStorageDeviceHandle(const String& DevicePath, const String& SysDevicePath, DeviceHandle& Handle);
 eErrorCode GetStorageDevicePaths(std::vector<String>& DevicePaths, std::vector<String>& SysDevicePaths);
-eErrorCode GetStorageAdapterProperty(DeviceHandle Handle, sStorageAdapterProperty& AdapterProperty);
-eErrorCode GetPhysicalDiskNumber(DeviceHandle Handle, U32& PhysicalDiskNumber);
+eErrorCode GetStorageAdapterProperty(const DeviceHandle& Handle, sStorageAdapterProperty& AdapterProperty);
+eErrorCode GetPhysicalDiskNumber(const DeviceHandle& Handle, U32& PhysicalDiskNumber);
 
 void CloseDeviceHandle(DeviceHandle& Handle);
-bool IsAtaDeviceBus(sStorageAdapterProperty StorageAdapterProperty);
-bool IsScsiDeviceBus(sStorageAdapterProperty StorageAdapterProperty);
+bool IsAtaDeviceBus(const sStorageAdapterProperty& StorageAdapterProperty);
+bool IsScsiDeviceBus(const sStorageAdapterProperty& StorageAdapterProperty);
 
 }
 

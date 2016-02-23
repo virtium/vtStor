@@ -55,13 +55,13 @@ namespace vtStor
         U32   AlignmentMask;
     };
 
-    eErrorCode VTSTOR_API GetStorageAdapterProperty(HANDLE Handle, sStorageAdapterProperty& AdapterProperty);
-    eErrorCode VTSTOR_API GetPhysicalDiskNumber(HANDLE Handle, U32& PhysicalDiskNumber);
+    eErrorCode VTSTOR_API GetStorageAdapterProperty(const DeviceHandle& Handle, sStorageAdapterProperty& AdapterProperty);
+    eErrorCode VTSTOR_API GetPhysicalDiskNumber(const DeviceHandle& Handle, U32& PhysicalDiskNumber);
 
-    void VTSTOR_API CloseDeviceHandle(HANDLE& Handle);
+    void VTSTOR_API CloseDeviceHandle(DeviceHandle& Handle);
 
-    bool VTSTOR_API IsAtaDeviceBus(sStorageAdapterProperty StorageAdapterProperty);
-    bool VTSTOR_API IsScsiDeviceBus(sStorageAdapterProperty StorageAdapterProperty);
+    bool VTSTOR_API IsAtaDeviceBus(const sStorageAdapterProperty& StorageAdapterProperty);
+    bool VTSTOR_API IsScsiDeviceBus(const sStorageAdapterProperty& StorageAdapterProperty);
 }
 
 #endif
