@@ -28,7 +28,7 @@ limitations under the License.
 
 namespace vtStor
 {
-    class IAtaCommandExtensions
+    class VT_STOR_ATA_API IAtaCommandExtensions
     {
     public:
         virtual ~IAtaCommandExtensions() {}
@@ -49,6 +49,6 @@ extern "C"
     VT_STOR_ATA_API void cAtaCommandExtensions_GetAtaCommandExtensions(std::unique_ptr<vtStor::IAtaCommandExtensions>& AtaCommandExtensions);
 }
 
-typedef void (WINAPIV * GetAtaCommandExtensionsDelegate) (std::unique_ptr<vtStor::IAtaCommandExtensions>&);
+typedef void (OS_API * GetAtaCommandExtensionsDelegate) (std::unique_ptr<vtStor::IAtaCommandExtensions>&);
 
 #endif // end __vtStorIAtaCommandExtensions_h__

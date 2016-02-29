@@ -27,9 +27,9 @@ namespace vtStor
     {
         namespace Ata
         {
-            extern const U32 SECTOR_SIZE_IN_BYTES;
-            extern const U8  DEVICE_REGISTER_DEFAULT;
-            extern const U8  DEVICE_REGISTER_CHSMODE_DEFAULT;
+            extern const U32 VTSTOR_API SECTOR_SIZE_IN_BYTES;
+            extern const U8  VTSTOR_API DEVICE_REGISTER_DEFAULT;
+            extern const U8  VTSTOR_API DEVICE_REGISTER_CHSMODE_DEFAULT;
 
             struct sCommandInputFields
             {

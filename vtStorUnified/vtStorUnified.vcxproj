@@ -159,11 +159,10 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ProjectReference Include="..\StorageUtility\StorageUtility.vcxproj">
-      <Project>{0da52eb3-5f61-4919-8b1a-0dc1b50b619f}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
+    <ClCompile Include="..\StorageUtility\Ata.cpp" />
+    <ClCompile Include="..\StorageUtility\Scsi.cpp" />
+    <ClCompile Include="..\StorageUtility\Windows\Device.cpp" />
+    <ClCompile Include="..\StorageUtility\Windows\StorageUtility.cpp" />
     <ClCompile Include="..\vtStorAtaProtocol\AtaProtocolEssense1.cpp" />
     <ClCompile Include="..\vtStorAtaProtocol\Platform\Windows\ProtocolAtaPassThrough.cpp" />
     <ClCompile Include="..\vtStorAta\AtaCommandExtensionscpp.cpp" />
@@ -202,6 +201,10 @@
     <ClInclude Include="..\Extern\IDriveManager.h" />
     <ClInclude Include="..\Extern\IProtocol.h" />
     <ClInclude Include="..\Extern\IScsiCommandExtensions.h" />
+    <ClInclude Include="..\StorageUtility\Ata.h" />
+    <ClInclude Include="..\StorageUtility\Scsi.h" />
+    <ClInclude Include="..\StorageUtility\Windows\Device.h" />
+    <ClInclude Include="..\StorageUtility\Windows\StorageUtility.h" />
     <ClInclude Include="..\vtStorAtaProtocol\AtaProtocolEssense1.h" />
     <ClInclude Include="..\vtStorAtaProtocol\Platform\Windows\ProtocolAtaPassThrough.h" />
     <ClInclude Include="..\vtStorAta\AtaCommandExtensions.h" />

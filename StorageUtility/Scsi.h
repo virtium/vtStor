@@ -27,7 +27,7 @@ namespace vtStor
     {
         namespace Scsi
         {
-            extern const U32 SCSI_SECTOR_SIZE_IN_BYTES;
+            extern const U32 VTSTOR_API SCSI_SECTOR_SIZE_IN_BYTES;
 
             struct sCdbFields
             {

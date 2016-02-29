@@ -18,6 +18,7 @@ limitations under the License.
 #ifndef __vtStorIDevice_h__
 #define __vtStorIDevice_h__
 
+#include <memory>
 #include <unordered_map>
 
 #include "BasicTypes.h"
@@ -25,7 +26,7 @@ limitations under the License.
 
 namespace vtStor
 {
-    class IDevice
+    class VTSTOR_API IDevice
     {
     public:
         virtual ~IDevice() {}
@@ -33,6 +34,8 @@ namespace vtStor
         virtual DeviceHandle Handle() = 0;
         virtual void DevicePath(tchar*& DevicePath) = 0;
     };
+
+    VTSTOR_DLL_STL_IMPL(VTSTOR_API_EXPORT_IMPL template class VTSTOR_API std::shared_ptr<vtStor::IDevice>);
 }
 
 #endif // end __vtStorIDevice_h__

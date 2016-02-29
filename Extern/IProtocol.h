@@ -26,7 +26,7 @@ limitations under the License.
 
 namespace vtStor
 {
-    class IProtocol
+    class VTSTOR_API IProtocol
     {
     public:
         virtual ~IProtocol() {}
@@ -40,6 +40,6 @@ extern "C"
     VT_STOR_SCSI_PROTOCOL_API void cScsiPassThrough_GetProtocol(std::shared_ptr<vtStor::IProtocol>& Protocol);
 }
 
-typedef void (WINAPIV * GetProtocolDelegate) (std::shared_ptr<vtStor::IProtocol>&);
+typedef void (OS_API * GetProtocolDelegate) (std::shared_ptr<vtStor::IProtocol>&);
 
 #endif // end __vtStorIProtocol_h__

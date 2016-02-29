@@ -26,7 +26,7 @@ limitations under the License.
 namespace vtStor
 {
 
-class VT_STOR_ATA_API cCommandHandlerAta : public ICommandHandler
+class cCommandHandlerAta : public ICommandHandler
 {
 public:
     cCommandHandlerAta(std::shared_ptr<IProtocol> Protocol);

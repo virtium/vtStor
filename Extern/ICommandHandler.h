@@ -27,7 +27,7 @@ limitations under the License.
 
 namespace vtStor
 {
-    class ICommandHandler
+    class VTSTOR_API ICommandHandler
     {
     public:
         virtual ~ICommandHandler() {}
@@ -41,6 +41,6 @@ extern "C"
     VT_STOR_SCSI_API void cCommandHandlerScsi_GetCommandHandler(std::shared_ptr<vtStor::ICommandHandler>& CommandHandler, std::shared_ptr<vtStor::IProtocol> Protocol);
 }
 
-typedef void (WINAPIV * GetCommandHandlerDelegate) (std::shared_ptr<vtStor::ICommandHandler>&, std::shared_ptr<vtStor::IProtocol>);
+typedef void (OS_API * GetCommandHandlerDelegate) (std::shared_ptr<vtStor::ICommandHandler>&, std::shared_ptr<vtStor::IProtocol>);
 
 #endif // end __vtStorICommandHandler_h__

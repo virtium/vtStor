@@ -29,7 +29,7 @@ limitations under the License.
 
 namespace vtStor
 {
-    class IDrive : public IDevice
+    class VTSTOR_API IDrive : public IDevice
     {
     public:
         virtual ~IDrive() {}

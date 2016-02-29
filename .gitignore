@@ -61,3 +61,4 @@ Common/DeviceDataType.h
 # Intermediate files
 **/*Debug/Intermediate
 **/*Release/Intermediate
+vtStorManaged/BusTypeManaged.h

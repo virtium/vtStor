@@ -25,15 +25,17 @@ limitations under the License.
 #include <Ntddscsi.h>
 #include <setupapi.h>
 
+#include "PlatformDefines.h"
+
 #include "BasicTypes.h"
 #include "ErrorCodes.h"
 #include "IDevice.h"
 
 namespace vtStor
 {
-    eErrorCode GetStorageDevices(std::vector<std::shared_ptr<IDevice>>& Devices, eOnErrorBehavior OnErrorBehavior);
-    eErrorCode GetStorageDevicePaths( std::vector<String>& Paths, eOnErrorBehavior OnErrorBehavior );
-    eErrorCode GetDevicePaths( std::vector<String>& Paths, const GUID* InterfaceClassGUID, eOnErrorBehavior OnErrorBehavior );
+    eErrorCode VTSTOR_API GetStorageDevices(std::vector<std::shared_ptr<IDevice>>& Devices, eOnErrorBehavior OnErrorBehavior);
+    eErrorCode VTSTOR_API GetStorageDevicePaths(std::vector<String>& Paths, eOnErrorBehavior OnErrorBehavior);
+    eErrorCode VTSTOR_API GetDevicePaths(std::vector<String>& Paths, const GUID* InterfaceClassGUID, eOnErrorBehavior OnErrorBehavior);
 
     using EnumerateDevicesCallback = void(*)(void* Data, const HDEVINFO& DevInfoHandle, SP_DEVINFO_DATA& DevInfoData, SP_DEVICE_INTERFACE_DATA& DevInterfaceData, const PSP_INTERFACE_DEVICE_DETAIL_DATA& DevDetailData, U32 SizeOfDevDetailData, eErrorCode& ErrorCode);
     struct sEnumerateDevicesCallback
@@ -44,7 +46,7 @@ namespace vtStor
     //! Enumerate all devices that match the interface class
     //! the iCallback function will be called for each device
     //!
-    eErrorCode EnumerateDevices( sEnumerateDevicesCallback& Callback, const GUID* InterfaceClassGUID, eOnErrorBehavior OnErrorBehavior );
+    eErrorCode VTSTOR_API EnumerateDevices(sEnumerateDevicesCallback& Callback, const GUID* InterfaceClassGUID, eOnErrorBehavior OnErrorBehavior);
 
     struct sStorageAdapterProperty
     {
@@ -53,13 +55,13 @@ namespace vtStor
         U32   AlignmentMask;
     };
 
-    eErrorCode GetStorageAdapterProperty( HANDLE Handle, sStorageAdapterProperty& AdapterProperty );
-    eErrorCode GetPhysicalDiskNumber(HANDLE Handle, U32& PhysicalDiskNumber);
+    eErrorCode VTSTOR_API GetStorageAdapterProperty(HANDLE Handle, sStorageAdapterProperty& AdapterProperty);
+    eErrorCode VTSTOR_API GetPhysicalDiskNumber(HANDLE Handle, U32& PhysicalDiskNumber);
 
-    void CloseDeviceHandle(HANDLE& Handle);
+    void VTSTOR_API CloseDeviceHandle(HANDLE& Handle);
 
-    bool IsAtaDeviceBus( sStorageAdapterProperty StorageAdapterProperty );
-    bool IsScsiDeviceBus( sStorageAdapterProperty StorageAdapterProperty );
+    bool VTSTOR_API IsAtaDeviceBus(sStorageAdapterProperty StorageAdapterProperty);
+    bool VTSTOR_API IsScsiDeviceBus(sStorageAdapterProperty StorageAdapterProperty);
 }
 
 #endif
