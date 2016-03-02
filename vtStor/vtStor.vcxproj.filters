@@ -22,6 +22,12 @@
     <Filter Include="Scripts">
       <UniqueIdentifier>{45185f2b-b626-4f0e-9e13-145369116eca}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\StorageUtility">
+      <UniqueIdentifier>{06b1eab8-fad0-4a35-8d13-2dd2e7327d32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\StorageUtility">
+      <UniqueIdentifier>{7a22eb1e-8b27-4fcf-ae00-a39d9b3822d2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Common\ErrorCodes.h">
@@ -87,6 +93,18 @@
     <ClInclude Include="..\Common\DriveProperties.h">
       <Filter>Header Files\Common</Filter>
     </ClInclude>
+    <ClInclude Include="..\StorageUtility\Windows\Device.h">
+      <Filter>Header Files\StorageUtility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\StorageUtility\Windows\StorageUtility.h">
+      <Filter>Header Files\StorageUtility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\StorageUtility\Ata.h">
+      <Filter>Header Files\StorageUtility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\StorageUtility\Scsi.h">
+      <Filter>Header Files\StorageUtility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DriveManager.cpp">
@@ -106,6 +124,18 @@
     </ClCompile>
     <ClCompile Include="ProtocolEssense.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\StorageUtility\Ata.cpp">
+      <Filter>Source Files\StorageUtility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\StorageUtility\Scsi.cpp">
+      <Filter>Source Files\StorageUtility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\StorageUtility\Windows\Device.cpp">
+      <Filter>Source Files\StorageUtility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\StorageUtility\Windows\StorageUtility.cpp">
+      <Filter>Source Files\StorageUtility</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

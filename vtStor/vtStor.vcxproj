@@ -165,6 +165,10 @@
     <ClInclude Include="..\extern\IDriveManager.h" />
     <ClInclude Include="..\extern\IProtocol.h" />
     <ClInclude Include="..\extern\IScsiCommandExtensions.h" />
+    <ClInclude Include="..\StorageUtility\Ata.h" />
+    <ClInclude Include="..\StorageUtility\Scsi.h" />
+    <ClInclude Include="..\StorageUtility\Windows\Device.h" />
+    <ClInclude Include="..\StorageUtility\Windows\StorageUtility.h" />
     <ClInclude Include="Buffer.h" />
     <ClInclude Include="BufferFormatter.h" />
     <ClInclude Include="CommandDescriptor.h" />
@@ -173,17 +177,16 @@
     <ClInclude Include="ProtocolEssense.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\StorageUtility\Ata.cpp" />
+    <ClCompile Include="..\StorageUtility\Scsi.cpp" />
+    <ClCompile Include="..\StorageUtility\Windows\Device.cpp" />
+    <ClCompile Include="..\StorageUtility\Windows\StorageUtility.cpp" />
     <ClCompile Include="Buffer.cpp" />
     <ClCompile Include="BufferFormatter.cpp" />
     <ClCompile Include="CommandDescriptor.cpp" />
     <ClCompile Include="Drive.cpp" />
     <ClCompile Include="DriveManager.cpp" />
     <ClCompile Include="ProtocolEssense.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\StorageUtility\StorageUtility.vcxproj">
-      <Project>{0da52eb3-5f61-4919-8b1a-0dc1b50b619f}</Project>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

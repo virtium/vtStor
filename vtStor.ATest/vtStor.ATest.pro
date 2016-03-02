@@ -8,11 +8,13 @@ TEMPLATE = app
 
 SOURCES += main.cpp
 
-INCLUDEPATH += "../../vtStorAta" "../../vtStorAta/Platform/Linux" "../../vtStorAtaProtocol" "../../vtStorAtaProtocol/Platform/Linux" "../../vtStorAta/Platform/Linux" "../../vtStorScsi" "../../vtStorScsi/Platform/Linux" "../../vtStorScsiProtocol" "../../vtStorScsiProtocol/Platform/Linux" "../../vtStorScsi/Platform/Linux" "../../Common" "../../Common/Platform/x86x64" "../../Common/Platform/x86x64/Linux" "../../StorageUtility" "../../StorageUtility/Linux" "../../vtStor" "../../vtStor/Platform/Linux"
-
-
+INCLUDEPATH += "../Extern" "../vtStorAta" "../vtStorAta/Platform/Linux" "../vtStorAtaProtocol" "../vtStorAtaProtocol/Platform/Linux" "../vtStorAta/Platform/Linux" "../vtStorScsi" "../vtStorScsi/Platform/Linux" "../vtStorScsiProtocol" "../vtStorScsiProtocol/Platform/Linux" "../vtStorScsi/Platform/Linux" "../Common" "../Common/Platform/x86x64" "../Common/Platform/x86x64/Linux" "../StorageUtility" "../StorageUtility/Linux" "../vtStor" "../vtStor/Platform/Linux"
 
 CONFIG(release, debug|release) {
+
+    DESTDIR = ../Build_vtStor.ATest/Release
+    OBJECTS_DIR = ../Build_vtStor.ATest/Release
+
     unix:!macx:!symbian: LIBS += -L$$PWD/../Build_StorageUtility/Release/ -lStorageUtility
 
     INCLUDEPATH += $$PWD/../Build_StorageUtility/Release
@@ -47,6 +49,10 @@ CONFIG(release, debug|release) {
 }
 
 CONFIG(debug, debug|release) {
+
+    DESTDIR = ../Build_vtStor.ATest/Debug
+    OBJECTS_DIR = ../Build_vtStor.ATest/Debug
+
     unix:!macx:!symbian: LIBS += -L$$PWD/../Build_StorageUtility/Debug/ -lStorageUtility
 
     INCLUDEPATH += $$PWD/../Build_StorageUtility/Debug

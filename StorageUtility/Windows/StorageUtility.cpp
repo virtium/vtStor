@@ -241,6 +241,7 @@ bool IsAtaDeviceBus( sStorageAdapterProperty StorageDeviceProperty )
 {
     switch ( StorageDeviceProperty.BusType )
     {
+        case BusTypeRAID:
         case BusTypeAta:
         case BusTypeSata:
         {
