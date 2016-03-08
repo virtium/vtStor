@@ -1,6 +1,6 @@
 /*
 <License>
-Copyright 2015 Virtium Technology
+Copyright 2016 Virtium Technology
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -153,7 +153,7 @@ namespace Protocol
     eErrorCode cAtaPassThrough::IssuePassThroughDirectCommand( const DeviceHandle& Handle, U32& BytesReturned )
     {
         
-        assert( INVALID_HANDLE_VALUE != Handle );
+        assert( INVALID_HANDLE_VALUE != Handle.Handle );
 
         eErrorCode error;
         error = eErrorCode::None;
@@ -162,7 +162,7 @@ namespace Protocol
         DWORD bytesReturned;
         commandSuccessfulFlag = DeviceIoControl
             (
-            Handle,
+            Handle.Handle,
             IOCTL_ATA_PASS_THROUGH_DIRECT,
             &m_AtaPassThrough,
             m_AtaPassThrough.Length,

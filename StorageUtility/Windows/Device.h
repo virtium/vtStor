@@ -1,6 +1,6 @@
 /*
 <License>
-Copyright 2015 Virtium Technology
+Copyright 2016 Virtium Technology
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -40,7 +40,7 @@ public:
     virtual void DevicePath(tchar*& DevicePath) override;
 
 private:
-    eErrorCode GetStorageDeviceHandle(const String& DevicePath, HANDLE& Handle);
+    eErrorCode GetStorageDeviceHandle(const String& DevicePath, DeviceHandle& Handle);
     void AllocateMemories(const PSP_DEVINFO_DATA& DevInfoData, const PSP_DEVICE_INTERFACE_DATA& DevInterfaceData, const PSP_INTERFACE_DEVICE_DETAIL_DATA& DevDetailData, U32 SizeOfDevDetailData);
     void CopyMemories(const PSP_DEVINFO_DATA& DevInfoData, const PSP_DEVICE_INTERFACE_DATA& DevInterfaceData, const PSP_INTERFACE_DEVICE_DETAIL_DATA& DevDetailData, U32 SizeOfDevDetailData);
     void DeallocateMemories();

@@ -49,7 +49,7 @@ using tstring = std::string;
 
 #define INVALID_FILE_DESCRIPTOR -1
 #define IOCTL_SG_IO_ERROR -1
-#define INVALID_PHYSICAL_DISC_NUMBER 0
+#define INVALID_PHYSICAL_DISC_NUMBER 0xFFFFFFFF
 
 namespace vtStor
 {

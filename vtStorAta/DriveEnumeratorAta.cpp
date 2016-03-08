@@ -77,6 +77,7 @@ std::shared_ptr<IDrive> cDriveEnumeratorAta::EnumerateDrive(const std::shared_pt
 
     if ( true == IsAtaDeviceBus( storageAdapterProperty ) )
     {
+        deviceHandle.Bus = eBusType::Ata;
         std::shared_ptr<IDrive> drive = std::make_shared<cDriveAta>(Device, deviceHandle, driveProperties);
 
         return( drive );
