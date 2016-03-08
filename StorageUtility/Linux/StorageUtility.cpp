@@ -67,12 +67,12 @@ bool IsScsiDeviceBus(udev_device* UdevDevice)
     return false;
 }
 
-bool IsAtaDeviceBus(sStorageAdapterProperty StorageAdapterProperty)
+bool IsAtaDeviceBus(const sStorageAdapterProperty& StorageAdapterProperty)
 {
     return(StorageAdapterProperty.AtaBus);
 }
 
-bool IsScsiDeviceBus(sStorageAdapterProperty StorageAdapterProperty)
+bool IsScsiDeviceBus(const sStorageAdapterProperty& StorageAdapterProperty)
 {
     return(StorageAdapterProperty.ScsiBus);
 }
@@ -136,7 +136,7 @@ eErrorCode GetStorageDevicePaths(std::vector<String>& DevicePaths, std::vector<S
     return(eErrorCode::None);
 }
 
-eErrorCode GetAdapterBus(DeviceHandle& Handle, String SysDevicePath)
+eErrorCode GetAdapterBus(DeviceHandle& Handle, const String& SysDevicePath)
 {
     struct udev *udevObject;
     struct udev_device *udevDevice;
@@ -159,7 +159,7 @@ eErrorCode GetAdapterBus(DeviceHandle& Handle, String SysDevicePath)
     else
     {
         //! Adapter Property is not Ata or Scsi
-        return(eErrorCode::FormatNotSupported);
+        Handle.Bus = eBusType::Undefined;
     }
 
     udev_device_unref(udevDevice);
@@ -168,7 +168,7 @@ eErrorCode GetAdapterBus(DeviceHandle& Handle, String SysDevicePath)
     return(eErrorCode::None);
 }
 
-eErrorCode GetStorageDeviceHandle(const String& DevicePath,String SysDevicePath, DeviceHandle& Handle)
+eErrorCode GetStorageDeviceHandle(const String& DevicePath, const String& SysDevicePath, DeviceHandle& Handle)
 {
     eErrorCode error = eErrorCode::None;
     Handle.Handle = open(DevicePath.c_str(), O_RDONLY|O_NONBLOCK);
@@ -183,7 +183,7 @@ eErrorCode GetStorageDeviceHandle(const String& DevicePath,String SysDevicePath,
     return(error);
 }
 
-eErrorCode GetStorageAdapterProperty(DeviceHandle Handle, sStorageAdapterProperty& AdapterProperty)
+eErrorCode GetStorageAdapterProperty(const DeviceHandle& Handle, sStorageAdapterProperty& AdapterProperty)
 {
     if (eBusType::Ata == Handle.Bus)
     {
@@ -204,14 +204,15 @@ eErrorCode GetStorageAdapterProperty(DeviceHandle Handle, sStorageAdapterPropert
 void CloseDeviceHandle(DeviceHandle& Handle)
 {
     int closeHandleCode = close(Handle.Handle);
-    if (-1 == closeHandleCode)
+    if (INVALID_FILE_DESCRIPTOR == closeHandleCode)
     {
         //! TODO: Catch error for not close Handle of Device
         //! throw std::runtime_error("Close DeviceHandle was not successful");
     }
+    Handle.Bus = eBusType::Undefined;
 }
 
-eErrorCode GetPhysicalDiskNumber(DeviceHandle Handle, U32& PhysicalDiskNumber)
+eErrorCode GetPhysicalDiskNumber(const DeviceHandle& Handle, U32& PhysicalDiskNumber)
 {
     //! TODO Use Device path on Linux system instead PhysicalDiskNumber
 

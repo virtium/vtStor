@@ -144,7 +144,7 @@ eErrorCode EnumerateDevices( sEnumerateDevicesCallback& Callback, const GUID* In
     return( eErrorCode::None );
 }
 
-eErrorCode GetStorageAdapterProperty( HANDLE Handle, sStorageAdapterProperty& AdapterProperty )
+eErrorCode GetStorageAdapterProperty( const DeviceHandle& Handle, sStorageAdapterProperty& AdapterProperty )
 {
     STORAGE_DESCRIPTOR_HEADER storageDescHeader;
 
@@ -155,7 +155,7 @@ eErrorCode GetStorageAdapterProperty( HANDLE Handle, sStorageAdapterProperty& Ad
     DWORD bytesReturned;
     DWORD ret =
         DeviceIoControl(
-                        Handle,
+                        Handle.Handle,
                         IOCTL_STORAGE_QUERY_PROPERTY,
                         &StorageProperty,
                         sizeof(STORAGE_PROPERTY_QUERY),
@@ -179,7 +179,7 @@ eErrorCode GetStorageAdapterProperty( HANDLE Handle, sStorageAdapterProperty& Ad
 
     ret =
         DeviceIoControl(
-                        Handle,
+                        Handle.Handle,
                         IOCTL_STORAGE_QUERY_PROPERTY,
                         &StorageProperty,
                         sizeof(STORAGE_PROPERTY_QUERY),
@@ -203,13 +203,13 @@ eErrorCode GetStorageAdapterProperty( HANDLE Handle, sStorageAdapterProperty& Ad
     return( eErrorCode::None );
 }
 
-eErrorCode GetPhysicalDiskNumber(HANDLE Handle, U32& PhysicalDiskNumber)
+eErrorCode GetPhysicalDiskNumber(const DeviceHandle& Handle, U32& PhysicalDiskNumber)
 {
     STORAGE_DEVICE_NUMBER storageDevice = { 0 };
     DWORD bytesReturned;
     DWORD ret =
         DeviceIoControl(
-                        Handle,
+                        Handle.Handle,
                         IOCTL_STORAGE_GET_DEVICE_NUMBER,
                         NULL,
                         0,
@@ -227,17 +227,18 @@ eErrorCode GetPhysicalDiskNumber(HANDLE Handle, U32& PhysicalDiskNumber)
     return(eErrorCode::None);
 }
 
-void CloseDeviceHandle(HANDLE& Handle)
+void CloseDeviceHandle(DeviceHandle& Handle)
 {
-    if (FALSE == CloseHandle(Handle))
+    if (FALSE == CloseHandle(Handle.Handle))
     {
         //! TODO
         //fprintf(stderr, "\nCloseDeviceHandle was not successful. Error Code: %d", GetLastError());
     }
-    Handle = INVALID_HANDLE_VALUE;
+    Handle.Handle = INVALID_HANDLE_VALUE;
+    Handle.Bus = eBusType::Undefined;
 }
 
-bool IsAtaDeviceBus( sStorageAdapterProperty StorageDeviceProperty )
+bool IsAtaDeviceBus(const sStorageAdapterProperty& StorageDeviceProperty )
 {
     switch ( StorageDeviceProperty.BusType )
     {
@@ -254,7 +255,7 @@ bool IsAtaDeviceBus( sStorageAdapterProperty StorageDeviceProperty )
     }
 }
 
-bool IsScsiDeviceBus(sStorageAdapterProperty StorageDeviceProperty)
+bool IsScsiDeviceBus(const sStorageAdapterProperty& StorageDeviceProperty)
 {
     switch (StorageDeviceProperty.BusType)
     {

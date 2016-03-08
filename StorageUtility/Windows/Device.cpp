@@ -1,6 +1,6 @@
 /*
 <License>
-Copyright 2015 Virtium Technology
+Copyright 2016 Virtium Technology
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -57,9 +57,9 @@ void cDevice::DevicePath(tchar*& DevicePath)
     DevicePath = m_DevDetailData->DevicePath;
 }
 
-eErrorCode cDevice::GetStorageDeviceHandle(const String& DevicePath, HANDLE& Handle)
+eErrorCode cDevice::GetStorageDeviceHandle(const String& DevicePath, DeviceHandle& Handle)
 {
-    Handle =
+    Handle.Handle =
         CreateFile(
         DevicePath.c_str(),
         GENERIC_READ | GENERIC_WRITE,
@@ -70,11 +70,12 @@ eErrorCode cDevice::GetStorageDeviceHandle(const String& DevicePath, HANDLE& Han
         NULL
         );
 
-    if (INVALID_HANDLE_VALUE == Handle)
+    if (INVALID_HANDLE_VALUE == Handle.Handle)
     {
         return(eErrorCode::Io);
     }
 
+    Handle.Bus = eBusType::Undefined;
     return(eErrorCode::None);
 }
 

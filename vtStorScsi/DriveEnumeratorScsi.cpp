@@ -76,6 +76,7 @@ namespace vtStor
 
         if (true == IsScsiDeviceBus(storageAdapterProperty))
         {
+            deviceHandle.Bus = eBusType::Scsi;
             std::shared_ptr<IDrive> drive = std::make_shared<cDriveScsi>(Device, deviceHandle, driveProperties);
 
             return(drive);

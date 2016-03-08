@@ -140,7 +140,7 @@ namespace vtStor
 
         eErrorCode cScsiPassThrough::IssuePassThroughDirectCommand(const DeviceHandle& Handle, U32& BytesReturned)
         {
-            if (INVALID_HANDLE_VALUE == Handle)
+            if (INVALID_HANDLE_VALUE == Handle.Handle)
             {
                 return eErrorCode::Invalid;
             }
@@ -152,7 +152,7 @@ namespace vtStor
             DWORD bytesReturned;
             commandSuccessfulFlag = DeviceIoControl
                 (
-                    Handle,
+                    Handle.Handle,
                     IOCTL_SCSI_PASS_THROUGH_DIRECT,
                     &m_ScsiPassThrough,
                     m_ScsiPassThrough.Length,
