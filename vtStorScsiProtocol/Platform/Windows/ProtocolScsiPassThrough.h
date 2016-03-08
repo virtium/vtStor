@@ -1,6 +1,6 @@
 /*
 <License>
-Copyright 2015 Virtium Technology
+Copyright 2016 Virtium Technology
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -40,18 +40,14 @@ public:
 private:
     void InitializePassThroughDirect(
         const StorageUtility::Scsi::sCommandCharacteristics& CommandCharacteristics,
-        const StorageUtility::Scsi::sCdbRegisters& CdbRegister,
+        const StorageUtility::Scsi::uCdb& CdbRegister,
         std::shared_ptr<IBuffer> DataBuffer,
         U32 TimeoutValueInSeconds
         );
 
-    //! Initialize the ATA flags in the ATA_PASS_THROUGH_DIRECT structure
-    //!
-    void InitializeFlags(const StorageUtility::Scsi::sCommandCharacteristics& ScsiCommandCharacteristics);
-
     //! Initialize the iCurrentTaskFile. and the PreviousTaskFile in the ATA_PASS_THROUGH_DIRECT structure
     //!
-    void InitializeCdbRegister( const StorageUtility::Scsi::sCdbRegisters& ScsiCommandField );
+    void InitializeCdbRegister( const StorageUtility::Scsi::uCdb& ScsiCommandField );
 
     eErrorCode IssuePassThroughDirectCommand( const DeviceHandle& Handle, U32& BytesReturned );
 

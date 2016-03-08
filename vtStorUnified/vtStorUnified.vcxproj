@@ -165,7 +165,7 @@
     <ClCompile Include="..\StorageUtility\Windows\StorageUtility.cpp" />
     <ClCompile Include="..\vtStorAtaProtocol\AtaProtocolEssense1.cpp" />
     <ClCompile Include="..\vtStorAtaProtocol\Platform\Windows\ProtocolAtaPassThrough.cpp" />
-    <ClCompile Include="..\vtStorAta\AtaCommandExtensionscpp.cpp" />
+    <ClCompile Include="..\vtStorAta\AtaCommandExtensions.cpp" />
     <ClCompile Include="..\vtStorAta\CommandDescriptorAta.cpp" />
     <ClCompile Include="..\vtStorAta\CommandHandlerAta.cpp" />
     <ClCompile Include="..\vtStorAta\DriveAta.cpp" />

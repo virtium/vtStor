@@ -156,7 +156,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AtaCommandExtensionscpp.cpp" />
+    <ClCompile Include="AtaCommandExtensions.cpp" />
     <ClCompile Include="CommandDescriptorAta.cpp" />
     <ClCompile Include="CommandHandlerAta.cpp" />
     <ClCompile Include="DriveAta.cpp" />

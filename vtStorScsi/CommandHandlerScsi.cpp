@@ -1,6 +1,6 @@
 /*
 <License>
-Copyright 2015 Virtium Technology
+Copyright 2016 Virtium Technology
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -46,7 +46,7 @@ namespace vtStor
             case 1:
             {
                 Scsi::cCommandDescriptorScsi commandDescriptor = Scsi::cCommandDescriptorScsi::Reader(CommandDescriptor);
-                const StorageUtility::Scsi::sCdbFields& cdbFields = commandDescriptor.GetCdbFields();
+                const StorageUtility::Scsi::uCommandInputFields& commandInputFields = commandDescriptor.GetCommandInputFields();
 
                 std::shared_ptr<IBuffer> buffer = std::make_shared<cBuffer>(vtStor::Protocol::cEssenseScsi1::SIZE_IN_BYTES);
                 Protocol::cEssenseScsi1 essense = Protocol::cEssenseScsi1::Writer(buffer);
@@ -54,8 +54,8 @@ namespace vtStor
                 StorageUtility::Scsi::sCommandCharacteristics& commandCharacteristics = essense.GetCommandCharacteristics();
                 commandCharacteristics = commandDescriptor.GetCommandCharacteristics();
 
-                StorageUtility::Scsi::sCdbRegisters& cdbRegister = essense.GetCdbRegister();
-                PrepareCdbRegister(commandCharacteristics, cdbFields, cdbRegister);
+                StorageUtility::Scsi::uCdb& cdbRegister = essense.GetCdbRegisters();
+                PrepareCdbRegister(commandCharacteristics, commandInputFields, cdbRegister);
 
                 errorCode = m_Protocol->IssueCommand(Handle, buffer, Data);
             } break;
@@ -70,68 +70,125 @@ namespace vtStor
     }
 
     void cCommandHandlerScsi::PrepareCdbRegister(const StorageUtility::Scsi::sCommandCharacteristics& ScsiCommandCharacteristics,
-        const StorageUtility::Scsi::sCdbFields& CdbFields, StorageUtility::Scsi::sCdbRegisters& CdbRegister)
+        const StorageUtility::Scsi::uCommandInputFields& InputFields, StorageUtility::Scsi::uCdb& CdbRegister)
     {
         switch (ScsiCommandCharacteristics.FieldFormatting)
         {
             case StorageUtility::Scsi::eFieldFormatting::COMMAND_6:
             {
-                CdbRegister.Register0 = CdbFields.OpCode;
-                CdbRegister.Register1 = CdbFields.Service;
-                CdbRegister.Register2 = (CdbFields.Lba >> 8) & 0xFF;
-                CdbRegister.Register3 = CdbFields.Lba & 0xFF;
-                CdbRegister.Register4 = CdbFields.TransferLen & 0xFF;
-                CdbRegister.Register5 = CdbFields.Control;
+                CdbRegister.Cdb_16.Registers.Register0 = InputFields.Command6.OpCode;
+                CdbRegister.Cdb_16.Registers.Register1 = (InputFields.Command6.Service & 0xE0) | ((InputFields.Command6.Lba >> 16) & 0x1F);
+                CdbRegister.Cdb_16.Registers.Register2 = ((InputFields.Command6.Lba >> 8) & 0xFF);
+                CdbRegister.Cdb_16.Registers.Register3 = (InputFields.Command6.Lba & 0xFF);
+                CdbRegister.Cdb_16.Registers.Register4 = (InputFields.Command6.Length & 0xFF);
+                CdbRegister.Cdb_16.Registers.Register5 = InputFields.Command6.Control;
             } break;
 
             case StorageUtility::Scsi::eFieldFormatting::COMMAND_10:
             {
-                CdbRegister.Register0 = CdbFields.OpCode;
-                CdbRegister.Register1 = CdbFields.Service;
-                CdbRegister.Register2 = (CdbFields.Lba >> 24) & 0xFF;
-                CdbRegister.Register3 = (CdbFields.Lba >> 16) & 0xFF;
-                CdbRegister.Register4 = (CdbFields.Lba >> 8) & 0xFF;
-                CdbRegister.Register5 = CdbFields.Lba & 0xFF;
-                CdbRegister.Register6 = CdbFields.Group;
-                CdbRegister.Register7 = (CdbFields.TransferLen >> 8) & 0xFF;
-                CdbRegister.Register8 = CdbFields.TransferLen & 0xFF;
-                CdbRegister.Register9 = CdbFields.Control;
+                CdbRegister.Cdb_16.Registers.Register0 = InputFields.Command10.OpCode;
+                CdbRegister.Cdb_16.Registers.Register1 = InputFields.Command10.Service;
+                CdbRegister.Cdb_16.Registers.Register2 = ((InputFields.Command10.Lba >> 24) & 0xFF);
+                CdbRegister.Cdb_16.Registers.Register3 = ((InputFields.Command10.Lba >> 16) & 0xFF);
+                CdbRegister.Cdb_16.Registers.Register4 = ((InputFields.Command10.Lba >> 8) & 0xFF);
+                CdbRegister.Cdb_16.Registers.Register5 = (InputFields.Command10.Lba & 0xFF);
+                CdbRegister.Cdb_16.Registers.Register6 = InputFields.Command10.MiscCdb;
+                CdbRegister.Cdb_16.Registers.Register7 = (InputFields.Command10.Length >> 8) & 0xFF;
+                CdbRegister.Cdb_16.Registers.Register8 = InputFields.Command10.Length & 0xFF;
+                CdbRegister.Cdb_16.Registers.Register9 = InputFields.Command10.Control;
             } break;
 
             case StorageUtility::Scsi::eFieldFormatting::COMMAND_12:
             {
-                CdbRegister.Register0 = CdbFields.OpCode;
-                CdbRegister.Register1 = CdbFields.Service;
-                CdbRegister.Register2 = (CdbFields.Lba >> 24) & 0xFF;
-                CdbRegister.Register3 = (CdbFields.Lba >> 16) & 0xFF;
-                CdbRegister.Register4 = (CdbFields.Lba >> 8) & 0xFF;
-                CdbRegister.Register5 = CdbFields.Lba & 0xFF;
-                CdbRegister.Register6 = (CdbFields.TransferLen >> 24) & 0xFF;
-                CdbRegister.Register7 = (CdbFields.TransferLen >> 16) & 0xFF;
-                CdbRegister.Register8 = (CdbFields.TransferLen >> 8) & 0xFF;
-                CdbRegister.Register9 = CdbFields.TransferLen & 0xFF;
-                CdbRegister.Register10 = CdbFields.Group;
-                CdbRegister.Register11 = CdbFields.Control;
+                CdbRegister.Cdb_16.Registers.Register0 = InputFields.Command12.OpCode;
+                CdbRegister.Cdb_16.Registers.Register1 = InputFields.Command12.Service;
+                CdbRegister.Cdb_16.Registers.Register2 = ((InputFields.Command12.Lba >> 24) & 0xFF);
+                CdbRegister.Cdb_16.Registers.Register3 = ((InputFields.Command12.Lba >> 16) & 0xFF);
+                CdbRegister.Cdb_16.Registers.Register4 = ((InputFields.Command12.Lba >> 8) & 0xFF);
+                CdbRegister.Cdb_16.Registers.Register5 = (InputFields.Command12.Lba & 0xFF);
+                CdbRegister.Cdb_16.Registers.Register6 = ((InputFields.Command12.Length >> 24) & 0xFF);
+                CdbRegister.Cdb_16.Registers.Register7 = ((InputFields.Command12.Length >> 16) & 0xFF);
+                CdbRegister.Cdb_16.Registers.Register8 = ((InputFields.Command12.Length >> 8) & 0xFF);
+                CdbRegister.Cdb_16.Registers.Register9 = (InputFields.Command12.Length & 0xFF);
+                CdbRegister.Cdb_16.Registers.Register10 = InputFields.Command12.MiscCdb;
+                CdbRegister.Cdb_16.Registers.Register11 = InputFields.Command12.Control;
             } break;
 
             case StorageUtility::Scsi::eFieldFormatting::COMMAND_16:
             {
-                CdbRegister.Register0 = CdbFields.OpCode;
-                CdbRegister.Register1 = CdbFields.Service;
-                CdbRegister.Register2 = (CdbFields.Lba >> 56) & 0xFF;
-                CdbRegister.Register3 = (CdbFields.Lba >> 48) & 0xFF;
-                CdbRegister.Register4 = (CdbFields.Lba >> 48) & 0xFF;
-                CdbRegister.Register5 = (CdbFields.Lba >> 32) & 0xFF;
-                CdbRegister.Register6 = (CdbFields.Lba >> 24) & 0xFF;
-                CdbRegister.Register7 = (CdbFields.Lba >> 16) & 0xFF;
-                CdbRegister.Register8 = (CdbFields.Lba >> 8) & 0xFF;
-                CdbRegister.Register9 = CdbFields.Lba & 0xFF;
-                CdbRegister.Register10 = (CdbFields.TransferLen >> 24) & 0xFF;
-                CdbRegister.Register11 = (CdbFields.TransferLen >> 16) & 0xFF;
-                CdbRegister.Register12 = (CdbFields.TransferLen >> 8) & 0xFF;
-                CdbRegister.Register13 = CdbFields.TransferLen & 0xFF;
-                CdbRegister.Register14 = CdbFields.Group;
-                CdbRegister.Register15 = CdbFields.Control;
+                CdbRegister.Cdb_16.Registers.Register0 = InputFields.Command16.OpCode;
+                CdbRegister.Cdb_16.Registers.Register1 = InputFields.Command16.Service;
+                CdbRegister.Cdb_16.Registers.Register2 = ((InputFields.Command16.Lba >> 56) & 0xFF);
+                CdbRegister.Cdb_16.Registers.Register3 = ((InputFields.Command16.Lba >> 48) & 0xFF);
+                CdbRegister.Cdb_16.Registers.Register4 = ((InputFields.Command16.Lba >> 40) & 0xFF);
+                CdbRegister.Cdb_16.Registers.Register5 = ((InputFields.Command16.Lba >> 32) & 0xFF);
+                CdbRegister.Cdb_16.Registers.Register6 = ((InputFields.Command16.Lba >> 24) & 0xFF);
+                CdbRegister.Cdb_16.Registers.Register7 = ((InputFields.Command16.Lba >> 16) & 0xFF);
+                CdbRegister.Cdb_16.Registers.Register8 = ((InputFields.Command16.Lba >> 8) & 0xFF);
+                CdbRegister.Cdb_16.Registers.Register9 = (InputFields.Command16.Lba & 0xFF);
+                CdbRegister.Cdb_16.Registers.Register10 = ((InputFields.Command16.Length >> 24) & 0xFF);
+                CdbRegister.Cdb_16.Registers.Register11 = ((InputFields.Command16.Length >> 16) & 0xFF);
+                CdbRegister.Cdb_16.Registers.Register12 = ((InputFields.Command16.Length >> 8) & 0xFF);
+                CdbRegister.Cdb_16.Registers.Register13 = (InputFields.Command16.Length & 0xFF);
+                CdbRegister.Cdb_16.Registers.Register14 = InputFields.Command16.MiscCdb;
+                CdbRegister.Cdb_16.Registers.Register15 = InputFields.Command16.Control;
+            } break;
+
+            case StorageUtility::Scsi::eFieldFormatting::ATAPASSTHROUGH_16:
+            {
+                CdbRegister.Cdb_16.Registers.Register0 = InputFields.AtaPassThrough16.OpCode;
+                //     7 6 5            4 3 2 1        0
+                // MULTIPLE_COUNT       PROTOCOL     EXTEND
+                CdbRegister.Cdb_16.Registers.Register1 = (((InputFields.AtaPassThrough16.MultipleCount << 5) & 0xE0) 
+                                                        | ((InputFields.AtaPassThrough16.Protocol << 1) & 0x1E)
+                                                        | (InputFields.AtaPassThrough16.Extend & 0x01));
+                //   7 6           5           4          3        2          1 0
+                // OFF_LINE     CK_COND     Reserved    T_DIR   BYT_BLOK    T_LENGTH
+                CdbRegister.Cdb_16.Registers.Register2 = (((InputFields.AtaPassThrough16.Offline << 6) & 0xC0)
+                                                        | ((InputFields.AtaPassThrough16.CkCond << 5) & 0x20)
+                                                        | ((InputFields.AtaPassThrough16.TDir << 3) & 0x08)
+                                                        | ((InputFields.AtaPassThrough16.ByteBlock << 2) & 0x04)
+                                                        | (InputFields.AtaPassThrough16.TLength & 0x03));
+                CdbRegister.Cdb_16.Registers.Register3 = ((InputFields.AtaPassThrough16.Features >> 8) & 0xFF);
+                CdbRegister.Cdb_16.Registers.Register4 = (InputFields.AtaPassThrough16.Features & 0xFF);
+                CdbRegister.Cdb_16.Registers.Register13 = InputFields.AtaPassThrough16.Device;
+                CdbRegister.Cdb_16.Registers.Register14 = InputFields.AtaPassThrough16.Command;
+                CdbRegister.Cdb_16.Registers.Register15 = InputFields.AtaPassThrough16.Control;
+
+                if (1 == InputFields.AtaPassThrough16.Extend)
+                {
+                    // Byte 5, 7, 9, 11 are valid
+                    CdbRegister.Cdb_16.Registers.Register5 = ((InputFields.AtaPassThrough16.SectorCount >> 8) & 0xFF);
+                    CdbRegister.Cdb_16.Registers.Register6 = (InputFields.AtaPassThrough16.SectorCount & 0xFF);
+                    CdbRegister.Cdb_16.Registers.Register7 = ((InputFields.AtaPassThrough16.Lba >> 8) & 0xFF);
+                    CdbRegister.Cdb_16.Registers.Register8 = (InputFields.AtaPassThrough16.Lba & 0xFF);
+                    CdbRegister.Cdb_16.Registers.Register9 = ((InputFields.AtaPassThrough16.Lba >> 24) & 0xFF);
+                    CdbRegister.Cdb_16.Registers.Register10 = ((InputFields.AtaPassThrough16.Lba >> 16) & 0xFF);
+                    CdbRegister.Cdb_16.Registers.Register11 = ((InputFields.AtaPassThrough16.Lba >> 40) & 0xFF);
+                    CdbRegister.Cdb_16.Registers.Register12 = ((InputFields.AtaPassThrough16.Lba >> 32) & 0xFF);
+                }
+                else
+                {
+                    // Byte 5, 7, 9, 11 are reserved
+                    CdbRegister.Cdb_16.Registers.Register6 = (InputFields.AtaPassThrough16.SectorCount & 0xFF);
+                    CdbRegister.Cdb_16.Registers.Register8 = (InputFields.AtaPassThrough16.Lba & 0xFF);
+                    CdbRegister.Cdb_16.Registers.Register10 = ((InputFields.AtaPassThrough16.Lba >> 8) & 0xFF);
+                    CdbRegister.Cdb_16.Registers.Register12 = ((InputFields.AtaPassThrough16.Lba >> 16) & 0xFF);
+                    CdbRegister.Cdb_16.Registers.Register5 = 0;
+                    CdbRegister.Cdb_16.Registers.Register7 = 0;
+                    CdbRegister.Cdb_16.Registers.Register9 = 0;
+                    CdbRegister.Cdb_16.Registers.Register11 = 0;
+                }
+
+                if (StorageUtility::Scsi::eDataAccess::NONE != ScsiCommandCharacteristics.DataAccess)
+                {
+                    // Initialize the last 4 bits of the 28 bit LBA
+                    U8 last4BitInLBA;
+                    last4BitInLBA = (U8)((InputFields.AtaPassThrough16.Lba >> 24) & 0x0000000F);
+
+                    // 0xE0 is used instead of 0x40 to be safe and support legacy systems
+                    CdbRegister.Cdb_16.Registers.Register13 = (U8)(0xE0 | last4BitInLBA);
+                }
             } break;
 
             default:
