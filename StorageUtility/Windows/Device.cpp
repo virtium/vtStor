@@ -66,7 +66,7 @@ eErrorCode cDevice::GetStorageDeviceHandle(const String& DevicePath, DeviceHandl
         FILE_SHARE_READ | FILE_SHARE_WRITE,
         NULL,
         OPEN_EXISTING,
-        FILE_ATTRIBUTE_NORMAL,
+        FILE_ATTRIBUTE_NORMAL | FILE_FLAG_OVERLAPPED,
         NULL
         );
 
