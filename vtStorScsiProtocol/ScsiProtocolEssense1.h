@@ -1,6 +1,6 @@
 /*
 <License>
-Copyright 2015 Virtium Technology
+Copyright 2016 Virtium Technology
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -46,8 +46,8 @@ public:
     StorageUtility::Scsi::sCommandCharacteristics&       GetCommandCharacteristics();
     const StorageUtility::Scsi::sCommandCharacteristics& GetCommandCharacteristics() const;
 
-    StorageUtility::Scsi::sCdbRegisters&         GetCdbRegister();
-    const StorageUtility::Scsi::sCdbRegisters&   GetCdbRegister() const;
+    StorageUtility::Scsi::uCdb&         GetCdbRegisters();
+    const StorageUtility::Scsi::uCdb&   GetCdbRegisters() const;
 
 protected:
     static const size_t COMMAND_CHARACTERISTICS_OFFSET;

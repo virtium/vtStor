@@ -1,6 +1,6 @@
 /*
 <License>
-Copyright 2015 Virtium Technology
+Copyright 2016 Virtium Technology
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -50,8 +50,8 @@ protected:
     cCommandDescriptorScsi(std::shared_ptr<const IBuffer> Buffer);
 
 public:
-    StorageUtility::Scsi::sCdbFields& GetCdbFields();
-    const StorageUtility::Scsi::sCdbFields& GetCdbFields() const;
+    StorageUtility::Scsi::uCommandInputFields& GetCommandInputFields();
+    const StorageUtility::Scsi::uCommandInputFields& GetCommandInputFields() const;
     StorageUtility::Scsi::sCommandCharacteristics& GetCommandCharacteristics();
     const StorageUtility::Scsi::sCommandCharacteristics& GetCommandCharacteristics() const;
 

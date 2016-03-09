@@ -1,6 +1,6 @@
 /*
 <License>
-Copyright 2015 Virtium Technology
+Copyright 2016 Virtium Technology
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -93,7 +93,7 @@ void cCommandHandlerAta::PrepareTaskFileRegisters( const StorageUtility::Ata::sC
             U8 last4BitInLBA;
             last4BitInLBA = (U8)((CommandFields.InputFields.Lba >> 24) & 0x0000000F);
 
-            // 0x0E is used instead of 0x40 to be safe and support legacy systems
+            // 0xE0 is used instead of 0x40 to be safe and support legacy systems
             if (false == CommandFields.InputFields.ChsMode)
             {
                 TaskFileRegister.InputRegister.Device = (U8)(StorageUtility::Ata::DEVICE_REGISTER_DEFAULT | last4BitInLBA);

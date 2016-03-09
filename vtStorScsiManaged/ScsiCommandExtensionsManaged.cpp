@@ -1,6 +1,6 @@
 /*
 <License>
-Copyright 2015 Virtium Technology
+Copyright 2016 Virtium Technology
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -91,15 +91,6 @@ namespace vtStor
                 std::shared_ptr<vtStor::IDrive> spDriveInterface = *reinterpret_cast<std::shared_ptr<vtStor::IDrive>*>((void*)Drive);
                 std::shared_ptr<vtStor::IBuffer> spBuffferInterface = *reinterpret_cast<std::shared_ptr<vtStor::IBuffer>*>((void*)Data);
                 errorCode = static_cast<vtStor::Managed::eErrorCode>(m_ScsiCommandExtensions->IssueCommand_AtaSmart(spDriveInterface, CommandType, spBuffferInterface, SubCommand));
-                return(errorCode);
-            }
-
-            vtStor::Managed::eErrorCode cScsiCommandExtensions::IssueCommand_AtaDownloadMicrocode(vtStor::Managed::cDriveInterface^ Drive, U32 CommandType, vtStor::Managed::cBufferInterface^ Data, U8 SubCommand, U16 BlockCount, U16 BufferOffset)
-            {
-                vtStor::Managed::eErrorCode errorCode;
-                std::shared_ptr<vtStor::IDrive> spDriveInterface = *reinterpret_cast<std::shared_ptr<vtStor::IDrive>*>((void*)Drive);
-                std::shared_ptr<vtStor::IBuffer> spBuffferInterface = *reinterpret_cast<std::shared_ptr<vtStor::IBuffer>*>((void*)Data);
-                errorCode = static_cast<vtStor::Managed::eErrorCode>(m_ScsiCommandExtensions->IssueCommand_AtaDownloadMicrocode(spDriveInterface, CommandType, spBuffferInterface, SubCommand, BlockCount, BufferOffset));
                 return(errorCode);
             }
         }

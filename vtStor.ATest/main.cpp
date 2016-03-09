@@ -32,7 +32,7 @@ limitations under the License.
 #include "ProtocolScsiPassThrough.h"
 #include "ScsiCommandExtensions.h"
 
-void main()
+int main()
 {
     //The drive manager allows us to enumerate drives
     std::unique_ptr<vtStor::IDriveManager> driveManager;
@@ -101,4 +101,6 @@ void main()
 
     vtStor::U8* data = dataBuffer->ToDataBuffer();
     //Now have fun with the data
+
+    return 0;
 }

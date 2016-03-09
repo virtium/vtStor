@@ -46,14 +46,14 @@ public:
 private:
     void InitializePassThroughDirect(
             const StorageUtility::Scsi::sCommandCharacteristics& CommandCharacteristics,
-            const StorageUtility::Scsi::sCdbRegisters& CdbRegister,
+            const StorageUtility::Scsi::uCdb& CdbRegister,
             std::shared_ptr<IBuffer> DataBuffer,
             U32 TimeoutValueInSeconds
             );
 
     void InitializeFlags(const vtStor::StorageUtility::Scsi::sCommandCharacteristics& CommandCharacteristic);
 
-    void InitializeCdbRegister(const StorageUtility::Scsi::sCdbRegisters& CdbRegister);
+    void InitializeCdbRegister(const StorageUtility::Scsi::uCdb& CdbRegister);
 
     eErrorCode IssuePassThroughDirectCommand(const U32& FileDescriptor);
 

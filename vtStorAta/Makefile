@@ -36,7 +36,7 @@ SOURCES       = DriveEnumeratorAta.cpp \
 		DriveAta.cpp \
 		CommandHandlerAta.cpp \
 		CommandDescriptorAta.cpp \
-		AtaCommandExtensionscpp.cpp \
+		AtaCommandExtensions.cpp \
 		TrimBufferFormatter.cpp 
 
 OBJECTS       = $(patsubst %.cpp, $(OBJECTS_DIR)/%.o, ${SOURCES})

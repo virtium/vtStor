@@ -1,6 +1,6 @@
 /*
 <License>
-Copyright 2015 Virtium Technology
+Copyright 2016 Virtium Technology
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ namespace vtStor
         virtual eErrorCode IssueCommand(const DeviceHandle& Handle, std::shared_ptr<const IBuffer> CommandDescriptor, std::shared_ptr<IBuffer> Data) override;
 
     private:
-        void cCommandHandlerScsi::PrepareCdbRegister(const StorageUtility::Scsi::sCommandCharacteristics& ScsiCommandCharacteristics, const StorageUtility::Scsi::sCdbFields& CommandFields, StorageUtility::Scsi::sCdbRegisters& CdbRegister);
+        void cCommandHandlerScsi::PrepareCdbRegister(const StorageUtility::Scsi::sCommandCharacteristics& ScsiCommandCharacteristics, const StorageUtility::Scsi::uCommandInputFields& InputFields, StorageUtility::Scsi::uCdb& CdbRegister);
 
     private:
         std::shared_ptr<IProtocol> m_Protocol;

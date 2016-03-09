@@ -1,6 +1,6 @@
 /*
 <License>
-Copyright 2015 Virtium Technology
+Copyright 2016 Virtium Technology
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -29,19 +29,83 @@ namespace vtStor
         {
             extern const U32 VTSTOR_API SCSI_SECTOR_SIZE_IN_BYTES;
 
-            struct sCdbFields
+#pragma pack(push, cdb, 1)
+
+            struct sInputFields_Command6
+            {
+                U8  OpCode;
+                U8  Service;
+                U32 Lba;
+                U16 Length;
+                U8  Control;
+            };
+
+            struct sInputFields_Command10
+            {
+                U8  OpCode;
+                U8  Service;
+                U32 Lba;
+                U16 Length;
+                U8  Control;
+                U8  MiscCdb;
+            };
+
+            struct sInputFields_Command12
+            {
+                U8  OpCode;
+                U8  Service;
+                U32 Lba;
+                U32 Length;
+                U8  Control;
+                U8  MiscCdb;
+            };
+
+            struct sInputFields_Command16
             {
                 U8  OpCode;
                 U8  Service;
                 U64 Lba;
-                U32 TransferLen;
-                U8  ParameterLen;
-                U32 AllocationLen;
-                U8  Group;
+                U32 Length;
+                U8  Control;
+                U8  MiscCdb;
+            };
+
+            struct sInputFields_AtaPassThrough16
+            {
+                U8  OpCode;
+                U8  Extend;
+                U8  Protocol;
+                U8  MultipleCount;
+                U8  TLength;
+                U8  ByteBlock;
+                U8  TDir;
+                U8  CkCond;
+                U8  Offline;
+                U32 SectorCount;
+                U16 Features;
+                U64 Lba;
+                U8  Device;
+                U8  Command;
                 U8  Control;
             };
 
-            struct sCdbRegisters
+            union uCommandInputFields
+            {
+                sInputFields_Command6            Command6;
+                sInputFields_Command10           Command10;
+                sInputFields_Command12           Command12;
+                sInputFields_Command16           Command16;
+                sInputFields_AtaPassThrough16    AtaPassThrough16;
+            };
+
+            union uCommandFields
+            {
+                uCommandInputFields InputFields;
+
+                // TODO: Add command output fields
+            };
+
+            struct sCdb_16
             {
                 U8 Register0;
                 U8 Register1;
@@ -61,6 +125,21 @@ namespace vtStor
                 U8 Register15;
             };
 
+            union uCdb_16
+            {
+                sCdb_16 Registers;
+                U8 Bytes[16];
+            };
+
+            union uCdb
+            {
+                uCdb_16 Cdb_16;
+
+                // TODO: Add cdb 32 bytes
+            };
+
+#pragma pack(pop, cdb)
+
             enum class eDataAccess
             {
                 NONE,
@@ -73,7 +152,8 @@ namespace vtStor
                 COMMAND_6,
                 COMMAND_10,
                 COMMAND_12,
-                COMMAND_16
+                COMMAND_16,
+                ATAPASSTHROUGH_16,
             };
 
             struct sCommandCharacteristics
