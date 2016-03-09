@@ -16,7 +16,6 @@ limitations under the License.
 </License>
 */
 
-#include <assert.h>
 #include <cstring>
 #include <sys/ioctl.h>
 
@@ -44,7 +43,7 @@ eErrorCode cScsiPassThrough::IssueCommand(const DeviceHandle& Handle, std::share
 
         InitializePassThroughDirect(
                     essense.GetCommandCharacteristics(),
-                    essense.GetCdbRegister(),
+                    essense.GetCdbRegisters(),
                     DataBuffer,
                     60 //TODO: allow configurable timeout
                     );
@@ -62,7 +61,10 @@ eErrorCode cScsiPassThrough::IssueCommand(const DeviceHandle& Handle, std::share
 
 eErrorCode cScsiPassThrough::IssuePassThroughDirectCommand(const U32& FileDescriptor)
 {
-    assert(INVALID_FILE_DESCRIPTOR != FileDescriptor);
+    if (INVALID_FILE_DESCRIPTOR == FileDescriptor)
+    {
+        return eErrorCode::Invalid;
+    }
 
     U32 commandSuccessfulFlag = ioctl(FileDescriptor, SG_IO, &m_ScsiPassThrough);
 
@@ -76,7 +78,7 @@ eErrorCode cScsiPassThrough::IssuePassThroughDirectCommand(const U32& FileDescri
     return(eErrorCode::None);
 }
 
-void cScsiPassThrough::InitializePassThroughDirect(const StorageUtility::Scsi::sCommandCharacteristics& CommandCharacteristics, const StorageUtility::Scsi::sCdbRegisters& CdbRegister, std::shared_ptr<IBuffer> DataBuffer, U32 TimeoutValueInSeconds)
+void cScsiPassThrough::InitializePassThroughDirect(const StorageUtility::Scsi::sCommandCharacteristics& CommandCharacteristics, const StorageUtility::Scsi::uCdb& CdbRegister, std::shared_ptr<IBuffer> DataBuffer, U32 TimeoutValueInSeconds)
 {
     //! TODO: Set up for Sense Data
 
@@ -88,19 +90,30 @@ void cScsiPassThrough::InitializePassThroughDirect(const StorageUtility::Scsi::s
     switch (CommandCharacteristics.FieldFormatting)
     {
     case StorageUtility::Scsi::eFieldFormatting::COMMAND_6:
+    {
         m_ScsiPassThrough.cmd_len = 6;
-        break;
+    } break;
+
     case StorageUtility::Scsi::eFieldFormatting::COMMAND_10:
+    {
         m_ScsiPassThrough.cmd_len = 10;
-        break;
+     } break;
+
     case StorageUtility::Scsi::eFieldFormatting::COMMAND_12:
+    {
         m_ScsiPassThrough.cmd_len = 12;
-        break;
+    } break;
+
     case StorageUtility::Scsi::eFieldFormatting::COMMAND_16:
+    case StorageUtility::Scsi::eFieldFormatting::ATAPASSTHROUGH_16:
+    {
         m_ScsiPassThrough.cmd_len = 16;
-        break;
+    } break;
+
     default:
-        break;
+    {
+        // Do nothing
+    } break;
     }
 
     if (nullptr != DataBuffer)
@@ -127,7 +140,6 @@ void cScsiPassThrough::InitializeFlags(const StorageUtility::Scsi::sCommandChara
     case StorageUtility::Scsi::eDataAccess::WRITE_TO_DEVICE:
     {
         m_ScsiPassThrough.dxfer_direction = SG_DXFER_TO_DEV;
-
     } break;
 
     case StorageUtility::Scsi::eDataAccess::NONE:
@@ -143,24 +155,9 @@ void cScsiPassThrough::InitializeFlags(const StorageUtility::Scsi::sCommandChara
     }
 }
 
-void cScsiPassThrough::InitializeCdbRegister(const StorageUtility::Scsi::sCdbRegisters& CdbRegister)
+void cScsiPassThrough::InitializeCdbRegister(const StorageUtility::Scsi::uCdb& CdbRegister)
 {
-    m_ScsiPassThrough.cmdp[0] = CdbRegister.Register0;
-    m_ScsiPassThrough.cmdp[1] = CdbRegister.Register1;
-    m_ScsiPassThrough.cmdp[2] = CdbRegister.Register2;
-    m_ScsiPassThrough.cmdp[3] = CdbRegister.Register3;
-    m_ScsiPassThrough.cmdp[4] = CdbRegister.Register4;
-    m_ScsiPassThrough.cmdp[5] = CdbRegister.Register5;
-    m_ScsiPassThrough.cmdp[6] = CdbRegister.Register6;
-    m_ScsiPassThrough.cmdp[7] = CdbRegister.Register7;
-    m_ScsiPassThrough.cmdp[8] = CdbRegister.Register8;
-    m_ScsiPassThrough.cmdp[9] = CdbRegister.Register9;
-    m_ScsiPassThrough.cmdp[10] = CdbRegister.Register10;
-    m_ScsiPassThrough.cmdp[11] = CdbRegister.Register11;
-    m_ScsiPassThrough.cmdp[12] = CdbRegister.Register12;
-    m_ScsiPassThrough.cmdp[13] = CdbRegister.Register13;
-    m_ScsiPassThrough.cmdp[14] = CdbRegister.Register14;
-    m_ScsiPassThrough.cmdp[15] = CdbRegister.Register15;
+    memcpy(m_ScsiPassThrough.cmdp, CdbRegister.Cdb_16.Bytes, 16);
 }
 
 }

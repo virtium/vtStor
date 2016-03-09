@@ -92,10 +92,6 @@ namespace vtStor
             } break;
 
             case StorageUtility::Scsi::eFieldFormatting::COMMAND_16:
-            {
-                m_ScsiPassThrough.CdbLength = 16;
-            } break;
-
             case StorageUtility::Scsi::eFieldFormatting::ATAPASSTHROUGH_16:
             {
                 m_ScsiPassThrough.CdbLength = 16;
