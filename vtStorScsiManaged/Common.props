@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?> 
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
@@ -8,7 +8,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)Common;$(SolutionDir)StorageUtility;$(SolutionDir)Common\Platform\x86x64;$(SolutionDir)Common\Platform\x86x64\Windows;$(SolutionDir)vtStor;$(SolutionDir)vtStor\Interfaces;$(SolutionDir)vtStor\Platform\Windows;$(SolutionDir)vtStorScsi;$(SolutionDir)vtStorManaged;$(SolutionDir)vtStorManaged\Platform\Windows;$(SolutionDir)vtStorScsi\Platform\Windows;$(SolutionDir)vtStorProtocolManaged</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)Common;$(SolutionDir)StorageUtility;$(SolutionDir)Common\Platform\x86x64;$(SolutionDir)Common\Platform\x86x64\Windows;$(SolutionDir)vtStor;$(SolutionDir)vtStor\Interfaces;$(SolutionDir)vtStor\Platform\Windows;$(SolutionDir)vtStorScsi;$(SolutionDir)vtStorManaged;$(SolutionDir)vtStorManaged\Platform\Windows;$(SolutionDir)vtStorScsi\Platform\Windows;$(SolutionDir)vtStorProtocolManaged;$(SolutionDir)Extern;</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>VTSTOR_SCSI_MANAGED_DLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>

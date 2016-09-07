@@ -98,12 +98,14 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)StorageUtility\Windows;$(SolutionDir);$(SolutionDir)vtStorAtaProtocol;$(SolutionDir)vtStorAtaProtocol\Platform\Windows;$(SolutionDir)vtStorScsiProtocol\Platform\Windows;$(SolutionDir)vtStor\Platform\Windows;$(SolutionDir)Common;$(SolutionDir)Common\Platform\x86x64;$(SolutionDir)Common\Platform\x86x64\Windows;$(SolutionDir)vtStor\;$(SolutionDir)vtStorAta\;$(SolutionDir)vtStorScsi\;$(SolutionDir)vtStorAta\Platform\Windows\;$(SolutionDir)vtStorScsi\Platform\Windows\;$(SolutionDir)StorageUtility;$(SolutionDir)Extern</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>vtStorAta.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -120,6 +122,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>vtStorAta.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -140,6 +143,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>vtStorAta.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -160,15 +164,26 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>vtStorAta.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AtaIdentifyDevice.cpp" />
+    <ClCompile Include="AtaReadWriteBufferTest.cpp" />
+    <ClCompile Include="AtaReadWriteDmaExtTest.cpp" />
+    <ClCompile Include="AtaReadWriteDmaTest.cpp" />
+    <ClCompile Include="AtaReadWriteSectorExtTest.cpp" />
+    <ClCompile Include="AtaReadWriteSectorTest.cpp" />
+    <ClCompile Include="AtaSmartTest.cpp" />
+    <ClCompile Include="ATestUtility.cpp" />
+    <ClCompile Include="DataAccessCommandTest.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="TestObjectFactory.cpp" />
+    <ClCompile Include="TestResource.cpp" />
+    <ClCompile Include="VtStorTestFramework.cpp" />
+    <ClCompile Include="VtStorTestManager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\StorageUtility\StorageUtility.vcxproj">
-      <Project>{0da52eb3-5f61-4919-8b1a-0dc1b50b619f}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\vtStorAtaProtocol\vtStorAtaProtocol.vcxproj">
       <Project>{1f24edf0-ef6d-46f8-b0c8-964120e50963}</Project>
     </ProjectReference>
@@ -194,6 +209,25 @@
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
       <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AtaIdentifyDevice.h" />
+    <ClInclude Include="AtaReadWriteBufferTest.h" />
+    <ClInclude Include="AtaReadWriteDmaExtTest.h" />
+    <ClInclude Include="AtaReadWriteDmaTest.h" />
+    <ClInclude Include="AtaReadWriteSectorExtTest.h" />
+    <ClInclude Include="AtaReadWriteSectorTest.h" />
+    <ClInclude Include="AtaSmartTest.h" />
+    <ClInclude Include="ATestUtility.h" />
+    <ClInclude Include="DataAccessCommandTest.h" />
+    <ClInclude Include="IVtStorTest.h" />
+    <ClInclude Include="ITestManager.h" />
+    <ClInclude Include="TestObjectFactory.h" />
+    <ClInclude Include="TestObjectRegister.h" />
+    <ClInclude Include="TestResource.h" />
+    <ClInclude Include="VtStorATestDefine.h" />
+    <ClInclude Include="VtStorTestFrameWork.h" />
+    <ClInclude Include="VtStorTestManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

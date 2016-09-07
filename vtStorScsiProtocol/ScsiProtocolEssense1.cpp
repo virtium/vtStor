@@ -1,6 +1,6 @@
 /*
 <License>
-Copyright 2015 Virtium Technology
+Copyright 2016 Virtium Technology
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@ limitations under the License.
 */
 
 #include "ScsiProtocolEssense1.h"
+#include "StorageUtility.h"
 
 namespace vtStor
 {
@@ -27,34 +28,34 @@ const size_t cEssenseScsi1::TASKFILE_REGISTER_OFFSET = cEssenseScsi1::COMMAND_CH
 
 const size_t cEssenseScsi1::SIZE_IN_BYTES = cEssenseScsi1::COMMAND_CHARACTERISTICS_OFFSET
                             + sizeof(StorageUtility::Scsi::sCommandCharacteristics)
-                            + sizeof(StorageUtility::Scsi::sCdbRegisters);
+                            + sizeof(StorageUtility::Scsi::uCdb);
 
-cEssenseScsi1 cEssenseScsi1::Reader(std::shared_ptr<const cBufferInterface> Buffer)
+UUID cEssenseScsi1::FormatType;
+
+cEssenseScsi1 cEssenseScsi1::Reader(std::shared_ptr<const IBuffer> Buffer)
 {
     return(cEssenseScsi1(Buffer));
 }
 
-cEssenseScsi1 cEssenseScsi1::Writer(std::shared_ptr<cBufferInterface> Buffer)
+cEssenseScsi1 cEssenseScsi1::Writer(std::shared_ptr<IBuffer> Buffer)
 {
-    return(cEssenseScsi1(Buffer, 1));
+    CreateUUID(FormatType);
+    return(cEssenseScsi1(Buffer, FormatType));
 }
 
-cEssenseScsi1::cEssenseScsi1(std::shared_ptr<cBufferInterface> Buffer) :
+cEssenseScsi1::cEssenseScsi1(std::shared_ptr<IBuffer> Buffer) :
 cProtocolEssense(Buffer)
 {
-
 }
 
-cEssenseScsi1::cEssenseScsi1(std::shared_ptr<cBufferInterface> Buffer, U32 Format) :
+cEssenseScsi1::cEssenseScsi1(std::shared_ptr<IBuffer> Buffer, const UUID& Format) :
 cProtocolEssense(Buffer, Format)
 {
-
 }
 
-cEssenseScsi1::cEssenseScsi1(std::shared_ptr<const cBufferInterface> Buffer) :
+cEssenseScsi1::cEssenseScsi1(std::shared_ptr<const IBuffer> Buffer) :
 cProtocolEssense(Buffer)
 {
-
 }
 
 StorageUtility::Scsi::sCommandCharacteristics& cEssenseScsi1::GetCommandCharacteristics()
@@ -63,24 +64,23 @@ StorageUtility::Scsi::sCommandCharacteristics& cEssenseScsi1::GetCommandCharacte
     return((StorageUtility::Scsi::sCommandCharacteristics&)buffer[COMMAND_CHARACTERISTICS_OFFSET]);
 
 }
-        
+
 const StorageUtility::Scsi::sCommandCharacteristics& cEssenseScsi1::GetCommandCharacteristics() const
 {
     const U8* buffer = m_Buffer->ToDataBuffer();
     return((StorageUtility::Scsi::sCommandCharacteristics&)buffer[COMMAND_CHARACTERISTICS_OFFSET]);
 }
 
-StorageUtility::Scsi::sCdbRegisters& cEssenseScsi1::GetCdbRegister()
+StorageUtility::Scsi::uCdb& cEssenseScsi1::GetCdbRegisters()
 {
     U8* buffer = m_Buffer->ToDataBuffer();
-    return((StorageUtility::Scsi::sCdbRegisters&)buffer[TASKFILE_REGISTER_OFFSET]);
+    return((StorageUtility::Scsi::uCdb&)buffer[TASKFILE_REGISTER_OFFSET]);
 }
 
-const StorageUtility::Scsi::sCdbRegisters& cEssenseScsi1::GetCdbRegister() const
+const StorageUtility::Scsi::uCdb& cEssenseScsi1::GetCdbRegisters() const
 {
     const U8* buffer = m_Buffer->ToDataBuffer();
-    return((StorageUtility::Scsi::sCdbRegisters&)buffer[TASKFILE_REGISTER_OFFSET]);
+    return((StorageUtility::Scsi::uCdb&)buffer[TASKFILE_REGISTER_OFFSET]);
 }
 }
 }
-

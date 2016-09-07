@@ -17,28 +17,26 @@ limitations under the License.
 */
 #include <memory>
 
+#include "AtaCommandExtensions.h"
 #include "CppUnitTest.h"
-#include "DriveAtaCommandExtensions.h"
+#include "DriveEnumerator.h"
 #include "DriveEnumeratorAta.h"
+#include "IDriveManager.h"
 #include "ScanForHardwareChanges.h"
-#include "vtStor.h"
-#include "vtStorAta.h"
-
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace vtStorTest
-{		
-    TEST_CLASS( cVtStorTest )
+{
+    TEST_CLASS(cVtStorTest)
     {
     public:
-
-        TEST_METHOD( Enumeration )
+        TEST_METHOD(Enumeration)
         {
             Enumerate();
         }
 
-        TEST_METHOD( IssueCommand_IdentifyDevice )
+        TEST_METHOD(IssueCommand_IdentifyDevice)
         {
             Enumerate();
             //TODO: system needs to have a drive to test.
@@ -47,17 +45,17 @@ namespace vtStorTest
 
         void Enumerate()
         {
-            std::unique_ptr<vtStor::cDriveManagerInterface> m_DriveManager;
-            vtStorInit( m_DriveManager );
+            std::unique_ptr<vtStor::IDriveManager> m_DriveManager;
+            cDriveManager_GetDriveManager(m_DriveManager);
+            std::shared_ptr<vtStor::IDriveEnumerator> m_DriveEnumerator = std::make_shared<vtStor::cDriveEnumerator>();
 
-            std::shared_ptr<vtStor::cDriveEnumeratorInterface> m_DriveEnumeratorAta = std::make_unique<vtStor::cDriveEnumeratorAta>();
-            m_DriveManager->RegisterDriveEnumerator( m_DriveEnumeratorAta );
-            m_DriveManager->EnumerateDrives( vtStor::eScanForHardwareChanges::No );
+            m_DriveEnumerator = std::make_unique<vtStor::cDriveEnumeratorAta>(m_DriveEnumerator);
+            m_DriveManager->RegisterDriveEnumerator(m_DriveEnumerator);
+            m_DriveManager->EnumerateDrives(vtStor::eScanForHardwareChanges::No);
         }
 
     private:
-        std::unique_ptr<vtStor::cDriveManagerInterface> m_DriveManager;
-        std::shared_ptr<vtStor::cDriveEnumeratorInterface> m_DriveEnumeratorAta;
-
+        std::unique_ptr<vtStor::IDriveManager> m_DriveManager;
+        std::shared_ptr<vtStor::IDriveEnumerator> m_DriveEnumeratorAta;
     };
 }

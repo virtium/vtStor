@@ -16,17 +16,17 @@ limitations under the License.
 </License>
 */
 
-#include "vtStorAta/CommandHandlerAta.h"
+#include "vtStorAta/Internal/CommandHandlerAta.h"
 #include "CommandHandlerAtaManaged.h"
-#include "vtStorAta.h"
 
 namespace vtStor
 {
     namespace Managed
     {
-        cCommandHandlerAta::cCommandHandlerAta( cProtocolInterface^ Protocol )
+        cCommandHandlerAta::cCommandHandlerAta(IRunTimeDll^ RunTimeDll, cProtocolInterface^ Protocol)
         {
-            vtStorCommandHandlerAtaInit( *m_CommandHandler, vtStor::Protocol::cProtocolInterface::ToSharedPtr( *Protocol ) );
+            GetCommandHandlerDelegate getCommandHandlerDelegate = (GetCommandHandlerDelegate)RunTimeDll->GetFunction("cCommandHandlerAta_GetCommandHandler");
+            getCommandHandlerDelegate(*m_CommandHandler, *reinterpret_cast< std::shared_ptr<vtStor::IProtocol>*>((void*)*Protocol));
         }
 
         cCommandHandlerAta::~cCommandHandlerAta()
@@ -39,7 +39,7 @@ namespace vtStor
 
         cCommandHandlerAta::operator void*()
         {
-            return( vtStor::cCommandHandlerInterface::ToVoidPointer( *m_CommandHandler ) );
+            return(reinterpret_cast<void*>(&(*m_CommandHandler)));
         }
     }
 }

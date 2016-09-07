@@ -16,17 +16,17 @@ limitations under the License.
 </License>
 */
 
-#include "vtStorScsi/CommandHandlerScsi.h"
+#include "vtStorScsi/Internal/CommandHandlerScsi.h"
 #include "CommandHandlerScsiManaged.h"
-#include "vtStorScsi.h"
 
 namespace vtStor
 {
     namespace Managed
     {
-        cCommandHandlerScsi::cCommandHandlerScsi( cProtocolInterface^ Protocol )
+        cCommandHandlerScsi::cCommandHandlerScsi( IRunTimeDll^ RunTimeDll, cProtocolInterface^ Protocol)
         {
-            vtStorCommandHandlerScsiInit( *m_CommandHandler, vtStor::Protocol::cProtocolInterface::ToSharedPtr( *Protocol ) );
+            GetCommandHandlerDelegate getCommandHandlerDelegate = (GetCommandHandlerDelegate)RunTimeDll->GetFunction("cCommandHandlerScsi_GetCommandHandler");
+            getCommandHandlerDelegate(*m_CommandHandler, *reinterpret_cast< std::shared_ptr<vtStor::IProtocol>*>((void*)*Protocol));
         }
 
         cCommandHandlerScsi::~cCommandHandlerScsi()
@@ -39,7 +39,7 @@ namespace vtStor
 
         cCommandHandlerScsi::operator void*()
         {
-            return( vtStor::cCommandHandlerInterface::ToVoidPointer( *m_CommandHandler ) );
+            return(reinterpret_cast<void*>(&(*m_CommandHandler)));
         }
     }
 }

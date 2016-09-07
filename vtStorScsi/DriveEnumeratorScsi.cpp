@@ -1,6 +1,6 @@
 /*
 <License>
-Copyright 2015 Virtium Technology
+Copyright 2016 Virtium Technology
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -15,54 +15,78 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
-#include "StorageUtility.h"
-
-#include "vtStorScsi.h"
-#include "DriveScsi.h"
-#include "ProtocolScsiPassThrough.h"
 
 #include "DriveEnumeratorScsi.h"
+#include "DriveScsi.h"
+#include "ProtocolScsiPassThrough.h"
+#include "StorageUtility.h"
+
+void cDriveEnumeratorScsi_GetDriveEnumerator(std::shared_ptr<vtStor::IDriveEnumerator>& DriveEnumerator, const std::shared_ptr<vtStor::IDriveEnumerator>& DecoratedDriveEnumerator)
+{
+    DriveEnumerator = std::shared_ptr<vtStor::IDriveEnumerator>(new vtStor::cDriveEnumeratorScsi(DecoratedDriveEnumerator));
+}
 
 namespace vtStor
-{ 
-cDriveEnumeratorScsi::~cDriveEnumeratorScsi()
 {
-
-}
-
-std::shared_ptr<cDriveInterface> cDriveEnumeratorScsi::EnumerateDrive(const std::shared_ptr<cDeviceInterface>& Device)
-{
-    DeviceHandle deviceHandle;
-    eErrorCode errorCode;
-
-    try
+    cDriveEnumeratorScsi::~cDriveEnumeratorScsi()
     {
-        deviceHandle = Device->Handle();
     }
-    catch (std::exception ex)
+
+    cDriveEnumeratorScsi::cDriveEnumeratorScsi(std::shared_ptr<IDriveEnumerator> DecoratedDriveEnumerator) : cDriveEnumerateDecorator(DecoratedDriveEnumerator)
     {
-        //fprintf(stderr, "\nEnumerateDrive was not successful. Exception:%s.", ex.what());
-        //TODO: handle error
+    }
+
+    std::shared_ptr<IDrive> cDriveEnumeratorScsi::DoEnumerate(const std::shared_ptr<IDevice>& Device)
+    {
+        DeviceHandle deviceHandle;
+        eErrorCode errorCode;
+
+        try
+        {
+            deviceHandle = Device->Handle();
+        }
+
+        catch (std::exception ex)
+        {
+            //fprintf(stderr, "\nEnumerateDrive was not successful. Exception:%s.", ex.what());
+            //TODO: handle error
+            return(nullptr);
+        }
+
+        sStorageAdapterProperty storageAdapterProperty;
+        errorCode = GetStorageAdapterProperty(deviceHandle, storageAdapterProperty);
+
+        if (eErrorCode::None != errorCode)
+        {
+            //TODO: handle error
+            return(nullptr);
+        }
+
+        U32 physicalDiskNumber;
+        errorCode = GetPhysicalDiskNumber(deviceHandle, physicalDiskNumber);
+        if (eErrorCode::None != errorCode)
+        {
+            //TODO: handle error
+            return(nullptr);
+        }
+
+        tchar* devicePath;
+        Device->DevicePath(devicePath);
+
+        // Add drive propeties to the container
+        std::shared_ptr<vtStor::sDriveProperties> driveProperties = std::make_shared<vtStor::sDriveProperties>();
+        driveProperties->PhysicalDiskNumber = physicalDiskNumber;
+        driveProperties->DevicePath = devicePath;
+
+        if (true == IsScsiDeviceBus(storageAdapterProperty))
+        {
+            deviceHandle.Bus = eBusType::Scsi;
+            std::shared_ptr<IDrive> drive = std::make_shared<cDriveScsi>(Device, deviceHandle, driveProperties);
+
+            return(drive);
+        }
+
+        vtStor::CloseDeviceHandle(deviceHandle);
         return(nullptr);
     }
-
-    sStorageAdapterProperty storageAdapterProperty;
-    errorCode = GetStorageAdapterProperty(deviceHandle, storageAdapterProperty);
-
-    if (eErrorCode::None != errorCode)
-    {
-        //TODO: handle error
-        return(nullptr);
-    }
-
-    if (true == IsScsiDeviceBus(storageAdapterProperty))
-    {
-        std::shared_ptr<cDriveInterface> drive = std::make_shared<cDriveScsi>(Device, deviceHandle);
-
-        return(drive);
-    }
-
-    return(nullptr);
-}
-
 }

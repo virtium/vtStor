@@ -160,14 +160,10 @@
     <ClCompile Include="Platform\Windows\ProtocolScsiPassThrough.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Platform\Windows\vtStorScsiProtocolPlatformDefines.h" />
     <ClInclude Include="ScsiProtocolEssense1.h" />
     <ClInclude Include="Platform\Windows\ProtocolScsiPassThrough.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\StorageUtility\StorageUtility.vcxproj">
-      <Project>{0da52eb3-5f61-4919-8b1a-0dc1b50b619f}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\vtStor\vtStor.vcxproj">
       <Project>{2595ae3d-ff40-47c4-b050-55d450843934}</Project>
     </ProjectReference>

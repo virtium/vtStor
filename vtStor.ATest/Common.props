@@ -13,7 +13,7 @@
       <AdditionalLibraryDirectories>$(SolutionDir)vtStor\$(Platform)$(Configuration);$(SolutionDir)vtStorAta\$(Platform)$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)StorageUtility\Windows;$(SolutionDir);$(SolutionDir)vtStorAtaProtocol\Platform\Windows;$(SolutionDir)vtStorScsiProtocol\Platform\Windows;$(SolutionDir)vtStor\Platform\Windows;$(SolutionDir)Common;$(SolutionDir)Common\Platform\x86x64;$(SolutionDir)Common\Platform\x86x64\Windows;$(SolutionDir)vtStor\;$(SolutionDir)vtStorAta\;$(SolutionDir)vtStorScsi\;$(SolutionDir)vtStorAta\Platform\Windows\;$(SolutionDir)vtStorScsi\Platform\Windows\;$(SolutionDir)StorageUtility;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)StorageUtility\Windows;$(SolutionDir);$(SolutionDir)vtStorAtaProtocol;$(SolutionDir);$(SolutionDir)vtStorAtaProtocol\Platform\Windows;$(SolutionDir)vtStorScsiProtocol\Platform\Windows;$(SolutionDir)vtStor\Platform\Windows;$(SolutionDir)Common;$(SolutionDir)Common\Platform\x86x64;$(SolutionDir)Common\Platform\x86x64\Windows;$(SolutionDir)vtStor\;$(SolutionDir)vtStorAta\;$(SolutionDir)vtStorScsi\;$(SolutionDir)vtStorAta\Platform\Windows\;$(SolutionDir)vtStorScsi\Platform\Windows\;$(SolutionDir)StorageUtility;$(SolutionDir)Extern;</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup />

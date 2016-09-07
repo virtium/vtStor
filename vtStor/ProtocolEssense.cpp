@@ -21,32 +21,29 @@ namespace vtStor
 {
     const size_t cProtocolEssense::DEVICE_HANDLE_OFFSET = cBufferFormatter::DATA_OFFSET;
 
-    cProtocolEssense cProtocolEssense::Reader(std::shared_ptr<const cBufferInterface> Buffer)
+    cProtocolEssense cProtocolEssense::Reader(std::shared_ptr<const IBuffer> Buffer)
     {
         return(cProtocolEssense(Buffer));
     }
 
-    cProtocolEssense cProtocolEssense::Modifier(std::shared_ptr<cBufferInterface> Buffer)
+    cProtocolEssense cProtocolEssense::Modifier(std::shared_ptr<IBuffer> Buffer)
     {
         return(cProtocolEssense(Buffer));
     }
 
-    cProtocolEssense::cProtocolEssense(std::shared_ptr<cBufferInterface> Buffer) :
+    cProtocolEssense::cProtocolEssense(std::shared_ptr<IBuffer> Buffer) :
         cBufferFormatter(Buffer)
     {
-
     }
 
-    cProtocolEssense::cProtocolEssense(std::shared_ptr<cBufferInterface> Buffer, U32 Format) :
+    cProtocolEssense::cProtocolEssense(std::shared_ptr<IBuffer> Buffer, const UUID& Format) :
         cBufferFormatter(Buffer, Format)
     {
-
     }
 
-    cProtocolEssense::cProtocolEssense(std::shared_ptr<const cBufferInterface> Buffer) :
+    cProtocolEssense::cProtocolEssense(std::shared_ptr<const IBuffer> Buffer) :
         cBufferFormatter(Buffer)
     {
-
     }
 
     DeviceHandle& cProtocolEssense::GetDeviceHandle()
@@ -60,5 +57,4 @@ namespace vtStor
         const U8* buffer = m_Buffer->ToDataBuffer();
         return((DeviceHandle&)buffer[DEVICE_HANDLE_OFFSET]);
     }
-
 }

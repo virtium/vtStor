@@ -22,49 +22,25 @@
     <Filter Include="Scripts">
       <UniqueIdentifier>{45185f2b-b626-4f0e-9e13-145369116eca}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\StorageUtility">
+      <UniqueIdentifier>{06b1eab8-fad0-4a35-8d13-2dd2e7327d32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\StorageUtility">
+      <UniqueIdentifier>{7a22eb1e-8b27-4fcf-ae00-a39d9b3822d2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DriveManagerInterface.h">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="..\Common\ErrorCodes.h">
       <Filter>Header Files\Common</Filter>
     </ClInclude>
     <ClInclude Include="..\Common\Platform\x86x64\BasicTypes.h">
       <Filter>Header Files\Common</Filter>
     </ClInclude>
-    <ClInclude Include="DriveManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DriveInterface.h">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="vtStor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Platform\Windows\vtStorPlatformDefines.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DriveEnumeratorInterface.h">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="..\Common\Platform\x86x64\Windows\PlatformDefines.h">
       <Filter>Header Files\Common</Filter>
     </ClInclude>
-    <ClInclude Include="Drive.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CommandHandlerInterface.h">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="BufferInterface.h">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="Buffer.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ProtocolInterface.h">
-      <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="BufferFormatter.h">
       <Filter>Header Files</Filter>
@@ -78,36 +54,72 @@
     <ClInclude Include="..\Common\DeviceDataType.h">
       <Filter>Header Files\Common</Filter>
     </ClInclude>
+    <ClInclude Include="..\extern\IBuffer.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extern\IDrive.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extern\IProtocol.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extern\ICommandHandler.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extern\IDevice.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extern\IDriveManager.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extern\IDriveEnumerator.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extern\IAtaCommandExtensions.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extern\IScsiCommandExtensions.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\DriveProperties.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\DriveProperties.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\StorageUtility\Ata.h">
+      <Filter>Header Files\StorageUtility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\StorageUtility\Scsi.h">
+      <Filter>Header Files\StorageUtility</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\Drive.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\DriveManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\StorageUtility\Internal\Windows\Device.h">
+      <Filter>Header Files\StorageUtility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\StorageUtility\Internal\Windows\StorageUtility.h">
+      <Filter>Header Files\StorageUtility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Extern\IAsynIoCommandExtensions.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="DriveEnumerateDecorator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DriveEnumerator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Overlapped.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DriveManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="vtStor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DriveEnumeratorInterface.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DriveManagerInterface.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DriveInterface.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Drive.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CommandHandlerInterface.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BufferInterface.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Buffer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ProtocolInterface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BufferFormatter.cpp">
@@ -117,6 +129,33 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ProtocolEssense.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\StorageUtility\Ata.cpp">
+      <Filter>Source Files\StorageUtility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\StorageUtility\Scsi.cpp">
+      <Filter>Source Files\StorageUtility</Filter>
+    </ClCompile>
+    <ClCompile Include="Internal\Drive.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Internal\DriveManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\StorageUtility\Internal\Windows\Device.cpp">
+      <Filter>Source Files\StorageUtility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\StorageUtility\Internal\Windows\StorageUtility.cpp">
+      <Filter>Source Files\StorageUtility</Filter>
+    </ClCompile>
+    <ClCompile Include="DriveEnumerateDecorator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DriveEnumerator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Overlapped.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

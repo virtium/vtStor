@@ -1,6 +1,6 @@
 /*
 <License>
-Copyright 2015 Virtium Technology
+Copyright 2016 Virtium Technology
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,74 +16,73 @@ limitations under the License.
 </License>
 */
 #include "CommandDescriptorScsi.h"
+#include "StorageUtility.h"
 
 namespace vtStor
 {
-namespace Scsi
-{
+    namespace Scsi
+    {
+        const size_t cCommandDescriptorScsi::CDB_FIELDS_OFFSET = cCommandDescriptor::DATA_OFFSET;
+        const size_t cCommandDescriptorScsi::COMMAND_CHARACTERISTICS_OFFSET = cCommandDescriptorScsi::CDB_FIELDS_OFFSET + sizeof(StorageUtility::Scsi::uCommandFields);
 
-    const size_t cCommandDescriptorScsi::CDB_FIELDS_OFFSET = cCommandDescriptor::DATA_OFFSET;
-    const size_t cCommandDescriptorScsi::COMMAND_CHARACTERISTICS_OFFSET = cCommandDescriptorScsi::CDB_FIELDS_OFFSET + sizeof(StorageUtility::Scsi::sCdbFields);
+        //! IMPORTANT NOTE: this must be updated to use the very last item
+        const size_t cCommandDescriptorScsi::SIZE_IN_BYTES = COMMAND_CHARACTERISTICS_OFFSET + sizeof(StorageUtility::Scsi::sCommandCharacteristics);
 
-//! IMPORTANT NOTE: this must be updated to use the very last item
-    const size_t cCommandDescriptorScsi::SIZE_IN_BYTES = COMMAND_CHARACTERISTICS_OFFSET + sizeof(StorageUtility::Scsi::sCommandCharacteristics);
+        UUID cCommandDescriptorScsi::FormatType;
 
-    cCommandDescriptorScsi cCommandDescriptorScsi::Reader(std::shared_ptr<const cBufferInterface> Buffer)
-{
-        return(cCommandDescriptorScsi(Buffer));
-}
+        cCommandDescriptorScsi cCommandDescriptorScsi::Reader(std::shared_ptr<const IBuffer> Buffer)
+        {
+            return(cCommandDescriptorScsi(Buffer));
+        }
 
-    cCommandDescriptorScsi cCommandDescriptorScsi::Writer(std::shared_ptr<cBufferInterface> Buffer)
-{
-        return(cCommandDescriptorScsi(Buffer, 1));
-}
+        cCommandDescriptorScsi cCommandDescriptorScsi::Writer(std::shared_ptr<IBuffer> Buffer)
+        {
+            CreateUUID(FormatType);
+            return(cCommandDescriptorScsi(Buffer, FormatType));
+        }
 
-    cCommandDescriptorScsi cCommandDescriptorScsi::Modifier(std::shared_ptr<cBufferInterface> Buffer)
-{
-        return(cCommandDescriptorScsi(Buffer));
-}
+        cCommandDescriptorScsi cCommandDescriptorScsi::Modifier(std::shared_ptr<IBuffer> Buffer)
+        {
+            return(cCommandDescriptorScsi(Buffer));
+        }
 
-    cCommandDescriptorScsi::cCommandDescriptorScsi(std::shared_ptr<cBufferInterface> Buffer) :
-cCommandDescriptor(Buffer)
-{
+        cCommandDescriptorScsi::cCommandDescriptorScsi(std::shared_ptr<IBuffer> Buffer) :
+            cCommandDescriptor(Buffer)
+        {
+        }
 
-}
+        cCommandDescriptorScsi::cCommandDescriptorScsi(std::shared_ptr<IBuffer> Buffer, const UUID& Format) :
+            cCommandDescriptor(Buffer, Format)
+        {
+        }
 
-    cCommandDescriptorScsi::cCommandDescriptorScsi(std::shared_ptr<cBufferInterface> Buffer, U32 Format) :
-cCommandDescriptor(Buffer, Format)
-{
-    
-}
+        cCommandDescriptorScsi::cCommandDescriptorScsi(std::shared_ptr<const IBuffer> Buffer) :
+            cCommandDescriptor(Buffer)
+        {
+        }
 
-    cCommandDescriptorScsi::cCommandDescriptorScsi(std::shared_ptr<const cBufferInterface> Buffer) :
-cCommandDescriptor(Buffer)
-{
-    
-}
+        StorageUtility::Scsi::uCommandInputFields& cCommandDescriptorScsi::GetCommandInputFields()
+        {
+            U8* buffer = m_Buffer->ToDataBuffer();
+            return((StorageUtility::Scsi::uCommandInputFields&)buffer[CDB_FIELDS_OFFSET]);
+        }
 
-    StorageUtility::Scsi::sCdbFields& cCommandDescriptorScsi::GetCdbFields()
-{
-    U8* buffer = m_Buffer->ToDataBuffer();
-    return( (StorageUtility::Scsi::sCdbFields&)buffer[CDB_FIELDS_OFFSET] );
-}
+        const StorageUtility::Scsi::uCommandInputFields& cCommandDescriptorScsi::GetCommandInputFields() const
+        {
+            const U8* buffer = m_Buffer->ToDataBuffer();
+            return((StorageUtility::Scsi::uCommandInputFields&)buffer[CDB_FIELDS_OFFSET]);
+        }
 
-    const StorageUtility::Scsi::sCdbFields& cCommandDescriptorScsi::GetCdbFields() const
-{
-    const U8* buffer = m_Buffer->ToDataBuffer();
-    return((StorageUtility::Scsi::sCdbFields&)buffer[CDB_FIELDS_OFFSET]);
-}
+        StorageUtility::Scsi::sCommandCharacteristics& cCommandDescriptorScsi::GetCommandCharacteristics()
+        {
+            U8* buffer = m_Buffer->ToDataBuffer();
+            return((StorageUtility::Scsi::sCommandCharacteristics&)buffer[COMMAND_CHARACTERISTICS_OFFSET]);
+        }
 
-    StorageUtility::Scsi::sCommandCharacteristics& cCommandDescriptorScsi::GetCommandCharacteristics()
-{
-    U8* buffer = m_Buffer->ToDataBuffer();
-    return( (StorageUtility::Scsi::sCommandCharacteristics&)buffer[COMMAND_CHARACTERISTICS_OFFSET] );
-}
-
-    const StorageUtility::Scsi::sCommandCharacteristics& cCommandDescriptorScsi::GetCommandCharacteristics() const
-{
-    const U8* buffer = m_Buffer->ToDataBuffer();
-    return((StorageUtility::Scsi::sCommandCharacteristics&)buffer[COMMAND_CHARACTERISTICS_OFFSET]);
-}
-
-}
+        const StorageUtility::Scsi::sCommandCharacteristics& cCommandDescriptorScsi::GetCommandCharacteristics() const
+        {
+            const U8* buffer = m_Buffer->ToDataBuffer();
+            return((StorageUtility::Scsi::sCommandCharacteristics&)buffer[COMMAND_CHARACTERISTICS_OFFSET]);
+        }
+    }
 }

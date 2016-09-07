@@ -21,32 +21,29 @@ namespace vtStor
 {
     const size_t cCommandDescriptor::DEVICE_HANDLE_OFFSET = cBufferFormatter::DATA_OFFSET;
 
-    cCommandDescriptor cCommandDescriptor::Reader(std::shared_ptr<const cBufferInterface> Buffer)
+    cCommandDescriptor cCommandDescriptor::Reader(std::shared_ptr<const IBuffer> Buffer)
     {
         return(cCommandDescriptor(Buffer));
     }
 
-    cCommandDescriptor cCommandDescriptor::Modifier(std::shared_ptr<cBufferInterface> Buffer)
+    cCommandDescriptor cCommandDescriptor::Modifier(std::shared_ptr<IBuffer> Buffer)
     {
         return(cCommandDescriptor(Buffer));
     }
 
-    cCommandDescriptor::cCommandDescriptor(std::shared_ptr<cBufferInterface> Buffer) :
+    cCommandDescriptor::cCommandDescriptor(std::shared_ptr<IBuffer> Buffer) :
         cBufferFormatter(Buffer)
     {
-
     }
 
-    cCommandDescriptor::cCommandDescriptor(std::shared_ptr<cBufferInterface> Buffer, U32 Format) :
+    cCommandDescriptor::cCommandDescriptor(std::shared_ptr<IBuffer> Buffer, const UUID& Format) :
         cBufferFormatter(Buffer, Format)
     {
-
     }
 
-    cCommandDescriptor::cCommandDescriptor(std::shared_ptr<const cBufferInterface> Buffer) :
+    cCommandDescriptor::cCommandDescriptor(std::shared_ptr<const IBuffer> Buffer) :
         cBufferFormatter(Buffer)
     {
-
     }
     
     DeviceHandle& cCommandDescriptor::GetDeviceHandle()
@@ -60,5 +57,4 @@ namespace vtStor
         const U8* buffer = m_Buffer->ToDataBuffer();
         return((DeviceHandle&)buffer[DEVICE_HANDLE_OFFSET]);
     }
-
 }

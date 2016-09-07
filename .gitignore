@@ -57,3 +57,9 @@ vtStorManaged.Test/obj/
 vtStor - Copy.opensdf
 Common/BusType.h
 Common/DeviceDataType.h
+
+# Intermediate files
+**/*Debug/Intermediate
+**/*Release/Intermediate
+vtStorManaged/BusTypeManaged.h
+vtStor.VC.opendb

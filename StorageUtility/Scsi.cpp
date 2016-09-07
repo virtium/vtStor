@@ -24,9 +24,7 @@ namespace vtStor
     {
         namespace Scsi
         {
-
             const U32 SCSI_SECTOR_SIZE_IN_BYTES = 512;
-
         }
     }
 }

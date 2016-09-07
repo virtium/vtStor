@@ -19,15 +19,17 @@ limitations under the License.
 #include <memory>
 
 #include "DriveEnumeratorAtaManaged.h"
-#include "vtStorAta.h"
 
 namespace vtStor
 {
     namespace Managed
     {
-        cDriveEnumeratorAta::cDriveEnumeratorAta()
+        cDriveEnumeratorAta::cDriveEnumeratorAta(IRunTimeDll^ RunTimeDll, cDriveEnumeratorInterface^ DriveEnumerateDecorator)
         {
-            vtStorAtaInit( *m_DriveEnumerator );
+            GetDriveEnumeratorDecoratorDelegate getDriveEnumeratorDecoratorDelegate = (GetDriveEnumeratorDecoratorDelegate)RunTimeDll->GetFunction("cDriveEnumeratorAta_GetDriveEnumerator");
+            std::shared_ptr<vtStor::IDriveEnumerator> driveEnumerator = *reinterpret_cast<std::shared_ptr<vtStor::IDriveEnumerator>*>((void*)DriveEnumerateDecorator);
+            
+            getDriveEnumeratorDecoratorDelegate(*m_DriveEnumerator, driveEnumerator);
         }
 
         cDriveEnumeratorAta::~cDriveEnumeratorAta()
@@ -40,7 +42,7 @@ namespace vtStor
 
         cDriveEnumeratorAta::operator void*()
         {
-            return( vtStor::cDriveEnumeratorInterface::ToVoidPointer( *m_DriveEnumerator ) );
+            return(reinterpret_cast<void*>(&(*m_DriveEnumerator)));
         }
     }
 }

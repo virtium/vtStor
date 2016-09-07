@@ -1,6 +1,6 @@
 /*
 <License>
-Copyright 2015 Virtium Technology
+Copyright 2016 Virtium Technology
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,14 +16,14 @@ limitations under the License.
 </License>
 */
 
-#include "Drive.h"
+#include "IDevice.h"
 #include "DriveInterfaceManaged.h"
 
 namespace vtStor
 {
     namespace Managed
     {
-        cDriveInterface::cDriveInterface( std::shared_ptr<vtStor::cDriveInterface> Drive )
+        cDriveInterface::cDriveInterface( std::shared_ptr<vtStor::IDrive> Drive )
         {
             m_Drive = Drive;
         }
@@ -38,17 +38,17 @@ namespace vtStor
 
         cDriveInterface::operator void*()
         {
-            return( vtStor::cDriveInterface::ToVoidPointer( *m_Drive ) );
+            return(reinterpret_cast<void*>(&(*m_Drive)));
         }
 
         void cDriveInterface::RegisterCommandHandler(U32 CommandType, vtStor::Managed::cCommandHandlerInterface^ CommandHandler)
         {
-            m_Drive->RegisterCommandHandler(CommandType, vtStor::cCommandHandlerInterface::ToSharedPtr(*CommandHandler));
+            m_Drive->RegisterCommandHandler(CommandType, *reinterpret_cast<std::shared_ptr<vtStor::ICommandHandler>* > ((void*)*CommandHandler));
         }
 
         eErrorCode cDriveInterface::IssueCommand(U32 CommandType, vtStor::Managed::cBufferInterface^ CommandDescriptor, vtStor::Managed::cBufferInterface^ Data)
         {
-            return( m_Drive->IssueCommand( CommandType, vtStor::cBufferInterface::ToSharedPtr( *CommandDescriptor ), vtStor::cBufferInterface::ToSharedPtr( *Data ) ) );
+            return(m_Drive->IssueCommand(CommandType, *reinterpret_cast<std::shared_ptr<vtStor::IBuffer>*>((void*)*CommandDescriptor), *reinterpret_cast<std::shared_ptr<vtStor::IBuffer>*>((void*)*Data)));
         }
 
         vtStor::Managed::eBusType cDriveInterface::GetBusType()
@@ -56,16 +56,15 @@ namespace vtStor
             return (static_cast<vtStor::Managed::eBusType>(m_Drive->GetBusType()));
         }
 
-        System::String^ cDriveInterface::GetDevicePath()
+        DriveProperties^ cDriveInterface::GetDriveProperties()
         {
-            // Get Drive instance from the current DriveInterface
-            std::shared_ptr<vtStor::cDrive> drive = std::dynamic_pointer_cast<vtStor::cDrive>(*m_Drive);
+            std::shared_ptr<vtStor::sDriveProperties> driveProperties = m_Drive->GetDriveProperties();
 
-            // Retrieve DevicePath from drive
-            tchar* devicePath;
-            drive->DevicePath(devicePath);
+            DriveProperties^ drivePropertiesReturn = gcnew DriveProperties();
+            drivePropertiesReturn->PhysicalDiskNumber = driveProperties->PhysicalDiskNumber;
+            drivePropertiesReturn->DevicePath = gcnew System::String(driveProperties->DevicePath);
 
-            return(gcnew System::String(devicePath));
+            return(drivePropertiesReturn);
         }
     }
 }

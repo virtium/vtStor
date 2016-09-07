@@ -1,6 +1,6 @@
 /*
 <License>
-Copyright 2015 Virtium Technology
+Copyright 2016 Virtium Technology
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -15,56 +15,79 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
+
+#include "Device.h"
+#include "DriveAta.h"
+#include "DriveEnumeratorAta.h"
+#include "ProtocolAtaPassThrough.h"
 #include "StorageUtility.h"
 
-#include "vtStorAta.h"
-#include "DriveAta.h"
-#include "ProtocolAtaPassThrough.h"
-
-#include "DriveEnumeratorAta.h"
-#include "Device.h"
+void cDriveEnumeratorAta_GetDriveEnumerator(std::shared_ptr<vtStor::IDriveEnumerator>& DriveEnumerator, const std::shared_ptr<vtStor::IDriveEnumerator>& DecoratedDriveEnumerator)
+{
+    DriveEnumerator = std::shared_ptr<vtStor::IDriveEnumerator>(new vtStor::cDriveEnumeratorAta(DecoratedDriveEnumerator));
+}
 
 namespace vtStor
 {
- 
-cDriveEnumeratorAta::~cDriveEnumeratorAta()
-{
-
-}
-
-std::shared_ptr<cDriveInterface> cDriveEnumeratorAta::EnumerateDrive(const std::shared_ptr<cDeviceInterface>& Device)
-{
-    DeviceHandle deviceHandle;
-    eErrorCode errorCode;
-
-    try
+    cDriveEnumeratorAta::cDriveEnumeratorAta(std::shared_ptr<IDriveEnumerator> DecoratedDriveEnumerator) : cDriveEnumerateDecorator(DecoratedDriveEnumerator)
     {
-        deviceHandle = Device->Handle();
-    }
-    catch (std::exception ex)
-    {
-        //fprintf(stderr, "\nEnumerateDrive was not successful. Exception:%s.", ex.what());
-        //TODO: handle error
-        return( nullptr );
     }
 
-    sStorageAdapterProperty storageAdapterProperty;
-    errorCode = GetStorageAdapterProperty( deviceHandle, storageAdapterProperty );
-
-    if ( eErrorCode::None != errorCode )
+    cDriveEnumeratorAta::~cDriveEnumeratorAta()
     {
-        //TODO: handle error
-        return( nullptr );
     }
 
-    if ( true == IsAtaDeviceBus( storageAdapterProperty ) )
+    // TODO: remove duplicated code on DriveEnumerateAta and DriveEnumerateScsi
+    std::shared_ptr<IDrive> cDriveEnumeratorAta::DoEnumerate(const std::shared_ptr<IDevice>& Device)
     {
-        std::shared_ptr<cDriveInterface> drive = std::make_shared<cDriveAta>(Device, deviceHandle);
+        DeviceHandle deviceHandle;
+        eErrorCode errorCode;
 
-        return( drive );
+        try
+        {
+            deviceHandle = Device->Handle();
+        }
+        catch (std::exception ex)
+        {
+            //fprintf(stderr, "\nEnumerateDrive was not successful. Exception:%s.", ex.what());
+            //TODO: handle error
+            return(nullptr);
+        }
+
+        sStorageAdapterProperty storageAdapterProperty;
+        errorCode = GetStorageAdapterProperty(deviceHandle, storageAdapterProperty);
+
+        if (eErrorCode::None != errorCode)
+        {
+            //TODO: handle error
+            return(nullptr);
+        }
+
+        U32 physicalDiskNumber;
+        errorCode = GetPhysicalDiskNumber(deviceHandle, physicalDiskNumber);
+        if (eErrorCode::None != errorCode)
+        {
+            //TODO: handle error
+            return(nullptr);
+        }
+
+        tchar* devicePath;
+        Device->DevicePath(devicePath);
+
+        // Add drive propeties to the container
+        std::shared_ptr<vtStor::sDriveProperties> driveProperties = std::make_shared<vtStor::sDriveProperties>();
+        driveProperties->PhysicalDiskNumber = physicalDiskNumber;
+        driveProperties->DevicePath = devicePath;
+
+        if (true == IsAtaDeviceBus(storageAdapterProperty))
+        {
+            deviceHandle.Bus = eBusType::Ata;
+            std::shared_ptr<IDrive> drive = std::make_shared<cDriveAta>(Device, deviceHandle, driveProperties);
+
+            return(drive);
+        }
+
+        vtStor::CloseDeviceHandle(deviceHandle);
+        return(nullptr);
     }
-
-    return( nullptr );
-}
-
 }

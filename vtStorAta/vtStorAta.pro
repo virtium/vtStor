@@ -11,24 +11,24 @@ DEFINES += VTSTORATA_LIBRARY
 QMAKE_CXXFLAGS += -fpermissive
 
 SOURCES += DriveEnumeratorAta.cpp \
-    DriveAtaCommandExtensions.cpp \
     DriveAta.cpp \
     CommandHandlerAta.cpp \
-    CommandDescriptorUtility.cpp \
-    vtStorAta.cpp
+    CommandDescriptorAta.cpp \
+    AtaCommandExtensions.cpp \
+    TrimBufferFormatter.cpp \
 
-HEADERS +=  vtStorAta.h \
-    DriveEnumeratorAta.h \
-    DriveAtaCommandExtensions.h \
+
+HEADERS += DriveEnumeratorAta.h \
     DriveAta.h \
     CommandHandlerAta.h \
-    CommandDescriptorUtility.h \
-    Platform/Linux/vtStorAtaPlatformDefines.h
+    CommandDescriptorAta.h \
+    AtaCommandExtensions.h \
+    TrimBufferFormatter.h
 
 symbian {
     MMP_RULES += EXPORTUNFROZEN
     TARGET.UID3 = 0xE5F0BAEB
-    TARGET.CAPABILITY = 
+    TARGET.CAPABILITY =
     TARGET.EPOCALLOWDLLDATA = 1
     addFiles.sources = vtStorAta.dll
     addFiles.path = !:/sys/bin
@@ -44,10 +44,12 @@ unix:!symbian {
     INSTALLS += target
 }
 
-INCLUDEPATH += "../../vtStorAtaProtocol" "../../vtStorAtaProtocol/Platform/Linux" "../../vtStorAta/Platform/Linux" "../../Common" "../../Common/Platform/x86x64" "../../Common/Platform/x86x64/Linux" "../../StorageUtility" "../../StorageUtility/Linux" "../../vtStor" "../../vtStor/Platform/Linux"
-
+INCLUDEPATH += "../Extern" "../vtStorAtaProtocol" "../vtStorAtaProtocol/Platform/Linux" "../vtStorAta/Platform/Linux" "../Common" "../Common/Platform/x86x64" "../Common/Platform/x86x64/Linux" "../StorageUtility" "../StorageUtility/Linux" "../vtStor" "../vtStor/Platform/Linux"
 
 CONFIG(release, debug|release) {
+
+    DESTDIR = ../Build_vtStorAta/Release
+    OBJECTS_DIR = ../Build_vtStorAta/Release
 
     unix:!macx:!symbian: LIBS += -L$$PWD/../Build_StorageUtility/Release/ -lStorageUtility
 
@@ -69,6 +71,9 @@ CONFIG(release, debug|release) {
 
 CONFIG(debug, debug|release) {
 
+    DESTDIR = ../Build_vtStorAta/Debug
+    OBJECTS_DIR = ../Build_vtStorAta/Debug
+
     unix:!macx:!symbian: LIBS += -L$$PWD/../Build_StorageUtility/Debug/ -lStorageUtility
 
     INCLUDEPATH += $$PWD/../Build_StorageUtility/Debug
@@ -86,3 +91,6 @@ CONFIG(debug, debug|release) {
     INCLUDEPATH += $$PWD/../Build_vtStorAtaProtocol/Debug
     DEPENDPATH += $$PWD/../Build_vtStorAtaProtocol/Debug
 }
+
+OTHER_FILES += \
+    Common.props

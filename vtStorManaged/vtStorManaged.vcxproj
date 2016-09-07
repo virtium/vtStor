@@ -43,6 +43,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <PlatformToolset>v120</PlatformToolset>
     <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
     <CLRSupport>true</CLRSupport>
     <WholeProgramOptimization>false</WholeProgramOptimization>
@@ -50,6 +51,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <PlatformToolset>v120</PlatformToolset>
     <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
     <CLRSupport>true</CLRSupport>
     <WholeProgramOptimization>false</WholeProgramOptimization>
@@ -60,16 +62,20 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="Common.props" />
+    <Import Project="..\ManagedCppCommon.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="Common.props" />
+    <Import Project="..\ManagedCppCommon.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="Common.props" />
+    <Import Project="..\ManagedCppCommon.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="Common.props" />
+    <Import Project="..\ManagedCppCommon.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -100,7 +106,6 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile />
     </ClCompile>
     <Link>
@@ -114,7 +119,6 @@
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile />
     </ClCompile>
     <Link>
@@ -125,7 +129,6 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile />
@@ -137,7 +140,6 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile />
@@ -149,12 +151,20 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BufferInterfaceManaged.h" />
+    <ClInclude Include="DriveEnumeratorManaged.h" />
     <ClInclude Include="CommandHandlerInterfaceManaged.h" />
+    <ClInclude Include="DataCommandStructureManaged.h" />
     <ClInclude Include="DriveEnumeratorInterfaceManaged.h" />
     <ClInclude Include="DriveInterfaceManaged.h" />
     <ClInclude Include="DriveManagerInterfaceManaged.h" />
+    <ClInclude Include="DrivePropertiesManaged.h" />
+    <ClInclude Include="ILoadRunTimeDll.h" />
+    <ClInclude Include="IRunTimeDll.h" />
+    <ClInclude Include="LoadRunTimeDll.h" />
     <ClInclude Include="LockManaged.h" />
+    <ClInclude Include="OverlappedManaged.h" />
     <ClInclude Include="ProtocolInterfaceManaged.h" />
+    <ClInclude Include="RunTimeDll.h" />
     <ClInclude Include="SharedPtrManaged.h" />
     <ClInclude Include="UniquePtrManaged.h" />
   </ItemGroup>
@@ -163,6 +173,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="DriveEnumeratorManaged.cpp" />
     <ClCompile Include="CommandHandlerInterfaceManaged.cpp" />
     <ClCompile Include="DriveEnumeratorInterfaceManaged.cpp" />
     <ClCompile Include="DriveInterfaceManaged.cpp">
@@ -173,12 +184,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="LoadRunTimeDll.cpp" />
+    <ClCompile Include="OverlappedManaged.cpp" />
     <ClCompile Include="ProtocolInterfaceManaged.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\vtStor\vtStor.vcxproj">
-      <Project>{2595ae3d-ff40-47c4-b050-55d450843934}</Project>
-    </ProjectReference>
+    <ClCompile Include="RunTimeDll.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

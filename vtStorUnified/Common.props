@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <OutDir>$(ProjectDir)$(Platform)$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)$(Platform)$(Configuration)\Intermediate\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)Common;$(SolutionDir)Common\Platform\x86x64;$(SolutionDir)Common\Platform\x86x64\Windows;$(ProjectDir)Platform\Windows;$(SolutionDir)StorageUtility;$(SolutionDir)StorageUtility\Internal\Windows;$(SolutionDir)Extern;$(SolutionDir)vtStor;$(SolutionDir)vtStor\Internal;$(SolutionDir)vtStorAta;$(SolutionDir)vtStorAta\Internal;$(SolutionDir)vtStorAtaProtocol;$(SolutionDir)vtStorAtaProtocol\Platform\Windows;$(SolutionDir)vtStorScsi;$(SolutionDir)vtStorScsi\Internal;$(SolutionDir)vtStorScsiProtocol;$(SolutionDir)vtStorScsiProtocol\Platform\Windows;</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>VTSTOR_DLL_EXPORTS;VT_STOR_ATA_DLL_EXPORTS;VT_STOR_ATA_PROTOCOL_DLL_EXPORTS;VT_STOR_SCSI_DLL_EXPORTS;VT_STOR_SCSI_PROTOCOL_DLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <PostBuildEvent>
+      <Command>cd $(SolutionDir)
+python Build\BuildEventer.py Build\BuildEventer.xml $(ProjectName) $(Platform) $(Configuration)</Command>
+    </PostBuildEvent>
+    <Link>
+      <AdditionalDependencies>setupapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PreBuildEvent>
+      <Command>python $(SolutionDir)GenerateFiles\GenerateFiles.py $(SolutionDir)Common\ErrorCodes.h $(SolutionDir)GenerateFiles\ErrorCodesTemplate.h $(SolutionDir)GenerateFiles\ErrorCodes.xml
+python $(SolutionDir)GenerateFiles\GenerateFiles.py $(SolutionDir)Common\ScanForHardwareChanges.h $(SolutionDir)GenerateFiles\ScanForHardwareChangesTemplate.h $(SolutionDir)GenerateFiles\ScanForHardwareChanges.xml
+python $(SolutionDir)GenerateFiles\GenerateFiles.py $(SolutionDir)Common\BusType.h $(SolutionDir)GenerateFiles\BusTypeTemplate.h $(SolutionDir)GenerateFiles\BusType.xml
+python $(SolutionDir)GenerateFiles\GenerateFiles.py $(SolutionDir)Common\DeviceDataType.h $(SolutionDir)GenerateFiles\DeviceDataTypeTemplate.h $(SolutionDir)GenerateFiles\DeviceDataType.xml</Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup />
+</Project>

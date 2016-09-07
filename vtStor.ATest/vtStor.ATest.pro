@@ -8,11 +8,13 @@ TEMPLATE = app
 
 SOURCES += main.cpp
 
-INCLUDEPATH += "../../vtStorAta" "../../vtStorAta/Platform/Linux" "../../vtStorAtaProtocol" "../../vtStorAtaProtocol/Platform/Linux" "../../vtStorAta/Platform/Linux" "../../Common" "../../Common/Platform/x86x64" "../../Common/Platform/x86x64/Linux" "../../StorageUtility" "../../StorageUtility/Linux" "../../vtStor" "../../vtStor/Platform/Linux"
-
-
+INCLUDEPATH += "../Extern" "../vtStorAta" "../vtStorAta/Platform/Linux" "../vtStorAtaProtocol" "../vtStorAtaProtocol/Platform/Linux" "../vtStorAta/Platform/Linux" "../vtStorScsi" "../vtStorScsi/Platform/Linux" "../vtStorScsiProtocol" "../vtStorScsiProtocol/Platform/Linux" "../vtStorScsi/Platform/Linux" "../Common" "../Common/Platform/x86x64" "../Common/Platform/x86x64/Linux" "../StorageUtility" "../StorageUtility/Linux" "../vtStor" "../vtStor/Platform/Linux"
 
 CONFIG(release, debug|release) {
+
+    DESTDIR = ../Build_vtStor.ATest/Release
+    OBJECTS_DIR = ../Build_vtStor.ATest/Release
+
     unix:!macx:!symbian: LIBS += -L$$PWD/../Build_StorageUtility/Release/ -lStorageUtility
 
     INCLUDEPATH += $$PWD/../Build_StorageUtility/Release
@@ -35,9 +37,22 @@ CONFIG(release, debug|release) {
     INCLUDEPATH += $$PWD/../Build_vtStorAta/Release
     DEPENDPATH += $$PWD/../Build_vtStorAta/Release
 
+    unix:!macx:!symbian: LIBS += -L$$PWD/../Build_vtStorScsiProtocol/Release/ -lvtStorScsiProtocol
+
+    INCLUDEPATH += $$PWD/../Build_vtStorScsiProtocol/Release
+    DEPENDPATH += $$PWD/../Build_vtStorScsiProtocol/Release
+
+    unix:!macx:!symbian: LIBS += -L$$PWD/../Build_vtStorScsi/Release/ -lvtStorScsi
+
+    INCLUDEPATH += $$PWD/../Build_vtStorScsi/Release
+    DEPENDPATH += $$PWD/../Build_vtStorScsi/Release
 }
 
 CONFIG(debug, debug|release) {
+
+    DESTDIR = ../Build_vtStor.ATest/Debug
+    OBJECTS_DIR = ../Build_vtStor.ATest/Debug
+
     unix:!macx:!symbian: LIBS += -L$$PWD/../Build_StorageUtility/Debug/ -lStorageUtility
 
     INCLUDEPATH += $$PWD/../Build_StorageUtility/Debug
@@ -60,6 +75,15 @@ CONFIG(debug, debug|release) {
     INCLUDEPATH += $$PWD/../Build_vtStorAta/Debug
     DEPENDPATH += $$PWD/../Build_vtStorAta/Debug
 
+    unix:!macx:!symbian: LIBS += -L$$PWD/../Build_vtStorScsiProtocol/Debug/ -lvtStorScsiProtocol
+
+    INCLUDEPATH += $$PWD/../Build_vtStorScsiProtocol/Debug
+    DEPENDPATH += $$PWD/../Build_vtStorScsiProtocol/Debug
+
+    unix:!macx:!symbian: LIBS += -L$$PWD/../Build_vtStorScsi/Debug/ -lvtStorScsi
+
+    INCLUDEPATH += $$PWD/../Build_vtStorScsi/Debug
+    DEPENDPATH += $$PWD/../Build_vtStorScsi/Debug
 }
 
 unix:!macx:!symbian: LIBS += -ludev

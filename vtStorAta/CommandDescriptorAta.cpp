@@ -16,74 +16,76 @@ limitations under the License.
 </License>
 */
 #include "CommandDescriptorAta.h"
+#include "StorageUtility.h"
 
 namespace vtStor
 {
-namespace Ata
-{
+    namespace Ata
+    {
+        const size_t cCommandDescriptorAta::COMMAND_FIELDS_OFFSET = cCommandDescriptor::DATA_OFFSET + sizeof(sDeviceHandle);
+        const size_t cCommandDescriptorAta::COMMAND_CHARACTERISTICS_OFFSET = cCommandDescriptorAta::COMMAND_FIELDS_OFFSET + sizeof(StorageUtility::Ata::uCommandFields);
 
-const size_t cCommandDescriptorAta::COMMAND_FIELDS_OFFSET = cCommandDescriptor::DEVICE_HANDLE_OFFSET + sizeof(DeviceHandle);
-const size_t cCommandDescriptorAta::COMMAND_CHARACTERISTICS_OFFSET = cCommandDescriptorAta::COMMAND_FIELDS_OFFSET + sizeof(StorageUtility::Ata::uCommandFields);
+        //! IMPORTANT NOTE: this must be updated to use the very last item
+        const size_t cCommandDescriptorAta::SIZE_IN_BYTES = COMMAND_CHARACTERISTICS_OFFSET + sizeof(StorageUtility::Ata::sCommandCharacteristic);
+        UUID cCommandDescriptorAta::FormatType;
 
-//! IMPORTANT NOTE: this must be updated to use the very last item
-const size_t cCommandDescriptorAta::SIZE_IN_BYTES = COMMAND_CHARACTERISTICS_OFFSET + sizeof(StorageUtility::Ata::sCommandCharacteristic);
+        cCommandDescriptorAta cCommandDescriptorAta::Reader(std::shared_ptr<const IBuffer> Buffer)
+        {
+            return(cCommandDescriptorAta(Buffer));
+        }
 
-cCommandDescriptorAta cCommandDescriptorAta::Reader(std::shared_ptr<const cBufferInterface> Buffer)
-{
-    return(cCommandDescriptorAta(Buffer));
-}
+        cCommandDescriptorAta cCommandDescriptorAta::Writer(std::shared_ptr<IBuffer> Buffer)
+        {
+            CreateUUID(FormatType);
+            return(cCommandDescriptorAta(Buffer, FormatType));
+        }
 
-cCommandDescriptorAta cCommandDescriptorAta::Writer(std::shared_ptr<cBufferInterface> Buffer)
-{
-    return(cCommandDescriptorAta(Buffer, 1));
-}
+        cCommandDescriptorAta cCommandDescriptorAta::Modifier(std::shared_ptr<IBuffer> Buffer)
+        {
+            return(cCommandDescriptorAta(Buffer));
+        }
 
-cCommandDescriptorAta cCommandDescriptorAta::Modifier(std::shared_ptr<cBufferInterface> Buffer)
-{
-    return(cCommandDescriptorAta(Buffer));
-}
+        cCommandDescriptorAta::cCommandDescriptorAta(std::shared_ptr<IBuffer> Buffer) :
+            cCommandDescriptor(Buffer)
+        {
 
-cCommandDescriptorAta::cCommandDescriptorAta(std::shared_ptr<cBufferInterface> Buffer) :
-cCommandDescriptor(Buffer)
-{
+        }
 
-}
+        cCommandDescriptorAta::cCommandDescriptorAta(std::shared_ptr<IBuffer> Buffer, const UUID& Format) :
+            cCommandDescriptor(Buffer, Format)
+        {
 
-cCommandDescriptorAta::cCommandDescriptorAta(std::shared_ptr<cBufferInterface> Buffer, U32 Format) :
-cCommandDescriptor(Buffer, Format)
-{
-    
-}
+        }
 
-cCommandDescriptorAta::cCommandDescriptorAta( std::shared_ptr<const cBufferInterface> Buffer ) :
-cCommandDescriptor(Buffer)
-{
-    
-}
+        cCommandDescriptorAta::cCommandDescriptorAta(std::shared_ptr<const IBuffer> Buffer) :
+            cCommandDescriptor(Buffer)
+        {
 
-StorageUtility::Ata::uCommandFields& cCommandDescriptorAta::GetCommandFields()
-{
-    U8* buffer = m_Buffer->ToDataBuffer();
-    return( (StorageUtility::Ata::uCommandFields&)buffer[COMMAND_FIELDS_OFFSET] );
-}
+        }
 
-const StorageUtility::Ata::uCommandFields& cCommandDescriptorAta::GetCommandFields() const
-{
-    const U8* buffer = m_Buffer->ToDataBuffer();
-    return((StorageUtility::Ata::uCommandFields&)buffer[COMMAND_FIELDS_OFFSET]);
-}
+        StorageUtility::Ata::uCommandFields& cCommandDescriptorAta::GetCommandFields()
+        {
+            U8* buffer = m_Buffer->ToDataBuffer();
+            return((StorageUtility::Ata::uCommandFields&)buffer[COMMAND_FIELDS_OFFSET]);
+        }
 
-StorageUtility::Ata::sCommandCharacteristic& cCommandDescriptorAta::GetCommandCharacteristics()
-{
-    U8* buffer = m_Buffer->ToDataBuffer();
-    return( (StorageUtility::Ata::sCommandCharacteristic&)buffer[COMMAND_CHARACTERISTICS_OFFSET] );
-}
+        const StorageUtility::Ata::uCommandFields& cCommandDescriptorAta::GetCommandFields() const
+        {
+            const U8* buffer = m_Buffer->ToDataBuffer();
+            return((StorageUtility::Ata::uCommandFields&)buffer[COMMAND_FIELDS_OFFSET]);
+        }
 
-const StorageUtility::Ata::sCommandCharacteristic& cCommandDescriptorAta::GetCommandCharacteristics() const
-{
-    const U8* buffer = m_Buffer->ToDataBuffer();
-    return((StorageUtility::Ata::sCommandCharacteristic&)buffer[COMMAND_CHARACTERISTICS_OFFSET]);
-}
+        StorageUtility::Ata::sCommandCharacteristic& cCommandDescriptorAta::GetCommandCharacteristics()
+        {
+            U8* buffer = m_Buffer->ToDataBuffer();
+            return((StorageUtility::Ata::sCommandCharacteristic&)buffer[COMMAND_CHARACTERISTICS_OFFSET]);
+        }
 
-}
+        const StorageUtility::Ata::sCommandCharacteristic& cCommandDescriptorAta::GetCommandCharacteristics() const
+        {
+            const U8* buffer = m_Buffer->ToDataBuffer();
+            return((StorageUtility::Ata::sCommandCharacteristic&)buffer[COMMAND_CHARACTERISTICS_OFFSET]);
+        }
+
+    }
 }

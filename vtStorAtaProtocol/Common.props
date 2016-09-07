@@ -5,7 +5,7 @@
   <PropertyGroup />
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Platform\Windows;$(SolutionDir)vtStor\Platform\Windows;$(SolutionDir)Common\Platform\x86x64\Windows;$(SolutionDir);$(SolutionDir)Common\Platform\x86x64;$(SolutionDir)Common;$(SolutionDir)vtStor;$(SolutionDir)StorageUtility</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Platform\Windows;$(SolutionDir)vtStor\Platform\Windows;$(SolutionDir)Common\Platform\x86x64\Windows;$(SolutionDir);$(SolutionDir)Common\Platform\x86x64;$(SolutionDir)Common;$(SolutionDir)vtStor;$(SolutionDir)StorageUtility;$(SolutionDir)Extern;$(SolutionDir)StorageUtility\Internal\Windows</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>VT_STOR_ATA_PROTOCOL_DLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <PostBuildEvent>

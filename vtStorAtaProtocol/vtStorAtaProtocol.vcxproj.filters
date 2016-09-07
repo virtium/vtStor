@@ -7,6 +7,12 @@
     <ClCompile Include="Platform\Windows\ProtocolAtaPassThrough.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Platform\Windows\ProtocolAsynIo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AsynIoProtocolEssense.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AtaProtocolEssense1.h">
@@ -15,7 +21,10 @@
     <ClInclude Include="Platform\Windows\ProtocolAtaPassThrough.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Platform\Windows\vtStorAtaProtocolPlatformDefines.h">
+    <ClInclude Include="Platform\Windows\ProtocolAsynIo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AsynIoProtocolEssense.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

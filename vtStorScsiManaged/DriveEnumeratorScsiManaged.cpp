@@ -19,15 +19,17 @@ limitations under the License.
 #include <memory>
 
 #include "DriveEnumeratorScsiManaged.h"
-#include "vtStorScsi.h"
 
 namespace vtStor
 {
     namespace Managed
     {
-        cDriveEnumeratorScsi::cDriveEnumeratorScsi()
+        cDriveEnumeratorScsi::cDriveEnumeratorScsi(IRunTimeDll^ RunTimeDll, cDriveEnumeratorInterface^ DriveEnumerateDecorator)
         {
-            vtStorScsiInit( *m_DriveEnumerator );
+            GetDriveEnumeratorDecoratorDelegate getDriveEnumeratorDecoratorDelegate = (GetDriveEnumeratorDecoratorDelegate)RunTimeDll->GetFunction("cDriveEnumeratorScsi_GetDriveEnumerator");
+            std::shared_ptr<vtStor::IDriveEnumerator> driveEnumerator = *reinterpret_cast<std::shared_ptr<vtStor::IDriveEnumerator>*>((void*)DriveEnumerateDecorator);
+
+            getDriveEnumeratorDecoratorDelegate(*m_DriveEnumerator, driveEnumerator);
         }
 
         cDriveEnumeratorScsi::~cDriveEnumeratorScsi()
@@ -40,7 +42,7 @@ namespace vtStor
 
         cDriveEnumeratorScsi::operator void*()
         {
-            return( vtStor::cDriveEnumeratorInterface::ToVoidPointer( *m_DriveEnumerator ) );
+            return(reinterpret_cast<void*>(&(*m_DriveEnumerator)));
         }
     }
 }

@@ -156,18 +156,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AsynIoProtocolEssense.cpp" />
     <ClCompile Include="AtaProtocolEssense1.cpp" />
+    <ClCompile Include="Platform\Windows\ProtocolAsynIo.cpp" />
     <ClCompile Include="Platform\Windows\ProtocolAtaPassThrough.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AsynIoProtocolEssense.h" />
     <ClInclude Include="AtaProtocolEssense1.h" />
+    <ClInclude Include="Platform\Windows\ProtocolAsynIo.h" />
     <ClInclude Include="Platform\Windows\ProtocolAtaPassThrough.h" />
-    <ClInclude Include="Platform\Windows\vtStorAtaProtocolPlatformDefines.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\StorageUtility\StorageUtility.vcxproj">
-      <Project>{0da52eb3-5f61-4919-8b1a-0dc1b50b619f}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\vtStor\vtStor.vcxproj">
       <Project>{2595ae3d-ff40-47c4-b050-55d450843934}</Project>
     </ProjectReference>
