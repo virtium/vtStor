@@ -24,6 +24,12 @@
     <ClInclude Include="AtaCommandExtensionsManaged.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CommandHandlerAsynIoManaged.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AsynIoCommandExtensionsManaged.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DriveEnumeratorAtaManaged.cpp">
@@ -33,6 +39,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AtaCommandExtensionsManaged.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandHandlerAsynIoManaged.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AsynIoCommandExtensionsManaged.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

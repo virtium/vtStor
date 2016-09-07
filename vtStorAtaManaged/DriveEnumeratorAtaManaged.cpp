@@ -24,10 +24,12 @@ namespace vtStor
 {
     namespace Managed
     {
-        cDriveEnumeratorAta::cDriveEnumeratorAta(IRunTimeDll^ RunTimeDll)
+        cDriveEnumeratorAta::cDriveEnumeratorAta(IRunTimeDll^ RunTimeDll, cDriveEnumeratorInterface^ DriveEnumerateDecorator)
         {
-            GetDriveEnumeratorDelegate getDriveEnumeratorDelegate = (GetDriveEnumeratorDelegate)RunTimeDll->GetFunction("cDriveEnumeratorAta_GetDriveEnumerator");
-            getDriveEnumeratorDelegate(*m_DriveEnumerator);
+            GetDriveEnumeratorDecoratorDelegate getDriveEnumeratorDecoratorDelegate = (GetDriveEnumeratorDecoratorDelegate)RunTimeDll->GetFunction("cDriveEnumeratorAta_GetDriveEnumerator");
+            std::shared_ptr<vtStor::IDriveEnumerator> driveEnumerator = *reinterpret_cast<std::shared_ptr<vtStor::IDriveEnumerator>*>((void*)DriveEnumerateDecorator);
+            
+            getDriveEnumeratorDecoratorDelegate(*m_DriveEnumerator, driveEnumerator);
         }
 
         cDriveEnumeratorAta::~cDriveEnumeratorAta()

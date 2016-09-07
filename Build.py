@@ -1,6 +1,6 @@
 # /*
 # <License>
-# Copyright 2015 Virtium Technology
+# Copyright 2016 Virtium Technology
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -20,15 +20,15 @@ import subprocess
 X86                         = "Win32"
 X64                         = "x64"
 RELEASE_NAME                = "Release"
-DEBUG_NAME                  = "Debug"
 RELEASE_DIR                 = "/{0}/".format( RELEASE_NAME )
-LIB_DIR                     = "/{0}/".format( "Lib" )
-DLL_DIR                     = "/{0}/".format( "Dll" )
-SOURCE_DIR                  = "/{0}/".format( "Source" )
+LIB_DIR                     = "/{0}/{1}/".format( "lib","Windows" )
+DLL_DIR                     = "/{0}/".format( "dll" )
+INCLUDE_DIR                 = "/{0}/".format( "inc" )
+EXCLUDE_DIR_NAMES           = { "Internal", "SampleCode", "GenerateFiles" } 
 
 MS_BUILD                    = "MSBuild"
 
-CONFIGURATION_BUILD_TYPE_SET    = { "/p:Configuration={0}".format( RELEASE_NAME ), "/p:Configuration={0}".format( DEBUG_NAME ) } 
+CONFIGURATION_BUILD_TYPE_SET    = { "/p:Configuration={0}".format( RELEASE_NAME ) } 
 
 BUILD_PLATFORM_X86          = "/p:Platform={0}".format( X86 )
 BUILD_PLATFORM_X64          = "/p:Platform={0}".format( X64 )
@@ -38,8 +38,6 @@ projectName                 = "vtStor"
 PROJECTDIR                  = "vtStor_Release"
 RELEASE_LOCAL_DIR_X86       = "./{0}{1}".format( X86, RELEASE_NAME )
 RELEASE_LOCAL_DIR_X64       = "./{0}{1}".format( X64, RELEASE_NAME )
-DEBUG_LOCAL_DIR_X86       = "./{0}{1}".format( X86, DEBUG_NAME )
-DEBUG_LOCAL_DIR_X64       = "./{0}{1}".format( X64, DEBUG_NAME )
 ARCHIVE_TEMP                = "ArchiveTemp"
 ARCHIVE_TEMP_PATH           = "./{0}/".format( ARCHIVE_TEMP )
 
@@ -55,16 +53,12 @@ def Build( iBuildPlatform ) :
 
 def CopyRequireFilesForAllModes ( iConfiguration ) :
     CopyLibsAndDlls( iConfiguration, RELEASE_NAME )
-    CopyLibsAndDlls( iConfiguration, DEBUG_NAME )
 
 def CopyLibsAndDlls( iConfiguration, iBuildType ) :
     sourceDir = "./{0}{1}".format( iConfiguration, iBuildType )
     for file in os.listdir( sourceDir ) :            
-        if file.endswith( ".dll" ) :
-            destDir = ARCHIVE_TEMP_PATH + PROJECTDIR + DLL_DIR + "/{0}".format( iBuildType ) + "/{0}/".format( iConfiguration )
-            CopyAFileToADir( sourceDir, file, destDir)
-        elif file.endswith( ".lib" ) :
-            destDir = ARCHIVE_TEMP_PATH + PROJECTDIR + LIB_DIR + "/{0}".format( iBuildType ) + "/{0}/".format( iConfiguration )
+        if file.endswith( ".dll" ) or file.endswith( ".lib" ):
+            destDir = ARCHIVE_TEMP_PATH + PROJECTDIR + LIB_DIR + "/{0}/".format( iConfiguration )
             CopyAFileToADir( sourceDir, file, destDir)
 
 def CopyAFileToADir( iSourceDir, iFile, iDestDir) :
@@ -106,10 +100,7 @@ def CleanUpRelease() :
 
 def CleanupFiles( iConfiguration ) :
     if X86 == iConfiguration or X64 == iConfiguration :
-        Prune( "/{0}/{1}/{2}/{3}/{4}".format( ARCHIVE_TEMP, PROJECTDIR, LIB_DIR, RELEASE_NAME, iConfiguration ) )
-        Prune( "/{0}/{1}/{2}/{3}/{4}".format( ARCHIVE_TEMP, PROJECTDIR, DLL_DIR, RELEASE_NAME, iConfiguration ) )
-        Prune( "/{0}/{1}/{2}/{3}/{4}".format( ARCHIVE_TEMP, PROJECTDIR, LIB_DIR, DEBUG_NAME, iConfiguration ) )
-        Prune( "/{0}/{1}/{2}/{3}/{4}".format( ARCHIVE_TEMP, PROJECTDIR, DLL_DIR, DEBUG_NAME, iConfiguration ) )
+        Prune( "/{0}/{1}/{2}/{3}".format( ARCHIVE_TEMP, PROJECTDIR, LIB_DIR, iConfiguration ) )
 
 def Prune( iDirPath ) :
     curDir = os.getcwd()
@@ -127,8 +118,8 @@ def BuildTreeOfHeaderFiles() :
         for file in files:
             if file.endswith(".h") :
                 CopyHeaderFile( os.path.join(path, file) )
-    destDir = ARCHIVE_TEMP_PATH + PROJECTDIR + SOURCE_DIR
-    srcDir = "./{0}/".format( "Source" )
+    destDir = ARCHIVE_TEMP_PATH + PROJECTDIR + INCLUDE_DIR
+    srcDir = "./{0}/".format( "inc" )
     if not os.path.exists( destDir ) :
         os.makedirs( destDir )
     for item in os.listdir( srcDir ):
@@ -141,11 +132,20 @@ def BuildTreeOfHeaderFiles() :
     shutil.rmtree( srcDir )
 
 def CopyHeaderFile( iFilePath ) :
-    destDir = os.path.join( os.getcwd(), "Source", os.path.relpath( os.path.dirname( iFilePath ), os.getcwd() ) );
+    currentDir = os.path.relpath( os.path.dirname( iFilePath ), os.getcwd() )
+    if False == CheckExcludeDirectories( currentDir ) :
+        return
+    destDir = os.path.join( os.getcwd(), "inc", os.path.relpath( os.path.dirname( iFilePath ), os.getcwd() ) );
     if not os.path.exists( destDir ) :
         os.makedirs( destDir )
     shutil.copy2( iFilePath,  destDir )
 
+def CheckExcludeDirectories( iFilePath ) :
+    for eachname in EXCLUDE_DIR_NAMES :
+        if( iFilePath.find( eachname ) != -1 ) :
+            return False
+    return True
+    
 # Main entry point
 if __name__ == "__main__":
     # Step 0: Create temporary directory archive

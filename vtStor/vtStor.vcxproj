@@ -156,6 +156,7 @@
     <ClInclude Include="..\Common\ErrorCodes.h" />
     <ClInclude Include="..\Common\Platform\x86x64\BasicTypes.h" />
     <ClInclude Include="..\Common\Platform\x86x64\Windows\PlatformDefines.h" />
+    <ClInclude Include="..\Extern\IAsynIoCommandExtensions.h" />
     <ClInclude Include="..\extern\IAtaCommandExtensions.h" />
     <ClInclude Include="..\extern\IBuffer.h" />
     <ClInclude Include="..\extern\ICommandHandler.h" />
@@ -166,26 +167,32 @@
     <ClInclude Include="..\extern\IProtocol.h" />
     <ClInclude Include="..\extern\IScsiCommandExtensions.h" />
     <ClInclude Include="..\StorageUtility\Ata.h" />
+    <ClInclude Include="..\StorageUtility\Internal\Windows\Device.h" />
+    <ClInclude Include="..\StorageUtility\Internal\Windows\StorageUtility.h" />
     <ClInclude Include="..\StorageUtility\Scsi.h" />
-    <ClInclude Include="..\StorageUtility\Windows\Device.h" />
-    <ClInclude Include="..\StorageUtility\Windows\StorageUtility.h" />
     <ClInclude Include="Buffer.h" />
     <ClInclude Include="BufferFormatter.h" />
     <ClInclude Include="CommandDescriptor.h" />
-    <ClInclude Include="Drive.h" />
-    <ClInclude Include="DriveManager.h" />
+    <ClInclude Include="DriveEnumerator.h" />
+    <ClInclude Include="DriveEnumerateDecorator.h" />
+    <ClInclude Include="Internal\Drive.h" />
+    <ClInclude Include="Internal\DriveManager.h" />
+    <ClInclude Include="Overlapped.h" />
     <ClInclude Include="ProtocolEssense.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\StorageUtility\Ata.cpp" />
+    <ClCompile Include="..\StorageUtility\Internal\Windows\Device.cpp" />
+    <ClCompile Include="..\StorageUtility\Internal\Windows\StorageUtility.cpp" />
     <ClCompile Include="..\StorageUtility\Scsi.cpp" />
-    <ClCompile Include="..\StorageUtility\Windows\Device.cpp" />
-    <ClCompile Include="..\StorageUtility\Windows\StorageUtility.cpp" />
     <ClCompile Include="Buffer.cpp" />
     <ClCompile Include="BufferFormatter.cpp" />
     <ClCompile Include="CommandDescriptor.cpp" />
-    <ClCompile Include="Drive.cpp" />
-    <ClCompile Include="DriveManager.cpp" />
+    <ClCompile Include="DriveEnumerator.cpp" />
+    <ClCompile Include="DriveEnumerateDecorator.cpp" />
+    <ClCompile Include="Internal\Drive.cpp" />
+    <ClCompile Include="Internal\DriveManager.cpp" />
+    <ClCompile Include="Overlapped.cpp" />
     <ClCompile Include="ProtocolEssense.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

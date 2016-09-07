@@ -1,37 +1,70 @@
+#<License>
+#Copyright 2016 Virtium Technology
+#
+#Licensed under the Apache License, Version 2.0 (the "License");
+#you may not use this file except in compliance with the License.
+#You may obtain a copy of the License at
+#
+#http ://www.apache.org/licenses/LICENSE-2.0
+#
+#Unless required by applicable law or agreed to in writing, software
+#distributed under the License is distributed on an "AS IS" BASIS,
+#WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#See the License for the specific language governing permissions and
+#limitations under the License.
+#</License>
+
+TARGET        = libvtStorScsi.so
+# Separate compile options per configuration
+ifeq "$(findstring debug,$(MAKECMDGOALS))" "debug"
+CXXFLAGS      = -pipe -std=c++14 -fpermissive -g -Wall -D_DEBUG -fPIC
+LFLAGS        = -Wl,-O0 -shared -Wl,-soname,$(TARGET)
+CFG           = debug
+else
+CXXFLAGS      = -pipe -std=c++14 -fpermissive -O2 -Wall -W -fPIC
+LFLAGS        = -Wl,-O1 -shared -Wl,-soname,$(TARGET)
+CFG           = release
+endif
 # Compiler, tools and options
-CC            = gcc
 CXX           = g++
-CFLAGS        = -pipe -O2 -Wall -W -fPIC 
-CXXFLAGS      = -pipe -std=c++14 -fpermissive -O2 -Wall -W -fPIC 
+# OS name
+OS_NAME       = $(shell sed -n -e '/PRETTY_NAME/ s/^.*=\|"\| .*//gp' /etc/*-release)
+# Architecture of chipset
+ARCH = $(shell uname -m)
 
 # Define the directories.
-DEST_DIR                        = ../Debug
+LIBRARY_DIR                     = ../$(CFG)/lib/$(OS_NAME)/$(ARCH)
+VTSTOR_LIB_DIR                  = $(LIBRARY_DIR)/vtStor
+VTSTOR_SCSI_LIB_DIR             = $(LIBRARY_DIR)/vtStorScsi/
+
+DEST_DIR                        = ../bin
 OBJECTS_DIR                     = $(DEST_DIR)/vtStorScsi
 EXTERN_DIR                      = ../Extern
 COMMON_DIR                      = ../Common
 COMMON_PF_X86X64_DIR            = ../Common/Platform/x86x64
 COMMON_PF_X86X64_LINUX_DIR      = ../Common/Platform/x86x64/Linux
 VTSTOR_DIR                      = ../vtStor
-VTSTOR_PF_LINUX_DIR             = ../vtStor/Platform/Linux
+VTSTOR_INTERNAL_DIR             = ../vtStor/Internal
+VTSTOR_SCSI_INTERNAL_DIR        = Internal
 STORAGEUTILITY_DIR              = ../StorageUtility
-STORAGEUTILITY_LINUX_DIR        = ../StorageUtility/Linux  
-VTSTORSCSI_DIR                  = ../vtStorScsi 
-VTSTORSCSI_PF_LINUX_DIR         = ../vtStorScsi/Platform/Linux  
+STORAGEUTILITY_LINUX_DIR        = ../StorageUtility/Internal/Linux  
 VTSTORSCSIPROTOCOL_DIR          = ../vtStorScsiProtocol
 VTSTORSCSIPROTOCOL_PF_LINUX_DIR = ../vtStorScsiProtocol/Platform/Linux 
 
-INCPATH       = -I. -I$(EXTERN_DIR) -I$(COMMON_DIR) -I$(COMMON_PF_X86X64_DIR) -I$(COMMON_PF_X86X64_LINUX_DIR) -I$(STORAGEUTILITY_DIR) -I$(STORAGEUTILITY_LINUX_DIR) -I$(VTSTOR_DIR) -I$(VTSTOR_PF_LINUX_DIR) -I$(DEST_DIR) \
-                -I$(VTSTORSCSI_PF_LINUX_DIR) -I$(VTSTORSCSIPROTOCOL_DIR) -I$(VTSTORSCSIPROTOCOL_PF_LINUX_DIR)
+INC_DIR       =../$(CFG)/inc
+LIB_DIR       =../$(CFG)/lib/$(OS_NAME)/$(ARCH)/$(notdir $(shell pwd))/
+
+INCPATH       = -I. -I$(EXTERN_DIR) -I$(COMMON_DIR) -I$(COMMON_PF_X86X64_DIR) -I$(COMMON_PF_X86X64_LINUX_DIR) -I$(STORAGEUTILITY_DIR) -I$(STORAGEUTILITY_LINUX_DIR) -I$(VTSTOR_DIR) -I$(DEST_DIR) \
+                -I$(VTSTORSCSIPROTOCOL_DIR) -I$(VTSTORSCSIPROTOCOL_PF_LINUX_DIR) -I$(VTSTOR_INTERNAL_DIR) -I$(VTSTOR_SCSI_INTERNAL_DIR)
 LINK          = g++
-LFLAGS        = -Wl,-O1 -shared -Wl,-soname,libvtStorScsi.so.1
-LIBS          = $(SUBLIBS) -ludev -L$(DEST_DIR)/ -lStorageUtility -lvtStor -lvtStorScsiProtocol 
+LIBS          = $(SUBLIBS) -L$(VTSTOR_LIB_DIR)/ -lvtStor -L$(VTSTOR_SCSI_LIB_DIR)/ -lvtStorScsiProtocol -ludev -luuid
 DEL_FILE      = rm -f
 DEL_DIR       = rmdir
 CHK_DIR_EXISTS= test -d
 MKDIR         = mkdir -p
 
 # Files
-VPATH         = SOURCES_DIR: .
+VPATH         = SOURCES_DIR: . $(VTSTOR_SCSI_INTERNAL_DIR)
 SOURCES       = CommandHandlerScsi.cpp \
 		CommandDescriptorScsi.cpp \
 		DriveScsi.cpp \
@@ -39,30 +72,36 @@ SOURCES       = CommandHandlerScsi.cpp \
 		ScsiCommandExtensions.cpp 
 		
 OBJECTS       = $(patsubst %.cpp, $(OBJECTS_DIR)/%.o, ${SOURCES})
+DEPS          = $(patsubst %.cpp, $(OBJECTS_DIR)/%.d, ${SOURCES})
 
-TARGET        = libvtStorScsi.so.1.0.0
-TARGET0       = libvtStorScsi.so
-TARGET1       = libvtStorScsi.so.1
-TARGET2       = libvtStorScsi.so.1.0
+.PHONY : all debug clean install
+debug: all
+all: compile Makefile  $(DEST_DIR)/$(TARGET)
 
-all: directories compile Makefile  $(DEST_DIR)/$(TARGET)
-
-# Create the target directory (if needed)	
-directories:
-	@$(CHK_DIR_EXISTS) $(OBJECTS_DIR) || $(MKDIR) $(OBJECTS_DIR)
 	
 compile: $(OBJECTS)
 
 $(OBJECTS_DIR)/%.o: %.cpp
+	@$(CHK_DIR_EXISTS) $(OBJECTS_DIR) || $(MKDIR) $(OBJECTS_DIR)
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o $@ $<
 
+$(OBJECTS_DIR)/%.d: %.cpp
+	@echo Generating dependencies for $<
+	@set -e ; $(CXX) -MM -MP $(INCPATH) $< > $@.$$$$; \
+	sed 's,\($*\)\.o[ :]*,$(OBJECTS_DIR)\/\1.o $@ : ,g' < $@.$$$$ > $@; \
+	rm -f $@.$$$$
+	
 # Build rules
-$(DEST_DIR)/$(TARGET): $(DEST_DIR)/libStorageUtility.a $(OBJECTS) $(SUBLIBS) $(OBJCOMP)  
-	-$(DEL_FILE) $(DEST_DIR)/$(TARGET) $(DEST_DIR)/$(TARGET0) $(DEST_DIR)/$(TARGET1) $(DEST_DIR)/$(TARGET2)
+$(DEST_DIR)/$(TARGET): $(OBJECTS) $(SUBLIBS) $(OBJCOMP)  
+	-$(DEL_FILE) $(DEST_DIR)/$(TARGET)
 	$(LINK) $(LFLAGS) -o $(DEST_DIR)/$(TARGET) $(OBJECTS) $(LIBS) $(OBJCOMP)
-	-ln -s $(DEST_DIR)/$(TARGET) $(DEST_DIR)/$(TARGET0)
-	-ln -s $(DEST_DIR)/$(TARGET) $(DEST_DIR)/$(TARGET1)
-	-ln -s $(DEST_DIR)/$(TARGET) $(DEST_DIR)/$(TARGET2)
+	@$(CHK_DIR_EXISTS) $(INC_DIR) || $(MKDIR) $(INC_DIR)
+	@$(CHK_DIR_EXISTS) $(LIB_DIR) || $(MKDIR) $(LIB_DIR)
+	cp -f $(DEST_DIR)/$(TARGET) $(LIB_DIR)
+	rsync -avm --include='*.h' -f 'hide,! */' --exclude 'Windows*' --exclude 'Internal*' . $(INC_DIR)/$(notdir $(shell pwd))
+	
+install: all
+	cp $(DEST_DIR)/$(TARGET) /usr/lib
 	
 clean: 
 	-$(DEL_FILE) $(OBJECTS)

@@ -21,6 +21,7 @@ limitations under the License.
 #include "ScsiProtocolEssense1.h"
 
 #include "ProtocolScsiPassThrough.h"
+#include "StorageUtility.h"
 
 void cScsiPassThrough_GetProtocol(std::shared_ptr<vtStor::IProtocol>& Protocol)
 {
@@ -37,9 +38,7 @@ namespace vtStor
 
             cBufferFormatter bufferFormatter = cBufferFormatter::Reader(Essense);
 
-            switch (bufferFormatter.GetHeader().Format)
-            {
-            case 1:
+            if (true == vtStor::CompareUUID(bufferFormatter.GetHeader().Format, cEssenseScsi1::FormatType))
             {
                 cEssenseScsi1 essense = cEssenseScsi1::Reader(Essense);
 
@@ -52,14 +51,12 @@ namespace vtStor
                     60 //TODO: allow configurable timeout
                     );
 
-
                 U32 bytesReturned = 0;
                 errorCode = IssuePassThroughDirectCommand(Handle, bytesReturned);
-            } break;
-
-            default:
+            }
+            else
+            {
                 errorCode = eErrorCode::FormatNotSupported;
-                break;
             }
 
             return(errorCode);

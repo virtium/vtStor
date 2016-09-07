@@ -4,16 +4,16 @@
     <ClCompile Include="CommandDescriptorScsi.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CommandHandlerScsi.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="DriveEnumeratorScsi.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DriveScsi.cpp">
+    <ClCompile Include="ScsiCommandExtensions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ScsiCommandExtensions.cpp">
+    <ClCompile Include="Internal\DriveScsi.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Internal\CommandHandlerScsi.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -21,16 +21,16 @@
     <ClInclude Include="CommandDescriptorScsi.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CommandHandlerScsi.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="DriveEnumeratorScsi.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DriveScsi.h">
+    <ClInclude Include="ScsiCommandExtensions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ScsiCommandExtensions.h">
+    <ClInclude Include="Internal\CommandHandlerScsi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\DriveScsi.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

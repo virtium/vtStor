@@ -18,9 +18,15 @@
     <ClInclude Include="ProtocolAtaPassThroughManaged.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ProtocolAsynIoManaged.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ProtocolAtaPassThroughManaged.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ProtocolAsynIoManaged.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

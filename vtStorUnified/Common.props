@@ -8,7 +8,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)Common;$(SolutionDir)Common\Platform\x86x64;$(SolutionDir)Common\Platform\x86x64\Windows;$(ProjectDir)Platform\Windows;$(SolutionDir)StorageUtility;$(SolutionDir)StorageUtility\Windows;$(SolutionDir)Extern;$(SolutionDir)vtStor;$(SolutionDir)vtStorAta;$(SolutionDir)vtStorAta;$(SolutionDir)vtStorAtaProtocol;$(SolutionDir)vtStorAtaProtocol\Platform\Windows;$(SolutionDir)vtStorScsi;$(SolutionDir)vtStorScsiProtocol;$(SolutionDir)vtStorScsiProtocol\Platform\Windows;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)Common;$(SolutionDir)Common\Platform\x86x64;$(SolutionDir)Common\Platform\x86x64\Windows;$(ProjectDir)Platform\Windows;$(SolutionDir)StorageUtility;$(SolutionDir)StorageUtility\Internal\Windows;$(SolutionDir)Extern;$(SolutionDir)vtStor;$(SolutionDir)vtStor\Internal;$(SolutionDir)vtStorAta;$(SolutionDir)vtStorAta\Internal;$(SolutionDir)vtStorAtaProtocol;$(SolutionDir)vtStorAtaProtocol\Platform\Windows;$(SolutionDir)vtStorScsi;$(SolutionDir)vtStorScsi\Internal;$(SolutionDir)vtStorScsiProtocol;$(SolutionDir)vtStorScsiProtocol\Platform\Windows;</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>VTSTOR_DLL_EXPORTS;VT_STOR_ATA_DLL_EXPORTS;VT_STOR_ATA_PROTOCOL_DLL_EXPORTS;VT_STOR_SCSI_DLL_EXPORTS;VT_STOR_SCSI_PROTOCOL_DLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <PostBuildEvent>

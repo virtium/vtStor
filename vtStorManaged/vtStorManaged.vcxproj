@@ -151,6 +151,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BufferInterfaceManaged.h" />
+    <ClInclude Include="DriveEnumeratorManaged.h" />
     <ClInclude Include="CommandHandlerInterfaceManaged.h" />
     <ClInclude Include="DataCommandStructureManaged.h" />
     <ClInclude Include="DriveEnumeratorInterfaceManaged.h" />
@@ -161,6 +162,7 @@
     <ClInclude Include="IRunTimeDll.h" />
     <ClInclude Include="LoadRunTimeDll.h" />
     <ClInclude Include="LockManaged.h" />
+    <ClInclude Include="OverlappedManaged.h" />
     <ClInclude Include="ProtocolInterfaceManaged.h" />
     <ClInclude Include="RunTimeDll.h" />
     <ClInclude Include="SharedPtrManaged.h" />
@@ -171,6 +173,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="DriveEnumeratorManaged.cpp" />
     <ClCompile Include="CommandHandlerInterfaceManaged.cpp" />
     <ClCompile Include="DriveEnumeratorInterfaceManaged.cpp" />
     <ClCompile Include="DriveInterfaceManaged.cpp">
@@ -182,6 +185,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="LoadRunTimeDll.cpp" />
+    <ClCompile Include="OverlappedManaged.cpp" />
     <ClCompile Include="ProtocolInterfaceManaged.cpp" />
     <ClCompile Include="RunTimeDll.cpp" />
   </ItemGroup>

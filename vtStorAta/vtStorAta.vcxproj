@@ -156,20 +156,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AsynIoCommandExtensions.cpp" />
     <ClCompile Include="AtaCommandExtensions.cpp" />
     <ClCompile Include="CommandDescriptorAta.cpp" />
-    <ClCompile Include="CommandHandlerAta.cpp" />
-    <ClCompile Include="DriveAta.cpp" />
+    <ClCompile Include="CommandHandlerAsynIo.cpp" />
     <ClCompile Include="DriveEnumeratorAta.cpp" />
-    <ClCompile Include="TrimBufferFormatter.cpp" />
+    <ClCompile Include="Internal\CommandHandlerAta.cpp" />
+    <ClCompile Include="Internal\DriveAta.cpp" />
+    <ClCompile Include="Internal\TrimBufferFormatter.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AsynIoCommandExtensions.h" />
     <ClInclude Include="CommandDescriptorAta.h" />
     <ClInclude Include="AtaCommandExtensions.h" />
-    <ClInclude Include="CommandHandlerAta.h" />
-    <ClInclude Include="DriveAta.h" />
+    <ClInclude Include="CommandHandlerAsynIo.h" />
     <ClInclude Include="DriveEnumeratorAta.h" />
-    <ClInclude Include="TrimBufferFormatter.h" />
+    <ClInclude Include="Internal\CommandHandlerAta.h" />
+    <ClInclude Include="Internal\DriveAta.h" />
+    <ClInclude Include="Internal\TrimBufferFormatter.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\vtStorAtaProtocol\vtStorAtaProtocol.vcxproj">

@@ -62,3 +62,4 @@ Common/DeviceDataType.h
 **/*Debug/Intermediate
 **/*Release/Intermediate
 vtStorManaged/BusTypeManaged.h
+vtStor.VC.opendb

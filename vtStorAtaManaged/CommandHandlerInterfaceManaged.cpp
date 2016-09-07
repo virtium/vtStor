@@ -16,7 +16,7 @@ limitations under the License.
 </License>
 */
 
-#include "vtStorAta/CommandHandlerAta.h"
+#include "vtStorAta/Internal/CommandHandlerAta.h"
 #include "CommandHandlerAtaManaged.h"
 
 namespace vtStor

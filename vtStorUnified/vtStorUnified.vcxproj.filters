@@ -1,231 +1,87 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="Header Files\Interfaces">
-      <UniqueIdentifier>{bf12f1c8-e2bf-4169-92bf-c3d6b9c1a287}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Common">
-      <UniqueIdentifier>{8a57ef9a-8e91-40d2-b03d-9a112ba17319}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\StorageUtility">
-      <UniqueIdentifier>{0d172c93-f080-4611-99fd-f2e6a3ca461e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\StorageUtility">
-      <UniqueIdentifier>{812e500e-f5df-41ec-810d-3427e551a974}</UniqueIdentifier>
-    </Filter>
+    <ClCompile Include="..\StorageUtility\Ata.cpp" />
+    <ClCompile Include="..\StorageUtility\Internal\Windows\Device.cpp" />
+    <ClCompile Include="..\StorageUtility\Internal\Windows\StorageUtility.cpp" />
+    <ClCompile Include="..\StorageUtility\Scsi.cpp" />
+    <ClCompile Include="..\vtStorAtaProtocol\AsynIoProtocolEssense.cpp" />
+    <ClCompile Include="..\vtStorAtaProtocol\AtaProtocolEssense1.cpp" />
+    <ClCompile Include="..\vtStorAtaProtocol\Platform\Windows\ProtocolAsynIo.cpp" />
+    <ClCompile Include="..\vtStorAtaProtocol\Platform\Windows\ProtocolAtaPassThrough.cpp" />
+    <ClCompile Include="..\vtStorAta\AsynIoCommandExtensions.cpp" />
+    <ClCompile Include="..\vtStorAta\AtaCommandExtensions.cpp" />
+    <ClCompile Include="..\vtStorAta\CommandDescriptorAta.cpp" />
+    <ClCompile Include="..\vtStorAta\CommandHandlerAsynIo.cpp" />
+    <ClCompile Include="..\vtStorAta\DriveEnumeratorAta.cpp" />
+    <ClCompile Include="..\vtStorAta\Internal\CommandHandlerAta.cpp" />
+    <ClCompile Include="..\vtStorAta\Internal\DriveAta.cpp" />
+    <ClCompile Include="..\vtStorAta\Internal\TrimBufferFormatter.cpp" />
+    <ClCompile Include="..\vtStorScsiProtocol\Platform\Windows\ProtocolScsiPassThrough.cpp" />
+    <ClCompile Include="..\vtStorScsiProtocol\ScsiProtocolEssense1.cpp" />
+    <ClCompile Include="..\vtStorScsi\CommandDescriptorScsi.cpp" />
+    <ClCompile Include="..\vtStorScsi\DriveEnumeratorScsi.cpp" />
+    <ClCompile Include="..\vtStorScsi\Internal\CommandHandlerScsi.cpp" />
+    <ClCompile Include="..\vtStorScsi\Internal\DriveScsi.cpp" />
+    <ClCompile Include="..\vtStorScsi\ScsiCommandExtensions.cpp" />
+    <ClCompile Include="..\vtStor\Buffer.cpp" />
+    <ClCompile Include="..\vtStor\BufferFormatter.cpp" />
+    <ClCompile Include="..\vtStor\CommandDescriptor.cpp" />
+    <ClCompile Include="..\vtStor\DriveEnumerateDecorator.cpp" />
+    <ClCompile Include="..\vtStor\DriveEnumerator.cpp" />
+    <ClCompile Include="..\vtStor\Internal\Drive.cpp" />
+    <ClCompile Include="..\vtStor\Internal\DriveManager.cpp" />
+    <ClCompile Include="..\vtStor\ProtocolEssense.cpp" />
+    <ClCompile Include="..\vtStor\Overlapped.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\vtStor\Buffer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\vtStor\BufferFormatter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\vtStor\CommandDescriptor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\vtStor\Drive.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\vtStor\DriveManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\vtStor\ProtocolEssense.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\vtStorAtaProtocol\AtaProtocolEssense1.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\vtStorAtaProtocol\Platform\Windows\ProtocolAtaPassThrough.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\vtStorAta\CommandDescriptorAta.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\vtStorAta\CommandHandlerAta.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\vtStorAta\DriveAta.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\vtStorAta\DriveEnumeratorAta.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\vtStorScsiProtocol\ScsiProtocolEssense1.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\vtStorScsiProtocol\Platform\Windows\ProtocolScsiPassThrough.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\vtStorScsi\CommandDescriptorScsi.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\vtStorScsi\CommandHandlerScsi.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\vtStorScsi\DriveEnumeratorScsi.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\vtStorScsi\DriveScsi.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\vtStorScsi\ScsiCommandExtensions.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\vtStorAta\TrimBufferFormatter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\StorageUtility\Ata.cpp">
-      <Filter>Source Files\StorageUtility</Filter>
-    </ClCompile>
-    <ClCompile Include="..\StorageUtility\Scsi.cpp">
-      <Filter>Source Files\StorageUtility</Filter>
-    </ClCompile>
-    <ClCompile Include="..\StorageUtility\Windows\Device.cpp">
-      <Filter>Source Files\StorageUtility</Filter>
-    </ClCompile>
-    <ClCompile Include="..\StorageUtility\Windows\StorageUtility.cpp">
-      <Filter>Source Files\StorageUtility</Filter>
-    </ClCompile>
-    <ClCompile Include="..\vtStorAta\AtaCommandExtensions.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\Extern\IAtaCommandExtensions.h">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Extern\IBuffer.h">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Extern\ICommandHandler.h">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Extern\IDevice.h">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Extern\IDrive.h">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Extern\IDriveEnumerator.h">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Extern\IDriveManager.h">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Extern\IProtocol.h">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Extern\IScsiCommandExtensions.h">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\BusType.h">
-      <Filter>Header Files\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\DeviceDataType.h">
-      <Filter>Header Files\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\ErrorCodes.h">
-      <Filter>Header Files\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\ScanForHardwareChanges.h">
-      <Filter>Header Files\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\Platform\x86x64\BasicTypes.h">
-      <Filter>Header Files\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\Platform\x86x64\Windows\PlatformDefines.h">
-      <Filter>Header Files\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\vtStor\Buffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\vtStor\BufferFormatter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\vtStor\CommandDescriptor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\vtStor\DataCommandStructure.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\vtStor\Drive.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\vtStor\DriveManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\vtStor\ProtocolEssense.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\vtStorAtaProtocol\Platform\Windows\ProtocolAtaPassThrough.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\vtStorAtaProtocol\AtaProtocolEssense1.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\vtStorAta\AtaCommandExtensions.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\vtStorAta\CommandDescriptorAta.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\vtStorAta\CommandHandlerAta.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\vtStorAta\DriveAta.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\vtStorAta\DriveEnumeratorAta.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\vtStorAta\TrimBufferFormater.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\vtStorScsiProtocol\Platform\Windows\ProtocolScsiPassThrough.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\vtStorScsiProtocol\ScsiProtocolEssense1.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\vtStorScsi\CommandDescriptorScsi.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\vtStorScsi\CommandHandlerScsi.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\vtStorScsi\DriveEnumeratorScsi.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\vtStorScsi\DriveScsi.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\vtStorScsi\ScsiCommandExtensions.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\StorageUtility\Windows\Device.h">
-      <Filter>Header Files\StorageUtility</Filter>
-    </ClInclude>
-    <ClInclude Include="..\StorageUtility\Windows\StorageUtility.h">
-      <Filter>Header Files\StorageUtility</Filter>
-    </ClInclude>
-    <ClInclude Include="..\StorageUtility\Ata.h">
-      <Filter>Header Files\StorageUtility</Filter>
-    </ClInclude>
-    <ClInclude Include="..\StorageUtility\Scsi.h">
-      <Filter>Header Files\StorageUtility</Filter>
-    </ClInclude>
+    <ClInclude Include="..\Common\BusType.h" />
+    <ClInclude Include="..\Common\DeviceDataType.h" />
+    <ClInclude Include="..\Common\ErrorCodes.h" />
+    <ClInclude Include="..\Common\Platform\x86x64\BasicTypes.h" />
+    <ClInclude Include="..\Common\Platform\x86x64\Windows\PlatformDefines.h" />
+    <ClInclude Include="..\Common\ScanForHardwareChanges.h" />
+    <ClInclude Include="..\Extern\IAsynIoCommandExtensions.h" />
+    <ClInclude Include="..\Extern\IAtaCommandExtensions.h" />
+    <ClInclude Include="..\Extern\IBuffer.h" />
+    <ClInclude Include="..\Extern\ICommandHandler.h" />
+    <ClInclude Include="..\Extern\IDevice.h" />
+    <ClInclude Include="..\Extern\IDrive.h" />
+    <ClInclude Include="..\Extern\IDriveEnumerator.h" />
+    <ClInclude Include="..\Extern\IDriveManager.h" />
+    <ClInclude Include="..\Extern\IProtocol.h" />
+    <ClInclude Include="..\Extern\IScsiCommandExtensions.h" />
+    <ClInclude Include="..\StorageUtility\Ata.h" />
+    <ClInclude Include="..\StorageUtility\Internal\Windows\Device.h" />
+    <ClInclude Include="..\StorageUtility\Internal\Windows\StorageUtility.h" />
+    <ClInclude Include="..\StorageUtility\Scsi.h" />
+    <ClInclude Include="..\vtStorAtaProtocol\AsynIoProtocolEssense.h" />
+    <ClInclude Include="..\vtStorAtaProtocol\AtaProtocolEssense1.h" />
+    <ClInclude Include="..\vtStorAtaProtocol\Platform\Windows\ProtocolAsynIo.h" />
+    <ClInclude Include="..\vtStorAtaProtocol\Platform\Windows\ProtocolAtaPassThrough.h" />
+    <ClInclude Include="..\vtStorAta\AsynIoCommandExtensions.h" />
+    <ClInclude Include="..\vtStorAta\AtaCommandExtensions.h" />
+    <ClInclude Include="..\vtStorAta\CommandDescriptorAta.h" />
+    <ClInclude Include="..\vtStorAta\CommandHandlerAsynIo.h" />
+    <ClInclude Include="..\vtStorAta\DriveEnumeratorAta.h" />
+    <ClInclude Include="..\vtStorAta\Internal\CommandHandlerAta.h" />
+    <ClInclude Include="..\vtStorAta\Internal\DriveAta.h" />
+    <ClInclude Include="..\vtStorAta\Internal\TrimBufferFormatter.h" />
+    <ClInclude Include="..\vtStorScsiProtocol\Platform\Windows\ProtocolScsiPassThrough.h" />
+    <ClInclude Include="..\vtStorScsiProtocol\ScsiProtocolEssense1.h" />
+    <ClInclude Include="..\vtStorScsi\CommandDescriptorScsi.h" />
+    <ClInclude Include="..\vtStorScsi\DriveEnumeratorScsi.h" />
+    <ClInclude Include="..\vtStorScsi\Internal\CommandHandlerScsi.h" />
+    <ClInclude Include="..\vtStorScsi\Internal\DriveScsi.h" />
+    <ClInclude Include="..\vtStorScsi\ScsiCommandExtensions.h" />
+    <ClInclude Include="..\vtStor\Buffer.h" />
+    <ClInclude Include="..\vtStor\BufferFormatter.h" />
+    <ClInclude Include="..\vtStor\CommandDescriptor.h" />
+    <ClInclude Include="..\vtStor\DriveEnumerateDecorator.h" />
+    <ClInclude Include="..\vtStor\DriveEnumerator.h" />
+    <ClInclude Include="..\vtStor\Internal\Drive.h" />
+    <ClInclude Include="..\vtStor\Internal\DriveManager.h" />
+    <ClInclude Include="..\vtStor\ProtocolEssense.h" />
+    <ClInclude Include="..\vtStor\Overlapped.h" />
   </ItemGroup>
 </Project>

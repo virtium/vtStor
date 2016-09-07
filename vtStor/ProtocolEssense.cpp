@@ -36,7 +36,7 @@ namespace vtStor
     {
     }
 
-    cProtocolEssense::cProtocolEssense(std::shared_ptr<IBuffer> Buffer, U32 Format) :
+    cProtocolEssense::cProtocolEssense(std::shared_ptr<IBuffer> Buffer, const UUID& Format) :
         cBufferFormatter(Buffer, Format)
     {
     }
@@ -57,5 +57,4 @@ namespace vtStor
         const U8* buffer = m_Buffer->ToDataBuffer();
         return((DeviceHandle&)buffer[DEVICE_HANDLE_OFFSET]);
     }
-
 }

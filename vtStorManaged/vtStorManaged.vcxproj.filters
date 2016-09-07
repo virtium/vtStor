@@ -66,6 +66,12 @@
     <ClInclude Include="DrivePropertiesManaged.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DriveEnumeratorManaged.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OverlappedManaged.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BufferInterfaceManaged.cpp">
@@ -90,6 +96,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="RunTimeDll.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DriveEnumeratorManaged.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OverlappedManaged.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

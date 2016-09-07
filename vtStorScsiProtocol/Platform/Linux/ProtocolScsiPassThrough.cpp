@@ -21,144 +21,141 @@ limitations under the License.
 
 #include "ProtocolScsiPassThrough.h"
 #include "ScsiProtocolEssense1.h"
+#include "StorageUtility.h"
 
 namespace vtStor
 {
-namespace Protocol
-{
-
-eErrorCode cScsiPassThrough::IssueCommand(const DeviceHandle& Handle, std::shared_ptr<const IBuffer> Essense, std::shared_ptr<IBuffer> DataBuffer)
-{
-    eErrorCode errorCode = eErrorCode::None;
-
-    cBufferFormatter bufferFormatter = cBufferFormatter::Reader(Essense);
-
-    switch (bufferFormatter.GetHeader().Format)
+    namespace Protocol
     {
-    case 1:
-    {
-        cEssenseScsi1 essense = cEssenseScsi1::Reader(Essense);
 
-        memset(&m_ScsiPassThrough, 0, sizeof(m_ScsiPassThrough));
+        eErrorCode cScsiPassThrough::IssueCommand(const DeviceHandle& Handle, std::shared_ptr<const IBuffer> Essense, std::shared_ptr<IBuffer> DataBuffer)
+        {
+            eErrorCode errorCode = eErrorCode::None;
 
-        InitializePassThroughDirect(
+            cBufferFormatter bufferFormatter = cBufferFormatter::Reader(Essense);
+
+            if (true == vtStor::CompareUUID(bufferFormatter.GetHeader().Format, cEssenseScsi1::FormatType))
+            {
+                cEssenseScsi1 essense = cEssenseScsi1::Reader(Essense);
+
+                memset(&m_ScsiPassThrough, 0, sizeof(m_ScsiPassThrough));
+
+                InitializePassThroughDirect(
                     essense.GetCommandCharacteristics(),
                     essense.GetCdbRegisters(),
                     DataBuffer,
                     60 //TODO: allow configurable timeout
                     );
-        errorCode = IssuePassThroughDirectCommand(Handle.Handle);
-    } break;
+                errorCode = IssuePassThroughDirectCommand(Handle.Handle);
+            }
+            else
+            {
+                errorCode = eErrorCode::FormatNotSupported;
+            }
 
-    default:
-    {
-        errorCode = eErrorCode::FormatNotSupported;
-    } break;
+            return(errorCode);
+        }
+
+        eErrorCode cScsiPassThrough::IssuePassThroughDirectCommand(const U32& FileDescriptor)
+        {
+            if (INVALID_FILE_DESCRIPTOR == FileDescriptor)
+            {
+                return eErrorCode::Invalid;
+            }
+
+            U32 commandSuccessfulFlag = ioctl(FileDescriptor, SG_IO, &m_ScsiPassThrough);
+
+            delete(m_ScsiPassThrough.cmdp);
+            if (IOCTL_SG_IO_ERROR == commandSuccessfulFlag)
+            {
+                //! ERROR: IOCTL SG_IO was not successful
+                return(eErrorCode::Io);
+            }
+
+            return(eErrorCode::None);
+        }
+
+        void cScsiPassThrough::InitializePassThroughDirect(const StorageUtility::Scsi::sCommandCharacteristics& CommandCharacteristics, const StorageUtility::Scsi::uCdb& CdbRegister, std::shared_ptr<IBuffer> DataBuffer, U32 TimeoutValueInSeconds)
+        {
+            //! TODO: Set up for Sense Data
+
+            m_ScsiPassThrough.interface_id = static_cast<U32>(eSgScsi::SgInterfaceId);
+            m_ScsiPassThrough.mx_sb_len = static_cast<U8>(eSgScsi::MaxSenseDataLength);
+            m_ScsiPassThrough.dxfer_len = CommandCharacteristics.DataTransferLengthInBytes;
+            m_ScsiPassThrough.timeout = TimeoutValueInSeconds;
+
+            switch (CommandCharacteristics.FieldFormatting)
+            {
+            case StorageUtility::Scsi::eFieldFormatting::COMMAND_6:
+            {
+                m_ScsiPassThrough.cmd_len = 6;
+            } break;
+
+            case StorageUtility::Scsi::eFieldFormatting::COMMAND_10:
+            {
+                m_ScsiPassThrough.cmd_len = 10;
+            } break;
+
+            case StorageUtility::Scsi::eFieldFormatting::COMMAND_12:
+            {
+                m_ScsiPassThrough.cmd_len = 12;
+            } break;
+
+            case StorageUtility::Scsi::eFieldFormatting::COMMAND_16:
+            case StorageUtility::Scsi::eFieldFormatting::ATAPASSTHROUGH_16:
+            {
+                m_ScsiPassThrough.cmd_len = 16;
+            } break;
+
+            default:
+            {
+                // Do nothing
+            } break;
+            }
+
+            if (nullptr != DataBuffer)
+            {
+                m_ScsiPassThrough.dxferp = DataBuffer->ToDataBuffer();
+            }
+
+            m_ScsiPassThrough.cmdp = new U8[static_cast<U32>(eSgScsi::SgCommandDescBlockLengh)];
+            memset(m_ScsiPassThrough.cmdp, 0, static_cast<U32>(eSgScsi::SgCommandDescBlockLengh) * sizeof(*m_ScsiPassThrough.cmdp)); // Set value of elements of Cdb to 0
+
+            InitializeFlags(CommandCharacteristics);
+            InitializeCdbRegister(CdbRegister);
+        }
+
+        void cScsiPassThrough::InitializeFlags(const StorageUtility::Scsi::sCommandCharacteristics& CommandCharacteristic)
+        {
+            switch (CommandCharacteristic.DataAccess)
+            {
+            case StorageUtility::Scsi::eDataAccess::READ_FROM_DEVICE:
+            {
+                m_ScsiPassThrough.dxfer_direction = SG_DXFER_FROM_DEV;
+            } break;
+
+            case StorageUtility::Scsi::eDataAccess::WRITE_TO_DEVICE:
+            {
+                m_ScsiPassThrough.dxfer_direction = SG_DXFER_TO_DEV;
+            } break;
+
+            case StorageUtility::Scsi::eDataAccess::NONE:
+            {
+                m_ScsiPassThrough.dxfer_direction = SG_DXFER_NONE;
+                m_ScsiPassThrough.dxfer_len = 0;
+            } break;
+
+            default:
+            {
+                throw std::runtime_error("Attributes of the access was not supported\n");
+            } break;
+            }
+        }
+
+        void cScsiPassThrough::InitializeCdbRegister(const StorageUtility::Scsi::uCdb& CdbRegister)
+        {
+            memcpy(m_ScsiPassThrough.cmdp, CdbRegister.Cdb_16.Bytes, 16);
+        }
+
     }
-
-    return(errorCode);
-}
-
-eErrorCode cScsiPassThrough::IssuePassThroughDirectCommand(const U32& FileDescriptor)
-{
-    if (INVALID_FILE_DESCRIPTOR == FileDescriptor)
-    {
-        return eErrorCode::Invalid;
-    }
-
-    U32 commandSuccessfulFlag = ioctl(FileDescriptor, SG_IO, &m_ScsiPassThrough);
-
-    delete(m_ScsiPassThrough.cmdp);
-    if (IOCTL_SG_IO_ERROR == commandSuccessfulFlag)
-    {
-        //! ERROR: IOCTL SG_IO was not successful
-        return(eErrorCode::Io);
-    }
-
-    return(eErrorCode::None);
-}
-
-void cScsiPassThrough::InitializePassThroughDirect(const StorageUtility::Scsi::sCommandCharacteristics& CommandCharacteristics, const StorageUtility::Scsi::uCdb& CdbRegister, std::shared_ptr<IBuffer> DataBuffer, U32 TimeoutValueInSeconds)
-{
-    //! TODO: Set up for Sense Data
-
-    m_ScsiPassThrough.interface_id       = static_cast<U32>(eSgScsi::SgInterfaceId);
-    m_ScsiPassThrough.mx_sb_len          = static_cast<U8>(eSgScsi::MaxSenseDataLength);
-    m_ScsiPassThrough.dxfer_len          = CommandCharacteristics.DataTransferLengthInBytes;
-    m_ScsiPassThrough.timeout            = TimeoutValueInSeconds;
-
-    switch (CommandCharacteristics.FieldFormatting)
-    {
-    case StorageUtility::Scsi::eFieldFormatting::COMMAND_6:
-    {
-        m_ScsiPassThrough.cmd_len = 6;
-    } break;
-
-    case StorageUtility::Scsi::eFieldFormatting::COMMAND_10:
-    {
-        m_ScsiPassThrough.cmd_len = 10;
-     } break;
-
-    case StorageUtility::Scsi::eFieldFormatting::COMMAND_12:
-    {
-        m_ScsiPassThrough.cmd_len = 12;
-    } break;
-
-    case StorageUtility::Scsi::eFieldFormatting::COMMAND_16:
-    case StorageUtility::Scsi::eFieldFormatting::ATAPASSTHROUGH_16:
-    {
-        m_ScsiPassThrough.cmd_len = 16;
-    } break;
-
-    default:
-    {
-        // Do nothing
-    } break;
-    }
-
-    if (nullptr != DataBuffer)
-    {
-        m_ScsiPassThrough.dxferp = DataBuffer->ToDataBuffer();
-    }
-
-    m_ScsiPassThrough.cmdp = new U8[static_cast<U32>(eSgScsi::SgCommandDescBlockLengh)];
-    memset(m_ScsiPassThrough.cmdp, 0, static_cast<U32>(eSgScsi::SgCommandDescBlockLengh) * sizeof(*m_ScsiPassThrough.cmdp)); // Set value of elements of Cdb to 0
-
-    InitializeFlags(CommandCharacteristics);
-    InitializeCdbRegister(CdbRegister);
-}
-
-void cScsiPassThrough::InitializeFlags(const StorageUtility::Scsi::sCommandCharacteristics& CommandCharacteristic)
-{
-    switch (CommandCharacteristic.DataAccess)
-    {
-    case StorageUtility::Scsi::eDataAccess::READ_FROM_DEVICE:
-    {
-        m_ScsiPassThrough.dxfer_direction = SG_DXFER_FROM_DEV;
-    } break;
-
-    case StorageUtility::Scsi::eDataAccess::WRITE_TO_DEVICE:
-    {
-        m_ScsiPassThrough.dxfer_direction = SG_DXFER_TO_DEV;
-    } break;
-
-    case StorageUtility::Scsi::eDataAccess::NONE:
-    {
-        m_ScsiPassThrough.dxfer_direction = SG_DXFER_NONE;
-        m_ScsiPassThrough.dxfer_len = 0;
-    } break;
-
-    default:
-    {
-        throw std::runtime_error("Attributes of the access was not supported\n");
-    } break;
-    }
-}
-
-void cScsiPassThrough::InitializeCdbRegister(const StorageUtility::Scsi::uCdb& CdbRegister)
-{
-    memcpy(m_ScsiPassThrough.cmdp, CdbRegister.Cdb_16.Bytes, 16);
-}
-
-}
 }

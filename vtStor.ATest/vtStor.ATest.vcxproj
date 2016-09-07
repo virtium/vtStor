@@ -98,6 +98,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)StorageUtility\Windows;$(SolutionDir);$(SolutionDir)vtStorAtaProtocol;$(SolutionDir)vtStorAtaProtocol\Platform\Windows;$(SolutionDir)vtStorScsiProtocol\Platform\Windows;$(SolutionDir)vtStor\Platform\Windows;$(SolutionDir)Common;$(SolutionDir)Common\Platform\x86x64;$(SolutionDir)Common\Platform\x86x64\Windows;$(SolutionDir)vtStor\;$(SolutionDir)vtStorAta\;$(SolutionDir)vtStorScsi\;$(SolutionDir)vtStorAta\Platform\Windows\;$(SolutionDir)vtStorScsi\Platform\Windows\;$(SolutionDir)StorageUtility;$(SolutionDir)Extern</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -167,7 +168,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AtaIdentifyDevice.cpp" />
+    <ClCompile Include="AtaReadWriteBufferTest.cpp" />
+    <ClCompile Include="AtaReadWriteDmaExtTest.cpp" />
+    <ClCompile Include="AtaReadWriteDmaTest.cpp" />
+    <ClCompile Include="AtaReadWriteSectorExtTest.cpp" />
+    <ClCompile Include="AtaReadWriteSectorTest.cpp" />
+    <ClCompile Include="AtaSmartTest.cpp" />
+    <ClCompile Include="ATestUtility.cpp" />
+    <ClCompile Include="DataAccessCommandTest.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="TestObjectFactory.cpp" />
+    <ClCompile Include="TestResource.cpp" />
+    <ClCompile Include="VtStorTestFramework.cpp" />
+    <ClCompile Include="VtStorTestManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\vtStorAtaProtocol\vtStorAtaProtocol.vcxproj">
@@ -195,6 +209,25 @@
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
       <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AtaIdentifyDevice.h" />
+    <ClInclude Include="AtaReadWriteBufferTest.h" />
+    <ClInclude Include="AtaReadWriteDmaExtTest.h" />
+    <ClInclude Include="AtaReadWriteDmaTest.h" />
+    <ClInclude Include="AtaReadWriteSectorExtTest.h" />
+    <ClInclude Include="AtaReadWriteSectorTest.h" />
+    <ClInclude Include="AtaSmartTest.h" />
+    <ClInclude Include="ATestUtility.h" />
+    <ClInclude Include="DataAccessCommandTest.h" />
+    <ClInclude Include="IVtStorTest.h" />
+    <ClInclude Include="ITestManager.h" />
+    <ClInclude Include="TestObjectFactory.h" />
+    <ClInclude Include="TestObjectRegister.h" />
+    <ClInclude Include="TestResource.h" />
+    <ClInclude Include="VtStorATestDefine.h" />
+    <ClInclude Include="VtStorTestFrameWork.h" />
+    <ClInclude Include="VtStorTestManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -143,6 +143,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AsynIoCommandExtensionsManaged.h" />
+    <ClInclude Include="CommandHandlerAsynIoManaged.h" />
     <ClInclude Include="CommandHandlerAtaManaged.h" />
     <ClInclude Include="AtaCommandExtensionsManaged.h" />
     <ClInclude Include="DriveEnumeratorAtaManaged.h" />
@@ -153,6 +155,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AsynIoCommandExtensionsManaged.cpp" />
+    <ClCompile Include="CommandHandlerAsynIoManaged.cpp" />
     <ClCompile Include="CommandHandlerInterfaceManaged.cpp" />
     <ClCompile Include="AtaCommandExtensionsManaged.cpp" />
     <ClCompile Include="DriveEnumeratorAtaManaged.cpp" />

@@ -125,9 +125,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ProtocolAsynIoManaged.h" />
     <ClInclude Include="ProtocolAtaPassThroughManaged.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ProtocolAsynIoManaged.cpp" />
     <ClCompile Include="ProtocolAtaPassThroughManaged.cpp" />
   </ItemGroup>
   <ItemGroup>

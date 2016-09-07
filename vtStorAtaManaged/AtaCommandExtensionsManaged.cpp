@@ -69,6 +69,60 @@ namespace vtStor
                 return(errorCode);
             }
 
+            vtStor::Managed::eErrorCode cAtaCommandExtensions::IssueCommand_ReadDmaExt(vtStor::Managed::cDriveInterface^ Drive, U32 CommandType, vtStor::Managed::cBufferInterface^ Data, U64 Lba, U32 Count)
+            {
+                vtStor::Managed::eErrorCode errorCode;
+                std::shared_ptr<vtStor::IDrive> spDriveInterface = *reinterpret_cast<std::shared_ptr<vtStor::IDrive>*>((void*)Drive);
+                std::shared_ptr<vtStor::IBuffer> spBuffferInterface = *reinterpret_cast<std::shared_ptr<vtStor::IBuffer>*>((void*)Data);
+                errorCode = static_cast<vtStor::Managed::eErrorCode>(m_AtaCommandExtensions->IssueCommand_ReadDmaExt(spDriveInterface, CommandType, spBuffferInterface, Lba, Count));
+                return(errorCode);
+            }
+
+            vtStor::Managed::eErrorCode cAtaCommandExtensions::IssueCommand_WriteDmaExt(vtStor::Managed::cDriveInterface^ Drive, U32 CommandType, vtStor::Managed::cBufferInterface^ Data, U64 Lba, U32 Count)
+            {
+                vtStor::Managed::eErrorCode errorCode;
+                std::shared_ptr<vtStor::IDrive> spDriveInterface = *reinterpret_cast<std::shared_ptr<vtStor::IDrive>*>((void*)Drive);
+                std::shared_ptr<vtStor::IBuffer> spBuffferInterface = *reinterpret_cast<std::shared_ptr<vtStor::IBuffer>*>((void*)Data);
+                errorCode = static_cast<vtStor::Managed::eErrorCode>(m_AtaCommandExtensions->IssueCommand_WriteDmaExt(spDriveInterface, CommandType, spBuffferInterface, Lba, Count));
+                return(errorCode);
+            }
+
+            vtStor::Managed::eErrorCode cAtaCommandExtensions::IssueCommand_ReadSector(vtStor::Managed::cDriveInterface^ Drive, U32 CommandType, vtStor::Managed::cBufferInterface^ Data, U32 Lba, U32 Count)
+            {
+                vtStor::Managed::eErrorCode errorCode;
+                std::shared_ptr<vtStor::IDrive> spDriveInterface = *reinterpret_cast<std::shared_ptr<vtStor::IDrive>*>((void*)Drive);
+                std::shared_ptr<vtStor::IBuffer> spBuffferInterface = *reinterpret_cast<std::shared_ptr<vtStor::IBuffer>*>((void*)Data);
+                errorCode = static_cast<vtStor::Managed::eErrorCode>(m_AtaCommandExtensions->IssueCommand_ReadSector(spDriveInterface, CommandType, spBuffferInterface, Lba, Count));
+                return(errorCode);
+            }
+
+            vtStor::Managed::eErrorCode cAtaCommandExtensions::IssueCommand_WriteSector(vtStor::Managed::cDriveInterface^ Drive, U32 CommandType, vtStor::Managed::cBufferInterface^ Data, U32 Lba, U32 Count)
+            {
+                vtStor::Managed::eErrorCode errorCode;
+                std::shared_ptr<vtStor::IDrive> spDriveInterface = *reinterpret_cast<std::shared_ptr<vtStor::IDrive>*>((void*)Drive);
+                std::shared_ptr<vtStor::IBuffer> spBuffferInterface = *reinterpret_cast<std::shared_ptr<vtStor::IBuffer>*>((void*)Data);
+                errorCode = static_cast<vtStor::Managed::eErrorCode>(m_AtaCommandExtensions->IssueCommand_WriteSector(spDriveInterface, CommandType, spBuffferInterface, Lba, Count));
+                return(errorCode);
+            }
+
+            vtStor::Managed::eErrorCode cAtaCommandExtensions::IssueCommand_ReadSectorExt(vtStor::Managed::cDriveInterface^ Drive, U32 CommandType, vtStor::Managed::cBufferInterface^ Data, U64 Lba, U32 Count)
+            {
+                vtStor::Managed::eErrorCode errorCode;
+                std::shared_ptr<vtStor::IDrive> spDriveInterface = *reinterpret_cast<std::shared_ptr<vtStor::IDrive>*>((void*)Drive);
+                std::shared_ptr<vtStor::IBuffer> spBuffferInterface = *reinterpret_cast<std::shared_ptr<vtStor::IBuffer>*>((void*)Data);
+                errorCode = static_cast<vtStor::Managed::eErrorCode>(m_AtaCommandExtensions->IssueCommand_ReadSectorExt(spDriveInterface, CommandType, spBuffferInterface, Lba, Count));
+                return(errorCode);
+            }
+
+            vtStor::Managed::eErrorCode cAtaCommandExtensions::IssueCommand_WriteSectorExt(vtStor::Managed::cDriveInterface^ Drive, U32 CommandType, vtStor::Managed::cBufferInterface^ Data, U64 Lba, U32 Count)
+            {
+                vtStor::Managed::eErrorCode errorCode;
+                std::shared_ptr<vtStor::IDrive> spDriveInterface = *reinterpret_cast<std::shared_ptr<vtStor::IDrive>*>((void*)Drive);
+                std::shared_ptr<vtStor::IBuffer> spBuffferInterface = *reinterpret_cast<std::shared_ptr<vtStor::IBuffer>*>((void*)Data);
+                errorCode = static_cast<vtStor::Managed::eErrorCode>(m_AtaCommandExtensions->IssueCommand_WriteSectorExt(spDriveInterface, CommandType, spBuffferInterface, Lba, Count));
+                return(errorCode);
+            }
+
             vtStor::Managed::eErrorCode cAtaCommandExtensions::IssueCommand_ReadBuffer(vtStor::Managed::cDriveInterface^ Drive, U32 CommandType, vtStor::Managed::cBufferInterface^ Data)
             {
                 vtStor::Managed::eErrorCode errorCode;

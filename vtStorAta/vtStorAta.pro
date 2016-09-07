@@ -14,8 +14,9 @@ SOURCES += DriveEnumeratorAta.cpp \
     DriveAta.cpp \
     CommandHandlerAta.cpp \
     CommandDescriptorAta.cpp \
-    AtaCommandExtensionscpp.cpp \
-    TrimBufferFormatter.cpp
+    AtaCommandExtensions.cpp \
+    TrimBufferFormatter.cpp \
+
 
 HEADERS += DriveEnumeratorAta.h \
     DriveAta.h \

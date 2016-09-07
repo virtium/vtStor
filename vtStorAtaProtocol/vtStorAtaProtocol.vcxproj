@@ -156,11 +156,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AsynIoProtocolEssense.cpp" />
     <ClCompile Include="AtaProtocolEssense1.cpp" />
+    <ClCompile Include="Platform\Windows\ProtocolAsynIo.cpp" />
     <ClCompile Include="Platform\Windows\ProtocolAtaPassThrough.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AsynIoProtocolEssense.h" />
     <ClInclude Include="AtaProtocolEssense1.h" />
+    <ClInclude Include="Platform\Windows\ProtocolAsynIo.h" />
     <ClInclude Include="Platform\Windows\ProtocolAtaPassThrough.h" />
   </ItemGroup>
   <ItemGroup>

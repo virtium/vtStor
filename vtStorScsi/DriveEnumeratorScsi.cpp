@@ -15,16 +15,15 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </License>
 */
-#include "StorageUtility.h"
-
-#include "DriveScsi.h"
-#include "ProtocolScsiPassThrough.h"
 
 #include "DriveEnumeratorScsi.h"
+#include "DriveScsi.h"
+#include "ProtocolScsiPassThrough.h"
+#include "StorageUtility.h"
 
-void cDriveEnumeratorScsi_GetDriveEnumerator(std::shared_ptr<vtStor::IDriveEnumerator>& DriveEnumerator)
+void cDriveEnumeratorScsi_GetDriveEnumerator(std::shared_ptr<vtStor::IDriveEnumerator>& DriveEnumerator, const std::shared_ptr<vtStor::IDriveEnumerator>& DecoratedDriveEnumerator)
 {
-    DriveEnumerator = std::shared_ptr<vtStor::IDriveEnumerator>(new vtStor::cDriveEnumeratorScsi());
+    DriveEnumerator = std::shared_ptr<vtStor::IDriveEnumerator>(new vtStor::cDriveEnumeratorScsi(DecoratedDriveEnumerator));
 }
 
 namespace vtStor
@@ -33,7 +32,11 @@ namespace vtStor
     {
     }
 
-    std::shared_ptr<IDrive> cDriveEnumeratorScsi::EnumerateDrive(const std::shared_ptr<IDevice>& Device)
+    cDriveEnumeratorScsi::cDriveEnumeratorScsi(std::shared_ptr<IDriveEnumerator> DecoratedDriveEnumerator) : cDriveEnumerateDecorator(DecoratedDriveEnumerator)
+    {
+    }
+
+    std::shared_ptr<IDrive> cDriveEnumeratorScsi::DoEnumerate(const std::shared_ptr<IDevice>& Device)
     {
         DeviceHandle deviceHandle;
         eErrorCode errorCode;
@@ -42,6 +45,7 @@ namespace vtStor
         {
             deviceHandle = Device->Handle();
         }
+
         catch (std::exception ex)
         {
             //fprintf(stderr, "\nEnumerateDrive was not successful. Exception:%s.", ex.what());
@@ -82,6 +86,7 @@ namespace vtStor
             return(drive);
         }
 
+        vtStor::CloseDeviceHandle(deviceHandle);
         return(nullptr);
     }
 }

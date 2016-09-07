@@ -1,6 +1,6 @@
 ﻿/*
 <License>
-Copyright 2015 Virtium Technology
+Copyright 2016 Virtium Technology
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ namespace vtStorManaged.Test
         private void Enumerate()
         {
             cDriveManagerInterface driveManager;
-            cDriveEnumeratorInterface driveEnumeratorAta;
+            cDriveEnumeratorInterface driveEnumerator;
             eErrorCode errorCode;
             ILoadRunTimeDll vtStorUnifiedDll = new cLoadRunTimeDll("vtStorUnified.dll");
             IRunTimeDll vtStorUnifiedModule = vtStorUnifiedDll.Load();
@@ -42,10 +42,11 @@ namespace vtStorManaged.Test
             driveManager = new cDriveManagerInterface(vtStorUnifiedModule);
 
             // Create an instance for DriveEnumeratorAta
-            driveEnumeratorAta = new cDriveEnumeratorAta(vtStorUnifiedModule);
+            driveEnumerator = new cDriveEnumerator(vtStorUnifiedModule);
+            driveEnumerator = new cDriveEnumeratorAta(vtStorUnifiedModule, driveEnumerator);
 
             // Register drive enumerator Ata
-            driveManager.RegisterDriveEnumerator(driveEnumeratorAta);
+            driveManager.RegisterDriveEnumerator(driveEnumerator);
 
             // Enumerate drives
             errorCode = driveManager.EnumerateDrives(eScanForHardwareChanges.Yes);

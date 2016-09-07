@@ -16,7 +16,7 @@ limitations under the License.
 </License>
 */
 
-#include "vtStorScsi/CommandHandlerScsi.h"
+#include "vtStorScsi/Internal/CommandHandlerScsi.h"
 #include "CommandHandlerScsiManaged.h"
 
 namespace vtStor

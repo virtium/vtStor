@@ -17,6 +17,7 @@ limitations under the License.
 */
 
 #include "ScsiProtocolEssense1.h"
+#include "StorageUtility.h"
 
 namespace vtStor
 {
@@ -29,6 +30,8 @@ const size_t cEssenseScsi1::SIZE_IN_BYTES = cEssenseScsi1::COMMAND_CHARACTERISTI
                             + sizeof(StorageUtility::Scsi::sCommandCharacteristics)
                             + sizeof(StorageUtility::Scsi::uCdb);
 
+UUID cEssenseScsi1::FormatType;
+
 cEssenseScsi1 cEssenseScsi1::Reader(std::shared_ptr<const IBuffer> Buffer)
 {
     return(cEssenseScsi1(Buffer));
@@ -36,7 +39,8 @@ cEssenseScsi1 cEssenseScsi1::Reader(std::shared_ptr<const IBuffer> Buffer)
 
 cEssenseScsi1 cEssenseScsi1::Writer(std::shared_ptr<IBuffer> Buffer)
 {
-    return(cEssenseScsi1(Buffer, 1));
+    CreateUUID(FormatType);
+    return(cEssenseScsi1(Buffer, FormatType));
 }
 
 cEssenseScsi1::cEssenseScsi1(std::shared_ptr<IBuffer> Buffer) :
@@ -44,7 +48,7 @@ cProtocolEssense(Buffer)
 {
 }
 
-cEssenseScsi1::cEssenseScsi1(std::shared_ptr<IBuffer> Buffer, U32 Format) :
+cEssenseScsi1::cEssenseScsi1(std::shared_ptr<IBuffer> Buffer, const UUID& Format) :
 cProtocolEssense(Buffer, Format)
 {
 }

@@ -17,6 +17,7 @@ limitations under the License.
 */
 
 using vtStor.Ata.Managed;
+using vtStor.AsynIo.Managed;
 using vtStor.Managed;
 using vtStor.Protocol.Managed;
 using vtStor.Scsi.Managed;
@@ -36,8 +37,8 @@ namespace vtStorManaged.ATest
             cDriveManagerInterface driveManager = new cDriveManagerInterface(vtStorUnifiedModule);
 
             // Register drive enumerators
-            driveManager.RegisterDriveEnumerator(new cDriveEnumeratorAta(vtStorUnifiedModule));
-            driveManager.RegisterDriveEnumerator(new cDriveEnumeratorScsi(vtStorUnifiedModule));
+            cDriveEnumeratorInterface enumerateDecorator = new cDriveEnumerator(vtStorUnifiedModule);
+            driveManager.RegisterDriveEnumerator(new cDriveEnumeratorScsi(vtStorUnifiedModule, new cDriveEnumeratorAta(vtStorUnifiedModule, enumerateDecorator)));
 
             // Enumerate drives
             errorCode = driveManager.EnumerateDrives(vtStor.Managed.eScanForHardwareChanges.Yes);
@@ -49,8 +50,8 @@ namespace vtStorManaged.ATest
                 driveCount = driveManager.GetDriveCount();
                 System.Console.WriteLine("Drive count: " + driveCount);
 
-                cProtocolInterface protocol = null;
-                cCommandHandlerInterface commandHandler = null;
+                cProtocolInterface protocol, protocolAsynIo = null;
+                cCommandHandlerInterface commandHandler, commandHandlerAsynIo = null;
 
                 if (0 < driveCount)
                 {
@@ -64,24 +65,42 @@ namespace vtStorManaged.ATest
                         protocol = new cProtocolAtaPassThrough(vtStorUnifiedModule);
                         commandHandler = new cCommandHandlerAta(vtStorUnifiedModule, protocol);
 
+                        protocolAsynIo = new cProtocolAsynIo(vtStorUnifiedModule);
+                        commandHandlerAsynIo = new cCommandHandlerAsynIo(vtStorUnifiedModule, protocolAsynIo);
+
                         // Register command handler to drive
                         drive.RegisterCommandHandler(0, commandHandler);
+                        drive.RegisterCommandHandler(256, commandHandlerAsynIo);
 
                         cAtaCommandExtensions ataCommandExtensions = new cAtaCommandExtensions(vtStorUnifiedModule);
+                        cAsynIoCommandExtensions asynIoCommandExtensions = new cAsynIoCommandExtensions(vtStorUnifiedModule);
 
                         errorCode = ataCommandExtensions.IssueCommand_IdentifyDevice(drive, 0, buffer);
+
+                        // Issue asynIo commands
+                        //cOverlapped overlapped = new cOverlapped(vtStorUnifiedModule);
+                        //errorCode = asynIoCommandExtensions.IssueCommand_ReadAsynIo(drive, 256, buffer, 1, 0, overlapped);
                     }
                     else if (eBusType.Scsi == drive.GetBusType())
                     {
                         protocol = new cProtocolScsiPassThrough(vtStorUnifiedModule);
                         commandHandler = new cCommandHandlerScsi(vtStorUnifiedModule, protocol);
 
+                        protocolAsynIo = new cProtocolAsynIo(vtStorUnifiedModule);
+                        commandHandlerAsynIo = new cCommandHandlerAsynIo(vtStorUnifiedModule, protocolAsynIo);
+
                         // Register command handler to drive
                         drive.RegisterCommandHandler(0, commandHandler);
+                        drive.RegisterCommandHandler(256, commandHandlerAsynIo);
 
                         cScsiCommandExtensions scsiCommandExtensions = new cScsiCommandExtensions(vtStorUnifiedModule);
+                        cAsynIoCommandExtensions asynIoCommandExtensions = new cAsynIoCommandExtensions(vtStorUnifiedModule);
 
                         errorCode = scsiCommandExtensions.IssueCommand_AtaIdentifyDevice(drive, 0, buffer);
+
+                        // Issue asynIo commands
+                        //cOverlapped overlapped = new cOverlapped(vtStorUnifiedModule);
+                        //errorCode = asynIoCommandExtensions.IssueCommand_ReadAsynIo(drive, 256, buffer, 1, 100, overlapped);
                     }
 
                     if (eErrorCode.None == errorCode)

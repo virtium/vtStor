@@ -16,6 +16,7 @@ limitations under the License.
 </License>
 */
 #include "CommandDescriptorScsi.h"
+#include "StorageUtility.h"
 
 namespace vtStor
 {
@@ -27,6 +28,8 @@ namespace vtStor
         //! IMPORTANT NOTE: this must be updated to use the very last item
         const size_t cCommandDescriptorScsi::SIZE_IN_BYTES = COMMAND_CHARACTERISTICS_OFFSET + sizeof(StorageUtility::Scsi::sCommandCharacteristics);
 
+        UUID cCommandDescriptorScsi::FormatType;
+
         cCommandDescriptorScsi cCommandDescriptorScsi::Reader(std::shared_ptr<const IBuffer> Buffer)
         {
             return(cCommandDescriptorScsi(Buffer));
@@ -34,7 +37,8 @@ namespace vtStor
 
         cCommandDescriptorScsi cCommandDescriptorScsi::Writer(std::shared_ptr<IBuffer> Buffer)
         {
-            return(cCommandDescriptorScsi(Buffer, 1));
+            CreateUUID(FormatType);
+            return(cCommandDescriptorScsi(Buffer, FormatType));
         }
 
         cCommandDescriptorScsi cCommandDescriptorScsi::Modifier(std::shared_ptr<IBuffer> Buffer)
@@ -47,7 +51,7 @@ namespace vtStor
         {
         }
 
-        cCommandDescriptorScsi::cCommandDescriptorScsi(std::shared_ptr<IBuffer> Buffer, U32 Format) :
+        cCommandDescriptorScsi::cCommandDescriptorScsi(std::shared_ptr<IBuffer> Buffer, const UUID& Format) :
             cCommandDescriptor(Buffer, Format)
         {
         }
